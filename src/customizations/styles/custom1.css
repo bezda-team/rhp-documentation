@@ -1,0 +1,200 @@
+:root,
+::backdrop {
+
+	--global-scale: 1.2;
+	--global-text-scale: 1.2;
+
+	--sl-color-bg: rgb(46, 47, 67);
+	--page-border-radius-4: 0.5rem;
+	--rhp-a-hover-color: var(--sl-color-text);
+	--rhp-color-gray-non-transparent: hsl(236, 19%, 17%);
+	--rhp-color-gray: hsla(0, 0%, 0%, 0.23);
+	--sl-color-gray-6: hsla(225, 15%, 16%, 0);
+	--astro-code-color-background: var(--rhp-color-gray);
+	--sl-color-accent-high: #f2cc8f;
+
+	 /* Originally uses --sl-color-gray-6 which has been made transparent here for convenience */
+	--sl-color-bg-nav: var(--rhp-color-gray-non-transparent);
+
+	/** Key layout values */
+	--sl-nav-height: calc(var(--global-scale)*3.5rem);
+	--sl-nav-pad-x: calc(var(--global-scale)*1rem);
+	--sl-nav-pad-y: calc(var(--global-scale)*0.75rem);
+	--sl-mobile-toc-height: calc(var(--global-scale)*3rem);
+	--sl-sidebar-width: calc(var(--global-scale)*18rem);
+	--sl-sidebar-pad-x: calc(var(--global-scale)*1rem);
+	--sl-content-width: calc(var(--global-scale)*46rem);
+	--sl-content-pad-x: calc(var(--global-scale)*1rem);
+	--sl-menu-button-size: calc(var(--global-scale)*2rem);
+	--sl-nav-gap: calc(var(--global-scale)*var(--sl-content-pad-x));
+	/* Offset required to show outline inside an element instead of round the outside */
+	--sl-outline-offset-inside: -0.1875rem;
+	
+	--sl-color-hairline-shade: var(--sl-color-grey-6);
+
+    --pagefind-ui-scale: 2;
+
+	/* Text size and line height */
+	--sl-text-xs: calc( var(--global-text-scale)*0.8125rem); /* 13px */
+	--sl-text-sm: calc( var(--global-text-scale)*0.875rem); /* 14px */
+	--sl-text-base: calc( var(--global-text-scale)*1rem); /* 16px */
+	--sl-text-lg: calc( var(--global-text-scale)*1.125rem); /* 18px */
+	--sl-text-xl: calc( var(--global-text-scale)*1.25rem); /* 20px */
+	--sl-text-2xl: calc( var(--global-text-scale)*1.5rem); /* 24px */
+	--sl-text-3xl: calc( var(--global-text-scale)*1.8125rem); /* 29px */
+	--sl-text-4xl: calc( var(--global-text-scale)*2.1875rem); /* 35px */
+	--sl-text-5xl: calc( var(--global-text-scale)*2.625rem); /* 42px */
+	--sl-text-6xl: calc( var(--global-text-scale)*4rem); /* 64px */
+
+}
+
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+	--sl-color-bg: rgb(255, 255, 255);
+	--rhp-a-hover-color: var(--sl-color-text);
+	--rhp-color-gray: hsla(234, 37%, 27%, 0.041);
+	--sl-color-gray-6: hsla(225, 15%, 16%, 0);
+
+	--sl-color-accent-high: #f2cc8f;
+	--sl-color-text-accent: #f2cc8f;
+
+}
+
+@media screen and (max-width: 1150px) {
+	:root,
+	::backdrop {
+		--sl-sidebar-width: 16rem;
+	}
+	
+}
+
+.header {
+	background-color: var(--sl-color-bg);
+}
+
+header.header {
+	/* border-bottom: 1px solid var(--sl-color-gray-5); */
+	box-shadow: var(--sl-shadow-md);
+}
+
+.header.header-top {
+	/* border-bottom: unset; */
+	box-shadow: unset;
+}
+
+.header .right-group {
+	gap: 0.5rem;
+}
+
+.social-icons {
+	gap: 0.5rem;
+}
+
+.social-icons a {
+	color: var(--sl-color-text);
+	padding: 12px;
+    border-radius: 50%;
+}
+
+.social-icons a:hover {
+	color: var(--sl-color-white);
+	opacity: unset;
+	background-color: var(--rhp-color-gray);
+}
+
+starlight-theme-select {
+	padding-inline: 10px;
+    border-radius: 0.5rem;
+}
+
+starlight-theme-select:hover {
+	background-color: var(--rhp-color-gray);
+
+}
+
+starlight-theme-select > label:hover {
+	color: var(--sl-color-white);
+}
+
+starlight-theme-select select {
+	width: unset;
+}
+
+starlight-theme-select select:focus-visible {
+	outline: none!important;
+}
+
+.pagination-links > a {
+	border-radius: var(--page-border-radius-4);
+	background-color: var(--rhp-color-gray);
+}
+
+.main-pane .content {
+	font-size: var(--sl-text-base);
+}
+
+.content .astro-code {
+	border: none;
+	border-radius: var(--page-border-radius-4);
+	box-shadow: var(--sl-shadow-md);
+}
+
+@media (min-width: 72rem) {
+	[data-has-sidebar][data-has-toc] .main-pane {
+	   width: calc(var(--sl-content-width) + (100vw - var(--sl-content-width) - 2*var(--sl-sidebar-width) + 1.2*var(--sl-content-pad-x)) / 2);
+   	}
+}
+
+.right-sidebar-container {
+    width: min(calc(var(--sl-sidebar-width) + (100vw - var(--sl-content-width) - 2*var(--sl-sidebar-width) + 1.2*var(--sl-content-pad-x)) / 2), calc(var(--sl-sidebar-width) ));
+    margin-left: auto;
+}
+
+.right-sidebar-panel > .sl-container {
+	max-width: min(calc(var(--sl-sidebar-width) - 2*var(--sl-content-pad-x) + (100vw - var(--sl-content-width) - 2*var(--sl-sidebar-width)) / 2), calc(var(--sl-sidebar-width) - 2*var(--sl-content-pad-x)));
+}
+
+.sidebar-content {
+	padding: 1rem var(--sl-sidebar-pad-x) 0 0;
+}
+
+.sidebar-content .top-level {
+	padding: 0 0 0 calc(var(--sl-sidebar-pad-x) - var(--sl-sidebar-item-padding-inline));
+}
+
+.sidebar-content details > summary {
+	padding-inline-start: var(--sl-sidebar-item-padding-inline);
+	border-radius: 0.25rem;
+}
+
+.sidebar-content details > summary:hover {
+	background-color: var(--rhp-color-gray);
+}
+
+.sidebar-content details > ul {
+	padding-left: var(--sl-sidebar-item-padding-inline);
+}
+
+.sidebar-content details > ul > li {
+	margin-inline-start: unset;
+    border-inline-start: unset; 
+    padding-inline-start: unset;
+}
+.sidebar-content details > ul > li > a {
+	padding-inline-start: var(--sl-sidebar-item-padding-inline);
+}
+
+.sidebar-content details > ul > li > a:not([aria-current="page"]):hover {
+	background-color: var(--rhp-color-gray);
+}
+
+.right-sidebar-panel nav > ul > li > a:not([aria-current="true"]):hover {
+	background-color: var(--rhp-color-gray);
+}
+
+
+@media (min-width: 50rem) {
+	#starlight__sidebar .large {
+		font-size: var(--sl-text-lg);
+	}
+}
