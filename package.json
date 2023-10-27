@@ -7,11 +7,19 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm install"
   },
   "dependencies": {
+    "@astrojs/react": "^3.0.4",
     "@astrojs/starlight": "^0.11.1",
+    "@types/react": "^18.2.33",
+    "@types/react-dom": "^18.2.14",
     "astro": "^3.2.3",
+    "isomorphic-dompurify": "^1.9.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-html-plots": "^0.0.18",
     "sharp": "^0.32.5"
   }
 }

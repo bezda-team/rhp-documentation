@@ -198,3 +198,11 @@ starlight-theme-select select:focus-visible {
 		font-size: var(--sl-text-lg);
 	}
 }
+
+.animated-dots .full-bar {
+	margin-top: -1rem;
+}
+
+.animated-dots.plot {
+	margin-bottom: -1.9rem!important;
+}

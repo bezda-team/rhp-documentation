@@ -1,0 +1,45 @@
+---
+title: Quick Start
+description: Get up and running right away!
+---
+
+import { AnimatedDots } from 'react-html-plots';
+
+## Add the package to your project
+
+To get started with using **rhp** in your project, run the command:
+
+```bash
+npm i isomorphic-dompurify react-html-plots
+```
+
+The command above installs [**react-html-plots**](https://www.npmjs.com/package/react-html-plots) and [**isomorphic-dompurify**](https://www.npmjs.com/package/isomorphic-dompurify) which is another package that is required. It is recommended to use **rhp** version 0.0.18 or higher. The following test example will not work with earlier versions. 
+
+
+## Try it out
+After installing **rhp**, you can do a quick test to see if everything installed correctly by importing the `AnimatedDots` component and placing it in your React app component tree.
+
+For example, you can place it in the `index.tsx` file of a CRA project:
+
+```typescript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { AnimatedDots } from 'react-html-plots/components';
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
+  <React.StrictMode>
+    <AnimatedDots />
+  </React.StrictMode>
+);
+```
+And after starting the app (`npm start`), you should see something like this:
+
+<AnimatedDots widthPreset={1} animationDelay={3000} class="mt-0" className="animated-dots" scale={0.9} client:only />
+
+It is useful to keep in mind that React takes components and renders them into the DOM. Furthermore, **rhp** components in particular contain inner html elements and CSS. As such, any pre-existing page styling and layout may impact the appearance of the html that is produced. This also means that you can tweak/style/configure your plots to better fit with the rest of the page/site/app.
+
+
+
