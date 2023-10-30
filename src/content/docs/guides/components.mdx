@@ -1,0 +1,66 @@
+---
+title: Components
+description: An overview of the different types of components
+---
+
+import { SimpleBarPlot } from '../../../customizations/components/SimpleBarPlot'
+import { CoreComponent } from '../../../customizations/components/CoreComponent'
+
+## The three types of components
+
+There are three types of components in **rhp**:
+- plot components - components that render a full plot
+- core components - components that render a main plot section (a plot is usually just a bunch of these sections stacked in some way)
+- building block components - components that are designed to be used as building blocks for the core components.
+
+Take a look at the following plot component. If you hover over (or touch if you are on mobile) parts of the plot, you will see the components labeled according to the types. 
+<div style="text-align: center;">Plot Component</div>
+<SimpleBarPlot className="component-guide-s-plot" color="var(--sl-color-text)" style={{marginTop: "1.5rem"}} height="380px" client:only />
+This component also shows a typical horizontal plot setup. Note that it contains a vertical stack of multiple copies/instances of one core component.
+
+
+### Plot components
+
+In the demo from the previous section, you may have noticed that the core-components are all exactly the same: the labels, bar lengths, and colors are all the same. This is because each core components has not been given any data to adjust to. 
+
+If we give the plot component from the previous section some data, it will look something like this:
+<div style="text-align: center;">Plot Component with Data</div>
+<SimpleBarPlot className="component-guide-s-plot" dataArray={[[2], [4], [1], [3]]} labels={["A", "B", "C", "D"]} color="var(--sl-color-text)" style={{marginTop: "1.5rem"}} height="380px" client:only />
+
+Some plot components allow you to supply data to each core component individually and let you take care of updating the data (for each individually) when it changes, but other plot components take the entire data set from you and take care of passing the appropriate portions of the data to the right core-component.
+
+#### The two camps
+Plot components fall into two camps:
+1. Those that take data that is divided internally into subsets - one for each core component.
+2. Those that take raw data, process it, and construct the data that each core component requires. 
+
+Components belonging to the second camp are easier to use, you just pass in the data and the plot component takes care of the rest. 
+Not only this, but the plot component can also take care of updating the data when it changes. 
+That last part is important. You change the plot by changing the data!
+
+You might be wondering why the first camp exists at all. With components from the second camp, 
+you pass in data for the whole plot and configuration props for the whole plot. Components from the first camp on the other hand, 
+take data and configuration props for each core component inside the plot. They expose configuration options you otherwise wouldnt have access to. 
+You also get to decide what happens to the core component when data changes. 
+For example, you may want a configuration prop belonging to a specific core component to change when the corresponding data value becomes the largest value in the data set. 
+This may be a way to highlight the core component representing the largest data value. Core components from the camp 2 most likely wont have this application specific feature/behavior built in.
+
+Components from the second camp are often wrapper components containing a component from the first camp and adding basic logic for setting up inner core components and handling data changes.
+
+### Core components
+
+Core components are the main building blocks of plots. What distinguishes a "core component" from "building block
+ component" is that a core component takes a template, some data, and configuration parameters and constructs itself (following the template) using the building blocks and then inserts the data and/or configures 
+ itself according to the data and configuration parameters. Core components are typically the smallest building blocks that are self-contained. They can be used by themselves and dont require a parent.
+
+<div style="text-align: center;">Core Component with Data</div>
+<CoreComponent className="component-guide-s-plot" dataArray={[[4]]} labels={["A"]} color="var(--sl-color-text)" style={{marginTop: "1.5rem"}} height="118px" client:only />
+
+### Building block components
+
+Building block components are smaller components that are not self-contained and expect/require a parent. 
+This is typically because the components use specific, non-global React contexts to get access to data and shared configuration parameters. 
+Some building block components are nothing more than containers that not only use the same contexts but also only allow JSX children of specific types. 
+
+From a user perspective, the most important building block components are the ones that render the actual visual elements of the plot. 
+These include components like `<Bar>`, `<Decoration>`, and `<Rect>`.

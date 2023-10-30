@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-
 import react from "@astrojs/react";
+
+import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
@@ -44,9 +45,13 @@ export default defineConfig({
     }],
     customCss: [
     // Relative path to your custom CSS file
+    './src/tailwind.css',
     './src/customizations/styles/custom1.css'],
     components: {
       Header: './src/customizations/components/Header.astro'
     }
-  }), react()]
+  }), react(), tailwind({
+    // Disable the default base styles:
+    applyBaseStyles: false,
+  })]
 });

@@ -52,7 +52,7 @@
 [data-theme='light'] ::backdrop {
 	--sl-color-bg: rgb(255, 255, 255);
 	--rhp-a-hover-color: var(--sl-color-text);
-	--rhp-color-gray: hsla(234, 37%, 27%, 0.041);
+	--rhp-color-gray: hsla(234, 37%, 27%, 0.08);
 	--sl-color-gray-6: hsla(225, 15%, 16%, 0);
 
 	--sl-color-accent-high: #f2cc8f;
@@ -66,6 +66,66 @@
 		--sl-sidebar-width: 16rem;
 	}
 	
+}
+
+/* @media (prefers-color-scheme: light) {
+
+	pre::-webkit-scrollbar-thumb {
+		background-color: #ffffffcc;
+	}
+
+	pre::-moz-scrollbar-thumb {
+		background-color: #ffffffcc;
+	}
+
+} */
+
+/* Styling the scrollbar in Chrome */
+::-webkit-scrollbar {
+	width: 8px;
+	height:8px;
+	opacity: 0.4;
+}
+::-webkit-scrollbar-thumb {
+	background-color: var(--sl-color-text);
+}
+::-webkit-scrollbar-track {
+	background-color: var(--sl-color-bg);
+	opacity: 0;
+}
+pre::-webkit-scrollbar {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+/* Styling the scrollbar in Firefox */
+::-moz-scrollbar {
+	width: 8px;
+	height:8px;
+	opacity: 0.4;
+}
+::-moz-scrollbar-thumb {
+	background-color: var(--sl-color-text);
+}
+::-moz-scrollbar-track {
+	background-color: var(--sl-color-bg);
+	z-index: 0;
+	opacity: 0;
+}
+pre::-moz-scrollbar {
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+pre::-webkit-scrollbar-track {
+	background-color: unset;
+	opacity: 0;
+}
+
+pre::-moz-scrollbar-track {
+	background-color: unset;
+	z-index: 0;
+	opacity: 0;
 }
 
 .header {
@@ -199,10 +259,60 @@ starlight-theme-select select:focus-visible {
 	}
 }
 
-.animated-dots .full-bar {
-	margin-top: -1rem;
+.plot-area .full-bar {
+	margin-top: -1.5rem;
+}
+
+.plot-area .full-bar, .plot-area .bar-content-container, .plot-area .bar-dec-cont, .plot-area .decoration, .plot-area .bar, .plot-area .decoration * , .plot-area .bar * {
+	margin-top: 0;
 }
 
 .animated-dots.plot {
-	margin-bottom: -1.9rem!important;
+	margin-bottom: -1.25rem!important;
+}
+
+.animated-dots.plot > .bar-plot {
+	padding-top: 0.5rem;
+}
+
+.component-guide-s-plot .bar-plot {
+	opacity: 0.4;
+	transition: opacity 0.3s ease-in-out;
+	border-radius: 10px;
+	border: 3px solid var(--sl-color-text);
+	padding: 12px;
+}
+.component-guide-s-plot .bar-plot:hover {
+	opacity: 1;
+}
+
+.component-guide-s-plot .full-bar:hover {
+	background-color: var(--rhp-color-gray);
+}
+
+@media (max-width: 910px) and (min-width: 800px) {
+
+	.component-guide-s-plot .bar-plot {
+		transform: scale(0.8)!important;
+		margin-top: -2rem!important;
+		margin-bottom: -2rem!important;
+	}
+}
+
+@media (max-width: 660px) {
+	.component-guide-s-plot .bar-plot {
+		transform: scale(0.65)!important;
+		margin-top: -4rem!important;
+		margin-bottom: -4rem!important;
+	}
+	
+}
+
+@media (max-width: 420px) {
+	.component-guide-s-plot .bar-plot {
+		transform: scale(0.5)!important;
+		margin-top: -5.5rem!important;
+		margin-bottom: -5.5rem!important;
+	}
+	
 }

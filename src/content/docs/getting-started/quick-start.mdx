@@ -3,19 +3,26 @@ title: Quick Start
 description: Get up and running right away!
 ---
 
-import { AnimatedDots } from 'react-html-plots';
+import { AnimatedDots } from '@bezda/rhp-core';
 
 ## Add the package to your project
 
 To get started with using **rhp** in your project, run the command:
 
 ```bash
-npm i isomorphic-dompurify react-html-plots
+npm i isomorphic-dompurify @legendapp/state@^1.11.1 @bezda/rhp-core
 ```
 
-The command above installs [**react-html-plots**](https://www.npmjs.com/package/react-html-plots) and [**isomorphic-dompurify**](https://www.npmjs.com/package/isomorphic-dompurify) which is another package that is required. It is recommended to use **rhp** version 0.0.18 or higher. The following test example will not work with earlier versions. 
-
-
+The command above installs [**isomorphic-dompurify**](https://www.npmjs.com/package/isomorphic-dompurify), 
+ [**@legendapp/state**](https://www.npmjs.com/package/@legendapp/state) (version 1.11.1), 
+and [**@bezda/rhp-core**](https://www.npmjs.com/package/@bezda/rhp-core).  
+:::caution
+It is recommended to use **rhp-core** version 0.0.20 or higher. 
+The following test example will not work with earlier versions.
+:::
+:::note
+We are currently working on migrating to **Legend-State 2.0**. Until then, it is recommended to use  `@legendapp/state@1.x.x` versions.
+:::
 ## Try it out
 After installing **rhp**, you can do a quick test to see if everything has installed correctly by importing the `AnimatedDots` component and placing it in your React app component tree.
 
@@ -24,7 +31,7 @@ For example, you can place it in the `index.tsx` file of a CRA project:
 ```typescript
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { AnimatedDots } from 'react-html-plots/components';
+import { AnimatedDots } from '@bezda/rhp-core';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -37,7 +44,7 @@ root.render(
 ```
 And after starting the app (`npm start`), you should see something like this:
 
-<AnimatedDots widthPreset={1} animationDelay={3000} class="mt-0" className="animated-dots" scale={0.9} client:only />
+<AnimatedDots widthPreset={1} animationDelay={3000} className="animated-dots" scale={0.9} client:only />
 
 It is useful to keep in mind that React takes components and renders them into the DOM. Furthermore, **rhp** components in particular contain inner html elements and CSS. As such, any pre-existing page styling and layout may impact the appearance of the html that is produced. This also means that you can tweak/style/configure your plots to better fit with the rest of the page/site/app.
 
