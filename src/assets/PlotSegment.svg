@@ -1,7 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   width="154.26443mm"
+   height="50.277447mm"
+   viewBox="0 0 154.26443 50.277447"
    version="1.1"
    id="svg5"
    xmlns="http://www.w3.org/2000/svg"
@@ -9,7 +12,8 @@
   <defs
      id="defs2" />
   <g
-     id="layer1">
+     id="layer1"
+     transform="translate(-34.327847,-49.860926)">
     <rect
        style="fill:none;stroke:#000000;stroke-width:0.861511;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2.58453, 2.58453;stroke-dashoffset:0;stroke-opacity:0.6"
        id="rect234"
@@ -35,7 +39,7 @@
        transform="matrix(0.73929156,0,0,0.73929156,7.880508,9.6447917)"><tspan
          x="43.112629"
          y="74.59169"
-         id="tspan4232">&lt;Decoration&gt;</tspan></text>
+         id="tspan306">&lt;Decoration&gt;</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:4.93889px;font-family:Barlow;-inkscape-font-specification:'Barlow Medium';white-space:pre;inline-size:31.4987;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -45,7 +49,7 @@
        transform="matrix(0.73929156,0,0,0.73929156,119.54265,15.000366)"><tspan
          x="43.112629"
          y="74.59169"
-         id="tspan4234">&lt;Decoration&gt;</tspan></text>
+         id="tspan308">&lt;Decoration&gt;</tspan></text>
     <circle
        id="path2350"
        style="fill:#000000;stroke:#000000;stroke-width:0.264583"
@@ -69,7 +73,7 @@
        transform="matrix(0.73929156,0,0,0.73929156,2.326768,-2.6989747)"><tspan
          x="43.112629"
          y="74.59169"
-         id="tspan4236">&lt;PlotSegment&gt;</tspan></text>
+         id="tspan310">&lt;PlotSegment&gt;</tspan></text>
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.342;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect2491"
@@ -95,7 +99,7 @@
        transform="matrix(0.73929156,0,0,0.73929156,46.087758,14.954554)"><tspan
          x="43.112629"
          y="74.59169"
-         id="tspan4238">&lt;Bar&gt;</tspan></text>
+         id="tspan312">&lt;Bar&gt;</tspan></text>
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect2460-8"
@@ -147,7 +151,7 @@
        transform="matrix(0.73929156,0,0,0.73929156,41.049011,4.0118781)"><tspan
          x="43.112629"
          y="74.59169"
-         id="tspan4240">&lt;BarContentContainer&gt;</tspan></text>
+         id="tspan314">&lt;BarContentContainer&gt;</tspan></text>
     <rect
        style="fill:none;stroke:#000000;stroke-width:0.911;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2.73297, 2.73297;stroke-dashoffset:0;stroke-opacity:0.6"
        id="rect1103-4-8"
@@ -165,7 +169,7 @@
        transform="matrix(0.73929156,0,0,0.73929156,43.774943,9.7007871)"><tspan
          x="43.112629"
          y="74.59169"
-         id="tspan4242">&lt;BarAndDecContainer&gt;</tspan></text>
+         id="tspan316">&lt;BarAndDecContainer&gt;</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:7.05556px;font-family:Barlow;-inkscape-font-specification:'Barlow Semi-Bold';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.342;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
