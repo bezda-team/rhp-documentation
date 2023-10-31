@@ -2,6 +2,7 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
+   class="plotSegment svg"
    width="154.26443mm"
    height="50.277447mm"
    viewBox="0 0 154.26443 50.277447"
@@ -15,6 +16,7 @@
      id="layer1"
      transform="translate(-34.327847,-49.860926)">
     <rect
+       class="core"
        style="fill:none;stroke:#000000;stroke-width:0.861511;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2.58453, 2.58453;stroke-dashoffset:0;stroke-opacity:0.6"
        id="rect234"
        width="153.30704"
@@ -57,6 +59,7 @@
        cy="82.668449"
        r="0.034451056" />
     <rect
+       class="dec"
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect2460"
        width="19.67441"
@@ -75,6 +78,7 @@
          y="74.59169"
          id="tspan310">&lt;PlotSegment&gt;</tspan></text>
     <rect
+       class="dec"
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.342;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect2491"
        width="0.30031046"
@@ -101,6 +105,7 @@
          y="74.59169"
          id="tspan312">&lt;Bar&gt;</tspan></text>
     <rect
+       class="dec"
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect2460-8"
        width="19.67441"
@@ -127,6 +132,7 @@
        y="71.227631"
        ry="0" />
     <rect
+       class="bar"
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect2460-85"
        width="66.084488"

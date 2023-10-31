@@ -316,3 +316,23 @@ starlight-theme-select select:focus-visible {
 	}
 	
 }
+
+svg.plotSegment *:not(text, text>tspan) {
+	stroke: var(--sl-color-text)!important;
+}
+
+svg.plotSegment text tspan {
+	fill: var(--sl-color-text)!important;
+}
+
+svg.plotSegment rect{
+	opacity: 0.5!important;
+}
+
+svg.plotSegment rect.bar, svg.plotSegment rect.dec {
+	opacity: 1!important;
+}
+
+svg.plotSegment .core {
+	fill: var(--rhp-color-gray)!important;
+}

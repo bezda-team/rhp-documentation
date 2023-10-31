@@ -28,7 +28,7 @@ const barTemplate: FullBarElementType[] = [
                                 order: 2,
                                 useData: true,
                                 CSS: "flex: 52px!important;justify-content:flex-end;margin-right:24px;display:flex;align-items: center;height: 100%;& > span {width: fit-content;text-wrap: nowrap;opacity: 0;transition: opacity 0.3s ease-in-out; color: var(--sl-color-accent-high)} .full-bar:hover & > span {opacity: 1;}",
-                                markup: "<span>core component</span>",
+                                markup: "<span style='display: {{display}};'>core component</span>",
                               },
                             ],
                   CSS: "padding-top: 12px;padding-bottom: 12px;gap: 24px;background: none;& .bar-decoration > div:hover {opacity: 1;border-style: solid;}& .bar > div:hover {opacity: 1;}& .bar > div:hover span {opacity: 1;}& .bar-decoration > div:hover .block-text {opacity: 1!important;}& .bar-decoration > div:hover .block-value {opacity: 0;}",
@@ -48,7 +48,7 @@ const barTemplate: FullBarElementType[] = [
   }
 ];
 
- export const SimpleBarPlot = ({dataArray, labels, className="", style={}, width="600px", height="600px", scale=1, decorationWidth="2.9rem", color="black"}:{dataArray?: number[][], labels?: string[], className?: string, style?: React.CSSProperties, width?: string, height?: string, scale?: number, decorationWidth?: string, color?: string}) => {
+ export const SimpleBarPlot = ({dataArray, labels, max=10, className="", style={}, width="600px", height="600px", scale=1, decorationWidth="2.9rem", color="black", showCCLabel=true}:{dataArray?: number[][], labels?: string[], max?: number, className?: string, style?: React.CSSProperties, width?: string, height?: string, scale?: number, decorationWidth?: string, color?: string, showCCLabel?: boolean}) => {
     // const renderCount = ++useRef(0).current;
   // console.log("Test APP: " + renderCount);
   
@@ -56,9 +56,10 @@ const barTemplate: FullBarElementType[] = [
   const vars = useObservable({
                               "z-index": ["10"],
                               "color": [color],
+                              "display": showCCLabel?["unset"]:["none"],
                               "bar-label": labels??["A", "A", "A", "A"],
                               } as Vars);
-  const dataMax = useObservable(10);
+  const dataMax = useObservable(max??10);
 
   const {theme, orientation} = useContext(PlotContext);
   const intervalRef = useRef<NodeJS.Timeout>();
