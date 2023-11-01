@@ -21,12 +21,15 @@ It is recommended to use **rhp-core** version 0.0.20 or higher.
 The following test example will not work with earlier versions.
 :::
 :::note
-We are currently working on migrating to **Legend-State 2.0**. Until then, it is recommended to use  `@legendapp/state@1.x.x` versions.
+We are currently working on migrating to **Legend-State 2.0**. Until then, it is recommended to use  
+`@legendapp/state@1.x.x` versions.
 :::
 ## Try it out
-After installing **rhp**, you can do a quick test to see if everything has installed correctly by importing the `AnimatedDots` component and placing it in your React app component tree.
+After installing **rhp**, you can do a quick test to see if everything has installed correctly by importing 
+the `AnimatedDots` component and placing it in your React app component tree.
 
-For example, you can place it in the `index.tsx` file of a CRA project:
+For example, you can place it in the `main.tsx` file of a Vite react-ts project 
+(or in `index.tsx` for a CRA project):
 
 ```typescript
 import React from 'react';
@@ -42,11 +45,15 @@ root.render(
   </React.StrictMode>
 );
 ```
-And after starting the app (`npm start`), you should see something like this:
+When you start the app, you should see something similar to the following:
 
 <AnimatedDots widthPreset={1} animationDelay={3000} className="animated-dots" scale={0.9} client:only />
 
-It is useful to keep in mind that React takes components and renders them into the DOM. Furthermore, **rhp** components in particular contain inner html elements and CSS. As such, any pre-existing page styling and layout may impact the appearance of the html that is produced. This also means that you can tweak/style/configure your plots to better fit with the rest of the page/site/app.
-
+:::note
+React takes components and renders them into the DOM. **rhp** components in particular also contain 
+inner html elements and CSS. As such, any pre-existing page styling and layout may impact the appearance 
+of the html that is produced. This also means that you can tweak/style/configure your plots to better fit 
+with the rest of the page/site/app.
+:::
 
 

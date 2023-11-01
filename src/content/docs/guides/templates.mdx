@@ -5,6 +5,7 @@ description: An explainer on templates including the different ways to create th
 import { SimpleBarPlot } from '../../../customizations/components/SimpleBarPlot'
 import { Image } from 'astro:assets';
 import Plotsegment from '../../../assets/PlotSegment.svg?raw';
+import { Icon } from '@astrojs/starlight/components';
 
 Ultimately, a template is a javascript object containing the information needed to populate a core component with inner elements and configure them. The template tells a core component which building block components to use and provides the props the core component needs to pass to each of them.
 
@@ -36,7 +37,7 @@ const barTemplate: FullBarElementType[] = [
                             ],
                   CSS: "padding-top: 12px;padding-bottom: 12px;gap: 24px;background: none;& .bar-decoration > div:hover {opacity: 1;border-style: solid;}& .bar > div:hover {opacity: 1;}& .bar > div:hover span {opacity: 1;}& .bar-decoration > div:hover .block-text {opacity: 1!important;}& .bar-decoration > div:hover .block-value {opacity: 0;}",
                   decorationWidth: "52px",
-                  order: 1,
+                  order: 0,
                 }, 
               ],
     decorationWidth: "10%",
@@ -53,19 +54,42 @@ const barTemplate: FullBarElementType[] = [
 
 ```
 
-The above template contains all the CSS and styles needed to get the transitions and hover effects. 
-The CSS does not need to be in the template and can instead be provided in external style sheets. 
-However, providing the CSS in the template keeps all styling needed for the plot in one place and makes it easier 
-to share templates or use in other projects. You dont have to hunt for relavant CSS in style sheets and elsewhere. 
-Its all in one place.
+A template is just an array of objects of type: `FullBarElementType`. This type is an umbrella type that contains all the types that can be used in a template such as `DecorationType` and `BarContentContainerType` for starters. 
 
 The template above is passed to a `<PlotSegment>` core component to produce the following:
 {/* <div style="text-align: center;">Result</div> */}
 <SimpleBarPlot className="component-guide-s-plot" dataArray={[[10]]} max={14.5} width="565px" labels={["A"]} color="var(--sl-color-text)" style={{marginTop: "1.5rem"}} height="118px" showCCLabel={false} client:only />
 {/* <div style="text-align: center;">Result diagram</div> */}
 <div class="flex justify-center">
-<Fragment class="svg plotsegment" set:html={Plotsegment} />
+  <Fragment class="svg plotsegment" set:html={Plotsegment} />
 </div>
+
+For the sake of simplicity, ignore all properties in the template except `name` and `order`. Note that the template has a nested structure:
+
+- bar-content-container (order: 1)
+  - bar-dec-container (order: 0)
+    - bar (order: 0)
+    - decoration (order: 1)
+- decoration (order: 0)
+
+The `type` property tells `<PlotSegment>` which component to use. For example, 
+<div class=' table:inline-table flex justify-center'>
+| type  | &#8594; | component |
+| --- | --- | --- |
+| "bar-content-container" | &#8594; | `<BarContentContainer>` |
+| "bar-dec-container" | &#8594; | `<BarDecContainer>` |
+| "decoration" | &#8594; | `<Decoration>` |
+| "bar" | &#8594; | `<Bar>` |
+</div>
+The `order` property tells PlotSegment the order in which to place the components.
+Direct children are placed from left to right in `<PlotSegment>` with lower order values being placed first (left). 
+Elements inside `<BarContentContainer>` are placed from top to bottom with lower order values being placed first (top). 
+Elements inside `<BarDecContainer>` are placed from left to right with lower order values being placed first (left).
+
+:::note
+All the objects in the template are inside arrays. Just as this suggests, you can as many objects as you want 
+to any of the arrays to add more block components to the core component.
+:::
 
 This template has a structure that is very versatile. If you want a bar group plot, you can add more 
 "bar-dec-container" objects to the same array containing the first one. If you want a bi-directional/two-sided 
@@ -73,3 +97,17 @@ bar chart, you can add another "bar-content-container" object to the same array 
 sure the decoration that also is in the same array has an `order` value that is in-between the two "bar-content-container"s. 
 This will place the decoration (which contains the label) in between. Dont forget to flip the newly added "bar-content-container"
 using CSS (change bar-dec-container's `flex-direction` to `row-reverse` or use CSS `transform` property) so that the bars are aligned back-to-back.
+
+{/* <Icon name="codePen" />  */}
+{/* <Icon name="puzzle" /> */}
+
+## CSS
+
+The above template contains all the CSS and styles needed to get the transitions and hover effects. 
+The CSS does not need to be in the template and can instead be provided in external style sheets. 
+However, providing the CSS in the template keeps all styling needed for the plot in one place and makes it easier 
+to share templates or use in other projects. You dont have to hunt for relavant CSS in style sheets and elsewhere. 
+Its all in one place.
+
+
+## Markup
