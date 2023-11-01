@@ -82,8 +82,10 @@ The `type` property tells `<PlotSegment>` which component to use. For example,
 | "bar" | &#8594; | `<Bar>` |
 </div>
 The `order` property tells PlotSegment the order in which to place the components.
-Direct children are placed from left to right in `<PlotSegment>` with lower order values being placed first (left). 
-Elements inside `<BarContentContainer>` are placed from top to bottom with lower order values being placed first (top). 
+Direct children are placed from left to right in `<PlotSegment>` with lower order values being placed first (left). In the example above,
+a single `<BarContentContainer>` component and a single `<Decoration>` component are the direct children of the `<PlotSegment>` component where the `<BarContentContainer>` has an order of 1 
+and the `<Decoration>` has an order of 0. This means that the `<Decoration>` will be placed first (left) and the `<BarContentContainer>` will be placed 
+second (right). Elements inside `<BarContentContainer>` are placed from top to bottom with lower order values being placed first (top). 
 Elements inside `<BarDecContainer>` are placed from left to right with lower order values being placed first (left).
 
 :::note
@@ -109,5 +111,23 @@ However, providing the CSS in the template keeps all styling needed for the plot
 to share templates or use in other projects. You dont have to hunt for relavant CSS in style sheets and elsewhere. 
 Its all in one place.
 
+In general, there are four ways to add styling to a component, three of which involve the template:
+
+1. Add CSS via the `CSS` property of a *template* object. 
+:::note
+Underneath the hood, the CSS you give to the `CSS` property of a template object will get passed to the corresponding component's [css prop](https://emotion.sh/docs/css-prop) (provided by the Emotion library included with **rhp-core** )
+:::
+2. Add style/inline CSS via the `markup` property of a *template* object.
+3. Add CSS classes (like Tailwind CSS classes if you have tailwind added to your project) via the `class` property 
+of a *template* object.
+4. Add CSS via external style sheets. Essentially, the same as item 3, except that the rendered HTML elements have 
+default classes so you dont need to provide your own.
+
+One of the things that makes the CSS prop powerful, is that it not takes CSS declarations via key-value pairs, 
+it also accepts full declaration blocks that allow you to target child and sibling elements!
+
+:::note
+The CSS properties in the template accept either a string or an object.
+:::
 
 ## Markup

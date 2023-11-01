@@ -333,6 +333,10 @@ svg.plotSegment rect.bar, svg.plotSegment rect.dec {
 	opacity: 1!important;
 }
 
+svg.plotSegment rect.bar {
+	fill: var(--sl-color-text)!important;
+}
+
 svg.plotSegment .core {
 	fill: var(--rhp-color-gray)!important;
 }
