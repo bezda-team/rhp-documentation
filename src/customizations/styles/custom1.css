@@ -276,7 +276,7 @@ starlight-theme-select select:focus-visible {
 }
 
 .component-guide-s-plot .bar-plot {
-	opacity: 0.4;
+	opacity: 0.55;
 	transition: opacity 0.3s ease-in-out;
 	border-radius: 10px;
 	border: 3px solid var(--sl-color-text);

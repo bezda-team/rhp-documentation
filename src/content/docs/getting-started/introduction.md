@@ -38,7 +38,7 @@ React components are self-contained, reusable pieces of code that can be used to
 ## Summary
 - **rhp** uses HTML, CSS, and basic React components to construct plots.
 - **rhp** uses "templates" to construct repetitive component structures and configuration.
-- **rhp** offers components that require very little customization/configuration, components that offer greater customization/configuration, and all the components that are used as the building blocks.
+- **rhp** offers components that require very little customization/configuration, components that offer greater customization/configuration, and all the components that were used as to build both.
 - **rhp** components are React components designed to minimize re-renders and DOM changes.
 - **rhp** uses [Legend-State](https://github.com/LegendApp/legend-state) to manage state efficiently.
 
