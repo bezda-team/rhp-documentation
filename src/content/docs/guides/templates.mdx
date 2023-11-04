@@ -6,6 +6,7 @@ import { SimpleBarPlot } from '../../../customizations/components/SimpleBarPlot'
 import { Image } from 'astro:assets';
 import Plotsegment from '../../../assets/PlotSegment.svg?raw';
 import { Icon } from '@astrojs/starlight/components';
+import AltBgSkeleton from '../../../customizations/components/AlternateBgPlotSkeleton';
 
 Ultimately, a template is a javascript object containing the information needed to populate a core component with inner elements and configure them. The template tells a core component which building block components to use and provides the props the core component needs to pass to each of them.
 
@@ -131,3 +132,18 @@ The CSS properties in the template accept either a string or an object.
 :::
 
 ## Markup
+The `markup` property is one of the things that makes templates really special. 
+It allows you to inject HTML into components. 
+Container-type building block components dont typically have this feature, but components like `<Bar>` and `<Decoration>` do.
+The `markup` property accepts a string that contains HTML markup. But thats is not all. You can also inject variable data into the markup. 
+This is done by using the double curly braces syntax: `{{variableName}}`. 
+The `variableName` is the string key of the `vars` data object where the data to be injected lives.
+This feature is the main way of incorporating visual content or even styling that changes from core component to core component or changes during runtime.
+In the template example above, the `bar` and `decoration` type objects make use of the `color` variable to set beckground color (of the `bar`) and the border color (for both `decoration` elements).
+As we will see in more detail in the next guide, variables in the `vars` object are key-value pairs where the key is the variable name and the value is an array of numbers or strings - one for each core-component.
+However, if you provide an array of data (numbers/strings) that has less elements than the number of core components, the components that dont have a corresponding value will jump to the beginning of the array and look from there.
+For example, if you have 4 core components and you provide an array of 2 values, the first core component will get the first value, the second core component will get the second value, the third core component will get the first value and the fourth core component will get the second value.
+This is useful for creating repeating patterns or for when you want to provide a single value for all core components. 
+
+An example where you might take advantage of this is when you want to replicate a popular visual style where the background of the first bar in a bar chart is a different color than the next, then back again for the bar after that. This is similar to how tables are often styled.
+<AltBgSkeleton />

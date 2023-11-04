@@ -15,7 +15,7 @@
     "@astrojs/starlight": "^0.11.1",
     "@astrojs/starlight-tailwind": "^2.0.0",
     "@astrojs/tailwind": "^5.0.2",
-    "@bezda/rhp-core": "^0.0.22",
+    "@bezda/rhp-core": "^0.0.23",
     "@legendapp/state": "^1.11.1",
     "@nextui-org/react": "^2.1.13",
     "@types/react": "^18.2.33",
