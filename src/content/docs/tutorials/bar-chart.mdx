@@ -1,0 +1,425 @@
+---
+title: Bar Chart Tutorial
+description: A tutorial on creating and customizing a bar chart with rhp-core.
+---
+import { SimpleBarPlot } from '../../../customizations/components/SimpleBarPlot'
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+While one could build a full template from scratch, it is often easier and quicker to start with a template that is close to what you want and then make small changes to it.
+In this tutorial, we will do just that. We will start with a template used for some of the bar chart examples and demos in the Guide and Get Started sections of this documentation.
+
+<Tabs>
+	<TabItem label="Chart">
+    <SimpleBarPlot 
+        className="component-guide-s-plot" 
+        dataArray={[[10], [4], [6], [7], [2]]} 
+        max={13.5} 
+        width="565px" 
+        labels={["A"]} 
+        color="var(--sl-color-text)" 
+        style={{marginTop: "1.5rem"}} 
+        height="460px" 
+        showCCLabel={false}
+        client:only 
+    />
+  </TabItem>
+	<TabItem label="Template" >
+    <div className=" [&>.astro-code]:max-h-[468px]">
+    ```typescript
+    {
+        type: "bar-content-container",
+        elements: [{
+                    type: "bar-dec-container",
+                    elements: [
+                                {
+                                    type: "bar",
+                                    order: 0,
+                                    CSS: "display: grid;place-items: center;box-sizing: border-box;border-radius: 0 10px 10px 0;overflow: hidden;height: auto; transition-property: flex, border;transition-duration: 1s;transition-timing-function: ease-in-out;& div {display:flex;align-items: center;opacity: 0.5;transition: opacity 0.3s ease-in-out;text-align: center;}& div > span {opacity: 0;color: var(--sl-color-bg);font-weight:500;transition: opacity 0.3s ease-in-out;}",
+                                    markup: "<div style='background-color: {{color}};height:100%;width:100%;justify-content: center;'><span>block</span></div>",
+                                },
+                                {
+                                    type: "decoration",
+                                    order: 1,
+                                    useData: true,
+                                    CSS: "align-items: center;height: 100%;& > div {opacity: 0.5;transition: opacity 0.3s ease-in-out;transition: border 0.4s ease-in; border-style: none; border-width: 3px;}",
+                                    markup: "<div style='border-radius: 10px;border-color: {{color}};color: {{color}};height: 100%;aspect-ratio: 1/1;display: grid;place-items: center;grid-template: 1fr / 1fr;'><div class='block-value' style='transition: opacity 0.2s ease-in-out;grid-column: 1 / 1; grid-row: 1 / 1;'>{{$dataValue}}</div><div class='block-text' style='transition: opacity 0.2s ease-in-out 0.2s;opacity: 0;grid-column: 1 / 1; grid-row: 1 / 1;'>block</div></div>",
+                                },
+                                ],
+                    CSS: "padding-top: 12px;padding-bottom: 12px;gap: 24px;background: none;& .bar-decoration > div:hover {opacity: 1;border-style: solid;}& .bar > div:hover {opacity: 1;}& .bar > div:hover span {opacity: 1;}& .bar-decoration > div:hover .block-text {opacity: 1!important;}& .bar-decoration > div:hover .block-value {opacity: 0;}",
+                    decorationWidth: "52px",
+                    order: 0,
+                    }, 
+                ],
+        decorationWidth: "10%",
+        order: 1,
+        CSS:"overflow: visible!important;",
+    },
+    {
+        type: "decoration",
+        order: 0,
+        CSS: "height: 100%;opacity: 0.5;transition: opacity 0.3s ease-in-out;&:hover {opacity: 1;} &:hover .block-text {opacity: 1!important;} &:hover .block-value {opacity: 0;}",
+        markup: "<div style='width: 100%; height: 100%; border-right:  3px solid {{color}};padding-top: 12px;padding-bottom: 12px;'><div style='border-radius: 10px;border: 3px solid {{color}};height: 100%;aspect-ratio: 1/1;margin-right: 24px;margin-left: 24px;display: grid;place-items: center;grid-template: 1fr / 1fr;'><div class='block-value' style='transition: opacity 0.2s ease-in-out;grid-column: 1 / 1; grid-row: 1 / 1;'>{{bar-label}}</div><div class='block-text' style='transition: opacity 0.2s ease-in-out 0.2s;opacity: 0;grid-column: 1 / 1; grid-row: 1 / 1;'>block</div></div></div>",
+    }
+    ```
+    </div>
+  </TabItem>
+	<TabItem label="Data">
+    <div className=" [&>.astro-code]:h-[468px]">
+    ```js
+    // Data that will determine length of bars.
+    // First bar has value 10 and so on..
+    data = [[10], [4], [6], [7], [2]]   
+
+    // Maximum value bars can have
+    dataMax = 13.5      
+    
+    // Variable data to be inserted at the places indicated 
+    // by double curly braces in the template.
+    // You can use css variable to facilitate matching global theme.
+    vars = {
+      "color": ["var(--sl-color-text)"],  
+      "bar-label": ["A"],
+    }
+    ```
+    </div>
+  </TabItem>
+</Tabs>
+
+First, we should remove the texts that says "block" from the decorations and bars along with most of the related hover effects and transitions. 
+We can also remove the rounded borders from the decorations and adjust spacing.
+
+<Tabs>
+	<TabItem label="Chart">
+    <SimpleBarPlot 
+      className="component-guide-s-plot" 
+      dataArray={[[10], [4], [6], [7], [2]]} 
+      max={12} 
+      width="565px" 
+      labels={["A"]} 
+      color="var(--sl-color-text)" 
+      style={{marginTop: "1.5rem"}} 
+      height="460px" 
+      template={0}
+      client:only 
+    />
+  </TabItem>
+	<TabItem label="Template" >
+    <div className=" [&>.astro-code]:max-h-[468px]">
+    ```typescript
+    {
+      type: "bar-content-container",
+      elements: [{
+                    type: "bar-dec-container",
+                    elements: [
+                                {
+                                  type: "bar",
+                                  order: 0,
+                                  CSS: "box-sizing: border-box;border-radius: 0 10px 10px 0;overflow: hidden;height: auto; transition-property: flex;transition-duration: 0.4s;transition-timing-function: ease-in-out;",
+                                  markup: "<div style='background-color: {{color}};height:100%;width:100%;'></div>",
+                                },
+                                {
+                                  type: "decoration",
+                                  order: 1,
+                                  useData: true,
+                                  CSS: "height: 100%;aspect-ratio: 1/2;display: flex; justify-content: center;align-items: center;opacity: 0; transition: opacity 0.4s ease-in-out;.full-bar:hover & {opacity: 1;}",
+                                  markup: "<div style='color: {{color}};'>{{$dataValue}}</div>",
+                                },
+                              ],
+                    CSS: "padding-top: 12px;padding-bottom: 12px;background: none;",
+                    decorationWidth: "52px",
+                    order: 1,
+                  }, 
+                ],
+      decorationWidth: "10%",
+      order: 1,
+    },
+    {
+      type: "decoration",
+      order: 0,
+      CSS: "height: 100%;",
+      markup: "<div style='width: 100%; height: 100%; border-right:  3px solid {{color}};padding-top: 12px;padding-bottom: 12px;'><div style='color: {{color}};height: 100%;aspect-ratio: 1/1;margin-right: 8px;margin-left: 8px;display: flex; justify-content: center;align-items: center;'><span>{{bar-label}}</span></div></div>",
+    }
+    ```
+    </div>
+  </TabItem>
+	<TabItem label="Data">
+    <div className=" [&>.astro-code]:h-[468px]">
+    ```js
+    // Data that will determine length of bars.
+    // First bar has value 10 and so on..
+    data = [[10], [4], [6], [7], [2]]   
+
+    // Maximum value bars can have
+    dataMax = 12      
+    
+    // Variable data to be inserted at the places indicated 
+    // by double curly braces in the template.
+    // You can use css variable to facilitate matching global theme.
+    vars = {
+      "color": ["var(--sl-color-text)"],  
+      "bar-label": ["A"],
+    }
+    ```
+    </div>
+  </TabItem>
+</Tabs>
+
+Of course, css and markup allow many ways to achieve the same visual result. 
+In the template above, we center the label text and the bar value text vertically and horizontally using flexbox. 
+To center the decoration text while keeping the previous dimensions of the decorations we wrap each piece of text in an extra div.
+We also add `opacity: 0; transition: opacity 0.4s ease-in-out;.full-bar:hover & {opacity: 1;}` to the decoration that shows the bar's 
+data value so that it is invisible by default and becomes visible when the bar is hovered over.
+
+:::note
+The chart examples in the docs change opacity when hovered over due to global styles/css. In other words, the templates presented here are not responsible for this behavior.
+:::
+
+Now we want the bar labels to show different text for each bar. 
+We can do that by changing `"bar-label": ["A"]` to `"bar-label": ["A", "B", "C", "D", "E"]` in the `vars` data object:
+
+<Tabs>
+	<TabItem label="Chart">
+    <SimpleBarPlot 
+      className="component-guide-s-plot" 
+      dataArray={[[10], [4], [6], [7], [2]]} 
+      max={12} 
+      width="565px" 
+      labels={["A", "B", "C", "D", "E"]} 
+      color="var(--sl-color-text)" 
+      style={{marginTop: "1.5rem"}} 
+      height="460px" 
+      template={0}
+      client:only 
+    />
+  </TabItem>
+	<TabItem label="Template" >
+    <div className=" [&>.astro-code]:max-h-[468px]">
+    ```typescript
+    {
+      type: "bar-content-container",
+      elements: [{
+                    type: "bar-dec-container",
+                    elements: [
+                                {
+                                  type: "bar",
+                                  order: 0,
+                                  CSS: "box-sizing: border-box;border-radius: 0 10px 10px 0;overflow: hidden;height: auto; transition-property: flex;transition-duration: 0.4s;transition-timing-function: ease-in-out;",
+                                  markup: "<div style='background-color: {{color}};height:100%;width:100%;'></div>",
+                                },
+                                {
+                                  type: "decoration",
+                                  order: 1,
+                                  useData: true,
+                                  CSS: "height: 100%;aspect-ratio: 1/2;display: flex; justify-content: center;align-items: center;opacity: 0; transition: opacity 0.4s ease-in-out;.full-bar:hover & {opacity: 1;}",
+                                  markup: "<div style='color: {{color}};'>{{$dataValue}}</div>",
+                                },
+                              ],
+                    CSS: "padding-top: 12px;padding-bottom: 12px;background: none;",
+                    decorationWidth: "52px",
+                    order: 1,
+                  }, 
+                ],
+      decorationWidth: "10%",
+      order: 1,
+    },
+    {
+      type: "decoration",
+      order: 0,
+      CSS: "height: 100%;",
+      markup: "<div style='width: 100%; height: 100%; border-right:  3px solid {{color}};padding-top: 12px;padding-bottom: 12px;'><div style='color: {{color}};height: 100%;aspect-ratio: 1/1;margin-right: 8px;margin-left: 8px;display: flex; justify-content: center;align-items: center;'><span>{{bar-label}}</span></div></div>",
+    }
+    ```
+    </div>
+  </TabItem>
+	<TabItem label="Data">
+    <div className=" [&>.astro-code]:h-[468px]">
+    ```js
+    // Data that will determine length of bars.
+    // First bar has value 10 and so on..
+    data = [[10], [4], [6], [7], [2]]   
+
+    // Maximum value bars can have
+    dataMax = 12      
+    
+    // Variable data to be inserted at the places indicated 
+    // by double curly braces in the template.
+    // You can use css variable to facilitate matching global theme.
+    vars = {
+      "color": ["var(--sl-color-text)"],  
+      "bar-label": ["A", "B", "C", "D", "E"],
+    }
+    ```
+    </div>
+  </TabItem>
+</Tabs>
+
+
+## Bars of different colors
+With a few simple changes, we can have each of the bars be a different color.
+First, we change the value of the `color` variable in the `vars` object.
+We can choose any color we want in any format that css supports. We can also use css variables which can be handy if you want to match your project's theme.
+In this tutorial, we will change it from `["var(--sl-color-text)"]` to `["red", "blue", "green", "yellow", "purple"]`.
+
+<Tabs>
+	<TabItem label="Chart">
+    <SimpleBarPlot 
+      className="component-guide-s-plot" 
+      dataArray={[[10], [4], [6], [7], [2]]} 
+      max={12} 
+      width="565px" 
+      labels={["A", "B", "C", "D", "E"]} 
+      style={{marginTop: "1.5rem"}} 
+      height="460px" 
+      template={0}
+      color={["red", "blue", "green", "yellow", "purple"]}
+      client:only 
+    />
+  </TabItem>
+	<TabItem label="Template" >
+    <div className=" [&>.astro-code]:max-h-[468px]">
+    ```typescript
+    {
+      type: "bar-content-container",
+      elements: [{
+                    type: "bar-dec-container",
+                    elements: [
+                                {
+                                  type: "bar",
+                                  order: 0,
+                                  CSS: "box-sizing: border-box;border-radius: 0 10px 10px 0;overflow: hidden;height: auto; transition-property: flex;transition-duration: 0.4s;transition-timing-function: ease-in-out;",
+                                  markup: "<div style='background-color: {{color}};height:100%;width:100%;'></div>",
+                                },
+                                {
+                                  type: "decoration",
+                                  order: 1,
+                                  useData: true,
+                                  CSS: "height: 100%;aspect-ratio: 1/2;display: flex; justify-content: center;align-items: center;opacity: 0; transition: opacity 0.4s ease-in-out;.full-bar:hover & {opacity: 1;}",
+                                  markup: "<div style='color: {{color}};'>{{$dataValue}}</div>",
+                                },
+                              ],
+                    CSS: "padding-top: 12px;padding-bottom: 12px;background: none;",
+                    decorationWidth: "52px",
+                    order: 1,
+                  }, 
+                ],
+      decorationWidth: "10%",
+      order: 1,
+    },
+    {
+      type: "decoration",
+      order: 0,
+      CSS: "height: 100%;",
+      markup: "<div style='width: 100%; height: 100%; border-right:  3px solid {{color}};padding-top: 12px;padding-bottom: 12px;'><div style='color: {{color}};height: 100%;aspect-ratio: 1/1;margin-right: 8px;margin-left: 8px;display: flex; justify-content: center;align-items: center;'><span>{{bar-label}}</span></div></div>",
+    }
+    ```
+    </div>
+  </TabItem>
+	<TabItem label="Data">
+    <div className=" [&>.astro-code]:h-[468px]">
+    ```js
+    // Data that will determine length of bars.
+    // First bar has value 10 and so on..
+    data = [[10], [4], [6], [7], [2]]   
+
+    // Maximum value bars can have
+    dataMax = 12      
+    
+    // Variable data to be inserted at the places indicated 
+    // by double curly braces in the template.
+    // You can use css variable to facilitate matching global theme.
+    vars = {
+      "color": ["red", "blue", "green", "yellow", "purple"],  
+      "bar-label": ["A", "B", "C", "D", "E"],
+    }
+    ```
+    </div>
+  </TabItem>
+</Tabs>
+Its not very conventional to have the entire core-component take on the new color. 
+We can change the color of the `<Decoration>` that contains the label and line segment that forms part of the zero-axis line.
+To do this, we first make a change to the template. We change the markup in the last `decoration` object to use a different variable 
+(lets call it `label-color`) and then we add the `label-color` variable to the `vars` object.
+
+<Tabs>
+	<TabItem label="Chart">
+    <SimpleBarPlot 
+      className="component-guide-s-plot" 
+      dataArray={[[10], [4], [6], [7], [2]]} 
+      max={12} 
+      width="565px" 
+      labels={["A", "B", "C", "D", "E"]} 
+      labelColor={["var(--sl-color-text)"]} 
+      style={{marginTop: "1.5rem"}} 
+      height="460px" 
+      template={0}
+      color={["red", "blue", "green", "yellow", "purple"]}
+      client:only 
+    />
+  </TabItem>
+	<TabItem label="Template" >
+    <div className=" [&>.astro-code]:max-h-[468px]">
+    ```typescript
+    {
+      type: "bar-content-container",
+      elements: [{
+                    type: "bar-dec-container",
+                    elements: [
+                                {
+                                  type: "bar",
+                                  order: 0,
+                                  CSS: "box-sizing: border-box;border-radius: 0 10px 10px 0;overflow: hidden;height: auto; transition-property: flex;transition-duration: 0.4s;transition-timing-function: ease-in-out;",
+                                  markup: "<div style='background-color: {{color}};height:100%;width:100%;'></div>",
+                                },
+                                {
+                                  type: "decoration",
+                                  order: 1,
+                                  useData: true,
+                                  CSS: "height: 100%;aspect-ratio: 1/2;display: flex; justify-content: center;align-items: center;opacity: 0; transition: opacity 0.4s ease-in-out;.full-bar:hover & {opacity: 1;}",
+                                  markup: "<div style='color: {{color}};'>{{$dataValue}}</div>",
+                                },
+                              ],
+                    CSS: "padding-top: 12px;padding-bottom: 12px;background: none;",
+                    decorationWidth: "52px",
+                    order: 1,
+                  }, 
+                ],
+      decorationWidth: "10%",
+      order: 1,
+    },
+    {
+      type: "decoration",
+      order: 0,
+      CSS: "height: 100%;",
+      markup: "<div style='width: 100%; height: 100%; border-right:  3px solid {{label-color}};padding-top: 12px;padding-bottom: 12px;'><div style='color: {{label-color}};height: 100%;aspect-ratio: 1/1;margin-right: 8px;margin-left: 8px;display: flex; justify-content: center;align-items: center;'><span>{{bar-label}}</span></div></div>",
+    }
+    ```
+    </div>
+  </TabItem>
+	<TabItem label="Data">
+    <div className=" [&>.astro-code]:h-[468px]">
+    ```js
+    // Data that will determine length of bars.
+    // First bar has value 10 and so on..
+    data = [[10], [4], [6], [7], [2]]   
+
+    // Maximum value bars can have
+    dataMax = 12      
+    
+    // Variable data to be inserted at the places indicated 
+    // by double curly braces in the template.
+    // You can use css variable to facilitate matching global theme.
+    vars = {
+      "color": ["red", "blue", "green", "yellow", "purple"],  
+      "bar-label": ["A", "B", "C", "D", "E"],
+      "label-color": ["var(--sl-color-text)"],
+    }
+    ```
+    </div>
+  </TabItem>
+</Tabs>
+
+To summarize, we changed `"color": ["var(--sl-color-text)"]` to `"color": ["red", "blue", "green", "yellow", "purple"]` to change the colors used by each core-component. Then we changed `{{color}}` to `{{label-color}}` in the last `markup` property (at the end/bottom of the template) and then finally, we added `"label-color": ["var(--sl-color-text)"]` to the `vars` data object.
+:::note
+Variable names (the keys in the `vars` object) can be anything you want and don't have to conform to camel case or other naming conventions. 
+Just make sure the text inside the double curly braces matches the corresponding key in the `vars` object.
+:::

@@ -26,18 +26,28 @@ export default defineConfig({
     }, {
       label: 'Guides',
       items: [
-      // Each item here is one entry in the navigation menu.
-      {
-        label: 'Components',
-        link: '/guides/components/'
-      }, {
-        label: 'Templates',
-        link: '/guides/templates/'
-      }, {
-        label: 'State Management',
-        link: '/guides/state-management/'
-      }]
+        // Each item here is one entry in the navigation menu.
+        {
+          label: 'Components',
+          link: '/guides/components/'
+        }, {
+          label: 'Templates',
+          link: '/guides/templates/'
+        }, {
+          label: 'State Management',
+          link: '/guides/state-management/'
+        }
+      ]
     }, {
+      label: 'Tutorials',
+      items: [
+        // Each item here is one entry in the navigation menu.
+        {
+          label: 'Bar Chart',
+          link: '/tutorials/bar-chart/'
+        }
+      ]
+    },{
       label: 'Reference',
       autogenerate: {
         directory: 'reference'

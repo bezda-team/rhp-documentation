@@ -2,6 +2,7 @@ import { useObservable } from '@legendapp/state/react';
 import { useContext, useMemo, useRef } from 'react';
 import { PlotContext, SegmentPlot } from '@bezda/rhp-core';
 import type { FullBarElementType, Vars } from '@bezda/rhp-core';
+import { opaqueObject } from '@legendapp/state';
 
 // custom bar template
 const barTemplateWBlckLabels: FullBarElementType[] = [
@@ -57,14 +58,14 @@ const barTemplate: FullBarElementType[] = [
                               {
                                 type: "bar",
                                 order: 0,
-                                CSS: "box-sizing: border-box;border-radius: 0 10px 10px 0;overflow: hidden;height: auto; transition-property: flex;transition-duration: 1s;transition-timing-function: ease-in-out;",
+                                CSS: "box-sizing: border-box;border-radius: 0 10px 10px 0;overflow: hidden;height: auto; transition-property: flex;transition-duration: 0.4s;transition-timing-function: ease-in-out;",
                                 markup: "<div style='background-color: {{color}};height:100%;width:100%;'></div>",
                               },
                               {
                                 type: "decoration",
                                 order: 1,
                                 useData: true,
-                                CSS: "height: 100%;aspect-ratio: 1/2;display: flex; justify-content: center;align-items: center;",
+                                CSS: "height: 100%;aspect-ratio: 1/2;display: flex; justify-content: center;align-items: center;opacity: 0; transition: opacity 0.4s ease-in-out;.full-bar:hover & {opacity: 1;}",
                                 markup: "<div style='color: {{color}};'>{{$dataValue}}</div>",
                               },
                             ],
@@ -80,22 +81,25 @@ const barTemplate: FullBarElementType[] = [
     type: "decoration",
     order: 0,
     CSS: "height: 100%;",
-    markup: "<div style='width: 100%; height: 100%; border-right:  3px solid {{color}};padding-top: 12px;padding-bottom: 12px;'><div style='color: {{color}};height: 100%;aspect-ratio: 1/1;margin-right: 8px;margin-left: 8px;display: flex; justify-content: center;align-items: center;'><span>{{bar-label}}</span></div></div>",
+    markup: "<div style='width: 100%; height: 100%; border-right:  3px solid {{label-color}};padding-top: 12px;padding-bottom: 12px;'><div style='color: {{label-color}};height: 100%;aspect-ratio: 1/1;margin-right: 8px;margin-left: 8px;display: flex; justify-content: center;align-items: center;'><span>{{bar-label}}</span></div></div>",
   }
 ];
 
 const templates = [barTemplate, barTemplateWBlckLabels];
 
- export const SimpleBarPlot = ({dataArray, labels, max=10, className="", style={}, width="600px", height="600px", scale=1, decorationWidth="2.9rem", color="black", showCCLabel=true, template=1}:{dataArray?: number[][], labels?: string[], max?: number, className?: string, style?: React.CSSProperties, width?: string, height?: string, scale?: number, decorationWidth?: string, color?: string | string[], showCCLabel?: boolean, template?: number}) => {
+ export const SimpleBarPlot = ({dataArray, labels, max=10, className="", style={}, width="600px", height="600px", scale=1, decorationWidth="2.9rem", color="black", labelColor, showCCLabel=true, template=1}:{dataArray?: number[][], labels?: string[], max?: number, className?: string, style?: React.CSSProperties, width?: string, height?: string, scale?: number, decorationWidth?: string, color?: string | string[], labelColor?: string[], showCCLabel?: boolean, template?: number}) => {
     // const renderCount = ++useRef(0).current;
   // console.log("Test APP: " + renderCount);
   
+  const colors = Array.isArray(color)? color : [color]
+
   const plotData = useObservable(dataArray??[[4], [4], [4], [4]]);
   const vars = useObservable({
                               "z-index": ["10"],
-                              "color": Array.isArray(color)? color : [color],
+                              "color": colors,
                               "display": showCCLabel?["unset"]:["none"],
                               "bar-label": labels??["A"],
+                              "label-color": opaqueObject(labelColor ?? colors),
                               } as Vars);
   const dataMax = useObservable(max??10);
 

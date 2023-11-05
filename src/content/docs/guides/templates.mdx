@@ -7,6 +7,7 @@ import { Image } from 'astro:assets';
 import Plotsegment from '../../../assets/PlotSegment.svg?raw';
 import { Icon } from '@astrojs/starlight/components';
 import AltBgSkeleton from '../../../customizations/components/AlternateBgPlotSkeleton';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Ultimately, a template is a javascript object containing the information needed to populate a core component with inner elements and configure them. The template tells a core component which building block components to use and provides the props the core component needs to pass to each of them.
 
@@ -59,7 +60,18 @@ A template is just an array of objects of type: `FullBarElementType`. This type 
 
 The template above is passed to a `<PlotSegment>` core component to produce the following:
 {/* <div style="text-align: center;">Result</div> */}
-<SimpleBarPlot className="component-guide-s-plot" dataArray={[[10]]} max={14.5} width="565px" labels={["A"]} color="var(--sl-color-text)" style={{marginTop: "1.5rem"}} height="118px" showCCLabel={false} client:only />
+<SimpleBarPlot 
+  className="component-guide-s-plot" 
+  dataArray={[[10]]} 
+  max={14.5} 
+  width="565px" 
+  labels={["A"]} 
+  color="var(--sl-color-text)" 
+  style={{marginTop: "1.5rem"}} 
+  height="118px" 
+  showCCLabel={false} 
+  client:only 
+/>
 {/* <div style="text-align: center;">Result diagram</div> */}
 <div class="flex justify-center">
   <Fragment class="svg plotsegment" set:html={Plotsegment} />
@@ -157,21 +169,3 @@ An example where you might take advantage of this is when you want an alternatin
 the background of the first bar is a different color than the next, then back again for the bar 
 after that and so on.
 <AltBgSkeleton className=" w-full flex justify-center" />
-
-### Demo different color bars
-Input arrays of different colors to change the `color` used in each core-component.
-
-<SimpleBarPlot 
-  className="component-guide-s-plot" 
-  dataArray={[[10], [4], [6], [7], [2]]} 
-  max={12} 
-  width="565px" 
-  labels={["A", "B", "C", "D", "E"]} 
-  color="var(--sl-color-text)" 
-  style={{marginTop: "1.5rem"}} 
-  height="460px" 
-  template={0}
-  color={["red", "blue", "green", "yellow", "purple"]}
-  client:only 
-/>
-
