@@ -4,7 +4,7 @@ import { PlotContext, SegmentPlot } from '@bezda/rhp-core';
 import type { FullBarElementType, Vars } from '@bezda/rhp-core';
 
 // custom bar template
-const barTemplate: FullBarElementType[] = [
+const barTemplateWBlckLabels: FullBarElementType[] = [
   {
     type: "bar-content-container",
     elements: [{
@@ -48,16 +48,54 @@ const barTemplate: FullBarElementType[] = [
   }
 ];
 
- export const SimpleBarPlot = ({dataArray, labels, max=10, className="", style={}, width="600px", height="600px", scale=1, decorationWidth="2.9rem", color="black", showCCLabel=true}:{dataArray?: number[][], labels?: string[], max?: number, className?: string, style?: React.CSSProperties, width?: string, height?: string, scale?: number, decorationWidth?: string, color?: string, showCCLabel?: boolean}) => {
+const barTemplate: FullBarElementType[] = [
+  {
+    type: "bar-content-container",
+    elements: [{
+                  type: "bar-dec-container",
+                  elements: [
+                              {
+                                type: "bar",
+                                order: 0,
+                                CSS: "box-sizing: border-box;border-radius: 0 10px 10px 0;overflow: hidden;height: auto; transition-property: flex;transition-duration: 1s;transition-timing-function: ease-in-out;",
+                                markup: "<div style='background-color: {{color}};height:100%;width:100%;'></div>",
+                              },
+                              {
+                                type: "decoration",
+                                order: 1,
+                                useData: true,
+                                CSS: "height: 100%;aspect-ratio: 1/2;display: flex; justify-content: center;align-items: center;",
+                                markup: "<div style='color: {{color}};'>{{$dataValue}}</div>",
+                              },
+                            ],
+                  CSS: "padding-top: 12px;padding-bottom: 12px;background: none;",
+                  decorationWidth: "52px",
+                  order: 1,
+                }, 
+              ],
+    decorationWidth: "10%",
+    order: 1,
+  },
+  {
+    type: "decoration",
+    order: 0,
+    CSS: "height: 100%;",
+    markup: "<div style='width: 100%; height: 100%; border-right:  3px solid {{color}};padding-top: 12px;padding-bottom: 12px;'><div style='color: {{color}};height: 100%;aspect-ratio: 1/1;margin-right: 8px;margin-left: 8px;display: flex; justify-content: center;align-items: center;'><span>{{bar-label}}</span></div></div>",
+  }
+];
+
+const templates = [barTemplate, barTemplateWBlckLabels];
+
+ export const SimpleBarPlot = ({dataArray, labels, max=10, className="", style={}, width="600px", height="600px", scale=1, decorationWidth="2.9rem", color="black", showCCLabel=true, template=1}:{dataArray?: number[][], labels?: string[], max?: number, className?: string, style?: React.CSSProperties, width?: string, height?: string, scale?: number, decorationWidth?: string, color?: string | string[], showCCLabel?: boolean, template?: number}) => {
     // const renderCount = ++useRef(0).current;
   // console.log("Test APP: " + renderCount);
   
   const plotData = useObservable(dataArray??[[4], [4], [4], [4]]);
   const vars = useObservable({
                               "z-index": ["10"],
-                              "color": [color],
+                              "color": Array.isArray(color)? color : [color],
                               "display": showCCLabel?["unset"]:["none"],
-                              "bar-label": labels??["A", "A", "A", "A"],
+                              "bar-label": labels??["A"],
                               } as Vars);
   const dataMax = useObservable(max??10);
 
@@ -73,7 +111,7 @@ const barTemplate: FullBarElementType[] = [
             height={height}
             decorationWidth={decorationWidth}
             style={{ margin: "auto"}}
-            segmentTemplate={barTemplate}
+            segmentTemplate={templates[template]}
         />
         </div>
     </PlotContext.Provider>     
