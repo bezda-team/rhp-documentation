@@ -340,3 +340,8 @@ svg.plotSegment rect.bar {
 svg.plotSegment .core {
 	fill: var(--rhp-color-gray)!important;
 }
+
+input[type=number]::-webkit-inner-spin-button {
+	width: var(--sl-text-base);
+	height: var(--sl-text-base);
+}

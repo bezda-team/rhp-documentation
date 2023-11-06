@@ -1,8 +1,7 @@
-import React, { useContext} from 'react';
+import React from 'react';
 import { SegmentPlot } from '@bezda/rhp-core';
 import type { FullBarElementType, Vars } from '@bezda/rhp-core';
 import { PlotContext } from '@bezda/rhp-core';
-import {Input} from "@nextui-org/react";
 import { useObservable } from '@legendapp/state/react';
 import { DataInput } from './NextUIComponents';
 
@@ -44,7 +43,7 @@ const barTemplate: FullBarElementType[] = [
   }
 ];
 
- export const CoreComponent = ({dataArray, labels, className="", style={}, width="600px", height="600px", scale=1, decorationWidth="2.9rem", color="black"}:{dataArray?: number[][], labels?: string[], className?: string, style?: React.CSSProperties, width?: string, height?: string, scale?: number, decorationWidth?: string, color?: string}) => {
+ export const CoreComponent = ({dataArray, labels, className, plotClassName="", style={}, width="600px", height="600px", scale=1, decorationWidth="2.9rem", color="black"}:{dataArray?: number[][], labels?: string[], className?: string, plotClassName?: string, style?: React.CSSProperties, width?: string, height?: string, scale?: number, decorationWidth?: string, color?: string}) => {
     
     const data = useObservable(dataArray??[[4]]);
     const variables = useObservable({
@@ -53,23 +52,24 @@ const barTemplate: FullBarElementType[] = [
                                 "bar-label": labels??["A"],
                                 } as Vars);
     const dataMaximum = useObservable(10);
-    const theme = useObservable({mode:"light"});
+    const theme = useObservable({});
     const orientation = useObservable(0);
 
     return (
-      <PlotContext.Provider value={{plotData: data, vars: variables, dataMax: dataMaximum, theme: theme, orientation:orientation}}>
-        <DataInput /> 
-        <div id='plot' className={'plot ' + className} style={{margin: "auto", width: width, height: height, display: "grid", justifyContent: "center", overflow: "hidden", transform: "scale("+ scale + ")", ...style}} > 
-            <SegmentPlot
-                id='bar_plot'
-                width={width}
-                height={height}
-                decorationWidth={decorationWidth}
-                style={{ margin: "auto"}}
-                segmentTemplate={barTemplate}
-            />
-        </div> 
-      </PlotContext.Provider>
+      <div className={className}>
+        <PlotContext.Provider value={{plotData: data, vars: variables, dataMax: dataMaximum, theme: theme, orientation: orientation}}>
+          <DataInput /> 
+          <div id='plot' className={'plot ' + plotClassName} style={{margin: "auto", display: "grid", justifyContent: "center", overflow: "hidden", transform: "scale("+ scale + ")", ...style}} > 
+              <SegmentPlot
+                  id='bar_plot'
+                  width={width}
+                  height={height}
+                  decorationWidth={decorationWidth}
+                  style={{ margin: "auto"}}
+                  segmentTemplate={barTemplate}
+              />
+          </div> 
+        </PlotContext.Provider>
+      </div>
   )
 }
-  

@@ -54,7 +54,15 @@ Core components are the main building blocks of plots. What distinguishes a "cor
  itself according to the data and configuration parameters. Core components are typically the smallest building blocks that are self-contained. They can be used by themselves and dont require a parent.
 
 <div style="text-align: center;">Core Component with Data</div>
-<CoreComponent className="component-guide-s-plot" dataArray={[[4]]} labels={["A"]} color="var(--sl-color-text)" style={{marginTop: "1.5rem"}} height="118px" client:only />
+<CoreComponent 
+    plotClassName="component-guide-s-plot" 
+    dataArray={[[4]]} 
+    labels={["A"]} 
+    color="var(--sl-color-text)" 
+    style={{marginTop: "1.5rem"}} 
+    height="118px" 
+    client:only 
+/>
 
 ### Building block components
 
