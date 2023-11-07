@@ -5,7 +5,16 @@ const { nextui } = require("@nextui-org/react");
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',"./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"],
 	theme: {
-		extend: {},
+		extend: {
+			screens: {
+				'3xs': '280px',
+				'2xs': '360px',
+				'xs': '412px',
+				'2col': '800px',
+				'mdlg': '912px',
+				'3col': '1152px',
+			},
+		},
 	},
 	plugins: [starlightPlugin(), nextui( {
 		themes: {

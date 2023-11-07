@@ -55,12 +55,14 @@ Core components are the main building blocks of plots. What distinguishes a "cor
 
 <div style="text-align: center;">Core Component with Data</div>
 <CoreComponent 
-    plotClassName="component-guide-s-plot" 
+    className="w-full h-40 mt-4"
+    plotClassName="isolated-plot sm:w-[600px] 2col:w-[508px] mdlg:w-[620px] lg:w-[720px] 3col:w-[620px] xl:w-[714px] h-[90px]" 
     dataArray={[[4]]} 
     labels={["A"]} 
     color="var(--sl-color-text)" 
     style={{marginTop: "1.5rem"}} 
-    height="118px" 
+    height="inherit" 
+    width="inherit"
     client:only 
 />
 
