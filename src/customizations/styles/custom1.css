@@ -32,7 +32,7 @@
 	
 	--sl-color-hairline-shade: var(--sl-color-grey-6);
 
-    --pagefind-ui-scale: 2;
+    --pagefind-ui-scale: 1;
 
 	/* Text size and line height */
 	--sl-text-xs: calc( var(--global-text-scale)*0.8125rem); /* 13px */
