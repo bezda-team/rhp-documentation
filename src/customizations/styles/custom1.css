@@ -129,15 +129,15 @@ pre::-moz-scrollbar-track {
 }
 
 site-search > dialog::-webkit-scrollbar-track { 
-	background-color: var(--sl-color-bg);
-	opacity: 0;
-	border-radius: 60%;
+	background: transparent;
+	border-radius: 5px;
+	overflow: hidden;
 }
 
 site-search > dialog::-moz-scrollbar-track {
-	background-color: var(--sl-color-bg);
-	opacity: 0;
-	border-radius: 60%;
+	background: transparent;
+	border-radius: 5px;
+	overflow: hidden;
 }
 
 .header {
