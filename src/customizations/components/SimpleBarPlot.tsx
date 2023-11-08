@@ -3,6 +3,7 @@ import { useContext, useMemo, useRef } from 'react';
 import { PlotContext, SegmentPlot } from '@bezda/rhp-core';
 import type { FullBarElementType, Vars } from '@bezda/rhp-core';
 import { opaqueObject } from '@legendapp/state';
+import type { Observable } from '@legendapp/state';
 
 // custom bar template
 const barTemplateWBlckLabels: FullBarElementType[] = [
@@ -104,7 +105,6 @@ const templates = [barTemplate, barTemplateWBlckLabels];
   const dataMax = useObservable(max??10);
 
   const {theme, orientation} = useContext(PlotContext);
-  const intervalRef = useRef<NodeJS.Timeout>();
 
   return (
     <PlotContext.Provider value={{ plotData: plotData, dataMax: dataMax, orientation: orientation, theme: theme, vars: vars}}>
@@ -121,4 +121,36 @@ const templates = [barTemplate, barTemplateWBlckLabels];
     </PlotContext.Provider>     
   )
 }  
-  
+
+export const SimpleBarPlotDataDep = ({plotData, labels, max=10, className="", style={}, width="600px", height="600px", scale=1, decorationWidth="2.9rem", color="black", labelColor, showCCLabel=true, template=1}:{plotData: Observable<number[][]>, labels?: string[], max?: number, className?: string, style?: React.CSSProperties, width?: string, height?: string, scale?: number, decorationWidth?: string, color?: string | string[], labelColor?: string[], showCCLabel?: boolean, template?: number}) => {
+  // const renderCount = ++useRef(0).current;
+// console.log("Test APP: " + renderCount);
+
+const colors = Array.isArray(color)? color : [color]
+
+const vars = useObservable({
+                            "z-index": ["10"],
+                            "color": colors,
+                            "display": showCCLabel?["unset"]:["none"],
+                            "bar-label": labels??["A"],
+                            "label-color": opaqueObject(labelColor ?? colors),
+                            } as Vars);
+const dataMax = useObservable(max??10);
+
+const {theme, orientation} = useContext(PlotContext);
+
+return (
+  <PlotContext.Provider value={{ plotData: plotData, dataMax: dataMax, orientation: orientation, theme: theme, vars: vars}}>
+    <div id='plot' className={'plot ' + className} style={{margin: "auto", display: "grid", justifyContent: "center", overflow: "hidden", transform: "scale("+ scale + ")", ...style}} > 
+      <SegmentPlot
+          id='bar_plot'
+          width={width}
+          height={height}
+          decorationWidth={decorationWidth}
+          style={{ margin: "auto"}}
+          segmentTemplate={templates[template]}
+      />
+      </div>
+  </PlotContext.Provider>     
+)
+}  

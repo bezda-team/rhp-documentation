@@ -1,4 +1,4 @@
-import { useContext} from 'react';
+import { useContext, useState} from 'react';
 import { PlotContext } from '@bezda/rhp-core';
 import {Input} from "@nextui-org/react";
 import { useSelector } from '@legendapp/state/react';

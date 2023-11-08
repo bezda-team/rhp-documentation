@@ -1,0 +1,21 @@
+---
+title: State Management
+description: An explainer on how components manage state and a guide to working with component state variables
+---
+
+import {PlotContextFlow} from '../../../customizations/components/PlotContextFlow'
+
+## How components manage state
+Building block components are considered less self-contained because they rely on the parent core-component to manage parts of their state. Specifically, plot data and other data variables as well as templates are processed and/or manipulated by components that are higher up in the component tree (components that are closer to surface, ie closer to user interface, rather than deeply nested). Building block components watch for changes in the variables that matter to them and re-render when changes are detected. Access to data varables is provided by the parent core-component via a context provider. 
+
+In general, rhp employs two context providors that establish two state boundaries. 
+The first context, called PlotContext, establishes a global/plot state boundary. This allows state variables to be shared between plot components as well as UI components like inputs, sliders, tables, etc.
+
+<PlotContextFlow className=" mt-6" width="100%" height="400px" client:only />
+
+The second context provider establishes a state boundary between the parent core-component and the building block components. 
+
+
+## Further reading
+
+- Read [about how-to guides](https://diataxis.fr/how-to-guides/) in the Diátaxis framework
