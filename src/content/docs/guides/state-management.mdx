@@ -149,22 +149,22 @@ And to change the value of an observable, you would do the following:
 
 ## PlotContext
 In general, rhp employs two context providors that establish two state boundaries. 
-The first context, called PlotContext, establishes a global/plot state boundary. 
+The first context, called PlotContext, establishes a state boundary at the plot level. 
 This allows state variables to be shared between plot components as well as UI components like inputs, sliders, tables, etc.
 
 <PlotContextFlow className=" mt-6" width="100%" height="400px" client:only />
 The diagram above depicts how two components, a plot component and a UI input component, 
-both make use of the same state variable, called `plotData`, that is 1 of the 5 variables that a `PlotContext.Providor` provides access to.
+both make use of the same state variable, called `plotData`, which is 1 of the 5 variables provided by `PlotContext.Providor`.
 
 :::note
-Note that with how context providors work, both the input and the plot component must be JSX children of the `PlotContext.Providor` component.
-However, for reasons we will get nto later, there are ways for some components to be outside of the `PlotContext.Providor` component and still have access to its the state variables.
+Note that with how context providors work, both the input and the plot component must be JSX children of the `<PlotContext.Providor>` component.
+However, for reasons we will get nto later, there are ways for some components to be outside of the `<PlotContext.Providor>` component and still have access to its the state variables.
 :::
 
 The plot component in the diagram uses the data to render a plot, while the input component displays and manipulates the data. 
 The diagram is interactive - you can edit the value shown in the input element. Give it a try!
 
-Its important to emphasize that what a PlotContext.Providor shares with its children are not ordinary variables. 
+Its important to emphasize that what a `PlotContext.Providor` shares with its children are not ordinary variables. 
 They are ***state*** variables! What this means for the user/developer is that when a state variable changes, 
 all variables that use it should respond to the changes. To emphasize this even further, 
 lets go into a little more detail about what it is exactly that PlotContext.Providor takes as values and shares with its children.
