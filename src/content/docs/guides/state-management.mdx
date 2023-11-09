@@ -173,12 +173,12 @@ lets go into a little more detail about what it is exactly that PlotContext.Prov
 PlotContext.Providor takes 5 Legend-state [observables](https://legendapp.com/open-source/state/usage/observable/) 
  as values and shares them with child JSX components. These observables are: `plotData`, `dataMax`, `vars`, `orientation`, and `theme`. 
  As the names imply,
- - `plotData`: (`number[][]`) an array that contains the data that will be represented in the plot.
- - `dataMax`: (`number`) the maximum value that any data element can have. 
+ - `plotData: Observable<number[][]>` - an array that contains the data that will be represented in the plot.
+ - `dataMax: Observable<number>` - the maximum value that any data element can have. 
  It is used to ensure correct relative proportions of plot elements.
- - `vars`: (`{'key': string[] | number[]}`) an object containing data to be injected into the places indicated by the template.
- - `orientation`: (`0 | 1`) a number that indicates whether the plot is horizontal or vertical.
- - `theme`: an object containing style related information to apply to the components.
+ - `vars: Observable<{'key': string[] | number[]}>` - an object containing data to be injected into the places indicated by the template.
+ - `orientation: Observable<0 | 1>` - a number that indicates whether the plot is horizontal or vertical.
+ - `theme: Observable<{'key': string[] | number[]}>` - an object containing style related information to apply to the components.
 
  We use observables instead of regular primatives and objects to take advantage of a very powerful feature 
  which is that if you wrap a complex object containing all kinds of nest values in an observable, 
