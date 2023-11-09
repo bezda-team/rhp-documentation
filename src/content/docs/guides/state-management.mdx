@@ -3,19 +3,222 @@ title: State Management
 description: An explainer on how components manage state and a guide to working with component state variables
 ---
 
-import {PlotContextFlow} from '../../../customizations/components/PlotContextFlow'
+import { PlotContextFlow, PlotContextExtInputFlow } from '../../../customizations/components/PlotContextFlow'
 
 ## How components manage state
 Building block components are considered less self-contained because they rely on the parent core-component to manage parts of their state. Specifically, plot data and other data variables as well as templates are processed and/or manipulated by components that are higher up in the component tree (components that are closer to surface, ie closer to user interface, rather than deeply nested). Building block components watch for changes in the variables that matter to them and re-render when changes are detected. Access to data varables is provided by the parent core-component via a context provider. 
 
+## State = observables?
+
+Rhp uses Legend-State to manage state. Legend-State is a state library that centers around the use of [signal](https://www.solidjs.com/tutorial/introduction_signals)-like objects called [observables](https://legendapp.com/open-source/state/usage/observable/).
+
+What are observables? Observables are special container objects that hold your variables. 
+ Legend-State is particular about how it handles these objects behind the scenes (to improve performance and reduce memory usage etc). 
+ You can read more about whats under the hood [here](https://legendapp.com/open-source/state/intro/fast/#proxy-to-path).
+
+To create an observable called `myObservable` that holds the value `1`, you would do the following:
+<div className="code-wrapper [&>.astro-code]:max-h-[500px]">
+    ```ts 
+    //your tsx file
+
+    // Create observable objects outside of a component
+    const myObservable: Observable<number> = observable(1);
+    const anotherObservable: Observable<number[]> = observable([1, 2, 3]);
+    const yetAnotherObservable: Observable<{a: number, b: number, c: string}> = observable({a: 1, b: 2, c: "hello"});
+
+    const Component = function Component() {
+        // Create an observable object inside of a component
+        const myLocalObservable: Observable<number> = useObservable(1);
+
+        return <div></div>;
+    };
+    ```
+</div>
+To access the value of an observable, you would do the following (we will drop the type annotations for brevity):
+<div className="code-wrapper [&>.astro-code]:max-h-[500px]">
+    ```ts
+    //your tsx file
+    import { useObservable } from '@legendapp/state/react';
+    import { observable } from '@legendapp/state';
+
+    // Get the current value of an observable
+    const currentMyObservableValue = myObservable.get();
+    const currentAnotherObservableValue = anotherObservable.get();
+    const currentYetAnotherObservableValue = yetAnotherObservable.get();
+
+    // Get the current value of an observable's nested value
+    // Note that when directly accessed, the nested value is automatically wrapped 
+    // in an observable as well.
+    const currentFromYetAnotherObservableStringValue = yetAnotherObservable.c.get();
+
+    const Component = () => {
+        // Create an observable object inside of a component
+        const myLocalObservable = useObservable(1);
+
+        // Use the current value of the local observable
+        return <div>{myLocalObservable.get()}</div>;
+    };
+    ```
+</div>
+
+And to change the value of an observable, you would do the following:
+<div className="code-wrapper [&>.astro-code]:max-h-[500px]">
+    ```ts
+    //your tsx file
+    import { useObservable } from '@legendapp/state/react';
+    import { observable } from '@legendapp/state';
+
+    // Change the value of an observable
+    myObservable.set(2);
+    anotherObservable.set([4, 5, 6]);
+    yetAnotherObservable.set({a: 4, b: 5, c: "goodbye"});
+
+    // Change the value of an observable's nested value
+    anotherObservable[0].set(3);
+    yetAnotherObservable.c.set("goodbye");
+
+    const Component = () => {
+        // Create an observable object inside of a component
+        const myLocalObservable = useObservable(1);
+
+        // Change the value of the local observable
+        myLocalObservable.set(2);
+
+        return <div>{myLocalObservable.get()}</div>;
+    };
+    ```
+</div>
+
+ Whats special about observables is that it is easy to make components watch and react to changes in them. 
+ There are a few ways to do this.
+
+ - Using the observer function
+<div className="code-wrapper [&>.astro-code]:max-h-[500px]">
+    ```ts
+    import { observer, useObservable } from '@legendapp/state/react';
+
+    // Pass the entire component function to the `observer` function.
+    // Now, any observable that has a set/get called on it will cause 
+    // the component to re-render when the value changes.
+    // A change in the value of `myObservable` will cause the following
+    // component to re-render.
+    const Component = observer(() => {
+        // Create an observable object inside of a component
+        const myLocalObservable = useObservable(1);
+
+        // Change the value of the local observable
+        myLocalObservable.set(2);
+
+        return <div>{myLocalObservable.get()}</div>;
+    };)
+    ```
+</div>
+- Using hooks provided by Legend-State such as `useSelector` and `useObservableReducer`.
+<div className="code-wrapper [&>.astro-code]:max-h-[500px]">
+    ```ts
+    import { useObservable, useSelector } from '@legendapp/state/react';
+
+    // You can take a slightly different approach using hooks.
+    // Without observer function, using get/set will not cause a re-render
+    // if the observable they are called on changes. But you can force 
+    // a component to listen for changes to an observable by using hooks 
+    // that establish a tracking context such as `useSelector` and 
+    // `useObservableReducer`. Tracked observables will cause a component
+    // to re-render when its value changes.
+    const Component = () => {
+        // Create an observable object inside of a component
+        const myLocalObservable = useObservable({a: 1, b: 2, c: "hello"});
+
+        // Change the value of the local observable
+        myLocalObservable.a.set(4);
+
+        // Get the raw value of an observable and listen to it
+        // i.e. if the value changes, the component will re-render.
+        // Note that only the value of the `a` property of myLocalObservable
+        // is being tracked. `useSelector(myLocalObservable)` would track
+        // the entire object.
+        const currentMyObservableValue = useSelector(myLocalObservable.a);
+
+        return <div>{currentMyObservableValue}</div>;
+    };
+    ```
+</div>
+- Using [Reactive components](https://legendapp.com/open-source/state/react/fine-grained-reactivity/#reactive-components) provided by Legend-State.
+
+ Note that Legend-State also provides functions and hooks that make it easy to have conditional reactivity. 
+
+## PlotContext
 In general, rhp employs two context providors that establish two state boundaries. 
-The first context, called PlotContext, establishes a global/plot state boundary. This allows state variables to be shared between plot components as well as UI components like inputs, sliders, tables, etc.
+The first context, called PlotContext, establishes a global/plot state boundary. 
+This allows state variables to be shared between plot components as well as UI components like inputs, sliders, tables, etc.
 
 <PlotContextFlow className=" mt-6" width="100%" height="400px" client:only />
+The diagram above depicts how two components, a plot component and a UI input component, 
+both make use of the same state variable, called `plotData`, that is 1 of the 5 variables that a `PlotContext.Providor` provides access to.
+
+:::note
+Note that with how context providors work, both the input and the plot component must be JSX children of the `PlotContext.Providor` component.
+However, for reasons we will get nto later, there are ways for some components to be outside of the `PlotContext.Providor` component and still have access to its the state variables.
+:::
+
+The plot component in the diagram uses the data to render a plot, while the input component displays and manipulates the data. 
+The diagram is interactive - you can edit the value shown in the input element. Give it a try!
+
+Its important to emphasize that what a PlotContext.Providor shares with its children are not ordinary variables. 
+They are ***state*** variables! What this means for the user/developer is that when a state variable changes, 
+all variables that use it should respond to the changes. To emphasize this even further, 
+lets go into a little more detail about what it is exactly that PlotContext.Providor takes as values and shares with its children.
+
+### PlotContext.Providor
+PlotContext.Providor takes 5 Legend-state [observables](https://legendapp.com/open-source/state/usage/observable/) 
+ as values and shares them with child JSX components. These observables are: `plotData`, `dataMax`, `vars`, `orientation`, and `theme`. 
+ As the names imply,
+ - `plotData`: (`number[][]`) an array that contains the data that will be represented in the plot.
+ - `dataMax`: (`number`) the maximum value that any data element can have. 
+ It is used to ensure correct relative proportions of plot elements.
+ - `vars`: (`{'key': string[] | number[]}`) an object containing data to be injected into the places indicated by the template.
+ - `orientation`: (`0 | 1`) a number that indicates whether the plot is horizontal or vertical.
+ - `theme`: an object containing style related information to apply to the components.
+
+ We use observables instead of regular primatives and objects to take advantage of a very powerful feature 
+ which is that if you wrap a complex object containing all kinds of nest values in an observable, 
+ you can access the inner values in a natural way where the value is automatically wrapped in an observable as well.
+ This can be used to make components reactive to changes in only the relevant parts/pieces of the complex object and not the whole thing!
+ This falls under what Legend-State refers to as "fine-grained reactivity". 
+
+ Lets reconsider the diagram above. The plot component contains a single core-component (and thus a single label+bar+label is shown).
+ This core-component only responds to changes in the first `[number]` element of the `plotData` (observable) array and not the whole array and would not re-render when other elements change. 
+ So if, for example, the array in `plotData` is `[[1], [3]]` and the `3` changes to a `4`, 
+ the core-component would not re-render and the bar shown will not change from its length of `1`. 
+ However, if the `1` changes, the core-component will re-render and the length of bar will change accordingly.
+ The benefits of "fine-grained reactivity" are internal and external. 
+ It encourages grouping of relevant data (ie organization), reduces unnecessary re-renders, and reduces the number of observables created/needed.
+
+Earlier, we mentioned a way around having to place all components that need access to the state variables inside the same `PlotContext.Providor`.
+Some rhp components expect there to be a provider somewhere higher up the tree or else will create/use a global context. 
+Other rhp and non-rhp components have no such expectation and only technically need access to the state variables the context providor provides. 
+So they need the state variables but dont care if they come from a providor or some other means like props etc.
+Thus, they dont technically need to be inside the providor component. But how can we still provide access to the state variables?
+Well, since the state variables are just observables we pass to the `PlotContext.Providor` (via `values` prop) to then spread to its children, 
+there is nothing stopping us from just passing the same observables as props to the components external to the providor as well. 
+Keep in mind that the values that the providor provides are created outside of itself in a render function or elsewhere. 
+Just as you pass the state variables to the providor, you can pass them to other components.
+And with how observables work, changes made in the underlying data will be reacted to by all components that are tracking them no matter how they got access to the observables.
+
+<PlotContextExtInputFlow className=" mt-6" width="100%" height="400px" client:only />
+
+## BarContext
+
+:::caution
+BarContext will likely have a new name in the future. Probably "CoreContext" or something less associated with a specific type of plot (bar plot).
+:::
 
 The second context provider establishes a state boundary between the parent core-component and the building block components. 
+The main reason that building block components are considered less self-contained is because they rely on the parent 
+core-component to provide a ***separate, non-global*** context. Remember, if you dont provide a plot component (that expects a PlotContext) with a PlotContext, 
+it will create/use a global context and should still work fine. However, this is not true for building block components. If building block components belonging 
+to different core-components share the same context, they will all have the same state and will not produce the desired result.
 
-
-## Further reading
-
-- Read [about how-to guides](https://diataxis.fr/how-to-guides/) in the Diátaxis framework
+:::note
+Some building-block-components even expect a PlotContext as well.
+:::

@@ -63,31 +63,77 @@ const initialNodes = [
     {
         id: "node-1",
         type: "inputNode",
-        position: { x: 40, y: 225 },
+        position: { x: 40, y: 275 },
         data: { value: 4 } as NodeData
     },
     {
         id: "node-2",
         type: "plotNode",
         targetPosition: "top" as Position,
-        position: { x: 370, y: 200 },
+        position: { x: 370, y: 250 },
         data: { label: "node 2", value: 0 } as NodeData
     },
     {
         id: "node-3",
         type: "contextDataNode",
-        position: { x: 300, y: 0 },
+        position: { x: 80, y: 0 },
         data: { label: "plotData", value: 0 } as NodeData
+    }, 
+    {
+        id: "node-4",
+        type: "default",
+        position: { x: 300, y: 110 },
+        data: { label: "PlotContext.Provider", value: 0 } as NodeData
+    },
+    {
+        id: "node-5",
+        type: "textNode",
+        position: { x: 240, y: 0 },
+        data: { label: "dataMax" } as NodeData
+    },
+    {
+        id: "node-6",
+        type: "textNode",
+        position: { x: 358, y: 0 },
+        data: { label: "vars", value: 0 } as NodeData
+    },
+    {
+        id: "node-7",
+        type: "textNode",
+        position: { x: 425, y: 0 },
+        data: { label: "orientation", value: 0 } as NodeData
+    },
+    {
+        id: "node-8",
+        type: "textNode",
+        position: { x: 565, y: 0 },
+        data: { label: "theme", value: 0 } as NodeData
     }
 ] as Node[];
 
 const initialEdges = [
-    { id: "edge-1", source: "node-3", target: "node-2" },
+    { id: "edge-3", source: "node-3", target: "node-4" },
+    { id: "edge-4", source: "node-5", target: "node-4" },
+    { id: "edge-5", source: "node-6", target: "node-4" },
+    { id: "edge-6", source: "node-7", target: "node-4" },
+    { id: "edge-7", source: "node-8", target: "node-4" },
+    { id: "edge-1", source: "node-4", target: "node-2" },
+    { id: "edge-2", source: "node-4", target: "node-1" }
+] as Edge[];
+
+const initialEdgesExtInput = [
+    { id: "edge-3", source: "node-3", target: "node-4" },
+    { id: "edge-4", source: "node-5", target: "node-4" },
+    { id: "edge-5", source: "node-6", target: "node-4" },
+    { id: "edge-6", source: "node-7", target: "node-4" },
+    { id: "edge-7", source: "node-8", target: "node-4" },
+    { id: "edge-1", source: "node-4", target: "node-2" },
     { id: "edge-2", source: "node-3", target: "node-1" }
 ] as Edge[];
 
 const nodes = observable(initialNodes);
 const edges = observable(initialEdges);
+const edgesExtInput = observable(initialEdgesExtInput);
 
 function InputNode({ data, isConnectable }: NodeProps<NodeData>) {
 
@@ -160,12 +206,6 @@ function PlotNode({ data, isConnectable }: NodeProps<NodeData>) {
 function ContextDataNode({ data, isConnectable }: NodeProps<NodeData>) {
 
     const currValue = useSelector(nodes[0].data.value);
-    // const [currValue, setCurrValue] = useState(data.value);
-    // const onChange = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
-    //     nodes[0].data.value.set(parseInt(evt.target.value));
-    //     setCurrValue(parseInt(evt.target.value));
-    //     console.log(nodes[0].data.value.peek());
-    //   }, []);
 
     return (
         <div className="text-updater-node">
@@ -182,9 +222,26 @@ function ContextDataNode({ data, isConnectable }: NodeProps<NodeData>) {
     );
 }
 
+function TextNode({ data, isConnectable }: NodeProps<NodeData>) {
+
+    return (
+        <div className="text-updater-node">
+            <div>
+                {data.label}
+            </div>
+            <Handle
+                type="source"
+                position={Position.Bottom}
+                id="a"
+                isConnectable={isConnectable}
+            />
+        </div>
+    );
+}
+
 // we define the nodeTypes outside of the component to prevent re-renderings
 // you could also use useMemo inside the component
-const nodeTypes = { inputNode: InputNode, contextDataNode: ContextDataNode, plotNode: PlotNode };
+const nodeTypes = { inputNode: InputNode, contextDataNode: ContextDataNode, plotNode: PlotNode, textNode: TextNode };
 
 export const PlotContextFlow = ({initialData, max, className="", width="100vw", height="100vw", color="black", labelColor, labels}:{initialData?: number, max?: number, className?: string, width?: string, height?: string, color?: string, labelColor?: string[], labels?: string[]}) =>{
 
@@ -198,6 +255,28 @@ export const PlotContextFlow = ({initialData, max, className="", width="100vw", 
                     edges={edges.get()}
                     onNodesChange={(changes: NodeChange[]) => {console.log(changes);nodes.set(applyNodeChanges(changes, nodes.get()));}}
                     onEdgesChange={(changes: EdgeChange[]) => edges.set(applyEdgeChanges(changes, edges.get()))}
+                    nodeTypes={nodeTypes}
+                    fitView
+                >
+                    <Controls />
+                    <Background variant={"dots" as BackgroundVariant} gap={12} size={1} />
+                </ReactFlow>
+            </div>
+    );
+}
+
+export const PlotContextExtInputFlow = ({initialData, max, className="", width="100vw", height="100vw", color="black", labelColor, labels}:{initialData?: number, max?: number, className?: string, width?: string, height?: string, color?: string, labelColor?: string[], labels?: string[]}) =>{
+
+    const currEdges = useSelector(edgesExtInput);
+    const currNodes = useSelector(nodes);
+
+    return (
+            <div className={"flow plot-context-flow " + className} style={{ width: width, height: height }}>
+                <ReactFlow
+                    nodes={nodes.get()}
+                    edges={edgesExtInput.get()}
+                    onNodesChange={(changes: NodeChange[]) => {console.log(changes);nodes.set(applyNodeChanges(changes, nodes.get()));}}
+                    onEdgesChange={(changes: EdgeChange[]) => edgesExtInput.set(applyEdgeChanges(changes, edgesExtInput.get()))}
                     nodeTypes={nodeTypes}
                     fitView
                 >
