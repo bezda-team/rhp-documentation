@@ -10,6 +10,7 @@ export default {
 				'3xs': '280px',
 				'2xs': '360px',
 				'xs': '412px',
+				'xsm': '540px',
 				'2col': '800px',
 				'mdlg': '912px',
 				'3col': '1152px',
