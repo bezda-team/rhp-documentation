@@ -125,6 +125,8 @@ export const SimpleBarPlot = ({ dataArray, labels, max = 10, className = "", sty
   )
 }
 
+// Same as above, but with plotData observable as required prop
+// basically allows you to pass in the plotData state variable
 export const SimpleBarPlotDataDep = ({ plotData, labels, max = 10, className = "", style = {}, width = "600px", height = "600px", scale = 1, decorationWidth = "2.9rem", color = "black", labelColor, showCCLabel = true, template = 1 }: { plotData: Observable<number[][]>, labels?: string[], max?: number, className?: string, style?: React.CSSProperties, width?: string, height?: string, scale?: number, decorationWidth?: string, color?: string | string[], labelColor?: string[], showCCLabel?: boolean, template?: number }) => {
   // const renderCount = ++useRef(0).current;
   // console.log("Test APP: " + renderCount);
