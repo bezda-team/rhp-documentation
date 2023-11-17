@@ -186,6 +186,10 @@ header.header {
 	gap: 0.5rem;
 }
 
+.header button, .header a {
+	-webkit-tap-highlight-color: transparent;
+}
+
 .social-icons {
 	gap: 0.5rem;
 }
