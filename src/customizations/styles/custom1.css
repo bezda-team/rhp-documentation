@@ -186,7 +186,7 @@ header.header {
 	gap: 0.5rem;
 }
 
-.header button, .header a {
+.header * {
 	-webkit-tap-highlight-color: transparent;
 }
 
