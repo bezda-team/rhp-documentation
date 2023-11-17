@@ -228,6 +228,7 @@ starlight-menu-button[aria-expanded=false] > button:hover {
 
 starlight-menu-button[aria-expanded=true] > button {
 	color: var(--sl-color-bg);
+	background-color: var(--sl-color-text)!important;
 	opacity: 0.85;
 }
 
