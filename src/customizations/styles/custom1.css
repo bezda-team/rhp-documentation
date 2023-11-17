@@ -182,6 +182,13 @@ header.header {
 	background-color: var(--rhp-color-gray);
 }
 
+starlight-menu-button > button {
+	color: var(--sl-color-text);
+	background-color: transparent;
+	box-shadow: none;
+
+}
+
 starlight-theme-select {
 	padding-inline: 10px;
     border-radius: 0.5rem;
