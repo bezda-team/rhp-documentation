@@ -148,6 +148,26 @@ site-search > dialog::-moz-scrollbar-track {
     border: solid 3px transparent;
 }
 
+@media (max-width: 50rem) {
+	site-search > button[data-open-modal] {
+		border: 0;
+		border-radius: 50%;
+		width: var(--sl-menu-button-size);
+		height: var(--sl-menu-button-size);
+		opacity: 0.85;
+	}
+
+	site-search > button[data-open-modal]:hover {
+		background-color: var(--rhp-color-gray);
+		opacity: 1;
+	}
+
+	site-search > button[data-open-modal] > svg {
+		font-size: calc(0.9*var(--sl-icon-size, 1em));
+	}
+}
+
+/* Page header/navbar section */
 .header {
 	background-color: var(--sl-color-bg);
 }
@@ -182,13 +202,40 @@ header.header {
 	background-color: var(--rhp-color-gray);
 }
 
+/* Hamberger Menu button section */
 starlight-menu-button > button {
 	color: var(--sl-color-text);
 	background-color: transparent;
 	box-shadow: none;
-
+	align-items: center;
+	justify-content: center;
+	opacity: 0.85;
 }
 
+starlight-menu-button:not([aria-expanded=true]) > button:hover {
+	opacity: 1;
+	background-color: var(--rhp-color-gray);
+}
+
+starlight-menu-button > button > svg {
+	font-size: calc(1.4*var(--sl-icon-size, 1em));
+}
+
+starlight-menu-button[aria-expanded=false] > button:hover {
+	opacity: 1;
+	background-color: var(--rhp-color-gray);
+}
+
+starlight-menu-button[aria-expanded=true] > button {
+	color: var(--sl-color-bg);
+	opacity: 0.85;
+}
+
+starlight-menu-button[aria-expanded=true] > button:hover {
+	opacity: 1;
+}
+
+ /* Dark/Light Theme Switcher button section */
 starlight-theme-select {
 	padding-inline: 10px;
     border-radius: 0.5rem;
