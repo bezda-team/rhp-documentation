@@ -214,6 +214,7 @@ starlight-menu-button > button {
 	align-items: center;
 	justify-content: center;
 	opacity: 0.85;
+	-webkit-tap-highlight-color: transparent;
 }
 
 starlight-menu-button:not([aria-expanded=true]) > button:hover {
