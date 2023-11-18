@@ -9,7 +9,7 @@ export default defineConfig({
   integrations: [starlight({
     title: 'rhp',
     social: {
-      github: 'https://github.com/bouzidanas/react-html-plots'
+      github: 'https://github.com/bezda-team/rhp'
     },
     sidebar: [{
       label: 'Getting Started',

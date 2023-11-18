@@ -1,36 +1,40 @@
 ---
-title: Welcome to rhp
+title: react html plots
 description: Get started building your plots with rhp.
 template: splash
 hero:
-  tagline: Congrats on rhp for your data visualizaton needs!
+  tagline: a collection of react components for building interactive and dynamic charts
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/rhp-splash.svg
   actions:
-    - text: Read Docs
-      link: /getting-started/introduction/
+    - text: Get started
+      link: /getting-started/quick-start/
       icon: right-arrow
       variant: primary
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { CardGrid } from '@astrojs/starlight/components';
+import Card from '../../customizations/components/Card.astro';
 
-## Next steps
-
-<CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+<CardGrid >
+	<Card
+		href="/getting-started/introduction"
+		title="Documentation"
+		description="Learn how to build plots with the rhp component library."
+	/>
+	<Card
+		href="gallery"
+		title="Gallery"
+		description="Check out examples and sample applications."
+	/>
+	<Card
+		href="./dev-notes"
+		title="Blog"
+		description="Stay up to date with the latest news and updates."
+	/>
+	<Card
+		href="./community"
+		title="Community"
+		description="Come join the discussion!"
+	/>
 </CardGrid>

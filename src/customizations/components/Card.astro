@@ -1,0 +1,51 @@
+---
+interface Props {
+    href: string;
+	title: string;
+	description: string;
+	date: string;
+}
+
+const { href, title, description, date } = Astro.props;
+---
+
+<li class="link-card  shadow-md hover:shadow-lg">
+	<a href={href}>
+		<p class=' text-xs opacity-50 pb-2'>
+			{date}
+		</p>
+		<h2 class=" !mt-2">
+			{title}
+		</h2>
+		<p class='desc text-base opacity-70 !mt-3 text-lg'>
+			{description}
+		</p>
+	</a>
+</li>
+<style>
+	.link-card {
+		min-height: 11rem;
+		list-style: none;
+		display: flex;
+		padding: 1px;
+		background-color: var(--rhp-color-gray);
+		border-radius: var(--page-border-radius-4);
+        border: 1px solid var(--sl-color-gray-5);
+        color: var(--sl-color-gray-2);
+        box-shadow: var(--sl-shadow-md);
+	}
+
+    .link-card:hover {
+        border-color: var(--sl-color-gray-2);
+    }
+	
+	.link-card > a {
+		width: 100%;
+		text-decoration: none;
+		line-height: 1.4;
+		padding: calc(1.5rem - 1px);
+		color: var(--sl-color-text);
+        
+	}
+	
+</style>

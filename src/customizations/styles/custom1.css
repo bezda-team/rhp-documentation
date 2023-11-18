@@ -13,6 +13,12 @@
 	--astro-code-color-background: var(--rhp-color-gray);
 	--sl-color-accent-high: #f2cc8f;
 
+	--rhp-gradient-accent: linear-gradient(
+			45deg,
+			var(--sl-color-bg) 24%,
+			var(--sl-color-accent-high) 60%
+	);
+
 	 /* Originally uses --sl-color-gray-6 which has been made transparent here for convenience */
 	--sl-color-bg-nav: var(--rhp-color-gray-non-transparent);
 
@@ -58,6 +64,11 @@
 	--sl-color-accent-high: #f2cc8f;
 	--sl-color-text-accent: #f2cc8f;
 
+	--rhp-gradient-accent: linear-gradient(
+			45deg,
+			var(--sl-color-bg) 24%,
+			var(--sl-color-accent-high) 60%
+	);
 }
 
 @media screen and (max-width: 1150px) {
@@ -433,4 +444,8 @@ input[type=number]::-webkit-inner-spin-button {
 
 .flow .react-flow * {
 	margin-top: 0px!important;
+}
+
+.hero .copy > * {
+	max-width: 45ch;
 }
