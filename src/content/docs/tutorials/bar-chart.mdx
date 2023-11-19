@@ -12,19 +12,19 @@ In this tutorial, we will do just that. We will start with a template used for s
 	<TabItem label="Chart">
     <SimpleBarPlot 
         className="component-guide-s-plot" 
-        dataArray={[[10], [4], [6], [7], [2]]} 
+        dataArray={[[10], [4], [6], [7]]} 
         max={13.5} 
         width="565px" 
         labels={["A"]} 
         color="var(--sl-color-text)" 
         style={{marginTop: "1.5rem"}} 
-        height="460px" 
+        height="350px" 
         showCCLabel={false}
         client:only 
     />
   </TabItem>
 	<TabItem label="Template" >
-    <div className=" [&>.astro-code]:max-h-[468px] code-wrapper">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px] code-wrapper">
     ```typescript
     {
         type: "bar-content-container",
@@ -64,11 +64,11 @@ In this tutorial, we will do just that. We will start with a template used for s
     </div>
   </TabItem>
 	<TabItem label="Data">
-    <div className=" [&>.astro-code]:h-[468px]">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px]">
     ```js
     // Data that will determine length of bars.
     // First bar has value 10 and so on..
-    data = [[10], [4], [6], [7], [2]]   
+    data = [[10], [4], [6], [7]]   
 
     // Maximum value bars can have
     dataMax = 13.5      
@@ -92,19 +92,19 @@ We can also remove the rounded borders from the decorations and adjust spacing.
 	<TabItem label="Chart">
     <SimpleBarPlot 
       className="component-guide-s-plot" 
-      dataArray={[[10], [4], [6], [7], [2]]} 
+      dataArray={[[10], [4], [6], [7]]} 
       max={12} 
       width="565px" 
       labels={["A"]} 
       color="var(--sl-color-text)" 
       style={{marginTop: "1.5rem"}} 
-      height="460px" 
+      height="350px" 
       template={0}
       client:only 
     />
   </TabItem>
 	<TabItem label="Template" >
-    <div className="code-wrapper [&>.astro-code]:max-h-[468px]">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px]">
     ```typescript
     {
       type: "bar-content-container",
@@ -143,11 +143,11 @@ We can also remove the rounded borders from the decorations and adjust spacing.
     </div>
   </TabItem>
 	<TabItem label="Data">
-    <div className=" [&>.astro-code]:h-[468px]">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px]">
     ```js
     // Data that will determine length of bars.
     // First bar has value 10 and so on..
-    data = [[10], [4], [6], [7], [2]]   
+    data = [[10], [4], [6], [7]]   
 
     // Maximum value bars can have
     dataMax = 12      
@@ -175,25 +175,25 @@ The chart examples in the docs change opacity when hovered over due to global st
 :::
 
 Now we want the bar labels to show different text for each bar. 
-We can do that by changing `"bar-label": ["A"]` to `"bar-label": ["A", "B", "C", "D", "E"]` in the `vars` data object:
+We can do that by changing `"bar-label": ["A"]` to `"bar-label": ["A", "B", "C", "D"]` in the `vars` data object:
 
 <Tabs>
 	<TabItem label="Chart">
     <SimpleBarPlot 
       className="component-guide-s-plot" 
-      dataArray={[[10], [4], [6], [7], [2]]} 
+      dataArray={[[10], [4], [6], [7]]} 
       max={12} 
       width="565px" 
-      labels={["A", "B", "C", "D", "E"]} 
+      labels={["A", "B", "C", "D"]} 
       color="var(--sl-color-text)" 
       style={{marginTop: "1.5rem"}} 
-      height="460px" 
+      height="350px" 
       template={0}
       client:only 
     />
   </TabItem>
 	<TabItem label="Template" >
-    <div className="code-wrapper [&>.astro-code]:max-h-[468px]">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px]">
     ```typescript
     {
       type: "bar-content-container",
@@ -232,11 +232,11 @@ We can do that by changing `"bar-label": ["A"]` to `"bar-label": ["A", "B", "C",
     </div>
   </TabItem>
 	<TabItem label="Data">
-    <div className=" [&>.astro-code]:h-[468px]">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px]">
     ```js
     // Data that will determine length of bars.
     // First bar has value 10 and so on..
-    data = [[10], [4], [6], [7], [2]]   
+    data = [[10], [4], [6], [7]]   
 
     // Maximum value bars can have
     dataMax = 12      
@@ -246,7 +246,7 @@ We can do that by changing `"bar-label": ["A"]` to `"bar-label": ["A", "B", "C",
     // You can use css variable to facilitate matching global theme.
     vars = {
       "color": ["var(--sl-color-text)"],  
-      "bar-label": ["A", "B", "C", "D", "E"],
+      "bar-label": ["A", "B", "C", "D"],
     }
     ```
     </div>
@@ -264,19 +264,19 @@ In this tutorial, we will change it from `["var(--sl-color-text)"]` to `["red", 
 	<TabItem label="Chart">
     <SimpleBarPlot 
       className="component-guide-s-plot" 
-      dataArray={[[10], [4], [6], [7], [2]]} 
+      dataArray={[[10], [4], [6], [7]]} 
       max={12} 
       width="565px" 
-      labels={["A", "B", "C", "D", "E"]} 
+      labels={["A", "B", "C", "D"]} 
       style={{marginTop: "1.5rem"}} 
-      height="460px" 
+      height="350px" 
       template={0}
       color={["red", "blue", "green", "yellow", "purple"]}
       client:only 
     />
   </TabItem>
 	<TabItem label="Template" >
-    <div className="code-wrapper [&>.astro-code]:max-h-[468px]">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px]">
     ```typescript
     {
       type: "bar-content-container",
@@ -315,11 +315,11 @@ In this tutorial, we will change it from `["var(--sl-color-text)"]` to `["red", 
     </div>
   </TabItem>
 	<TabItem label="Data">
-    <div className=" [&>.astro-code]:h-[468px]">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px]">
     ```js
     // Data that will determine length of bars.
     // First bar has value 10 and so on..
-    data = [[10], [4], [6], [7], [2]]   
+    data = [[10], [4], [6], [7]]   
 
     // Maximum value bars can have
     dataMax = 12      
@@ -328,8 +328,8 @@ In this tutorial, we will change it from `["var(--sl-color-text)"]` to `["red", 
     // by double curly braces in the template.
     // You can use css variable to facilitate matching global theme.
     vars = {
-      "color": ["red", "blue", "green", "yellow", "purple"],  
-      "bar-label": ["A", "B", "C", "D", "E"],
+      "color": ["red", "blue", "green", "yellow"],  
+      "bar-label": ["A", "B", "C", "D"],
     }
     ```
     </div>
@@ -344,20 +344,20 @@ To do this, we first make a change to the template. We change the markup in the 
 	<TabItem label="Chart">
     <SimpleBarPlot 
       className="component-guide-s-plot" 
-      dataArray={[[10], [4], [6], [7], [2]]} 
+      dataArray={[[10], [4], [6], [7]]} 
       max={12} 
       width="565px" 
-      labels={["A", "B", "C", "D", "E"]} 
+      labels={["A", "B", "C", "D"]} 
       labelColor={["var(--sl-color-text)"]} 
       style={{marginTop: "1.5rem"}} 
-      height="460px" 
+      height="350px" 
       template={0}
-      color={["red", "blue", "green", "yellow", "purple"]}
+      color={["red", "blue", "green", "yellow"]}
       client:only 
     />
   </TabItem>
 	<TabItem label="Template" >
-    <div className="code-wrapper [&>.astro-code]:max-h-[468px]">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px]">
     ```typescript
     {
       type: "bar-content-container",
@@ -396,11 +396,11 @@ To do this, we first make a change to the template. We change the markup in the 
     </div>
   </TabItem>
 	<TabItem label="Data">
-    <div className=" [&>.astro-code]:h-[468px]">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px]">
     ```js
     // Data that will determine length of bars.
     // First bar has value 10 and so on..
-    data = [[10], [4], [6], [7], [2]]   
+    data = [[10], [4], [6], [7]]   
 
     // Maximum value bars can have
     dataMax = 12      
@@ -409,8 +409,8 @@ To do this, we first make a change to the template. We change the markup in the 
     // by double curly braces in the template.
     // You can use css variable to facilitate matching global theme.
     vars = {
-      "color": ["red", "blue", "green", "yellow", "purple"],  
-      "bar-label": ["A", "B", "C", "D", "E"],
+      "color": ["red", "blue", "green", "yellow"],  
+      "bar-label": ["A", "B", "C", "D"],
       "label-color": ["var(--sl-color-text)"],
     }
     ```
@@ -418,7 +418,7 @@ To do this, we first make a change to the template. We change the markup in the 
   </TabItem>
 </Tabs>
 
-To summarize, we changed `"color": ["var(--sl-color-text)"]` to `"color": ["red", "blue", "green", "yellow", "purple"]` to change the colors used by each core-component. Then we changed `{{color}}` to `{{label-color}}` in the last `markup` property (at the end/bottom of the template) and then finally, we added `"label-color": ["var(--sl-color-text)"]` to the `vars` data object.
+To summarize, we changed `"color": ["var(--sl-color-text)"]` to `"color": ["red", "blue", "green", "yellow"]` to change the colors used by each core-component. Then we changed `{{color}}` to `{{label-color}}` in the last `markup` property (at the end/bottom of the template) and then finally, we added `"label-color": ["var(--sl-color-text)"]` to the `vars` data object.
 :::note
 Variable names (the keys in the `vars` object) can be anything you want and don't have to conform to camel case or other naming conventions. 
 Just make sure the text inside the double curly braces matches the corresponding key in the `vars` object.
