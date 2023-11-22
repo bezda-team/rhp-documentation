@@ -4,7 +4,95 @@ description: A tutorial on creating and customizing a bar chart with rhp-core.
 ---
 import { SimpleBarPlot } from '../../../customizations/components/SimpleBarPlot'
 import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { SimpleBarPlot as TutorialSimpleBarPlotA } from '../../../customizations/components/BarPlotTutorialExamples'
 
+## Simple bar chart
+In this tutorial, we will add a simple bar chart to our project. 
+For simplicity, we assume a project setup similar to what you might get with CRA or Vite.
+
+To build our bar chart, we will use the `<SegmentPlot>` component from `@bezda/rhp-core`. 
+As far as props go, this component only requires a `width` and `height` prop.
+However, it does expect a `<PlotContext.Provider>` somewhere in the component tree above it
+ which means that you also need the variables the provider requires. 
+This specific context provider expects five observables (see [PlotContext.Provider](../../guides/state-management/#plotcontextprovidor) section of the State Management guide for more details).
+
+Putting it together, we have something like this:
+<Tabs>
+	<TabItem label="App.tsx">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px] code-wrapper">
+      ```typescript
+        import { useContext } from 'react';
+        import { useObservable } from '@legendapp/state/react';
+        import { PlotContext, SegmentPlot } from '@bezda/rhp-core';
+        import type { Vars } from '@bezda/rhp-core';
+
+        const App = () => {
+
+          // Create plot state variables (observables) that the context provider requires.
+          // The PlotContext.Provider will provide these variables to all child components.
+          const plotData = useObservable([[10], [4], [6], [7]]);
+          const vars = useObservable({
+            "color": ["var(--sl-color-text)"],  
+            "bar-label": ["A"],
+          } as Vars);
+          const dataMax = useObservable(10);
+
+          // You can create/use global state variables if you desire
+          const { theme, orientation } = useContext(PlotContext);
+
+          // The SegmentPlot component requires only a width and height prop.
+          return (
+            <PlotContext.Provider value={{ plotData: plotData, dataMax: dataMax, orientation: orientation, theme: theme, vars: vars }}>
+              <SegmentPlot
+                width="560px"
+                height="360px"
+              />
+            </PlotContext.Provider>
+          )
+        }
+
+        export default App;
+      ```
+    </div>
+  </TabItem>
+  <TabItem label="index.tsx">
+    <div className="code-wrapper [&>.astro-code]:max-h-[358px] code-wrapper">
+      ```typescript
+        import * as React from "react"
+        import * as ReactDOM from "react-dom/client"
+        import App from "./App"
+
+        const container = document.getElementById("root")
+        if (!container) throw new Error('Failed to find the root element');
+        const root = ReactDOM.createRoot(container)
+
+        root.render(
+          <React.StrictMode>
+            <App />
+          </React.StrictMode>,
+        )
+      ```
+    </div>
+  </TabItem>
+  <TabItem label="Chart">
+  <div class="component-guide-s-plot grid justify-center ">
+    <TutorialSimpleBarPlotA />
+  </div>
+  </TabItem>
+</Tabs>
+
+In the above, we create our `plotData`, `vars`, and `dataMax` observables as local (to the App component) observables using the `useObservable` hook from `@legendapp/state/react`. 
+We give them some initial data. Note that we are not providing a template to the `<SegmentPlot>` component and so it will use a built-in default template.
+The default template expects two variables from `vars`: `color` and `bar-label`. 
+For color, we provide a css variable so that the bars and lines in the chart match the global theme. 
+We set the labels next to each bar to "A" for now. 
+
+:::tip
+For apps with dynamic layouts and or are optimized for different screen sizes, it is recommended to wrap 
+the `<SegmentPlot>` component in some container element to help with placement and scaling
+:::
+
+## Customizing appearance
 While one could build a full template from scratch, it is often easier and quicker to start with a template that is close to what you want and then make small changes to it.
 In this tutorial, we will do just that. We will start with a template used for some of the bar chart examples and demos in the Guide and Get Started sections of this documentation.
 
@@ -254,7 +342,7 @@ We can do that by changing `"bar-label": ["A"]` to `"bar-label": ["A", "B", "C",
 </Tabs>
 
 
-## Bars of different colors
+### Bars of different colors
 With a few simple changes, we can have each of the bars be a different color.
 First, we change the value of the `color` variable in the `vars` object.
 We can choose any color we want in any format that css supports. We can also use css variables which can be handy if you want to match your project's theme.

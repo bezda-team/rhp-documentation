@@ -17,7 +17,7 @@ Most libraries that use the React framework to build plots, do so using librarie
 
 ### Why React?
 
-The React framework also encourages building reusable pieces of code. This means that you can build a component once, and use it many times throughout your application. Why not use a component many times to build a plot! ***Note:*** *this paradigm goes hand in hand with the idea of using a "template" to construct a component (which you can then repeat/stack to build a plot or infographic).*
+The React framework encourages building reusable pieces of code. This means that you can build a component once, and use it many times throughout your application. Why not use a component many times to build a plot! ***Note:*** *this paradigm goes hand in hand with the idea of using a "template" to construct a component (which you can then repeat/stack to build a plot or infographic).*
 
 Core React component design patterns encourage grouping related visual elements together which makes it easier to build complex user interfaces. This is especially useful for building plots and infographics, which are often composed of different groups of related visual elements.
 
