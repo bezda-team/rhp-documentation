@@ -3,7 +3,9 @@ import { useObservable } from '@legendapp/state/react';
 import { PlotContext, SegmentPlot } from '@bezda/rhp-core';
 import type { Vars } from '@bezda/rhp-core';
 
-export const SimpleBarPlot = () => {
+import { templates } from './templates';
+
+export const SimpleBarPlot = ({template}:{template?: number}) => {
 
   // Create plot state variables (observables) that the context provider requires.
   // The PlotContext.Provider will provide these variables to all child components.
@@ -23,6 +25,7 @@ export const SimpleBarPlot = () => {
       <SegmentPlot
         width="565px"
         height="358px"
+        segmentTemplate={template?templates[template]:undefined}
       />
     </PlotContext.Provider>
   )
