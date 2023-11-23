@@ -12,7 +12,8 @@ export const SimpleBarPlot = ({template}:{template?: number}) => {
   const plotData = useObservable([[10], [4], [6], [7]]);
   const vars = useObservable({
     "color": ["var(--sl-color-text)"],  
-    "bar-val": ["A"],
+    "bar-label": ["A"],
+    "label-color": ["var(--sl-color-text)"],
   } as Vars);
   const dataMax = useObservable(10);
 
