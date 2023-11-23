@@ -25,7 +25,7 @@ export const SimpleBarPlot = ({template}:{template?: number}) => {
       <SegmentPlot
         width="565px"
         height="358px"
-        segmentTemplate={template?templates[template]:undefined}
+        segmentTemplate={typeof template === 'number'?templates[template]:undefined}
       />
     </PlotContext.Provider>
   )

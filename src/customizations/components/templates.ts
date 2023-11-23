@@ -30,6 +30,7 @@ const templateA: FullBarElementType[] = [
             order: 1,
         },
         ],
+    CSS: "margin-right: 100px;",
     decorationWidth: "10%",
     order: 1,
     },

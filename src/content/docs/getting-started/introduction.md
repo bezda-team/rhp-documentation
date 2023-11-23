@@ -3,7 +3,7 @@ title: Introduction
 description: Introduction to React Html Plots, a plotting library for build html plots using React
 ---
 
-React Html Plots (**rhp**) is a library of React components for building html charts and infographics. This library contains a variety of components, from those that quickly produce plots from data with little configuration required, to those that provide greater configuration, customization, and control. You will also find all the components used to build the plot components in the library, allowing you to build your own custom plot components.
+React Html Plots (**rhp**) is a library of React components for building html charts and infographics. This library contains a variety of components, from those that quickly produce plots with little configuration required, to those that provide greater configuration, customization, and control. You will also find all the components used to build the plot components in the library, allowing you to build your own custom plot components.
 
 ## Why rhp?
 
