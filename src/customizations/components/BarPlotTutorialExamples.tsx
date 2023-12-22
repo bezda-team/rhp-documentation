@@ -12,7 +12,8 @@ export const SimpleBarPlot = ({template}:{template?: number}) => {
   const plotData = useObservable([[10], [4], [6], [7]]);
   const vars = useObservable({
     "color": ["var(--sl-color-text)"],  
-    "bar-val": ["A"],
+    "bar-label": ["A"],
+    "label-color": ["var(--sl-color-text)"],
   } as Vars);
   const dataMax = useObservable(10);
 
@@ -25,7 +26,7 @@ export const SimpleBarPlot = ({template}:{template?: number}) => {
       <SegmentPlot
         width="565px"
         height="358px"
-        segmentTemplate={template?templates[template]:undefined}
+        segmentTemplate={typeof template === 'number'?templates[template]:undefined}
       />
     </PlotContext.Provider>
   )
