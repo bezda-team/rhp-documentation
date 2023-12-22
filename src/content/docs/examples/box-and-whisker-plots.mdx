@@ -1,0 +1,100 @@
+---
+title: Box and Whisker Plot Example
+description: This page shows an example of a box and whisker plot.
+---
+import { BoxAndWhiskerPlotExample } from '../../../customizations/components/BoxAndWhiskerPlotExample';
+
+### Non-interactive Box and Whisker plot
+<BoxAndWhiskerPlotExample client:only />
+
+##### Code
+<div className="code-wrapper [&>.astro-code]:max-h-[580px] code-wrapper">
+      ```typescript
+        import { useContext, useMemo, useRef, useState } from 'react';
+        import { PlotContext, Scale, BoxAndWhiskerPlot} from '@bezda/rhp-core';
+        import { BW_PLOT_DEFAULT_TEMPLATE } from '@bezda/rhp-core';
+        import { useObservable, useObserve, useComputed, useSelector } from '@legendapp/state/react';
+        import type { Observable } from '@legendapp/state';
+
+        export const BoxAndWhiskerPlotExample = () => {
+        // const renderCount = ++useRef(0).current;
+        
+            const {plotData, dataMax, theme, orientation, vars} = useContext(PlotContext);
+
+            // Setup initial data
+            const nonformatedData = useObservable([[1, 3, 9, 10], [2, 3, 15, 20], [5, 9, 16, 18], [3, 4, 7, 9], [10, 18, 22, 25], [12, 14, 18, 22], [15, 20, 26, 27]]);
+            const spacing = useObservable(5);
+            const dataOrderIndex = useObservable(2); // 0: order by first whisker position, 1: by first quartile/bar start position, 2: by third quartile/bar end position, 3: by last whisker position
+            useMemo(() => {
+                plotData.set(convertBWData(nonformatedData.peek()));
+                dataMax.set(30);
+                vars.set({
+                "color": ["#9fa2a4","#5adae8", "#a5aeb5", "#dbe7eb", "#7688ab", "#aec7d3", "#c9ced3", "#577590", "brown", "gray", "black"],
+                "cloud-img-src": ['/react-html-plots/stratocumulus.jpg','/react-html-plots/cumulonimbus.jpg', '/react-html-plots/altocumulus.jpg', '/react-html-plots/cirrus.jpg', '/react-html-plots/nimbostratus.jpg', '/react-html-plots/cumulus1.jpg', '/react-html-plots/cirrocumulus.jpg'],
+                "last-whisker-pos": [], //BoxAndWhiskerPlot component uses this for storing the value/position of the last whisker for optional use in the template
+                "clouds":['stratocumulus', 'cumulonimbus' , 'altocumulus', 'cirrus', 'nimbostratus', 'cumulus', 'cirrocumulus'],
+                });
+            }, []);
+
+            // BoxAndWhiskerPlot component should work without provided template but doesnt
+            // Todo: Find out why and fix this
+            return (
+                <PlotContext.Provider value={{ plotData: plotData, dataMax: dataMax, orientation: orientation, theme: theme, vars: vars}}>
+                    <div 
+                        id='plot' 
+                        className='plot' 
+                        style={{
+                                position: "relative", 
+                                marginTop: "1rem", 
+                                paddingBottom: "1.8rem",
+                                borderRadius: "0.5rem", 
+                                backgroundColor: "#ffffff11", 
+                                boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
+                            }}
+                    >
+                        <Scale
+                            id='scale_1'
+                            width='100%'
+                            height='600px'
+                            spacing={spacing}
+                            dataMaxLimit={100} 
+                            decorationWidth='6rem'
+                            style={{
+                                    marginTop: "1.5rem", 
+                                    position: "absolute", 
+                                    paddingBottom: "1.2rem", 
+                                    paddingRight: "0.3rem"
+                                    }}
+                            CSS={"& .bar-dec-cont > .decoration > div {border-left: 4px solid var(--sl-color-text)!important; color: var(--sl-color-text)!important;}& .full-bar > .decoration {border-right: 4px solid var(--sl-color-text)!important;}"}
+                        />
+                        <BoxAndWhiskerPlot 
+                            id='bw_plot_1'
+                            width='100%'
+                            height='600px'
+                            dataIndexForOrdering={dataOrderIndex}
+                            boxWhiskerTemplate={BW_PLOT_DEFAULT_TEMPLATE}
+                            style={{
+                                    paddingBottom: "0.5rem", 
+                                    paddingTop: "2.5rem", 
+                                    marginTop: "0.5rem", 
+                                    paddingRight: "0.3rem"
+                                    }}
+                            CSS={"& .full-bar:hover .decoration>.image {border: 5px solid var(--sl-color-accent-high)!important;}& .full-bar .decoration>.image {border: 4px solid var(--sl-color-text)!important;}& .full-bar:hover .decoration>div {color: var(--sl-color-accent-high)!important;} & .full-bar:hover div div.box {border: 5px solid var(--sl-color-accent-high)!important;color: var(--sl-color-accent-high)!important; font-weight: 500} & .full-bar:hover div div.whisker {border: 3px solid var(--sl-color-accent-high)!important;}"}
+                        />
+                    </div>
+                </PlotContext.Provider>
+            );
+        }
+      ```
+</div>
+
+A few things to note about the above example:
+- Uses the default template for Box and Whisker plots provided by rhp (`BW_PLOT_DEFAULT_TEMPLATE`)
+- By not providing a template for the Scale component, the component's default template is implicitly used.
+- Custom styling is applied to the Scale and BoxAndWhiskerPlot components using both the `style` prop and the `CSS` prop. The latter allows the use of some features found in scss such as nested selectors which is useful for targeting nested elements.
+- The `dataIndexForOrdering` prop is used to specify the index of each inner data array to use for ordering the Box and Whiskers. The value of 2 used in this example corresponds to the third quartile of the data. The other options are 0: order by first whisker position, 1: by first quartile/bar start position, 3: by last whisker position.
+- The `dataMaxLimit` prop is used to specify the maximum value the scale can stretch to. This is useful for when the data is dynamic and the scale needs to be updated to reflect the new data. The `dataMax` observable is used to update the scale's maximum value. The `dataMaxLimit` prop is optional and defaults to 100.
+- The `spacing` prop is used to specify the spacing between divisions/ticks in the scale. In this case, the scale template hides the ticks and only shows the `dataMax` value at the end of the scale.
+- The format of the data that `<BoxAndWhiskerPlot>` expects is very similar to if not the same as what a stacked bar chart/plot expects. The first value in each inner array is the width of the space before the first tick (think of an invisible bar there), the second value is the width of the first whisker, the third value is the width of the bar that stretches from the lower quartile to the upper quartile, the fourth value is the width of the whisker that follows at the end. If the typical format is prefered, rhp provides a conversion function called `convertBWData`. 
+
+### Interactive Box and Whisker plot

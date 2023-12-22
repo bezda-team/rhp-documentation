@@ -48,6 +48,14 @@ export default defineConfig({
         }
       ]
     },{
+      label: 'Examples',
+      items: [
+        {
+          label: 'Box and Whisker Plots',
+          link: '/examples/box-and-whisker-plots/'
+        }
+      ]
+    },{
       label: 'Reference',
       autogenerate: {
         directory: 'reference'
