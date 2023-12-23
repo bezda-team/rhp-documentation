@@ -10,15 +10,12 @@ import { BoxAndWhiskerPlotExample } from '../../../customizations/components/Box
 ##### Code
 <div className="code-wrapper [&>.astro-code]:max-h-[580px] code-wrapper">
       ```typescript
-        import { useContext, useMemo, useRef, useState } from 'react';
+        import { useContext, useMemo } from 'react';
         import { PlotContext, Scale, BoxAndWhiskerPlot} from '@bezda/rhp-core';
-        import { BW_PLOT_DEFAULT_TEMPLATE } from '@bezda/rhp-core';
-        import { useObservable, useObserve, useComputed, useSelector } from '@legendapp/state/react';
-        import type { Observable } from '@legendapp/state';
+        import { BW_PLOT_DEFAULT_TEMPLATE } from '@bezda/rhp-core';     //import template
+        import { useObservable } from '@legendapp/state/react';
 
         export const BoxAndWhiskerPlotExample = () => {
-        // const renderCount = ++useRef(0).current;
-        
             const {plotData, dataMax, theme, orientation, vars} = useContext(PlotContext);
 
             // Setup initial data
