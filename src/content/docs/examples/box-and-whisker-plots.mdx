@@ -65,7 +65,7 @@ import { BoxAndWhiskerPlotExample } from '../../../customizations/components/Box
                                     paddingBottom: "1.2rem", 
                                     paddingRight: "0.3rem"
                                     }}
-                            CSS={"& .bar-dec-cont > .decoration > div {border-left: 4px solid var(--sl-color-text)!important; color: var(--sl-color-text)!important;}& .full-bar > .decoration {border-right: 4px solid var(--sl-color-text)!important;}"}
+                            CSS={"& .bar-dec-cont > .decoration > div {border-left: 4px solid var(--sl-color-text)!important; color: var(--sl-color-text)!important;}& .full-bar > .decoration {border-right: 4px solid var(--sl-color-text)!important;}& .bar {border-left: 4px solid rgba(var(--rhp-color-text-rgb-0), 0.3)!important;}& .bar:first-child {border-left: none!important;}& .bar > div {color: rgba(var(--rhp-color-text-rgb-0), 0.3)!important;}"}
                         />
                         <BoxAndWhiskerPlot 
                             id='bw_plot_1'
@@ -79,7 +79,7 @@ import { BoxAndWhiskerPlotExample } from '../../../customizations/components/Box
                                     marginTop: "0.5rem", 
                                     paddingRight: "0.3rem"
                                     }}
-                            CSS={"& .full-bar:hover .decoration>.image {border: 5px solid var(--sl-color-accent-high)!important;}& .full-bar .decoration>.image {border: 4px solid var(--sl-color-text)!important;}& .full-bar:hover .decoration>div {color: var(--sl-color-accent-high)!important;} & .full-bar:hover div div.box {border: 5px solid var(--sl-color-accent-high)!important;color: var(--sl-color-accent-high)!important; font-weight: 500} & .full-bar:hover div div.whisker {border: 3px solid var(--sl-color-accent-high)!important;}"}
+                            CSS={"& .full-bar:hover .decoration>.image {border: 5px solid var(--sl-color-accent-high)!important;}& .full-bar .decoration>.image {border: 4px solid var(--sl-color-text)!important;}& .full-bar:hover .decoration>div {color: var(--sl-color-accent-high)!important;} & .full-bar:hover div div.box {border: 5px solid var(--sl-color-accent-high)!important;color: var(--sl-color-accent-high)!important; font-weight: 500} & .full-bar:hover div div.whisker {border: 3px solid var(--sl-color-accent-high)!important;}& .bar {transition-property: flex!important;}& .bar > div {transition: border-color 0.4s ease-in-out, color 0.4s ease-in-out!important;}& .bar > .whisker {transition: border-color 0.4s ease-in-out!important;}"}
                         />
                     </div>
                 </PlotContext.Provider>

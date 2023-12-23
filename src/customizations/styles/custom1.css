@@ -4,6 +4,7 @@
 	--global-scale: 1.2;
 	--global-text-scale: 1.2;
 
+	--rhp-color-text-rgb-0: 193, 195, 200;
 	--sl-color-bg: rgb(46, 47, 67);
 	--page-border-radius-4: 0.5rem;
 	--rhp-a-hover-color: var(--sl-color-text);
@@ -56,6 +57,7 @@
 
 :root[data-theme='light'],
 [data-theme='light'] ::backdrop {
+	--rhp-color-text-rgb-0: 53, 56, 65;
 	--sl-color-bg: rgb(255, 255, 255);
 	--rhp-a-hover-color: var(--sl-color-text);
 	--rhp-color-gray: hsla(234, 37%, 27%, 0.08);
