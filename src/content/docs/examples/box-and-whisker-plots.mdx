@@ -16,6 +16,7 @@ import { BoxAndWhiskerPlotExample } from '../../../customizations/components/Box
         import { useObservable } from '@legendapp/state/react';
 
         export const BoxAndWhiskerPlotExample = () => {
+            // Obtain the 5 state observables
             const {plotData, dataMax, theme, orientation, vars} = useContext(PlotContext);
 
             // Setup initial data
@@ -33,8 +34,6 @@ import { BoxAndWhiskerPlotExample } from '../../../customizations/components/Box
                 });
             }, []);
 
-            // BoxAndWhiskerPlot component should work without provided template but doesnt
-            // Todo: Find out why and fix this
             return (
                 <PlotContext.Provider value={{ plotData: plotData, dataMax: dataMax, orientation: orientation, theme: theme, vars: vars}}>
                     <div 
