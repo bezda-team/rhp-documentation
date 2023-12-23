@@ -85,6 +85,8 @@ import { BoxAndWhiskerPlotExample } from '../../../customizations/components/Box
 </div>
 
 A few things to note about the above example:
+- Both the `<Scale>` and `<BoxAndWhiskerPlot>` components are wrapped in a `<PlotContext.Provider>` component. This is necessary for the components to share the same state observables (provided by the context).
+- Both the `<Scale>` and `<BoxAndWhiskerPlot>` components are placed inside a container `<div>` element. The container element has a `position: relative` style applied to it. This is necessary to place the scale underneath/behind the Box and Whisker plot.
 - Uses the default template for Box and Whisker plots provided by rhp (`BW_PLOT_DEFAULT_TEMPLATE`)
 - By not providing a template for the Scale component, the component's default template is implicitly used.
 - Custom styling is applied to the Scale and BoxAndWhiskerPlot components using both the `style` prop and the `CSS` prop. The latter allows the use of some features found in scss such as nested selectors which is useful for targeting nested elements. The `CSS` prop was used in this example for demonstration purposes. When there are many customizations, it is recommended to directly alter the template instead.
