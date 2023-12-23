@@ -91,10 +91,10 @@ import { BoxAndWhiskerPlotExample } from '../../../customizations/components/Box
 A few things to note about the above example:
 - Uses the default template for Box and Whisker plots provided by rhp (`BW_PLOT_DEFAULT_TEMPLATE`)
 - By not providing a template for the Scale component, the component's default template is implicitly used.
-- Custom styling is applied to the Scale and BoxAndWhiskerPlot components using both the `style` prop and the `CSS` prop. The latter allows the use of some features found in scss such as nested selectors which is useful for targeting nested elements.
+- Custom styling is applied to the Scale and BoxAndWhiskerPlot components using both the `style` prop and the `CSS` prop. The latter allows the use of some features found in scss such as nested selectors which is useful for targeting nested elements. The `CSS` prop was used in this example for demonstration purposes. When there are many customizations, it is recommended to directly alter the template instead.
 - The `dataIndexForOrdering` prop is used to specify the index of each inner data array to use for ordering the Box and Whiskers. The value of 2 used in this example corresponds to the third quartile of the data. The other options are 0: order by first whisker position, 1: by first quartile/bar start position, 3: by last whisker position.
 - The `dataMaxLimit` prop is used to specify the maximum value the scale can stretch to. This is useful for when the data is dynamic and the scale needs to be updated to reflect the new data. The `dataMax` observable is used to update the scale's maximum value. The `dataMaxLimit` prop is optional and defaults to 100.
-- The `spacing` prop is used to specify the spacing between divisions/ticks in the scale. In this case, the scale template hides the ticks and only shows the `dataMax` value at the end of the scale.
+- The `spacing` prop is used to specify the spacing between divisions/ticks in the scale. 
 - The format of the data that `<BoxAndWhiskerPlot>` expects is very similar to if not the same as what a stacked bar chart/plot expects. The first value in each inner array is the width of the space before the first tick (think of an invisible bar there), the second value is the width of the first whisker, the third value is the width of the bar that stretches from the lower quartile to the upper quartile, the fourth value is the width of the whisker that follows at the end. If the typical format is prefered, rhp provides a conversion function called `convertBWData`. 
 
 ### Interactive Box and Whisker plot
