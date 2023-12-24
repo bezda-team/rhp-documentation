@@ -1,5 +1,5 @@
 import { useContext, useMemo, useRef, useState } from 'react';
-import styled from '@emotion/styled';
+// import styled from '@emotion/styled';
 import type { CSSObject } from '@emotion/react';
 // import { ChakraProvider, extendBaseTheme, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Button, ButtonGroup, Stack, Box, Slider, SliderMark, SliderTrack, SliderFilledTrack, SliderThumb, Select, RadioGroup, Radio, Center } from "@chakra-ui/react"
 // import { NumberInput as NumberIn } from "@chakra-ui/theme/components"
@@ -7,29 +7,7 @@ import { PlotContext, Scale, BoxAndWhiskerPlot, convertBWData, bPChangeBWOrder, 
 import type { FullBarElementType } from '@bezda/rhp-core';
 import { useObservable, useObserve, useComputed, useSelector } from '@legendapp/state/react';
 import { opaqueObject } from '@legendapp/state';
-import type { Observable } from '@legendapp/state';
-import { enableReactUse } from '@legendapp/state/config/enableReactUse';
-
-// const Div = styled.div`
-// @media (max-width: 600px) {
-//   padding: 0.5rem 1.5rem;
-//   margin: 0;
-//   width: 470px;
-//   #plot {
-//     margin-left: -1.1rem;
-//     width: 456px;
-//   }
-// }
-// @media (min-width: 601px) and (min-width: 900px){
-//     padding: 1rem 3rem;
-//     margin: 0;
-//     width: 100%;
-// }
-// @media (min-width: 801px){
-//     padding: 3rem 6rem;
-//     margin: 0;
-//     width: 100%;
-// }`;
+// import type { Observable } from '@legendapp/state';
 
 export const DEFAULT_CSS = {
   "bar-plot": "",
@@ -148,8 +126,8 @@ export const BoxAndWhiskerPlotExample = () => {
   return (
     <PlotContext.Provider value={{ plotData: plotData, dataMax: dataMax, orientation: orientation, theme: theme, vars: vars}}>
       <div 
-        id='plot' 
-        className='plot' 
+        id='bw_plot' 
+        className='plot bw-plot' 
         style={{
                 position: "relative", 
                 marginTop: "1rem", 

@@ -53,6 +53,10 @@ export default defineConfig({
         {
           label: 'Box and Whisker Plots',
           link: '/examples/box-and-whisker-plots/'
+        },
+        {
+          label: 'Bar Plots',
+          link: '/examples/bar-plots/'
         }
       ]
     },{
