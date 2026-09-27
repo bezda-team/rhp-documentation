@@ -6,6 +6,7 @@ import { Theme } from "@bezda/rhp";
 import { dark, DOCS_DARK, DOCS_LIGHT, V1_DARK, V1_LIGHT } from "./ui/themes.js";
 
 const charts = import.meta.glob("./examples/*/poster/chart.jsx");
+const JS = new Set(["bar-chart", "box-plot"]);
 
 // `count` entries from `list`, in random order.
 const pick = (list, count) => {
@@ -17,7 +18,8 @@ const pick = (list, count) => {
 function Poster(props) {
   const e = props.entry;
   const [chart] = createResource(() => charts[`./examples/${e.id}/poster/chart.jsx`]().then((m) => m.default));
-  const o = () => e.orientation, js = () => false, seed = () => 0;
+  // The v1 replicas (fruit bars, clouds) move with the JS version, as v1 did; the rest with CSS transitions.
+  const o = () => e.orientation, js = () => JS.has(e.id), seed = () => 0;
   return (
     <figure class="showcase-item">
       <div class="playground not-content" data-version="poster">
@@ -40,8 +42,6 @@ function Poster(props) {
 
 export default function Showcase(props) {
   const [shown, setShown] = createSignal(pick(props.entries, props.count ?? 4));
-  // Two columns: the first and third posters on the left, the second and fourth on the right, which starts lower.
-  const column = (side) => shown().filter((_, i) => i % 2 === side);
   return (
     <>
       <div class="showcase-head">
@@ -49,9 +49,7 @@ export default function Showcase(props) {
         <button type="button" class="showcase-shuffle" onClick={() => setShown(pick(props.entries, props.count ?? 4))}>Show others</button>
       </div>
       <div class="showcase-grid">
-        <For each={[0, 1]}>
-          {(side) => <div class="showcase-col"><For each={column(side)}>{(e) => <Poster entry={e} />}</For></div>}
-        </For>
+        <For each={shown()}>{(e) => <Poster entry={e} />}</For>
       </div>
     </>
   );
