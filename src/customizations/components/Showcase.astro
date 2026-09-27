@@ -1,0 +1,134 @@
+---
+// The home page's showcase: four gallery posters, live, picked at random on each visit (src/gallery/Showcase.jsx),
+// set in two offset columns. It sits between the hero and the cards.
+import { getCollection } from "astro:content";
+import Showcase from "../../gallery/Showcase.jsx";
+// the posters' fonts and styles, as on a gallery page
+import "@fontsource-variable/fraunces/opsz.css";
+import "@fontsource-variable/fraunces/opsz-italic.css";
+import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource/barlow-condensed/500.css";
+import "@fontsource/barlow-condensed/600.css";
+import "@fontsource/barlow-condensed/700.css";
+import "@fontsource/barlow-condensed/800.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource/ibm-plex-mono/600.css";
+import "../styles/gallery.css";
+
+const entries = (await getCollection("docs", (e) => !!e.data.gallery)).map((e) => ({
+	id: e.slug.replace("gallery/", ""),
+	title: e.data.title,
+	orientation: e.data.gallery!.orientation,
+	theme: e.data.gallery!.theme,
+}));
+---
+
+<section class="showcase not-content" aria-label="Live plots from the gallery">
+	<Showcase client:only="solid-js" entries={entries} count={4} />
+</section>
+
+<style is:global>
+	.showcase {
+		margin-block: 1rem 4rem;
+	}
+	.showcase-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 1.25rem;
+	}
+	.showcase-kicker {
+		margin: 0;
+		font: 600 0.75rem/1 var(--sl-font-system-mono);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--sl-color-accent-high);
+	}
+	:root[data-theme="light"] .showcase-kicker {
+		color: var(--sl-color-accent);
+	}
+	.showcase-shuffle {
+		font: 500 0.85rem/1 var(--__sl-font);
+		padding: 0.5rem 0.9rem;
+		border-radius: 999px;
+		border: 1px solid var(--sl-color-gray-5);
+		background: transparent;
+		color: var(--sl-color-text);
+		cursor: pointer;
+	}
+	.showcase-shuffle:hover {
+		border-color: var(--sl-color-gray-3);
+		color: var(--sl-color-white);
+	}
+	.showcase-shuffle:focus-visible {
+		outline: 2px solid var(--sl-color-accent-high);
+		outline-offset: 2px;
+	}
+	/* Two columns, the right one starting lower: the posters keep their own heights, so the edges stagger. */
+	.showcase-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		gap: 2.5rem;
+		align-items: start;
+	}
+	.showcase-col {
+		display: grid;
+		gap: 2.5rem;
+	}
+	.showcase-col:nth-child(2) {
+		margin-top: 6rem;
+	}
+	.showcase-item {
+		margin: 0;
+		display: grid;
+		gap: 0.6rem;
+	}
+	.showcase-item .playground {
+		margin: 0;
+	}
+	/* A chart drawn on the page (the v1 replicas, the heatmap) sits on a card, as on the gallery page; posters bring their own. */
+	.showcase-item .pg-preview:not(:has(.poster)) {
+		padding: 16px;
+		border-radius: 16px;
+		background: var(--gallery-card);
+		border: 1px solid var(--sl-color-gray-5);
+		box-shadow: var(--sl-shadow-md);
+	}
+	.showcase-loading {
+		min-height: 360px;
+		border-radius: 16px;
+		background: var(--gallery-card);
+	}
+	.showcase-item figcaption a {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.25rem 0.6rem;
+		text-decoration: none;
+		font-size: 0.9rem;
+	}
+	.showcase-title {
+		font-weight: 600;
+		color: var(--sl-color-white);
+	}
+	.showcase-open {
+		color: var(--sl-color-gray-3);
+	}
+	.showcase-item figcaption a:hover .showcase-open {
+		color: var(--sl-color-text-accent);
+	}
+	@media (max-width: 50rem) {
+		.showcase-grid,
+		.showcase-col {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.showcase-grid {
+			gap: 2.5rem;
+		}
+		.showcase-col:nth-child(2) {
+			margin-top: 0;
+		}
+	}
+</style>
