@@ -1,6 +1,6 @@
 ---
 // The home page's showcase: four gallery posters, live, picked at random on each visit (src/gallery/Showcase.jsx),
-// two by two with their tops aligned. It sits between the hero and the cards.
+// in two columns, each stacked, the same gap between plots across and down. It sits between the hero and the cards.
 import { getCollection } from "astro:content";
 import Showcase from "../../gallery/Showcase.jsx";
 // the posters' fonts and styles, as on a gallery page
@@ -66,12 +66,17 @@ const entries = (await getCollection("docs", (e) => !!e.data.gallery)).map((e) =
 		outline: 2px solid var(--sl-color-accent-high);
 		outline-offset: 2px;
 	}
-	/* Two by two, tops aligned: each row is as tall as its taller plot. */
+	/* Two columns, each a stack: the gap down a column is the gap across. */
 	.showcase-grid {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-		gap: 2.5rem 2rem;
+		gap: 2rem;
 		align-items: start;
+	}
+	.showcase-column {
+		display: grid;
+		gap: 2rem;
+		min-width: 0;
 	}
 	.showcase-item {
 		margin: 0;
@@ -115,6 +120,9 @@ const entries = (await getCollection("docs", (e) => !!e.data.gallery)).map((e) =
 	@media (max-width: 50rem) {
 		.showcase-grid {
 			grid-template-columns: minmax(0, 1fr);
+		}
+		.showcase-column {
+			display: contents;
 		}
 	}
 </style>

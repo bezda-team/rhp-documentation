@@ -23,6 +23,7 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 - **A day per slat**, holding a Plot with `orientation="across"` of 24 Cells: the hours run across the day's band.
 - **Color by CSS.** A Cell mixes the theme's `low` and `high` colors by its value on the chart's scale.
-- **Hover a cell** for its title. The heatmap keeps rhp's plain look, in the page's colors.
+- **Point at an hour** to read it above the chart; only its day and its hour keep their color. Each Cell carries `data-day` and `data-hour`, and the picked day and hour reach every cell as values of the Plot.
+- **rhp's plain look**, in the page's colors.
 
 <GalleryPager slug="heatmap" />

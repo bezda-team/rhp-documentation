@@ -20,27 +20,22 @@ export const scale = `
 .num.crowded { visibility: hidden; }
 `;
 
-// A cloud: its photo in a circle, the whiskers and their caps, the box with the name inside, and the top value. Hover a row to zoom the photo.
+// A cloud: its name, the whiskers and their caps, the box filled with its photo, and the top value. Hover a row to zoom the photo out.
 export const box = `
-.photo { display: flex; align-items: center; justify-content: center; padding: 0; overflow: visible; }
-.photo:horizontal { top: 8px; bottom: 8px; translate: none; }
-.photo:vertical { height: var(--rhp-room-start); }
-.circle { flex: none; aspect-ratio: 1; border-radius: 50%; border: 4px solid var(--rhp-grid); overflow: hidden; }
-.photo:horizontal > .circle { height: 100%; }
-.photo:vertical > .circle { width: min(63px, 100% - 16px); }
-.circle > img { display: block; width: 100%; height: 100%; margin: 0; object-fit: cover; transform: scale(5); }
+.name { font-size: 15px; font-weight: 600; line-height: 1.2; color: var(--rhp-muted); }
+.name:vertical { font-size: 11px; white-space: normal; hyphens: manual; padding-inline: 4px; }
 .whisker, .box { --rhp-radius: 0px; }
 .cap { --rhp-tick-width: 4px; }
 .cap:horizontal { translate: 0 -50%; }
 .cap:vertical { translate: -50% 0; }
-.box { display: flex; align-items: center; justify-content: center; overflow: hidden; background: none;
-  border: 4px solid var(--rhp-color); color: var(--rhp-color); font-size: 16px; line-height: 24px; white-space: nowrap; }
-.box:vertical > span { writing-mode: vertical-rl; rotate: 180deg; }
+/* The box is the cloud's photo, cropped to the box, in its color's frame. */
+.box { overflow: hidden; background: none; border: 4px solid var(--rhp-color); }
+.box > img { display: block; width: 100%; height: 100%; margin: 0; object-fit: cover; transform: scale(1.6); transition: transform .3s; }
 .value { font-size: 13px; font-weight: 700; line-height: 19.5px; font-variant-numeric: normal; color: var(--rhp-color); --rhp-label-gap: 8px; }
 .value:horizontal { margin-top: -1px; } /* v1: 1px above the middle */
-.slat:hover .circle { border: 5px solid var(--rhp-muted); }
-.slat:hover .circle > img { transform: scale(1.5); }
-.slat:hover .box { border: 5px solid var(--rhp-muted); color: var(--rhp-muted); font-weight: 500; }
+.slat:hover .name { color: var(--rhp-ink); }
+.slat:hover .box { border: 5px solid var(--rhp-muted); }
+.slat:hover .box > img { transform: scale(1.1); }
 .slat:hover :is(.whisker, .cap) { background: var(--rhp-muted); }
 .slat:hover .cap { --rhp-tick-width: 6px; }
 .slat:hover .value { color: var(--rhp-ink); }

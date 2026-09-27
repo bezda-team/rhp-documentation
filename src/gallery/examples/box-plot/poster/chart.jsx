@@ -15,6 +15,9 @@ import cirrocumulus from "./assets/cirrocumulus.jpg?url";
 // The marks start 16px above the first row, and the numbers sit over them, in the room this slat asks for.
 // A mark is "zero" (solid, just before 0), "end" (solid, at the max), or between them `marks`:
 // "line" (dashed, as long as the plot) or "tick" (13px long).
+// A cloud's name may break (with a hyphen) between its Latin roots, cumulo-nimbus, when its label is narrow.
+const syllables = (name) => name.replace(/^(cirro|alto|nimbo|strato|cumulo)(?=\w)/, "$1\u00ad");
+
 export const V1Scale = slat({
   room: { horizontal: { before: 40, after: 13 }, vertical: { before: 24, end: 30, after: 13 } },
   css: styles.scale,
@@ -41,16 +44,16 @@ const WHISKERS = [[1, 3, 9, 10], [2, 3, 15, 20], [5, 9, 16, 18], [3, 4, 7, 9], [
 export const BoxSlat = slat({
   thickness: { horizontal: 79 },
   inset: "8px",
-  room: { horizontal: { start: 96, end: 37 }, vertical: { start: 80, end: 30 } }, // for the photos and values
+  room: { horizontal: { start: 124, end: 37 }, vertical: { start: 44, end: 30 } }, // for the names and values
   css: styles.box,
 }, (d) => (
   <div class={d.dim ? "slat dim" : "slat"} style={{ "--rhp-color": d.color }}>
-    <Label edge="start" class="photo"><div class="circle"><img src={d.photo} alt={d.name} /></div></Label>
+    <Label edge="start" class="name">{syllables(d.name)}</Label>
     <Bar from={d.box[0]} to={d.box[1]} thick="6px" class="whisker" />
     <Bar from={d.box[2]} to={d.box[3]} thick="6px" class="whisker" />
     <Tick at={d.box[0]} thick="19px" class="cap" />
     <Tick at={d.box[3]} thick="19px" class="cap" />
-    <Bar from={d.box[1]} to={d.box[2]} class="box"><span>{d.name}</span></Bar>
+    <Bar from={d.box[1]} to={d.box[2]} class="box"><img src={d.photo} alt="" /></Bar>
     <Label at={d.box[3]} class="value">{Math.round(d.box[3])}</Label>
   </div>
 ));

@@ -48,8 +48,13 @@ export default function Showcase(props) {
         <p class="showcase-kicker">Live from the gallery</p>
         <button type="button" class="showcase-shuffle" onClick={() => setShown(pick(props.entries, props.count ?? 4))}>Show others</button>
       </div>
+      {/* two columns, each a stack: a short plot leaves no hole under it, the next one follows */}
       <div class="showcase-grid">
-        <For each={shown()}>{(e) => <Poster entry={e} />}</For>
+        <For each={[0, 1]}>{(col) => (
+          <div class="showcase-column">
+            <For each={shown().filter((_, i) => i % 2 === col)}>{(e) => <Poster entry={e} />}</For>
+          </div>
+        )}</For>
       </div>
     </>
   );
