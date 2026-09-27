@@ -1,0 +1,20 @@
+---
+// Starlight's hero, except on the gallery page, which opens like a magazine's contents page: a kicker, a large title
+// and a lede, left-aligned above the plots. The text comes from the page's `hero` frontmatter either way.
+import type { Props } from '@astrojs/starlight/props';
+import DefaultHero from '@astrojs/starlight/components/Hero.astro';
+
+const gallery = Astro.props.entry.slug === 'gallery';
+const { title = Astro.props.entry.data.title, tagline } = Astro.props.entry.data.hero ?? {};
+---
+
+{gallery ? (
+	<header class="gallery-intro">
+		<p class="gallery-kicker">rhp 2 · Gallery</p>
+		{/* _top: Starlight's id for a page's title, which its skip link and table of contents point to */}
+		<h1 id="_top" data-page-title set:html={title} />
+		{tagline && <p class="gallery-lede" set:html={tagline} />}
+	</header>
+) : (
+	<DefaultHero {...Astro.props} />
+)}
