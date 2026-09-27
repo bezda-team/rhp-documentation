@@ -52,7 +52,19 @@ In the CSS version, set the timing in a row's CSS:
 .row { --rhp-length-time: .4s; --rhp-length-ease: ease-in-out; --rhp-slide-time: .5s; }
 ```
 
-In the JS version, pass `duration` (ms), `ease` and `slide` (ms) to `animate`.
+To time a whole chart at once, set the same variables on the Chart:
+
+```jsx
+<Chart style={{ "--rhp-length-time": ".4s", "--rhp-slide-time": ".5s" }}>…</Chart>
+```
+
+In the JS version, pass `duration` (ms), `ease` and `slide` (ms) to `animate`:
+
+```jsx
+<Chart animate={{ duration: 400, ease: "ease-in-out", slide: 200 }}>…</Chart>
+```
+
+Any time works, and 0 turns motion off: `--rhp-length-time: 0s` in the CSS version, or `duration: 0` in the JS version, and values jump straight to where they're going.
 
 ## Reduced motion
 
