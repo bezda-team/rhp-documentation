@@ -34,6 +34,29 @@ You build it from a few blocks, and rhp puts each block in its place on the char
 When your numbers change, the chart follows by itself.
 Only what changed moves: the bar that grew, and the rows that swap places.
 
+## Why it's built this way
+
+Look at the code under the chart above: it has two parts, and each has one job.
+
+- **The slat designs, the Chart assembles.**
+  The slat (`Row`) is a template for one row: which blocks it holds and how they look.
+  The Chart and its Plot put the rows together: the data, the scale and the order.
+  Change the design and every row follows; change the data and the design stays as it is.
+- **You write a row once, not once per bar.**
+  There are no loops to write, no code for each bar, and no copies to keep in step.
+  A fix to the slat fixes every row, in every chart that uses it.
+- **Blocks, not chart types.**
+  Instead of a catalog of chart types, each with its own options, rhp has six blocks you combine.
+  A bar chart, a box plot and a timeline are the same few blocks arranged differently, so a chart nobody planned for needs nothing new.
+- **Data goes in as columns.**
+  Each prop of a Plot is one column of your table (`fruit`, `sold`), and each row gets its values as `d.fruit` and `d.sold`.
+  A table from a spreadsheet or an API maps straight onto the chart.
+- **Logic and markup stay apart.**
+  A chart is a component: its state, sorting and event handlers live in the function, and its JSX only says what is drawn.
+- **Styles sit together.**
+  A slat's CSS lives beside it, or in a file of its own, as in the [gallery](/gallery/)'s examples.
+  You can restyle a chart without touching its data or its logic.
+
 ## Why rhp
 
 - **It's HTML (and CSS and JS).**
