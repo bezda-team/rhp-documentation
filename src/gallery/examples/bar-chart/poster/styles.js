@@ -18,9 +18,7 @@ export const scale = `
 .zero > [data-rhp-o="h"].num { padding-left: 4px; }
 [data-rhp-o="v"].num { left: -20px; bottom: calc(var(--rhp-p) * 100% + 8px); }
 .zero > [data-rhp-o="v"].num { bottom: calc(var(--rhp-p) * 100% + 4px); }
-/* On a narrow plot a number close to the max would run into it, so it fades out below 30px from the end.
-   tan(atan2(x, 1px)) is the length x as a plain number of px; 100cqw is the plot's length (horizontal). */
-.line > [data-rhp-o="h"].num, .tick > [data-rhp-o="h"].num { opacity: clamp(0, tan(atan2((1 - var(--rhp-p)) * 100cqw - 30px, 1px)), 1); }
+.num.crowded { visibility: hidden; }
 `;
 
 // A fruit: its name, its bar with the art cropped inside, and its value in the fruit's color. Hover a bar to outline it.

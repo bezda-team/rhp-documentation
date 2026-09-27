@@ -1,5 +1,5 @@
 import { createSignal, createMemo, createComputed, on } from "solid-js";
-import { Plot, Scale, Chart, Bar, Tick, Label, slat, sortBy, every } from "@bezda/rhp";
+import { Plot, Scale, Chart, Bar, Tick, Label, slat, useOrientation, sortBy, every } from "@bezda/rhp";
 import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
 // v1's cloud photos, re-encoded at the size they are shown.
@@ -18,12 +18,19 @@ import cirrocumulus from "./assets/cirrocumulus.jpg?url";
 export const V1Scale = slat({
   room: { horizontal: { before: 40, after: 13 }, vertical: { before: 24, end: 30, after: 13 } },
   css: styles.scale,
-}, (t) => (
-  <div class={t.first ? "zero" : t.last ? "end" : t.marks}>
-    <Tick at={t.at} thick={1} class="mark" />
-    <Label at={t.at} class="num">{Math.round(t.at)}</Label>
-  </div>
-));
+}, (t) => {
+  // A number just before the end would run into the end mark, so it's left out, and only then: horizontal, when its
+  // text (8px past its mark, about 8px a digit) would come within 3px of the end mark; vertical, when its line
+  // (19.5px tall, 8px above its mark) would. t.toEnd is the tick's distance to the end, in px.
+  const o = useOrientation();
+  const crowded = () => !t.first && !t.last && t.toEnd < (o() === "vertical" ? 31 : 11 + 8 * String(Math.round(t.at)).length);
+  return (
+    <div class={t.first ? "zero" : t.last ? "end" : t.marks}>
+      <Tick at={t.at} thick={1} class="mark" />
+      <Label at={t.at} class={crowded() ? "num crowded" : "num"}>{Math.round(t.at)}</Label>
+    </div>
+  );
+});
 
 const CLOUDS = ["stratocumulus", "cumulonimbus", "altocumulus", "cirrus", "nimbostratus", "cumulus", "cirrocumulus"];
 const PHOTOS = [stratocumulus, cumulonimbus, altocumulus, cirrus, nimbostratus, cumulus, cirrocumulus];

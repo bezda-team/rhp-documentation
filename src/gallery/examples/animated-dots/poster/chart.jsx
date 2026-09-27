@@ -1,4 +1,4 @@
-import { createSignal, onCleanup } from "solid-js";
+import { createSignal, onMount, onCleanup } from "solid-js";
 import { Plot, Chart, Dot, slat } from "@bezda/rhp";
 import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
@@ -38,9 +38,14 @@ export default function Dots(p) {
   onCleanup(() => clearInterval(timer));
   const hold = () => (clearInterval(timer), setShift(still));
   const resume = () => (clearInterval(timer), (timer = setInterval(step, 5000)));
+  // The window is 11 dots of 60px (with its gutters, 664px across, 544px when vertical); on a narrow page it zooms to fit.
+  const [room, setRoom] = createSignal(Infinity);
+  let fit;
+  onMount(() => { const ro = new ResizeObserver(([e]) => setRoom(e.contentRect.width)); ro.observe(fit); onCleanup(() => ro.disconnect()); });
+  const zoom = () => Math.min(1, room() / (p.o() === "vertical" ? 544 : 664));
   return (
-    <div class="dots-fit">
-      <div class="dots-window" onMouseEnter={hold} onMouseLeave={resume}>
+    <div class="dots-fit" ref={fit}>
+      <div class="dots-window" style={{ zoom: zoom() }} onMouseEnter={hold} onMouseLeave={resume}>
         <Chart orientation={p.o()} scale={[10, 21]} ticks={false} height={660} animate={p.js()} class="dots">
           <Plot art={LOGO} shift={shift()}>{DotRow}</Plot>
         </Chart>
