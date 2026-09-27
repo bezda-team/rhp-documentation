@@ -1,7 +1,7 @@
 # The gallery
 
-The gallery shows rhp 2 plots live, at `/gallery/` and `/gallery/<slug>/`, in the docs' look.
-It is drawn with SolidJS, next to the docs' React components, and every chart on it runs rhp in the page.
+The gallery shows rhp plots live, at `/gallery/` and `/gallery/<slug>/`, in the site's look.
+It is drawn with SolidJS, and every chart on it runs rhp in the page.
 
 ## Where things are
 
@@ -9,7 +9,7 @@ It is drawn with SolidJS, next to the docs' React components, and every chart on
 - `src/content/docs/gallery/<slug>.mdx`: a plot type's page (a splash page too), with its title and description, and under `gallery:` in the frontmatter its poster name, best orientation and features (the schema is in `src/content/config.ts`); the body says how it's built.
 - `src/gallery/examples/<slug>/poster/`: the gallery version, the one the card shows.
 - `src/gallery/examples/<slug>/simple/`: the simple version, the smallest code for the plot type.
-- `src/gallery/ui/`: the playground (controls, live chart, code panel), the code editor, the poster panel and the docs' chart themes.
+- `src/gallery/ui/`: the playground (controls, live chart, code panel), the code editor, the poster panel and the site's chart themes.
 - `src/customizations/components/gallery/`: the Astro pieces the pages use: the cards, an example with its header, and the pager.
 - `src/customizations/styles/gallery.css`: the posters' looks, the v1 replicas' page boxes, the playground and the gallery's pages, in Starlight's colors.
 - `src/assets/gallery/`: the cards' screenshots.
@@ -23,7 +23,7 @@ Each version is two files, and the page shows both.
 The CSS strings are editable on the page, and the chart restyles as you type: the playground passes each edited string to rhp's `restyle()` for every slat type `chart.jsx` exports with that string.
 So export every slat type from `chart.jsx`, and write each CSS string as `` export const name = `...` `` with no `${}` inside.
 An example's component takes `p.o()`, `p.js()` and `p.seed()`: the orientation, the JS animation version, and a count that "New data" bumps.
-The charts follow the docs' theme menu (Starlight's `data-theme`), dark or light.
+The charts follow the site's theme menu (Starlight's `data-theme`), dark or light.
 
 ## Adding an example
 
