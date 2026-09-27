@@ -31,7 +31,11 @@ try {
       await page.goto(`${base}/gallery/${slug}/`, { waitUntil: "networkidle" });
       const preview = page.locator('.playground[data-version="poster"] .pg-preview').first();
       await preview.waitFor();
-      await page.addStyleTag({ content: ".pg-preview .buttons { display: none !important; }" }); // a v1 replica's own buttons and slider
+      // Without a v1 replica's own buttons and slider, and with the page (and the box plot's card) transparent: a plot
+      // drawn on the page shows on the gallery card's color, and a poster's corners take whatever is behind them.
+      await page.addStyleTag({ content: `.pg-preview .buttons { display: none !important; }
+        html, body, .page, .main-frame, main, .content-panel, .playground, .pg-body, .pg-preview { background: transparent !important; }
+        .pg-preview .v1-card { background: transparent !important; box-shadow: none !important; }` });
       await page.evaluate(() => document.fonts.ready);
       await page.mouse.move(0, 0);
       await page.waitForTimeout(1200); // transitions settle; the animated dots move only after 5 s
