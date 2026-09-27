@@ -1,0 +1,28 @@
+---
+title: "Violin plot"
+description: "Where each instrument plays, drawn over a piano keyboard; point at one to light its range on the keys."
+template: splash
+gallery:
+  poster: "The string section"
+  simple: "A mirrored density per group, with its median."
+  order: 14
+  orientation: vertical
+  features: ["density()", "Area", "Scale", "focus as data"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="violin-plot" />
+
+## How it's built
+
+- **`density()`** feeds a mirrored Area per instrument, with one peak for all four, so their widths compare.
+- **The pitch scale is a keyboard**: a `Scale` with a slat per semitone, each key a Bar from `d.at` to `d.next`.
+- **Point at an instrument.** Its range goes to the Scale as data (`low`, `high`, `tint`), and the keys it reaches light up in its varnish.
+
+## The simple version
+
+<GalleryExample slug="violin-plot" version="simple" />
+
+<GalleryPager slug="violin-plot" />

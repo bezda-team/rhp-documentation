@@ -8,15 +8,30 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm install"
+    "reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm install",
+    "sync-rhp": "node scripts/sync-rhp.mjs",
+    "thumbnails": "node scripts/thumbnails.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^3.0.4",
+    "@astrojs/solid-js": "^3.0.3",
     "@astrojs/starlight": "^0.11.1",
     "@astrojs/starlight-tailwind": "^2.0.0",
     "@astrojs/tailwind": "^5.0.2",
     "@bezda/rhp-core": "^0.0.23",
+    "@codemirror/commands": "^6.11.1",
+    "@codemirror/lang-css": "^6.3.1",
+    "@codemirror/lang-javascript": "^6.2.5",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/state": "^6.7.6",
+    "@codemirror/view": "^6.43.13",
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
     "@legendapp/state": "^1.11.1",
+    "@lezer/common": "^1.5.3",
+    "@lezer/highlight": "^1.2.4",
     "@nextui-org/react": "^2.1.13",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
@@ -27,6 +42,10 @@
     "react-dom": "^18.2.0",
     "reactflow": "^11.9.4",
     "sharp": "^0.32.5",
+    "solid-js": "^1.9.15",
     "tailwindcss": "^3.3.5"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
   }
 }

@@ -1,0 +1,28 @@
+---
+title: "Histogram"
+description: "A year of daily highs in 2 \u00b0C bins, each bar in its own temperature's color."
+template: splash
+gallery:
+  poster: "365 afternoons"
+  simple: "Counts per bin from bins()."
+  order: 13
+  orientation: vertical
+  features: ["bins()", "colors from data", "hover"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="histogram" />
+
+## How it's built
+
+- **`bins()`** over 365 days gives `x0`, `x1` and `tally` per bin, three data groups for the Plot.
+- **Color from the bin.** Each Bar takes its temperature's color from a cool-to-hot ramp, shown in the key.
+- **Hover a bar** for its count of days. Horizontal puts the hottest bins on top, like a thermometer.
+
+## The simple version
+
+<GalleryExample slug="histogram" version="simple" />
+
+<GalleryPager slug="histogram" />

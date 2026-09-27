@@ -1,0 +1,28 @@
+---
+title: "Stem plot"
+description: "A bell's ring as stems from rest; click the wave to strike it again and watch the new ring run down it."
+template: splash
+gallery:
+  poster: "The sound of a bell"
+  simple: "A stem from zero and a dot at each value."
+  order: 16
+  orientation: vertical
+  features: ["Scale", "transition-delay", "click"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="stem-plot" />
+
+## How it's built
+
+- **A stem and a tip.** A 4px Bar from 0 to the sample and a glowing Dot at its end, both fading with time through a CSS variable on each slat.
+- **A one-tick `Scale`** draws the resting line.
+- **Click the wave** to strike again: each sample's transition starts 8 ms after the one before, so the new ring runs down the wave (in the CSS version).
+
+## The simple version
+
+<GalleryExample slug="stem-plot" version="simple" />
+
+<GalleryPager slug="stem-plot" />

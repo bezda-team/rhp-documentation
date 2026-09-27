@@ -1,0 +1,28 @@
+---
+title: "Waterfall"
+description: "A month's money step by step with running(); click an expense to cut it and watch the savings grow."
+template: splash
+gallery:
+  poster: "Where the salary goes"
+  simple: "Each step from the running total before it to the one after."
+  order: 11
+  orientation: horizontal
+  features: ["running()", "click handler", "data flow"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="waterfall" />
+
+## How it's built
+
+- **`running()`** turns the month's amounts into `from` and `to` for each step; a hairline Tick at each step's end links it to the next.
+- **Click an expense to cut it.** An expense's name is a button, and the poster listens for clicks. A signal of cut rows feeds `running()`, so the later steps, the savings and the headline figure all move together.
+- **A cut keeps its place.** The step has no length, and a dashed Bar shows where it was.
+
+## The simple version
+
+<GalleryExample slug="waterfall" version="simple" />
+
+<GalleryPager slug="waterfall" />

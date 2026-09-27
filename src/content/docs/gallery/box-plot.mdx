@@ -1,0 +1,29 @@
+---
+title: "Box and whisker"
+description: "v1's cloud plot: whiskers, caps and a box per cloud, with the cloud's photo in the start gutter."
+template: splash
+gallery:
+  poster: "Clouds (v1)"
+  simple: "Boxes and whiskers from summary(), one row per group."
+  order: 3
+  orientation: horizontal
+  theme: v1
+  features: ["Scale", "Tick", "gutter Label", "sortBy"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="box-plot" />
+
+## How it's built
+
+- **Five numbers, four blocks.** `d.box` is `[low, box start, box end, high]`: two 6px Bars for the whiskers, Ticks for the caps, and a Bar for the box with the cloud's name inside.
+- **A photo in the gutter.** The start gutter's Label holds a circle with the photo, zoomed in; hover a row and it zooms out.
+- **The slider** moves stratocumulus' box end, pushing its high whisker along, so you can watch the scale and the ranking follow.
+
+## The simple version
+
+<GalleryExample slug="box-plot" version="simple" />
+
+<GalleryPager slug="box-plot" />

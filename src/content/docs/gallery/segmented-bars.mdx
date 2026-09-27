@@ -1,0 +1,28 @@
+---
+title: "100% segmented bars"
+description: "Each person's apps as shares of a full battery; point at an app to follow it through everyone's day."
+template: splash
+gallery:
+  poster: "Where the battery goes"
+  simple: "Shares of 100, stacked in each bar."
+  order: 7
+  orientation: vertical
+  features: ["shares()", "stackUp()", "focus as data", "container query"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="segmented-bars" />
+
+## How it's built
+
+- **Shares, stacked.** `stackUp(shares(d.use))` turns each person's minutes into segments of 100, drawn inside a shell Bar a little larger than the track, with a Tick for the nub.
+- **Numbers only where they fit.** A segment under 9% hides its number; on a narrow battery (a container query) the cut is 16%.
+- **Point at an app**, in the key or in a battery, or click to pin it. The poster turns the pointer and the clicks into one app, passed to the Plot as `focus`: every battery lights that app and fades the rest.
+
+## The simple version
+
+<GalleryExample slug="segmented-bars" version="simple" />
+
+<GalleryPager slug="segmented-bars" />

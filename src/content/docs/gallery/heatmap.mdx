@@ -1,0 +1,28 @@
+---
+title: "Heatmap"
+description: "Seven days of 24 hours, each hour a Cell colored on the chart's scale by CSS."
+template: splash
+gallery:
+  poster: "Busy hours"
+  simple: "Cells in a grid, colored by value."
+  order: 18
+  orientation: horizontal
+  features: ["orientation=\"across\"", "Cell", "nested Plot"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="heatmap" />
+
+## How it's built
+
+- **A day per slat**, holding a Plot with `orientation="across"` of 24 Cells: the hours run across the day's band.
+- **Color by CSS.** A Cell mixes the theme's `low` and `high` colors by its value on the chart's scale.
+- **Hover a cell** for its title. The heatmap keeps rhp's plain look, in the page's colors.
+
+## The simple version
+
+<GalleryExample slug="heatmap" version="simple" />
+
+<GalleryPager slug="heatmap" />

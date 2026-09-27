@@ -76,7 +76,7 @@ Putting it together, we have something like this:
   </TabItem>
   <TabItem label="Chart">
   <div class="component-guide-s-plot grid justify-center ">
-    <TutorialSimpleBarPlotA client:only />
+    <TutorialSimpleBarPlotA client:only="react" />
   </div>
   </TabItem>
 </Tabs>
@@ -210,7 +210,7 @@ using the `segmentTemplate` prop.
   </TabItem>
   <TabItem label="Chart">
   <div class="component-guide-s-plot grid justify-center ">
-    <TutorialSimpleBarPlotA template={0} client:only />
+    <TutorialSimpleBarPlotA template={0} client:only="react" />
   </div>
   </TabItem>
 </Tabs>
@@ -236,7 +236,7 @@ In this tutorial, we will do just that. We will start with a template used for s
         style={{marginTop: "1.5rem"}} 
         height="350px" 
         showCCLabel={false}
-        client:only 
+        client:only="react" 
     />
   </TabItem>
 	<TabItem label="Template" >
@@ -316,7 +316,7 @@ We can also remove the rounded borders from the decorations and adjust spacing.
       style={{marginTop: "1.5rem"}} 
       height="350px" 
       template={0}
-      client:only 
+      client:only="react" 
     />
   </TabItem>
 	<TabItem label="Template" >
@@ -405,7 +405,7 @@ We can do that by changing `"bar-label": ["A"]` to `"bar-label": ["A", "B", "C",
       style={{marginTop: "1.5rem"}} 
       height="350px" 
       template={0}
-      client:only 
+      client:only="react" 
     />
   </TabItem>
 	<TabItem label="Template" >
@@ -488,7 +488,7 @@ In this tutorial, we will change it from `["var(--sl-color-text)"]` to `["red", 
       height="350px" 
       template={0}
       color={["red", "blue", "green", "yellow", "purple"]}
-      client:only 
+      client:only="react" 
     />
   </TabItem>
 	<TabItem label="Template" >
@@ -569,7 +569,7 @@ To do this, we first make a change to the template. We change the markup in the 
       height="350px" 
       template={0}
       color={["red", "blue", "green", "yellow"]}
-      client:only 
+      client:only="react" 
     />
   </TabItem>
 	<TabItem label="Template" >

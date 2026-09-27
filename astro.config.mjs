@@ -1,6 +1,8 @@
 import { defineConfig } from 'astro/config';
+import { fileURLToPath } from 'node:url';
 import starlight from '@astrojs/starlight';
 import react from "@astrojs/react";
+import solid from "@astrojs/solid-js";
 
 import tailwind from "@astrojs/tailwind";
 
@@ -60,6 +62,9 @@ export default defineConfig({
         }
       ]
     },{
+      label: 'Gallery',
+      link: '/gallery/'
+    },{
       label: 'Reference',
       autogenerate: {
         directory: 'reference'
@@ -72,8 +77,21 @@ export default defineConfig({
     components: {
       Header: './src/customizations/components/Header.astro'
     }
-  }), react(), tailwind({
+  }),
+  // React draws the docs' v1 components (src/customizations); Solid draws the gallery (src/gallery), which runs rhp 2.
+  react({ include: ["**/customizations/**"] }),
+  solid({ include: ["**/gallery/**"] }),
+  tailwind({
     // Disable the default base styles:
     applyBaseStyles: false,
-  })]
+  })],
+  vite: {
+    resolve: {
+      // "@bezda/rhp" is the build of rhp 2 in vendor/rhp (npm run sync-rhp) until rhp 2 is published: then install it and drop this alias.
+      alias: {
+        "@bezda/rhp": fileURLToPath(new URL("./vendor/rhp/index.js", import.meta.url)),
+        "@gallery": fileURLToPath(new URL("./src/gallery", import.meta.url)), // so the examples' code reads "@gallery/ui/Poster.jsx"
+      },
+    },
+  },
 });

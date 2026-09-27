@@ -1,0 +1,28 @@
+---
+title: "Values on hover"
+description: "Bars whose values show when you hover their row, with a compass needle in the gutter turned by the data."
+template: splash
+gallery:
+  poster: "Where the wind blows from"
+  simple: "Bars whose value fades in when you hover their row."
+  order: 4
+  orientation: horizontal
+  features: ["hover CSS", "gutter Label", "data in style"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="hover-values" />
+
+## How it's built
+
+- **Hover is CSS the slat owns.** `.slat:hover .knots > span { opacity: 1 }`: no state, no handler.
+- **The fade is inside the Label.** A transition set on a block would replace rhp's own, and the Label would jump to new values instead of moving with its bar.
+- **A needle turned by data.** The compass in the start gutter is plain HTML; its `rotate` comes from the row's quarter.
+
+## The simple version
+
+<GalleryExample slug="hover-values" version="simple" />
+
+<GalleryPager slug="hover-values" />

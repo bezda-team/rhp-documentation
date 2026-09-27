@@ -1,0 +1,67 @@
+---
+// The gallery page's cards: one per plot type, each showing its gallery version in the orientation it looks best in.
+// Cards keep their images' shapes, so they differ in height; a small script packs them into columns (masonry) in
+// reading order. Without it, they sit in plain rows. Images: src/assets/gallery (npm run thumbnails), with a dark
+// variant for the examples drawn on the page.
+import { getCollection } from "astro:content";
+import { getImage } from "astro:assets";
+import "../../styles/gallery.css";
+
+const entries = (await getCollection("docs", (e) => !!e.data.gallery)).sort((a, b) => a.data.gallery!.order - b.data.gallery!.order);
+const shots = import.meta.glob<{ default: ImageMetadata }>("../../../assets/gallery/*.png", { eager: true });
+const shot = (name: string) => shots[`../../../assets/gallery/${name}.png`]?.default;
+const variants = async (src: ImageMetadata) => {
+	const [small, large] = await Promise.all([360, 720].map((width) => getImage({ src, width, format: "webp" })));
+	return { src: large.src, srcset: `${small.src} 360w, ${large.src} 720w` };
+};
+const tiles = await Promise.all(entries.map(async (e) => {
+	const name = e.slug.replace("gallery/", ""), light = shot(name), dark = shot(name + "-dark");
+	return { e, light, onPage: !!dark, img: light && (await variants(light)), dark: dark && (await variants(dark)) };
+}));
+const sizes = "(min-width: 1100px) 330px, (min-width: 720px) 45vw, 92vw";
+---
+
+<ul class="gallery-tiles not-content">
+	{tiles.map(({ e, img, dark, light, onPage }) => (
+		<li class:list={["gallery-tile", e.data.gallery!.orientation, { "on-page": onPage }]}>
+			<a href={`/${e.slug}/`}>
+				<picture class="gallery-shot">
+					{dark && <source media="(prefers-color-scheme: dark)" srcset={dark.srcset} sizes={sizes} type="image/webp" data-dark />}
+					{img && <img src={img.src} srcset={img.srcset} sizes={sizes} width={light!.width} height={light!.height} alt={`${e.data.title}: ${e.data.gallery!.poster}`}
+						loading={e.data.gallery!.order > 6 ? "lazy" : "eager"} decoding="async" data-light-srcset={img.srcset} data-dark-srcset={dark?.srcset} />}
+				</picture>
+				<span class="gallery-meta">
+					<span class="gallery-num">{String(e.data.gallery!.order).padStart(2, "0")}</span>
+					<span class="gallery-title">{e.data.title}</span>
+					<span class="gallery-poster">{e.data.gallery!.poster}</span>
+				</span>
+			</a>
+		</li>
+	))}
+</ul>
+
+<script>
+	// Masonry in reading order: rows 4px tall, each card spanning as many as its height needs.
+	const grid = document.querySelector(".gallery-tiles");
+	if (grid) {
+		const GAP = 24, ROW = 4;
+		const lay = () => {
+			for (const tile of grid.children) (tile as HTMLElement).style.gridRowEnd = `span ${Math.ceil((tile.firstElementChild!.getBoundingClientRect().height + GAP) / ROW)}`;
+		};
+		grid.classList.add("masonry");
+		const ro = new ResizeObserver(lay);
+		for (const tile of grid.children) ro.observe(tile.firstElementChild!);
+	}
+	// The docs pick dark or light with their theme menu (data-theme on <html>), not only the system setting:
+	// the pictures drawn on the page follow it.
+	const pick = () => {
+		const dark = document.documentElement.dataset.theme !== "light";
+		for (const img of document.querySelectorAll<HTMLImageElement>(".gallery-tile.on-page img")) {
+			const set = dark ? img.dataset.darkSrcset : img.dataset.lightSrcset;
+			if (set && img.srcset !== set) img.srcset = set;
+		}
+	};
+	for (const s of document.querySelectorAll(".gallery-tile source[data-dark]")) s.remove(); // the script chooses instead
+	pick();
+	new MutationObserver(pick).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+</script>

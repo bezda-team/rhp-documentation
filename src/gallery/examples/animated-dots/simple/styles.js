@@ -1,0 +1,6 @@
+// A row of dots, clipped to the window, so the dots it shifts past the ends are hidden.
+export const row = `
+[data-rhp-o="h"] > .row { overflow-x: clip; }
+[data-rhp-o="v"] > .row { overflow-y: clip; }
+.dot { box-shadow: 0 2px 5px rgb(0 0 0 / .2); }
+`;

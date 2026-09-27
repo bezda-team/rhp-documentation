@@ -1,0 +1,28 @@
+---
+title: "Stacked bars"
+description: "Each drink's espresso, milk and foam stacked in one band with stackUp(), the last layer rounded like the cup."
+template: splash
+gallery:
+  poster: "Anatomy of a coffee"
+  simple: "Segments stacked end to end in each bar."
+  order: 6
+  orientation: vertical
+  features: ["stackUp()", "overlap Plot", "sortBy", "hover tag"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="stacked-bars" />
+
+## How it's built
+
+- **`stackUp(d.ml)`** in a memo per drink gives each layer its `from` and `to`; an overlap Plot lays the layers on one band.
+- **A shared data group** tells the last layer with anything in it to round the cup's end, and an empty layer hides.
+- **Hover a layer** to lift it and read its pour, from a tag inside the layer's Bar. The drink under the pointer comes over the others, since slats paint in data order.
+
+## The simple version
+
+<GalleryExample slug="stacked-bars" version="simple" />
+
+<GalleryPager slug="stacked-bars" />

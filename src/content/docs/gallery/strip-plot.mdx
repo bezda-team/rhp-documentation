@@ -1,0 +1,28 @@
+---
+title: "Strip plot"
+description: "Every patient as a capsule at their days to recover, with each group's average as a line."
+template: splash
+gallery:
+  poster: "Back on your feet sooner"
+  simple: "A dot per sample in each row, spread across it."
+  order: 15
+  orientation: horizontal
+  features: ["overlap Plot", "across", "Tick"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="strip-plot" />
+
+## How it's built
+
+- **An overlap Plot of Dots** per group, one per patient, each drawn as a capsule.
+- **Fixed jitter.** A patient's place across the band and its tilt are fixed functions of its index, so they stay put when the data changes.
+- **The average** is a Tick, with its number in the end gutter.
+
+## The simple version
+
+<GalleryExample slug="strip-plot" version="simple" />
+
+<GalleryPager slug="strip-plot" />

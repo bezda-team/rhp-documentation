@@ -1,0 +1,29 @@
+---
+title: "Grouped bars"
+description: "A medal table where each team's slat holds a Plot of its own, one medal per metal."
+template: splash
+gallery:
+  poster: "Gold rush"
+  simple: "Three bars per group, in their metals' colors."
+  order: 5
+  orientation: vertical
+  features: ["nested Plot", "sortBy", "key", "hover"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="grouped-bars" />
+
+## How it's built
+
+- **A Plot inside a slat.** Each team is a slat, and the slat holds a Plot of three counts: gold, silver and bronze. The inner Plot fills its team's band (`thick={0.86}` of it) and splits it three ways.
+- **A ribbon and a medal.** A count is a 3px Bar from 0 and a Dot at its value, with the number struck on the medal's face.
+- **Ranked like a medal table.** `sortBy` puts the most golds first, then silvers, then bronzes. Rows are keyed by name, so a team keeps its slat when the order changes and slides to its new place.
+- **Hover a count.** The medal lifts off the table: its face is an element inside the Dot, so it can grow and cast a shadow on its own time while rhp moves the Dot.
+
+## The simple version
+
+<GalleryExample slug="grouped-bars" version="simple" />
+
+<GalleryPager slug="grouped-bars" />

@@ -1,0 +1,17 @@
+---
+// The way to the plots before and after this one, and back to all of them.
+import { getCollection } from "astro:content";
+
+interface Props {
+	slug: string;
+}
+const entries = (await getCollection("docs", (e) => !!e.data.gallery)).sort((a, b) => a.data.gallery!.order - b.data.gallery!.order);
+const i = entries.findIndex((e) => e.slug === `gallery/${Astro.props.slug}`);
+const prev = entries[i - 1], next = entries[i + 1];
+---
+
+<nav class="gallery-pager not-content" aria-label="More plots">
+	{prev ? <a class="prev" href={`/${prev.slug}/`}><small>Previous</small>{prev.data.title}</a> : <span />}
+	<a class="all" href="/gallery/">All plots</a>
+	{next ? <a class="next" href={`/${next.slug}/`}><small>Next</small>{next.data.title}</a> : <span />}
+</nav>

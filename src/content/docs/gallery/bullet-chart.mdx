@@ -1,0 +1,28 @@
+---
+title: "Bullet chart"
+description: "Progress toward each day's goal on a track to 120%, glowing like a watch face."
+template: splash
+gallery:
+  poster: "Today's goals"
+  simple: "A track, the progress along it, and a target line."
+  order: 12
+  orientation: vertical
+  features: ["Tick target", "SVG in a Label", "hover"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="bullet-chart" />
+
+## How it's built
+
+- **Three blocks per goal.** A track Bar to 120, the progress Bar, and a white Tick at the goal (100).
+- **Icons in the gutter.** SVG paths in the start Label, colored by the row's `--rhp-color`.
+- **Hover a goal** for what it comes to in its own unit, in a bubble at the tip of the progress.
+
+## The simple version
+
+<GalleryExample slug="bullet-chart" version="simple" />
+
+<GalleryPager slug="bullet-chart" />

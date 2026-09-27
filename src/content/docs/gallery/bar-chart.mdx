@@ -1,0 +1,29 @@
+---
+title: "Bar chart"
+description: "v1's live demo with its data, colors and fruit art: each bar crops an image, and the scale is a Scale of its own."
+template: splash
+gallery:
+  poster: "Fruit bars (v1)"
+  simple: "Bars with their names and values, sorted, on the chart's own axis."
+  order: 2
+  orientation: horizontal
+  theme: v1
+  features: ["Scale", "every()", "sortBy", "images in bars"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+
+<GalleryExample slug="bar-chart" />
+
+## How it's built
+
+- **Art inside a Bar.** The fruit is an `<img>` inside the Bar, which crops it; the image fills the bar's length up to 300px.
+- **v1's scale is a `Scale`.** One slat per tick from `every(5, { ends: true })`, a mark and its number. The scale ends at the largest value, so it refits as the data changes.
+- **Drag Fruit A** to watch the scale refit and the rows re-rank; **Rank** and **Desaturate** are v1's buttons.
+
+## The simple version
+
+<GalleryExample slug="bar-chart" version="simple" />
+
+<GalleryPager slug="bar-chart" />

@@ -1,0 +1,39 @@
+---
+// An example on its gallery page: the playground (the live chart, its controls and its code) for the gallery version
+// or the simple one. Above the gallery version, the example's header: where it sits in the gallery, what it is,
+// and the rhp features it shows. The playground is a Solid island, drawn in the browser (rhp doesn't render on a server).
+import { getEntry, getCollection } from "astro:content";
+import ExamplePlayground from "../../../gallery/ExamplePlayground.jsx";
+// the posters' fonts, served from the site
+import "@fontsource-variable/fraunces/opsz.css";
+import "@fontsource-variable/fraunces/opsz-italic.css";
+import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource/barlow-condensed/500.css";
+import "@fontsource/barlow-condensed/600.css";
+import "@fontsource/barlow-condensed/700.css";
+import "@fontsource/barlow-condensed/800.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource/ibm-plex-mono/600.css";
+import "../../styles/gallery.css";
+
+interface Props {
+	slug: string; // src/gallery/examples/<slug>
+	version?: "poster" | "simple";
+}
+const { slug, version = "poster" } = Astro.props;
+const entry = await getEntry("docs", `gallery/${slug}`);
+if (!entry?.data.gallery) throw new Error(`No gallery entry for ${slug}`);
+const g = entry.data.gallery;
+const count = (await getCollection("docs", (e) => !!e.data.gallery)).length;
+---
+
+{version === "poster" && (
+	<div class="gallery-head not-content">
+		<p class="gallery-kicker"><a href="/gallery/">← Gallery</a><span>{String(g.order).padStart(2, "0")} of {count}</span><span>{g.poster}</span></p>
+		<p class="gallery-lede">{entry.data.description}</p>
+		<ul class="gallery-chips" aria-label="rhp features">{g.features.map((f) => <li>{f}</li>)}</ul>
+	</div>
+)}
+{version === "simple" && <p>{g.simple} The same structure with almost no styling: a good place to start your own.</p>}
+<ExamplePlayground client:only="solid-js" id={slug} version={version} orientation={g.orientation} theme={version === "poster" ? g.theme : "site"} />
