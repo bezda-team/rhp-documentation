@@ -15,10 +15,11 @@ export const layer = `
 .pour { position: absolute; left: 50%; bottom: calc(100% + 10px); display: grid; justify-items: center; gap: 3px;
   padding: 7px 11px 6px; border-radius: 9px; background: #2b1b12; color: #f3ebe0; box-shadow: 0 6px 14px -6px rgb(43 27 18 / .6);
   font: 600 10.5px/1 var(--rhp-font); letter-spacing: .05em; white-space: nowrap; pointer-events: none;
-  opacity: 0; translate: -50% 5px; transition: opacity .15s, translate .15s; }
+  opacity: 0; translate: -50% 5px; }
 .pour b { font: italic 700 16px/1 "Fraunces Variable", Georgia, serif; letter-spacing: 0; }
 .pour::after { content: ""; position: absolute; top: 100%; left: 50%; translate: -50% 0; border: 5px solid transparent; border-top-color: #2b1b12; }
-.layer:hover > .pour { opacity: 1; translate: -50% 0; }
+/* It fades in, and goes at once: the layer drops back when the pointer leaves, and a fading pour would sink behind the others. */
+.layer:hover > .pour { opacity: 1; translate: -50% 0; transition: opacity .15s, translate .15s; }
 `;
 
 // A drink: its name in italics, the cup's shadow, and its total.

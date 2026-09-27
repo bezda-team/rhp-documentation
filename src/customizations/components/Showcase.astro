@@ -1,6 +1,7 @@
 ---
 // The home page's showcase: four gallery posters, live, picked at random on each visit (src/gallery/Showcase.jsx),
-// in two columns, each stacked, the same gap between plots across and down. It sits between the hero and the cards.
+// in two columns, each stacked, the same gap between plots across and down; a fifth fills the shorter column when it
+// has room. It sits between the hero and the cards.
 import { getCollection } from "astro:content";
 import Showcase from "../../gallery/Showcase.jsx";
 // the posters' fonts and styles, as on a gallery page
@@ -16,12 +17,18 @@ import "@fontsource/ibm-plex-mono/500.css";
 import "@fontsource/ibm-plex-mono/600.css";
 import "../styles/gallery.css";
 
-const entries = (await getCollection("docs", (e) => !!e.data.gallery)).map((e) => ({
-	id: e.slug.replace("gallery/", ""),
-	title: e.data.title,
-	orientation: e.data.gallery!.orientation,
-	theme: e.data.gallery!.theme,
-}));
+// Each example's gallery thumbnail, for a guess at how tall it draws: taken at 2x, about as wide as a showcase column.
+const shots = import.meta.glob<{ default: ImageMetadata }>("../../assets/gallery/*.png", { eager: true });
+const entries = (await getCollection("docs", (e) => !!e.data.gallery)).map((e) => {
+	const id = e.slug.replace("gallery/", ""), shot = shots[`../../assets/gallery/${id}.png`]?.default;
+	return {
+		id,
+		title: e.data.title,
+		orientation: e.data.gallery!.orientation,
+		theme: e.data.gallery!.theme,
+		height: shot ? shot.height / 2 : 400,
+	};
+});
 ---
 
 <section class="showcase not-content" aria-label="Live plots from the gallery">
@@ -74,9 +81,15 @@ const entries = (await getCollection("docs", (e) => !!e.data.gallery)).map((e) =
 		align-items: start;
 	}
 	.showcase-column {
+		position: relative;
 		display: grid;
 		gap: 2rem;
 		min-width: 0;
+	}
+	.showcase-item[data-trial] {
+		position: absolute;
+		inset: 0 0 auto;
+		visibility: hidden;
 	}
 	.showcase-item {
 		margin: 0;
@@ -123,6 +136,10 @@ const entries = (await getCollection("docs", (e) => !!e.data.gallery)).map((e) =
 		}
 		.showcase-column {
 			display: contents;
+		}
+		/* one column has no room to fill */
+		.showcase-extra {
+			display: none;
 		}
 	}
 </style>
