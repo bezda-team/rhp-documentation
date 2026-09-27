@@ -1,0 +1,29 @@
+---
+// Starlight's page title. On a gallery plot page, a link back to the gallery sits above it.
+import type { Props } from '@astrojs/starlight/props';
+import DefaultPageTitle from '@astrojs/starlight/components/PageTitle.astro';
+
+const plot = Boolean(Astro.props.entry.data.gallery);
+---
+
+{plot ? (
+	<div>
+		<a class="gallery-back" href="/gallery/">← Gallery</a>
+		<DefaultPageTitle {...Astro.props} />
+	</div>
+) : (
+	<DefaultPageTitle {...Astro.props} />
+)}
+
+<style>
+	.gallery-back {
+		font: 600 12.5px/1.4 var(--poster-mono, var(--sl-font-system-mono));
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		text-decoration: none;
+		color: var(--sl-color-text);
+	}
+	.gallery-back:hover {
+		color: var(--sl-color-white);
+	}
+</style>

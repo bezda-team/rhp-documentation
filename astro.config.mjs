@@ -76,7 +76,8 @@ export default defineConfig({
     './src/customizations/styles/custom1.css'],
     components: {
       Header: './src/customizations/components/Header.astro',
-      Hero: './src/customizations/components/Hero.astro' // the default hero, except on the gallery page
+      Hero: './src/customizations/components/Hero.astro', // the default hero, except on the gallery page
+      PageTitle: './src/customizations/components/PageTitle.astro' // the default title, with a link back above it on a gallery plot page
     }
   }),
   // React draws the docs' v1 components (src/customizations); Solid draws the gallery (src/gallery), which runs rhp 2.

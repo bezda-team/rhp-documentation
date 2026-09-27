@@ -177,16 +177,13 @@
 .gallery-lede { margin: 0; font-size: var(--sl-text-lg); line-height: 1.55; color: var(--sl-color-text); max-width: 60ch; }
 .gallery-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 0; padding: 0; list-style: none; }
 .gallery-chips li { padding: 3px 11px; border-radius: 999px; font: 500 13px/1.5 var(--sl-font-mono, var(--sl-font-system-mono)); color: var(--sl-color-text); background: var(--gallery-card); border: 1px solid var(--sl-color-gray-5); }
-.gallery-pager { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; margin-top: 2.5rem; }
+.gallery-pager { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; gap: 12px; margin-top: 2.5rem; }
 .gallery-pager a { text-decoration: none; color: var(--sl-color-text); }
 .gallery-pager .prev, .gallery-pager .next { display: grid; gap: 2px; padding: 14px 18px; border-radius: var(--gallery-radius); background: var(--gallery-card);
   border: 1px solid var(--sl-color-gray-5); box-shadow: var(--sl-shadow-md); font-size: var(--sl-text-lg); font-weight: 600; color: var(--sl-color-white); }
 .gallery-pager .next { text-align: right; }
 .gallery-pager small { font-size: 13px; font-weight: 400; color: var(--sl-color-gray-3); }
-.gallery-pager .all { font-size: 15px; }
-.gallery-pager .all:hover { color: var(--sl-color-white); }
 .gallery-pager :is(.prev, .next):hover { border-color: var(--sl-color-gray-2); }
-@media (max-width: 640px) { .gallery-pager { grid-template-columns: 1fr 1fr; } .gallery-pager .all { grid-column: 1 / -1; grid-row: 2; text-align: center; } }
 
 /* The gallery page, laid out like a magazine's contents: a kicker, a large title and a lede, then the plots themselves
    in columns of about 330px, each with its number, type and headline below. A poster brings its own paper; the plots
