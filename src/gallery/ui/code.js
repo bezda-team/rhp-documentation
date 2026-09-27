@@ -101,11 +101,13 @@ export function editStyles(parent, text, onCss) {
     if (!u.docChanged) return;
     for (const p of cssParts(u.state.doc.toString())) if (last[p.name] !== p.css) { last[p.name] = p.css; onCss(p.name, p.css); }
   });
-  return new EditorView({
+  const view = new EditorView({
     parent,
     state: EditorState.create({ doc: text, extensions: [...base, stylesLanguage, EditorView.lineWrapping, EditorView.editorAttributes.of({ class: "cm-wrap" }),
       history(), highlightActiveLine(), keymap.of([...defaultKeymap, ...historyKeymap]), ranges, onlyCss, report] }),
   });
+  parent.editor = view; // for tools and tests (scripts/check-styles.mjs): the editor shows only the lines in view
+  return view;
 }
 
 /** Puts each export's CSS back as it is in `text`, in one change that undo can take back. */

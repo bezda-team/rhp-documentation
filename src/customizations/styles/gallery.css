@@ -199,12 +199,15 @@
 .gallery-tiles.masonry { grid-auto-rows: 4px; row-gap: 0; }
 .gallery-tile a { display: block; text-decoration: none; color: inherit; }
 .gallery-tile a:focus-visible { outline: none; }
-.gallery-shot { display: block; border-radius: 16px; box-shadow: var(--gallery-lift); transition: translate .25s cubic-bezier(.2, .8, .3, 1), box-shadow .25s, border-color .25s; }
+.gallery-shot { display: block; border-radius: 16px; box-shadow: var(--gallery-lift); outline: 1px solid transparent; outline-offset: -1px;
+  transition: translate .25s cubic-bezier(.2, .8, .3, 1), box-shadow .25s, border-color .25s, outline-color .25s; }
 .gallery-shot img { display: block; width: 100%; height: auto; border-radius: 16px; }
-.gallery-tile.on-page .gallery-shot { padding: 14px; border-radius: var(--gallery-radius); background: var(--gallery-card); border: 1px solid var(--sl-color-gray-5); box-shadow: var(--sl-shadow-md); }
+.gallery-tile.on-page .gallery-shot { padding: 14px; background: var(--gallery-card); border: 1px solid var(--sl-color-gray-5); box-shadow: var(--sl-shadow-md); }
 .gallery-tile.on-page .gallery-shot img { border-radius: 4px; }
 .gallery-tile a:is(:hover, :focus-visible) .gallery-shot { translate: 0 -4px; box-shadow: var(--gallery-lift-hover); }
+/* On hover every card gets a light outline: the cards drawn on the page brighten their border, the pictures get a ring. */
 .gallery-tile.on-page a:is(:hover, :focus-visible) .gallery-shot { border-color: var(--sl-color-gray-2); }
+.gallery-tile:not(.on-page) a:hover .gallery-shot { outline-color: var(--sl-color-gray-2); }
 .gallery-tile a:focus-visible .gallery-shot { outline: 2px solid var(--gallery-accent); outline-offset: 3px; }
 .gallery-meta { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; align-items: baseline; padding: 14px 4px 0; }
 .gallery-num { grid-row: span 2; font: 600 12px/1.6 var(--poster-mono); letter-spacing: .08em; color: var(--gallery-accent-ink); }

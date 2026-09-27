@@ -9,7 +9,7 @@ const HourCell = (day) => (h) => {
   const o = useOrientation(); // the cells' own orientation: across the day's
   return (
     <div>
-      <Cell value={h.v} title={`${day.day} ${h.index}:00, ${Math.round(h.v)}`} />
+      <Cell value={h.v} title={`${day.day} ${h.index}:00, ${Math.round(h.v)}`} class="cell" />
       <Show when={day.index === 0 && h.index % 3 === 0}>
         <Label edge={o() === "vertical" ? "end" : "start"} class="hour">{h.index}</Label>
       </Show>

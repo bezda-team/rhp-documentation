@@ -10,7 +10,8 @@
     "astro": "astro",
     "reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm install",
     "sync-rhp": "node scripts/sync-rhp.mjs",
-    "thumbnails": "node scripts/thumbnails.mjs"
+    "thumbnails": "node scripts/thumbnails.mjs",
+    "check-styles": "node scripts/check-styles.mjs"
   },
   "dependencies": {
     "@astrojs/solid-js": "^3.0.3",

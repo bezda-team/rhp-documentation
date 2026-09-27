@@ -32,10 +32,10 @@ const max = 25;
 	<div class="panel template">
 		<p class="step">The one row you describe</p>
 		<div class="row">
-			<span class="slot">d.name</span>
-			<span class="slot picture"><span class="pic empty" />d.picture</span>
-			<span class="bar empty">d.value</span>
-			<span class="slot">d.value</span>
+			<span class="part"><code class="tag">&lt;Label&gt;</code><span class="slot">d.name</span></span>
+			<span class="part"><code class="tag">&lt;img&gt;</code><span class="slot picture"><span class="pic empty" />d.picture</span></span>
+			<span class="part grow"><code class="tag">&lt;Bar&gt;</code><span class="bar empty">d.value</span></span>
+			<span class="part"><code class="tag">&lt;Label&gt;</code><span class="slot">d.value</span></span>
 		</div>
 		<p class="caption">Build once, from blocks: a Label, a picture, a Bar and a Label.</p>
 	</div>
@@ -164,10 +164,34 @@ const max = 25;
 	}
 	.template .row {
 		flex-wrap: wrap;
+		align-items: end;
 		align-self: center;
 		padding: 0.5rem;
 		border-radius: 0.5rem;
 		background: color-mix(in srgb, var(--diagram-accent) 10%, transparent);
+	}
+	.part {
+		display: grid;
+		gap: 0.2rem;
+		min-width: 0;
+	}
+	.part.grow {
+		flex: 1 1 6rem;
+	}
+	.template .part > :last-child { /* the boxes: one height, so their tags line up */
+		box-sizing: border-box;
+		height: 1.9rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.tag {
+		padding: 0;
+		background: none;
+		font-family: var(--sl-font-system-mono);
+		font-size: 0.7rem;
+		color: var(--diagram-accent);
+		white-space: nowrap;
 	}
 	.slot {
 		flex: none;
@@ -184,7 +208,6 @@ const max = 25;
 		background: var(--hue);
 	}
 	.bar.empty {
-		flex: 1 1 6rem;
 		min-width: 0;
 		overflow: hidden;
 		height: auto;

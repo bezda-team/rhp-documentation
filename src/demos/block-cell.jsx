@@ -17,7 +17,9 @@ export default function Visitors() {
             <Label edge="start">{d.day}</Label>
             <Plot orientation="across" count={d.hours}>
               {(h) => (
-                <Cell value={h.count} title={h.count + " visitors"} />
+                <div>
+                  <Cell value={h.count} title={h.count + " visitors"} />
+                </div>
               )}
             </Plot>
           </div>
