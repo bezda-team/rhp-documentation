@@ -15,14 +15,14 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 <GalleryExample slug="histogram" />
 
+## The simple version
+
+<GalleryExample slug="histogram" version="simple" />
+
 ## How it's built
 
 - **`bins()`** over 365 days gives `x0`, `x1` and `tally` per bin, three data groups for the Plot.
 - **Color from the bin.** Each Bar takes its temperature's color from a cool-to-hot ramp, shown in the key.
 - **Hover a bar** for its count of days. Horizontal puts the hottest bins on top, like a thermometer.
-
-## The simple version
-
-<GalleryExample slug="histogram" version="simple" />
 
 <GalleryPager slug="histogram" />

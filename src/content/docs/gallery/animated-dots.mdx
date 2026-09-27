@@ -16,14 +16,14 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 <GalleryExample slug="animated-dots" />
 
+## The simple version
+
+<GalleryExample slug="animated-dots" version="simple" />
+
 ## How it's built
 
 - **Rows of dots.** Each row is a slat holding an overlap Plot of 30 Dots, lit or not from a line of the logo's art (`#` is lit).
 - **A window, not a canvas.** The scale is 11 dots wide and each row clips its dots to it (`overflow-x: clip` in the slat's CSS), so a row can shift 4 dots one way or 5 the other and the window stays full.
 - **Motion is data.** Every 5 seconds a signal gives the middle rows new shifts, and the next time it puts them back. Hover the window to hold the logo; **New data** scatters it now.
-
-## The simple version
-
-<GalleryExample slug="animated-dots" version="simple" />
 
 <GalleryPager slug="animated-dots" />

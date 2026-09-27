@@ -15,14 +15,14 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 <GalleryExample slug="population-pyramid" />
 
+## The simple version
+
+<GalleryExample slug="population-pyramid" version="simple" />
+
 ## How it's built
 
 - **Two Bars per band.** Men from `-(value + SPINE)` to `-SPINE`, women from `SPINE` to `value + SPINE`, so the ages fit on a spine between them.
 - **Order is data.** Horizontal, a list of positions puts the oldest band on top, like a pyramid; vertical keeps data order.
 - **The scale fits the widest band**, rounded up, on both sides.
-
-## The simple version
-
-<GalleryExample slug="population-pyramid" version="simple" />
 
 <GalleryPager slug="population-pyramid" />

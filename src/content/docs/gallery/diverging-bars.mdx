@@ -15,14 +15,14 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 <GalleryExample slug="diverging-bars" />
 
+## The simple version
+
+<GalleryExample slug="diverging-bars" version="simple" />
+
 ## How it's built
 
 - **Color from the value.** Each month's Bar takes a color from a blue, gray and red ramp; its band is tinted with the same color through a CSS variable on the slat.
 - **The scale is a `Scale`.** A hairline each degree, with 0 drawn brighter and named "normal".
 - **Labels on the outside.** A negative bar's value sits before its end (`side="before"`).
-
-## The simple version
-
-<GalleryExample slug="diverging-bars" version="simple" />
 
 <GalleryPager slug="diverging-bars" />
