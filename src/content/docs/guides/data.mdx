@@ -12,7 +12,7 @@ You can pass the data in three ways, and mix them.
 
 Every prop you give a Plot (other than its settings, such as `order`) is a piece of data:
 
-- **A list** gives one item to each row: row 3 gets item 3. The longest list sets how many rows there are.
+- **A list** gives each row its own entry: row 3 gets the third name, the third number, the third picture. The longest list sets how many rows there are.
 - **A single value** is shared by every row.
 - **A function of `d`** is worked out for each row, and again only when what it reads changes.
 
@@ -35,7 +35,7 @@ You can combine `rows` with lists and functions: a prop wins over a field with t
 By default, a row is its number: the first row, the second row.
 If you remove the first city, every row after it takes the data of the one below, and they all move.
 
-Give the Plot a `key`, a field that names each row, and a row follows its item instead.
+Give the Plot a `key`, a field that names each row, and a row follows its city instead.
 Removing a city then removes its row, and the others stay where they are.
 
 <Demo name="data-keys" height={200} />

@@ -4,7 +4,7 @@ export default function Weather() {
   return (
     <Chart scale={[0, 30]}>
       <Plot
-        // a list: one item per row
+        // a list: each row gets its own entry
         city={["Oslo", "Rome", "Cairo"]}
         temp={[6, 16, 27]}
         // one value: shared by every row
