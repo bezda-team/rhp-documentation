@@ -16,7 +16,7 @@ Set them on a block, or on the row to reach all its blocks.
 
 | Variable | Default | |
 |---|---|---|
-| `--rhp-radius` | `2px` | a Bar's corners |
+| `--rhp-radius` | `2px` | a Bar's corners: one length (for different corners, use the next two or `border-radius`) |
 | `--rhp-start-radius` | `--rhp-radius` | the corners where a Bar starts |
 | `--rhp-end-radius` | `--rhp-radius` | the corners where a Bar ends (its value) |
 | `--rhp-gap` | `0px` | empty space at the start of a Bar |
