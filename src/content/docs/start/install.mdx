@@ -1,0 +1,71 @@
+---
+title: Install
+description: Add rhp to a project, or use it in a plain HTML page with no build step.
+---
+
+Pick the way that fits you.
+
+## In a new project
+
+This makes a small Solid app with [Vite](https://vite.dev) and adds rhp to it:
+
+```sh
+npm create vite@latest my-charts -- --template solid
+cd my-charts
+npm install @bezda/rhp
+npm run dev
+```
+
+Then open `src/App.jsx`, replace what's there with the code from [your first chart](/start/first-chart/), and save.
+The page in your browser updates as you type.
+
+## In a Solid project you already have
+
+```sh
+npm install @bezda/rhp
+```
+
+rhp has no stylesheet to import: it brings its own CSS the first time a chart appears.
+
+## In a plain HTML page
+
+No npm, no build step: load rhp from a CDN in a `<script type="module">`.
+This file has Solid built in (27 kB gzipped).
+
+Without a build step there is no JSX, so you write rows with Solid's `html` template instead.
+It's the same chart, with two differences:
+
+- a component is written `<${Bar} …>` and closed with `<//>`
+- a value that changes is wrapped in a function: `${() => d.sold}`
+
+```html
+<div id="chart"></div>
+
+<script type="module">
+  import { Chart, Plot, Bar, Label, html, render } from "https://cdn.jsdelivr.net/npm/@bezda/rhp@2/dist/standalone.js";
+
+  const row = (d) => html`
+    <div>
+      <${Label} edge="start">${() => d.fruit}<//>
+      <${Bar} to=${() => d.sold} />
+      <${Label} at=${() => d.sold}>${() => d.sold}<//>
+    </div>`;
+
+  render(() => html`
+    <${Chart} scale=${[0, 30]}>
+      <${Plot} fruit=${["Apples", "Bananas", "Cherries"]} sold=${[12, 18, 7]}>${row}<//>
+    <//>`, document.getElementById("chart"));
+</script>
+```
+
+The same file also gives you `createSignal`, `createMemo`, `createStore` and Solid's other basics, so data that changes works the same way as in the rest of these pages.
+
+## In a React, Vue or Svelte app
+
+rhp draws into any element on the page, so it can live inside apps built with other libraries.
+See [other frameworks](/guides/other-frameworks/).
+
+## Browsers
+
+rhp works in current versions of Chrome, Edge, Safari and Firefox.
+It draws in the browser only: it doesn't render on a server yet.

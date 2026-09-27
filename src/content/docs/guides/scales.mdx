@@ -1,0 +1,47 @@
+---
+title: Scales and axes
+description: Set the chart's scale, choose its ticks and number format, or draw the scale your own way.
+---
+
+import Demo from '../../../customizations/components/Demo.astro';
+
+## The scale
+
+`scale` on the Chart sets the range of values it shows, as `[min, max]`.
+Every block in every Plot of the chart uses it.
+
+```jsx
+<Chart scale={[0, 100]}>…</Chart>
+<Chart scale={[-40, 40]}>…</Chart>      // negative values run the other way
+<Chart scale={[0, Math.max(...values())]}>…</Chart> // a scale that follows the data
+```
+
+When the scale changes, everything on it moves together.
+A Bar that runs past the scale is cut at its end; dots and labels are drawn where their values are.
+
+## The axis
+
+The Chart draws an axis on its own: grid lines with numbers.
+
+- `ticks` picks the lines: a list (`[0, 25, 50, 75, 100]`), a rough count (`5`), or `false` for none.
+- `format` turns a value into its text: `(v) => v + "%"`.
+
+<Demo name="scale-axis" height={170} />
+
+## Drawing the scale yourself
+
+For a scale that looks different (dashed lines, numbers in a pill, bands between ticks), put a `Scale` in the Chart.
+A Scale is a Plot of ticks: its row is drawn once per tick, and gets `d.at`, the tick's value.
+
+<Demo name="scale-custom" height={220} />
+
+A Scale row also gets:
+
+- `d.next`, the next tick's value, to fill the space between two ticks,
+- `d.first` and `d.last`, true at the two ends,
+- `d.toEnd`, how far the tick is from the end of the scale in pixels, to leave out a number that would crowd the end.
+
+`every(10)` gives a tick at each multiple of 10.
+`every(10, { ends: true })` adds the scale's two ends as ticks.
+
+A Chart with a Scale in it draws no axis of its own.

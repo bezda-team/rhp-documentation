@@ -1,0 +1,35 @@
+---
+title: Layout and orientation
+description: Turn charts vertical, set row heights and make room for names and numbers.
+---
+
+import Demo from '../../../customizations/components/Demo.astro';
+
+## Horizontal or vertical
+
+`orientation` on the Chart sets the direction bars run:
+
+- `"horizontal"` (the default): bars run left to right, and rows stack top to bottom.
+- `"vertical"`: bars run bottom to top, and rows sit side by side, as columns.
+
+The same rows work both ways: labels, gaps and rounded ends follow the turn.
+A vertical chart is 240px tall unless you set `height` on the Chart.
+
+## Row size and room for text
+
+`slat()` takes two layout settings besides `css`:
+
+- `band`: each row's height in a horizontal chart, in px (32 by default). In a vertical chart, columns share the width unless `band` sets theirs.
+- `room`: the space the row's labels need outside the chart, in px. `start` is before the chart, where names go; `end` is after it, where numbers go past the bars.
+
+<Demo name="layout" height={180} />
+
+`room` can also hold `before` and `after`: space above the first row and below the last.
+When the settings differ by direction, give each its own: `band: { horizontal: 40, vertical: 60 }`.
+
+The chart makes room for the largest `room` any of its rows ask for, and for its axis numbers.
+
+## Width
+
+A chart is as wide as the element it's in, like any block of HTML.
+Set its width with CSS on a wrapper, or with `class` or `style` on the Chart.

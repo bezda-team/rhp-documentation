@@ -1,0 +1,67 @@
+---
+title: Sorting and motion
+description: Sort rows with order and sortBy, and choose how values move, with CSS transitions or the JS version.
+---
+
+import Demo from '../../../customizations/components/Demo.astro';
+
+## Sorting
+
+`order` sets where each row sits.
+The easiest way is `sortBy`:
+
+```jsx
+<Plot … order={sortBy("votes", "desc")}>   // largest first
+<Plot … order={sortBy("votes")}>           // smallest first
+<Plot … order={sortBy((d) => d.name)}>     // by any value
+```
+
+Rows with equal values keep their places, so ties don't flicker.
+
+`order` can also be a list of positions, one per row: `[2, 0, 1]` puts the first row third.
+A position of `null` hides that row.
+
+<Demo name="motion" height={260} />
+
+## How things move
+
+When a value changes, its bar grows or shrinks, and when the order changes, rows slide to their new places.
+rhp has two ways to do this.
+
+**The CSS version** is the default.
+The browser animates each change with CSS transitions: 0.15 s for values, 0.3 s for rows sliding.
+It costs almost nothing, even with many charts.
+
+**The JS version** moves the numbers themselves, frame by frame, on one clock for the whole page.
+Turn it on with `animate` on the Chart or a Plot.
+Everything drawn from a value moves together with it, so a label rides exactly on its bar's end, and two rows cross exactly when their values are equal.
+
+```jsx
+<Chart animate>…</Chart>                                  // the JS version
+<Chart animate={{ duration: 400, ease: "ease-in-out" }}>…</Chart> // with your own timing
+<Plot animate={["votes"]}>…</Plot>                        // only some values move
+```
+
+Try both with the checkbox above.
+
+## Timing
+
+In the CSS version, set the timing in a row's CSS:
+
+```css
+.row { --rhp-length-time: .4s; --rhp-length-ease: ease-in-out; --rhp-slide-time: .5s; }
+```
+
+In the JS version, pass `duration` (ms), `ease` and `slide` (ms) to `animate`.
+
+## Reduced motion
+
+If someone has asked their system for less motion, rhp jumps to new values instead of animating them.
+
+## Other ways to reorder
+
+`reorder` on a Plot picks how rows change places:
+
+- `"slide"` (the default): rows slide on screen.
+- `"move"`: rows jump, and their elements move in the page, so the page's reading order follows the sort.
+- `"refill"`: rows stay put and swap contents.

@@ -1,0 +1,60 @@
+---
+title: Your first chart
+description: Build a bar chart step by step, from plain bars to a styled chart that sorts itself.
+---
+
+import Demo from '../../../customizations/components/Demo.astro';
+
+We'll draw how much fruit a shop sold today, in four steps.
+
+## 1. Bars
+
+A `Chart` sets the scale: here, from 0 to 30.
+A `Plot` inside it gets the data.
+Its child is the row, written as a function of `d`, the row's data.
+
+<Demo name="first-bars" height={170} />
+
+`sold` is a list, so the Plot makes one row per number.
+In each row, `d.sold` is that row's number, and the `Bar` runs from 0 to it.
+
+## 2. Names and numbers
+
+Give the Plot a second list, `fruit`, and each row gets its item as `d.fruit`.
+A `Label` with `edge="start"` sits at the start of the chart, and one with `at` sits just past a value.
+
+<Demo name="first-labels" height={170} />
+
+## 3. Data that changes
+
+Keep the numbers in a signal, Solid's box for a value that changes.
+When you set it, the chart updates: the bars grow or shrink.
+
+`order` sorts the rows.
+`sortBy("sold", "desc")` puts the largest first, and the rows slide to their new places.
+
+<Demo name="first-live" height={210} />
+
+Nothing else is needed: no update calls, no redraws.
+The chart reads the signal, so it knows when the numbers change.
+
+## 4. Style
+
+`slat()` gives the row its own look.
+Its `css` is plain CSS for the classes in the row, and it only reaches this chart's rows.
+`band` sets each row's height, and `series()` gives each row a color from the theme.
+
+<Demo name="first-styled" height={250} />
+
+A few things to notice in the CSS:
+
+- `.row:hover` lights up the row under the pointer.
+- `--rhp-end-radius` rounds the bar's end only. rhp reads a few variables like this one; they're listed in [Styling](/guides/styling/).
+- `var(--rhp-color)` is the bar's color, so the number matches its bar.
+
+## Where to go next
+
+- [Data](/guides/data/): lists, row objects, computed values and keys.
+- [Blocks](/guides/blocks/): dots, ticks, labels, cells and shapes.
+- [Styling](/guides/styling/): everything about making charts look the way you want.
+- The [gallery](/gallery/): twenty charts, each with its code, to copy from.

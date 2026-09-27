@@ -1,0 +1,71 @@
+---
+title: Blocks
+description: The six building blocks of a row, Bar, Dot, Tick, Label, Cell and Area, each with an example.
+---
+
+import Demo from '../../../customizations/components/Demo.astro';
+
+A row is made of blocks.
+Each block takes values on the chart's scale, and rhp works out where they go.
+You can put as many blocks in a row as you like, and any HTML around or inside them.
+
+## Bar
+
+A bar from `from` to `to`.
+`from` is 0 if you leave it out.
+`thick` sets how thick it is: a size like `"10px"`, or a share of the row like `0.5`.
+
+<Demo name="block-bar" height={150} />
+
+A Bar whose `to` is below its `from` runs backward, like a negative value.
+
+## Dot
+
+A round point at `at`.
+`size` sets its diameter (10px by default).
+
+<Demo name="block-dot" height={170} />
+
+## Tick
+
+A short line across the row at `at`: a goal, a median, a threshold.
+
+<Demo name="block-tick" height={150} />
+
+## Label
+
+Text on the chart.
+
+- `at={value}` puts it just past that value. Add `side="before"` to put it just before instead, which suits negative bars.
+- `edge="start"` puts it before the chart, where names go. `edge="end"` puts it after.
+
+<Demo name="block-label" height={170} />
+
+## Cell
+
+A cell that fills its spot, colored by `value` on the chart's scale: from the theme's `low` color to its `high` color.
+Cells make heatmaps.
+Here each day's row holds a small Plot of its own, one cell per hour (more about this in [charts inside rows](/guides/nesting/)).
+
+<Demo name="block-cell" height={140} />
+
+## Area
+
+A smooth shape over the scale, from a list of `points`, each `[value, height]`.
+The tallest point fills the row.
+Add `mirror` to draw it both ways from the middle, for violin plots.
+
+<Demo name="block-area" height={150} />
+
+For a shape made from raw samples, the `density` helper computes the points for you.
+
+## What every block takes
+
+Every block also takes what an HTML element takes:
+
+- `class` and `style` to style it,
+- `color`: a theme color (`"series-2"`, `"positive"`) or any CSS color,
+- event handlers such as `onClick`, and attributes such as `title`, `data-*` and `aria-*`,
+- children: text, an image, or any other element, drawn inside the block.
+
+The full list of props is in the [blocks reference](/reference/blocks/).

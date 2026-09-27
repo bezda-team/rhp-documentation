@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 import starlight from '@astrojs/starlight';
-import react from "@astrojs/react";
 import solid from "@astrojs/solid-js";
 
 import tailwind from "@astrojs/tailwind";
@@ -14,61 +13,40 @@ export default defineConfig({
       github: 'https://github.com/bezda-team/rhp'
     },
     sidebar: [{
-      label: 'Getting Started',
-      items: [{
-        label: 'Introduction',
-        link: '/getting-started/introduction/'
-      }, {
-        label: 'Quick Start',
-        link: '/getting-started/quick-start/'
-      }, {
-        label: 'Installation',
-        link: '/getting-started/installation/'
-      }]
+      label: 'Start here',
+      items: [
+        { label: 'What is rhp?', link: '/start/introduction/' },
+        { label: 'Install', link: '/start/install/' },
+        { label: 'Your first chart', link: '/start/first-chart/' },
+      ],
     }, {
       label: 'Guides',
       items: [
-        // Each item here is one entry in the navigation menu.
-        {
-          label: 'Components',
-          link: '/guides/components/'
-        }, {
-          label: 'Templates',
-          link: '/guides/templates/'
-        }, {
-          label: 'State Management',
-          link: '/guides/state-management/'
-        }
-      ]
+        { label: 'Data', link: '/guides/data/' },
+        { label: 'Blocks', link: '/guides/blocks/' },
+        { label: 'Styling', link: '/guides/styling/' },
+        { label: 'Colors and themes', link: '/guides/themes/' },
+        { label: 'Scales and axes', link: '/guides/scales/' },
+        { label: 'Sorting and motion', link: '/guides/motion/' },
+        { label: 'Layout and orientation', link: '/guides/layout/' },
+        { label: 'Charts inside rows', link: '/guides/nesting/' },
+        { label: 'Interaction', link: '/guides/interaction/' },
+        { label: 'Other frameworks', link: '/guides/other-frameworks/' },
+      ],
     }, {
-      label: 'Tutorials',
+      label: 'Reference',
       items: [
-        // Each item here is one entry in the navigation menu.
-        {
-          label: 'Bar Chart',
-          link: '/tutorials/bar-chart/'
-        }
-      ]
-    },{
-      label: 'Examples',
-      items: [
-        {
-          label: 'Box and Whisker Plots',
-          link: '/examples/box-and-whisker-plots/'
-        },
-        {
-          label: 'Bar Plots',
-          link: '/examples/bar-plots/'
-        }
-      ]
-    },{
+        { label: 'Chart', link: '/reference/chart/' },
+        { label: 'Plot', link: '/reference/plot/' },
+        { label: 'Scale', link: '/reference/scale/' },
+        { label: 'Blocks', link: '/reference/blocks/' },
+        { label: 'slat()', link: '/reference/slat/' },
+        { label: 'Helpers', link: '/reference/helpers/' },
+        { label: 'CSS', link: '/reference/css/' },
+      ],
+    }, {
       label: 'Gallery',
       link: '/gallery/'
-    },{
-      label: 'Reference',
-      autogenerate: {
-        directory: 'reference'
-      }
     }],
     customCss: [
     // Relative path to your custom CSS file
@@ -80,9 +58,8 @@ export default defineConfig({
       PageTitle: './src/customizations/components/PageTitle.astro' // the default title, with a link back above it on a gallery plot page
     }
   }),
-  // React draws the docs' v1 components (src/customizations); Solid draws the gallery (src/gallery), which runs rhp 2.
-  react({ include: ["**/customizations/**"] }),
-  solid({ include: ["**/gallery/**"] }),
+  // Solid draws the gallery (src/gallery) and the live demos (src/demos).
+  solid({ include: ["**/gallery/**", "**/demos/**"] }),
   tailwind({
     // Disable the default base styles:
     applyBaseStyles: false,

@@ -1,0 +1,38 @@
+---
+title: Interaction
+description: Hover states in CSS, clicks and keyboard with ordinary handlers, and choices fed back to the chart as data.
+---
+
+import Demo from '../../../customizations/components/Demo.astro';
+
+Charts are HTML, so interaction works the way it does anywhere else on a page.
+
+## Hover with CSS only
+
+Most hover effects need no code: style `:hover` in the row's CSS.
+
+<Demo name="interaction-hover" height={200} />
+
+The fade is on a `span` inside the Label, not on the Label.
+rhp moves blocks with transitions of its own, and a `transition` on a block would replace them.
+
+## Clicks
+
+Blocks take handlers like any element: `onClick`, `onPointerEnter`, `onKeyDown`.
+With many rows, one handler around the chart is simpler: mark blocks with a `data-` attribute and find it with `closest`.
+
+What the handler decides goes back into the Plot as data.
+Here the picked city becomes `d.faded` for the other rows, and their CSS fades them.
+
+<Demo name="interaction-click" height={220} />
+
+## Keyboard
+
+Put a `<button>` inside a Label (a name you can click, for example) and it gets focus and keyboard presses for free.
+For a Bar, add `tabindex="0"` and a key handler.
+
+## Good to know
+
+- **Follow the pointer with `pointermove`, not `pointerover`.** When a hover changes the layout (a badge appears), the browser can fire `pointerover` again under a pointer that hasn't moved.
+- **A Plot drawn over another one covers it.** Give an overlay, such as a line marking today, `style={{ "pointer-events": "none" }}` so the pointer reaches the Plot under it.
+- **Page listeners and tests work as usual.** Charts are plain elements in the page: `querySelector`, testing libraries and click listeners all see them.

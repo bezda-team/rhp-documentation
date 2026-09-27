@@ -1,0 +1,55 @@
+---
+title: What is rhp?
+description: rhp draws charts with plain HTML and CSS. You describe one row, and rhp repeats it for your data.
+---
+
+import Demo from '../../../customizations/components/Demo.astro';
+
+rhp (reactive html plots) draws charts with HTML and CSS.
+Drag the slider, then look at the code under the chart: that's all it takes.
+
+<Demo name="intro" height={230} />
+
+## How it works
+
+A chart in rhp is a stack of rows.
+You describe **one row**, and rhp makes one for each item in your data.
+
+That row is called a **slat**.
+You build it from a few blocks, and rhp puts each block in its place on the chart's scale:
+
+| Block | What it draws |
+|---|---|
+| `Bar` | a bar from one value to another |
+| `Dot` | a point at a value |
+| `Tick` | a short line across the row, at a value |
+| `Label` | text at a value, or beside the chart |
+| `Cell` | a colored cell, for heatmaps |
+| `Area` | a smooth shape, for how values spread |
+
+When your numbers change, the chart follows by itself.
+Only what changed moves: the bar that grew, and the rows that swap places.
+
+## Why rhp
+
+- **It's HTML and CSS.**
+  You style a chart the way you style the rest of your page: classes, hover states, gradients, images and fonts.
+  A bar is an element you can inspect in the browser.
+- **It's small.**
+  16 kB gzipped, or 27 kB together with Solid, the library it's built on.
+- **It's quick.**
+  Changing a number changes one CSS variable on one element, so charts stay smooth while you drag, type or stream data.
+- **Charts don't break each other.**
+  A slat's styles only reach its own rows, and the page's CSS can't bend a chart out of shape.
+- **One chart, two directions.**
+  The same code draws horizontal and vertical charts.
+
+## What you need to know
+
+rhp is built on [SolidJS](https://www.solidjs.com), a small library for building web pages.
+You don't need to know Solid to start: the examples in these pages show all you need.
+If you know React, Solid's JSX will look familiar.
+
+No build tools? rhp also works in a plain HTML page, loaded from a CDN.
+
+Next: [install rhp](/start/install/), or jump straight into [your first chart](/start/first-chart/).

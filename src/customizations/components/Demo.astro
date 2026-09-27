@@ -1,0 +1,24 @@
+---
+// A live demo and its code: src/demos/<name>.jsx drawn in the browser (rhp doesn't render on a server), then the
+// same file as a code block. `code={false}` leaves the code out; `height` reserves room so the page doesn't jump.
+import { Code } from "astro:components";
+import Island from "../../demos/Island.jsx";
+import "../styles/docs.css";
+
+interface Props {
+	name: string;
+	code?: boolean;
+	height?: number;
+}
+const { name, code = true, height = 200 } = Astro.props;
+const sources = import.meta.glob("../../demos/*.jsx", { as: "raw", eager: true });
+const source = sources[`../../demos/${name}.jsx`];
+if (!source) throw new Error(`No demo named ${name} in src/demos`);
+---
+
+<figure class="demo not-content">
+	<div class="demo-stage" style={`min-height: ${height}px`}>
+		<Island client:only="solid-js" name={name} />
+	</div>
+	{code && <Code code={source.trim()} lang="jsx" theme="css-variables" />}
+</figure>

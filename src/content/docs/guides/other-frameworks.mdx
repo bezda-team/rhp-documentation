@@ -1,0 +1,83 @@
+---
+title: Other frameworks
+description: Use rhp inside a React, Vue or Svelte app by drawing it into an element.
+---
+
+rhp is built on Solid, but a chart is just elements on the page, so it can live inside an app built with anything else.
+The idea is the same everywhere:
+
+1. Give rhp an empty element to draw into.
+2. Keep the chart's data in a Solid signal, and set it when your app's data changes.
+3. Clean up when the component goes away.
+
+Your app's JSX belongs to your framework, so the rows are written with Solid's `html` template, as in a [plain HTML page](/start/install/#in-a-plain-html-page).
+`@bezda/rhp/standalone` has rhp, Solid and `html` in one import:
+
+```sh
+npm install @bezda/rhp
+```
+
+## React
+
+```jsx
+import { useEffect, useRef } from "react";
+import { Chart, Plot, Bar, Label, html, render, createSignal } from "@bezda/rhp/standalone";
+
+export function FruitChart({ fruit, sold }) {
+  const box = useRef(null);
+  const setData = useRef(null);
+
+  useEffect(() => {
+    const [data, set] = createSignal({ fruit, sold });
+    setData.current = set;
+    const row = (d) => html`
+      <div>
+        <${Label} edge="start">${() => d.fruit}<//>
+        <${Bar} to=${() => d.sold} />
+        <${Label} at=${() => d.sold}>${() => d.sold}<//>
+      </div>`;
+    return render(() => html`
+      <${Chart} scale=${[0, 30]}>
+        <${Plot} fruit=${() => data().fruit} sold=${() => data().sold}>${row}<//>
+      <//>`, box.current);
+  }, []);
+
+  useEffect(() => {
+    setData.current?.({ fruit, sold });
+  }, [fruit, sold]);
+
+  return <div ref={box} />;
+}
+```
+
+When the component's props change, the second effect sets the signal, and the chart moves to the new values like any rhp chart.
+
+## Vue
+
+```vue
+<script setup>
+import { onMounted, onBeforeUnmount, ref, watch } from "vue";
+import { Chart, Plot, Bar, html, render, createSignal } from "@bezda/rhp/standalone";
+
+const props = defineProps(["fruit", "sold"]);
+const box = ref(null);
+const [data, setData] = createSignal({ fruit: props.fruit, sold: props.sold });
+let dispose;
+
+onMounted(() => {
+  const row = (d) => html`<div><${Bar} to=${() => d.sold} /></div>`;
+  dispose = render(() => html`
+    <${Chart} scale=${[0, 30]}>
+      <${Plot} fruit=${() => data().fruit} sold=${() => data().sold}>${row}<//>
+    <//>`, box.value);
+});
+watch(() => [props.fruit, props.sold], ([fruit, sold]) => setData({ fruit, sold }));
+onBeforeUnmount(() => dispose?.());
+</script>
+
+<template><div ref="box" /></template>
+```
+
+## Svelte, Angular and others
+
+The same three steps apply: draw with `render` into an element once it's on the page, set the signal when your data changes, and call the function `render` returns when the component is removed.

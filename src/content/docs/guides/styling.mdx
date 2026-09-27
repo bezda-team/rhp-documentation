@@ -1,0 +1,69 @@
+---
+title: Styling
+description: Style charts with plain CSS. Classes, hover, gradients and images, plus a few rhp variables that work in both directions.
+---
+
+import Demo from '../../../customizations/components/Demo.astro';
+
+You style a chart with plain CSS, written next to the row it styles.
+
+## CSS for a row
+
+Wrap the row in `slat()` and give it `css`.
+Put classes on the row and its blocks, and style those classes.
+
+<Demo name="styling-slat" height={260} />
+
+That CSS only reaches this chart's rows.
+It can't leak into your page or into other charts, so you can use short class names like `.row` or `.value` without worrying.
+The other way around holds too: your page's CSS doesn't change a chart.
+
+Anything CSS can do works: hover states, gradients, shadows, images inside bars, web fonts.
+
+## The variables rhp reads
+
+A few CSS variables adjust how rhp draws blocks.
+They're named along the chart's scale instead of left and right, so one rule works for horizontal and vertical charts.
+
+| Variable | What it does |
+|---|---|
+| `--rhp-radius` | rounds a Bar's corners (2px by default) |
+| `--rhp-start-radius`, `--rhp-end-radius` | round one end of a Bar. The end is where its value is; the start is where it begins. |
+| `--rhp-gap` | leaves space at the start of a Bar: a gap between stacked pieces |
+| `--rhp-label-gap` | the space between a Label and its value (or the chart, for `edge` labels) |
+| `--rhp-label-size` | a Label's font size (12px by default) |
+| `--rhp-tick-width` | a Tick's width (2px by default) |
+| `--rhp-cell-gap` | the space around a Cell (1px by default) |
+| `--rhp-toward-end` | a direction to use in gradients: `linear-gradient(var(--rhp-toward-end), …)` fades from a Bar's start to its end |
+
+## Horizontal and vertical
+
+rhp charts can turn: pass `orientation="vertical"` to the Chart.
+The variables above follow the chart as it turns.
+For anything else, `:horizontal` and `:vertical` target one direction:
+
+```css
+.name:vertical { font-size: 11px; }
+.bar:horizontal > img { max-width: 300px; }
+```
+
+Put them on the row or on a block.
+For an element inside a block, put them on the block: `.bar:vertical .icon`.
+
+<Demo name="styling-orientation" height={300} />
+
+## Colors
+
+Inside a row's CSS, the theme's colors are variables:
+
+- `var(--rhp-ink)` for text, `var(--rhp-muted)` for quieter text, `var(--rhp-grid)` for lines,
+- `var(--rhp-series-1)` to `var(--rhp-series-6)` for data,
+- `var(--rhp-color)` for the block's own `color`.
+
+The page sets these colors through the theme, described in [colors and themes](/guides/themes/).
+
+## Things to know
+
+- **Hover a row, not a block, for big targets.** `.row:hover .bar { … }` reacts anywhere on the row.
+- **Put your own transitions on elements inside blocks.** rhp moves blocks with transitions of its own, and a `transition` set on a block replaces them, so the block would jump to new values. Fade a label's text, not the label.
+- **The page can still style the chart's box.** Its width, margin, background and border are yours to set on the Chart, with `class` or `style`.

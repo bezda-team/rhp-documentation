@@ -1,0 +1,47 @@
+/* A live demo: the chart on a card in the page's colors, its code right under it. */
+.demo {
+	margin: 1.5rem 0;
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: 0.75rem;
+	overflow: hidden;
+}
+.demo-stage {
+	padding: 1.25rem 1.25rem 1rem;
+	background: var(--sl-color-bg);
+	display: grid;
+	align-content: center;
+}
+.demo pre.astro-code {
+	margin: 0;
+	border: 0;
+	border-top: 1px solid var(--sl-color-hairline);
+	border-radius: 0;
+	padding: 1rem 1.25rem;
+	font-size: var(--sl-text-code-sm);
+	overflow-x: auto;
+}
+/* Small controls a demo puts above its chart. */
+.demo-controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1rem;
+	align-items: center;
+	margin-bottom: 0.75rem;
+	font-size: var(--sl-text-sm);
+	color: var(--sl-color-gray-2);
+}
+.demo-controls button {
+	font: inherit;
+	padding: 0.25rem 0.75rem;
+	border-radius: 999px;
+	border: 1px solid var(--sl-color-gray-4);
+	background: transparent;
+	color: var(--sl-color-white);
+	cursor: pointer;
+}
+.demo-controls button:hover {
+	border-color: var(--sl-color-accent-high);
+}
+.demo-controls input[type="range"] {
+	accent-color: var(--sl-color-accent-high);
+}

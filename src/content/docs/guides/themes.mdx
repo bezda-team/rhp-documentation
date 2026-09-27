@@ -1,0 +1,52 @@
+---
+title: Colors and themes
+description: Set a chart's colors and font with a theme, and color blocks by theme names.
+---
+
+import Demo from '../../../customizations/components/Demo.astro';
+
+A theme is a small object with a chart's colors and font.
+Give it to a Chart with `theme`, or to every chart inside it with `<Theme>`.
+
+<Demo name="theme" height={200} />
+
+## What a theme holds
+
+| Key | Used for |
+|---|---|
+| `series` | a list of colors for data, in order |
+| `ink` | text |
+| `muted` | quieter text: axis numbers |
+| `grid` | grid lines |
+| `surface` | the background the chart sits on |
+| `positive`, `negative` | values that are good or bad, up or down |
+| `low`, `high` | the two ends of a Cell's color range |
+| `font` | the font family |
+
+Leave a key out and it keeps rhp's default.
+
+## Coloring blocks
+
+A block's `color` takes a theme name or any CSS color:
+
+```jsx
+<Bar to={d.value} color="series-2" />
+<Bar to={d.change} color={d.change < 0 ? "negative" : "positive"} />
+<Bar to={d.value} color="#d4a72c" />
+```
+
+`series()` hands each row the next series color, in order: pass `color={series()}` to the Plot and use `d.color` in the row.
+
+Theme names follow the theme, so a chart changes all its colors when the theme changes.
+
+## Dark mode
+
+Keep two themes and pick one:
+
+```jsx
+<Theme value={dark() ? darkTheme : lightTheme}>
+  <App />
+</Theme>
+```
+
+Switching is instant: rhp changes a handful of variables on each chart, not its rows.
