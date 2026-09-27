@@ -10,7 +10,7 @@ const { title = Astro.props.entry.data.title, tagline } = Astro.props.entry.data
 
 {gallery ? (
 	<header class="gallery-intro">
-		<p class="gallery-kicker">rhp 2 · Gallery</p>
+		<p class="gallery-kicker">rhp · Gallery</p>
 		{/* _top: Starlight's id for a page's title, which its skip link and table of contents point to */}
 		<h1 id="_top" data-page-title set:html={title} />
 		{tagline && <p class="gallery-lede" set:html={tagline} />}

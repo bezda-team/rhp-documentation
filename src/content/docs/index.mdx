@@ -1,6 +1,6 @@
 ---
 title: reactive html plots
-description: rhp draws charts with plain HTML and CSS. Small, fast, and styled like the rest of your page.
+description: Get started building your plots with rhp.
 template: splash
 hero:
   tagline: a collection of reactive components for building interactive and dynamic charts
@@ -8,39 +8,33 @@ hero:
     file: ../../assets/rhp-splash.svg
   actions:
     - text: Get started
-      link: /start/introduction/
+      link: /getting-started/quick-start/
       icon: right-arrow
       variant: primary
-    - text: See the gallery
-      link: /gallery/
-      variant: minimal
 ---
 
 import { CardGrid } from '@astrojs/starlight/components';
 import Card from '../../customizations/components/Card.astro';
-import Demo from '../../customizations/components/Demo.astro';
 
-<Demo name="intro" height={230} code={false} />
-
-<CardGrid>
+<CardGrid >
 	<Card
-		href="/start/introduction/"
-		title="HTML and CSS"
-		description="A bar is an element. Style charts with classes, hover states, gradients and images, like the rest of your page."
+		href="/getting-started/introduction"
+		title="Documentation"
+		description="Learn how to build plots with the rhp component library."
 	/>
 	<Card
-		href="/guides/motion/"
-		title="Reactive"
-		description="Change your data and the chart follows. Only what changed moves, so charts stay smooth while you drag or stream."
-	/>
-	<Card
-		href="/start/install/"
-		title="Small"
-		description="16 kB gzipped. Use it in a Solid app, inside React or Vue, or in a plain HTML page with no build step."
-	/>
-	<Card
-		href="/gallery/"
+		href="gallery"
 		title="Gallery"
-		description="Twenty live charts with their code. Change their CSS and watch them restyle as you type."
+		description="Check out examples and sample applications."
+	/>
+	<Card
+		href="./dev-notes"
+		title="Blog"
+		description="Stay up to date with the latest news and updates."
+	/>
+	<Card
+		href="./community"
+		title="Community"
+		description="Come join the discussion!"
 	/>
 </CardGrid>
