@@ -40,7 +40,31 @@ try {
       await page.mouse.move(0, 0);
       await page.waitForTimeout(1200); // transitions settle; the animated dots move only after 5 s
       const file = path.join(OUT, `${slug}${scheme === "dark" ? "-dark" : ""}.png`);
-      await preview.screenshot({ path: file, omitBackground: true });
+      // The chart's box sits at fractional pixels (the docs size things in scaled rems), and an element screenshot
+      // rounds outward: a poster would get a row or column of what is around it, a light line on a dark poster.
+      // So the clip is rounded inward, to the first and last whole device pixels inside the box.
+      await preview.evaluate((el) => el.scrollIntoView({ block: "start" }));
+      const clip = await preview.evaluate((el) => {
+        const r = el.getBoundingClientRect(), d = devicePixelRatio;
+        const x = Math.ceil(r.left * d) / d, y = Math.ceil(r.top * d) / d;
+        return { x, y, width: Math.floor(r.right * d) / d - x, height: Math.floor(r.bottom * d) / d - y };
+      });
+      const png = await page.screenshot({ path: file, clip, omitBackground: true });
+      if (!DARK.has(slug)) { // a poster's paper must reach every edge of its picture (its rounded corners aside)
+        const edges = await page.evaluate(async (src) => {
+          const img = new Image();
+          img.src = src;
+          await img.decode();
+          const c = document.createElement("canvas");
+          c.width = img.width; c.height = img.height;
+          const g = c.getContext("2d");
+          g.drawImage(img, 0, 0);
+          const alpha = (x, y) => g.getImageData(x, y, 1, 1).data[3];
+          const mx = img.width >> 1, my = img.height >> 1;
+          return [alpha(mx, 0), alpha(mx, img.height - 1), alpha(0, my), alpha(img.width - 1, my)];
+        }, "data:image/png;base64," + png.toString("base64"));
+        if (edges.some((a) => a < 255)) throw new Error(`${slug}: the picture has a see-through edge (alpha at top, bottom, left, right: ${edges})`);
+      }
       if (errors.length) throw new Error(`${slug}: ${errors.join("; ")}`);
       console.log(file);
       await page.close();
