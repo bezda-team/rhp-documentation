@@ -18,7 +18,7 @@ const HourCell = (day) => (h) => {
 };
 
 export const DayRow = slat({
-  band: { horizontal: 26 },
+  thickness: { horizontal: 26 },
   // day names at the start; hour numbers over the first row (horizontal) or left of the first column (vertical)
   room: { horizontal: { start: 40, before: 18 }, vertical: { start: 24, before: 30 } },
   css: styles.dayRow,

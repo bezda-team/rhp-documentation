@@ -3,7 +3,7 @@ import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 // Medals per team: a team's row holds a Plot of three bars, one per
 // medal.
 const COLORS = ["#d4a72c", "#98a1ab", "#b8733b"];
-const Team = slat({ band: 60 }, (d) => (
+const Team = slat({ thickness: 60 }, (d) => (
   <div>
     <Label edge="start">{d.team}</Label>
     <Plot count={d.medals} color={COLORS}>

@@ -2,7 +2,7 @@ import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
 const Row = slat(
   {
-    band: 44,
+    thickness: 44,
     css: `
       .row:hover {
         background: color-mix(in srgb, var(--rhp-ink) 8%, transparent);

@@ -14,7 +14,7 @@ const tilt = (i) => Math.round((((i * 0.381966) % 1) - 0.5) * 140); // and a fix
 export const PatientSlat = slat({ css: styles.patient }, (s) => <Dot at={s.at} across={across(s.index)} color={s.color} class="pill" style={{ rotate: tilt(s.index) + "deg" }} />);
 
 export const ArmSlat = slat({
-  band: { horizontal: 80 },
+  thickness: { horizontal: 80 },
   room: { horizontal: { start: 84, end: 76 }, vertical: { start: 30, end: 30 } },
   css: styles.arm,
 }, (d) => {

@@ -10,7 +10,7 @@ const SPINE = 1.7; // scale units kept clear each side of 0, for the age labels
 
 // Men to the left of a spine of ages, women to the right: both Bars start SPINE away from 0 and run outward.
 export const AgeSlat = slat({
-  band: { horizontal: 30 },
+  thickness: { horizontal: 30 },
   inset: 0.13,
   room: { horizontal: { start: 38, end: 38 }, vertical: { start: 26, end: 26 } },
   css: styles.age,

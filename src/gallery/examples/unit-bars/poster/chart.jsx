@@ -16,7 +16,7 @@ const binding = (c, i) => { const t = [0, 10, -8, 5, -12, 8, -4][i % 7]; return 
 export const SpineSlat = slat({ css: styles.spine }, (u) => <Bar from={u.from} to={u.to} thick={tall(u.index)} color={binding(u.cloth, u.index)} class="spine"><i class="book" /></Bar>);
 
 export const ShelfSlat = slat({
-  band: { horizontal: 66 },
+  thickness: { horizontal: 66 },
   room: { horizontal: { start: 96, end: 52 }, vertical: { start: 30, end: 38 } },
   css: styles.shelf,
 }, (d) => (

@@ -13,7 +13,7 @@ const pounds = (v) => (v < 0 ? "−" : "") + "£" + Math.abs(Math.round(v)).toLo
 // An expense is a button: click it (its name or its bar) to cut it from the month. A cut step has no length, and a
 // dashed outline keeps its place, so the steps after it and the savings move up by what it cost.
 export const StepSlat = slat({
-  band: { horizontal: 46 },
+  thickness: { horizontal: 46 },
   room: { horizontal: { start: 100, end: 66 }, vertical: { start: 40, end: 26, after: 18 } },
   css: styles.step,
 }, (d) => {

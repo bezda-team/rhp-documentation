@@ -19,13 +19,13 @@ A vertical chart is 240px tall unless you set `height` on the Chart.
 
 `slat()` takes two layout settings besides `css`:
 
-- `band`: each row's height in a horizontal chart, in px (32 by default). In a vertical chart, columns share the width unless `band` sets theirs.
+- `thickness`: each row's height in a horizontal chart, in px (32 by default). In a vertical chart, columns share the width unless `thickness` sets theirs.
 - `room`: the space the row's labels need outside the chart, in px. `start` is before the chart, where names go; `end` is after it, where numbers go past the bars.
 
 <Demo name="layout" height={180} />
 
 `room` can also hold `before` and `after`: space above the first row and below the last.
-When the settings differ by direction, give each its own: `band: { horizontal: 40, vertical: 60 }`.
+When the settings differ by direction, give each its own: `thickness: { horizontal: 40, vertical: 60 }`.
 
 The chart makes room for the largest `room` any of its rows ask for, and for its axis numbers.
 

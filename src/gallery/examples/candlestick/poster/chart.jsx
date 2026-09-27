@@ -9,7 +9,7 @@ const dollars = (v) => "$" + v.toFixed(v < 100 ? 2 : 0);
 // A day: the wick over the day's range, the body from the open to the close; teal up, claret down.
 // Its root carries data-day, so the poster knows which day is under the pointer; that day's band is shaded.
 export const DaySlat = slat({
-  band: { horizontal: 15 },
+  thickness: { horizontal: 15 },
   room: { horizontal: { start: 24, end: 64 }, vertical: { start: 10, end: 30 } }, // the axis numbers read "$42.5"; vertical, the last price's badge can stand 28px above the top
   css: styles.day,
 }, (d) => {

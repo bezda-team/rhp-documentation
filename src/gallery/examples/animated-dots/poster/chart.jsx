@@ -17,7 +17,7 @@ const LOGO = [
 ];
 
 export const DotRow = slat({
-  band: 60, // 52px dots, 8px apart: the page makes the value axis 11 × 60px long
+  thickness: 60, // 52px dots, 8px apart: the page makes the value axis 11 × 60px long
   room: { horizontal: { start: 2, end: 2, before: 2, after: 4 }, vertical: { start: 4, end: 2, before: 2, after: 2 } },
   css: styles.dotRow,
 }, (d) => (

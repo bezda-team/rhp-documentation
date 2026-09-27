@@ -20,7 +20,7 @@ export const LayerSlat = slat({ css: styles.layer }, (l) => (
 
 export const DrinkSlat = slat({
   inset: "10px",
-  band: { horizontal: 58 },
+  thickness: { horizontal: 58 },
   room: { horizontal: { start: 132, end: 60 }, vertical: { start: 46, end: 30 } },
   css: styles.drink,
 }, (d) => {

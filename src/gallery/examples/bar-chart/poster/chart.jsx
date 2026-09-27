@@ -38,7 +38,7 @@ const ART = [grape, watermelon, pear, banana, orange, peach, strawberry];
 const COLORS = ["pink", "#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51", "#ce4257"];
 
 export const FruitSlat = slat({
-  band: { horizontal: 79 }, // v1: seven rows in 552px; vertical: the rows share the width
+  thickness: { horizontal: 79 }, // v1: seven rows in 552px; vertical: the rows share the width
   inset: "8px",
   room: { horizontal: { start: 112, end: 32 }, vertical: { start: 32, end: 30 } }, // for the names and values
   css: styles.fruit,

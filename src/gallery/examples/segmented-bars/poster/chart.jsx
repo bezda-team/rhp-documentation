@@ -25,7 +25,7 @@ export const ChargeSlat = slat({ css: styles.charge }, (c) => {
 
 // A battery: the shell a little larger than the track, the nub past its end, the charge inside.
 export const BatterySlat = slat({
-  band: { horizontal: 52 },
+  thickness: { horizontal: 52 },
   room: { horizontal: { start: 92, end: 18 }, vertical: { start: 30, end: 18 } },
   css: styles.battery,
 }, (d) => {

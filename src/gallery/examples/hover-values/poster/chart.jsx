@@ -11,7 +11,7 @@ const BEARING = { North: 0, East: 90, South: 180, West: 270 };
 // to the quarter the wind comes from. The fade is on the text inside the Label: a transition set on a block
 // would replace the one rhp gives it, and the Label would jump to a new value instead of moving with its bar.
 export const WindSlat = slat({
-  band: { horizontal: 60 },
+  thickness: { horizontal: 60 },
   room: { horizontal: { start: 128, end: 64 }, vertical: { start: 64, end: 30 } },
   css: styles.wind,
 }, (d) => (

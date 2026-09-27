@@ -8,7 +8,7 @@ const START = [0, 3, 7, 10]; // weeks
 const END = [4, 9, 11, 12];
 
 // A task: a Bar from the week it starts to the week it ends.
-export const TaskSlat = slat({ css: styles.task, band: { horizontal: 40 } }, (d) => (
+export const TaskSlat = slat({ css: styles.task, thickness: { horizontal: 40 } }, (d) => (
   <div>
     <Label edge="start" class="name">{d.task}</Label>
     <Bar from={d.start} to={d.end} thick="12px" class="bar" />

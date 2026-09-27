@@ -15,7 +15,7 @@ const warmth = (t) => {
 const year = () => Array.from({ length: 365 }, (_, day) => 17.5 + 7 * Math.sin((2 * Math.PI * (day - 110)) / 365) + normal(0, 2.2));
 
 export const BinSlat = slat({
-  band: { horizontal: 20 },
+  thickness: { horizontal: 20 },
   inset: "1.5px",
   room: { horizontal: { start: 40, end: 40 }, vertical: { start: 26, end: 22 } },
   css: styles.bin,

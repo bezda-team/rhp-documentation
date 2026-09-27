@@ -18,7 +18,7 @@ export const MedalSlat = slat({ css: styles.medal }, (m) => (
 ));
 
 export const TeamSlat = slat({
-  band: { horizontal: 84 },
+  thickness: { horizontal: 84 },
   room: { horizontal: { start: 96, end: 22 }, vertical: { start: 46, end: 18 } },
   css: styles.team,
 }, (d) => (

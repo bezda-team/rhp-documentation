@@ -6,7 +6,7 @@ import * as styles from "./styles.js";
 const GROUPS = ["A", "B", "C", "D", "E"];
 
 // A group: whiskers from low to high, the box from the first quartile to the third, and a tick at the median.
-export const BoxSlat = slat({ css: styles.box, band: { horizontal: 44 } }, (d) => {
+export const BoxSlat = slat({ css: styles.box, thickness: { horizontal: 44 } }, (d) => {
   const s = createMemo(() => summary(d.samples)); // { low, q1, median, q3, high, … }
   return (
     <div>

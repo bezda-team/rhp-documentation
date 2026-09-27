@@ -9,7 +9,7 @@ const GROUPS = ["Control", "Treated"];
 export const PointSlat = slat({ css: styles.point }, (s) => <Dot at={s.at} across={0.15 + ((s.index * 0.618) % 1) * 0.7} size="9px" class="point" />);
 
 // A group: its name, its samples in one band (an overlap Plot), and a Tick at their mean.
-export const GroupSlat = slat({ css: styles.group, band: { horizontal: 80 } }, (d) => (
+export const GroupSlat = slat({ css: styles.group, thickness: { horizontal: 80 } }, (d) => (
   <div>
     <Label edge="start">{d.name}</Label>
     <Plot overlap at={d.values}>{PointSlat}</Plot>

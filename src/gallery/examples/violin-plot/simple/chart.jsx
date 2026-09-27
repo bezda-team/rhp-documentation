@@ -6,7 +6,7 @@ import * as styles from "./styles.js";
 const GROUPS = ["Morning", "Afternoon", "Evening"];
 
 // A group: a mirrored Area from density() (a smooth count of its samples along the scale), and a Dot at its median.
-export const ViolinSlat = slat({ css: styles.violin, band: { horizontal: 80 } }, (d) => {
+export const ViolinSlat = slat({ css: styles.violin, thickness: { horizontal: 80 } }, (d) => {
   const shape = createMemo(() => density(d.samples)); // [[value, density], …]
   const median = createMemo(() => summary(d.samples).median);
   return (

@@ -5,7 +5,7 @@ description: Give a row its own CSS and layout, so it looks and fits the same in
 
 ```jsx
 const Row = slat({
-  band: 40,
+  thickness: 40,
   room: { start: 120, end: 50 },
   css: `.bar { --rhp-end-radius: 8px; }`,
 }, (d) => (
@@ -24,11 +24,11 @@ A row without settings can be a plain function: `{(d) => <div>…</div>}`.
 | Setting | Default | What it does |
 |---|---|---|
 | `css` | | CSS for the row: see [styling](/guides/styling/). It reaches only rows of this type. |
-| `band` | `32` (horizontal) | each row's size along the stack, in px. Vertical rows share the width unless set. |
+| `thickness` | `32` (horizontal) | each row's height in a horizontal chart (its width in a vertical one), in px. Vertical rows share the width unless set. |
 | `inset` | `0.18` | the empty share of the band on each side of a Bar, Tick or Area, or a size such as `"8px"` |
 | `room` | names and numbers | px outside the chart for the row's labels: `start`, `end`, `before`, `after` |
 
-Any setting can differ by direction: `band: { horizontal: 40, vertical: 60 }`.
+Any setting can differ by direction: `thickness: { horizontal: 40, vertical: 60 }`.
 
 ## A row's element
 

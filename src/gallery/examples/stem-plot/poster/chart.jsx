@@ -8,7 +8,7 @@ import * as styles from "./styles.js";
 // A new strike reaches the samples one after another (--k, 8 ms apart), so it runs down the wave like the sound does.
 // A delay adds to the transition rhp gives a block without replacing it. (The JS version moves every sample at once.)
 export const SampleSlat = slat({
-  band: { horizontal: 12 },
+  thickness: { horizontal: 12 },
   room: { start: 12, end: 12 },
   css: styles.sample,
 }, (d) => (

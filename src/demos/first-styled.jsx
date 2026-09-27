@@ -11,7 +11,7 @@ import {
 
 const Row = slat(
   {
-    band: 40,
+    thickness: 40,
     css: `
       .row:hover {
         background: color-mix(in srgb, var(--rhp-ink) 8%, transparent);

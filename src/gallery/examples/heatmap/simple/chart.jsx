@@ -10,7 +10,7 @@ const HOURS = 12; // 8:00 to 19:00
 export const CellSlat = slat({ css: styles.cell }, (h) => <Cell value={h.v} title={`${h.v}`} class="cell" />);
 
 // A day: its name, and a Plot across the day's band, one cell per hour.
-export const DaySlat = slat({ band: { horizontal: 28 } }, (d) => (
+export const DaySlat = slat({ thickness: { horizontal: 28 } }, (d) => (
   <div>
     <Label edge="start">{d.day}</Label>
     <Plot orientation="across" v={d.hours}>{CellSlat}</Plot>

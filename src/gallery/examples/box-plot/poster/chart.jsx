@@ -39,7 +39,7 @@ const GREYS = ["#9fa2a4", "#cbdddf", "#a5aeb5", "#dbe7eb", "#dae6ec", "#c2d6e0",
 const WHISKERS = [[1, 3, 9, 10], [2, 3, 15, 20], [5, 9, 16, 18], [3, 4, 7, 9], [10, 18, 22, 25], [13, 15, 18, 22], [15, 20, 26, 27]];
 
 export const BoxSlat = slat({
-  band: { horizontal: 79 },
+  thickness: { horizontal: 79 },
   inset: "8px",
   room: { horizontal: { start: 96, end: 37 }, vertical: { start: 80, end: 30 } }, // for the photos and values
   css: styles.box,

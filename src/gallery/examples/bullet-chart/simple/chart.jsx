@@ -7,7 +7,7 @@ const GOALS = ["Steps", "Sleep", "Water", "Reading"];
 const DONE = [86, 104, 58, 115]; // % of each day's goal
 
 // A goal: the track to 120%, the progress along it, the target at 100%, and the percentage at the end.
-export const GoalSlat = slat({ css: styles.goal, band: { horizontal: 44 } }, (d) => (
+export const GoalSlat = slat({ css: styles.goal, thickness: { horizontal: 44 } }, (d) => (
   <div>
     <Label edge="start">{d.goal}</Label>
     <Bar to={120} thick="14px" class="track" />

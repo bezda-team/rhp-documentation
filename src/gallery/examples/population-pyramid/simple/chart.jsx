@@ -9,7 +9,7 @@ const WOMEN = [3, 10, 13, 13, 12];
 const COLORS = ["#2a78d6", "#eb6834"];
 
 // An age band: men as a Bar from 0 to the left (negative values), women to the right.
-export const BandSlat = slat({ css: styles.band, band: { horizontal: 36 } }, (d) => (
+export const BandSlat = slat({ css: styles.band, thickness: { horizontal: 36 } }, (d) => (
   <div>
     <Label edge="start" class="age">{d.age}</Label>
     <Bar to={-d.men} color={COLORS[0]} class="side" />

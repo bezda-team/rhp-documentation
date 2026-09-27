@@ -26,7 +26,7 @@ const AMOUNT = {
 // A goal: the track to 120%, the day's progress glowing along it, and a white line at the goal (100%).
 // Hover a goal and its progress burns brighter, with a bubble at its tip saying what it comes to.
 export const GoalSlat = slat({
-  band: { horizontal: 62 },
+  thickness: { horizontal: 62 },
   room: { horizontal: { start: 134, end: 58 }, vertical: { start: 70, end: 30 } },
   css: styles.goal,
 }, (d) => (

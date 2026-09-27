@@ -28,7 +28,7 @@ export const KeySlat = slat({
 });
 
 export const InstrumentSlat = slat({
-  band: { horizontal: 74 },
+  thickness: { horizontal: 74 },
   inset: 0.05,
   room: { horizontal: { start: 140, end: 16 }, vertical: { start: 30, end: 12 } },
   css: styles.instrument,

@@ -4,7 +4,7 @@ import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 // A day: its wick from the low to the high, and its body from the open to the close.
-export const CandleSlat = slat({ css: styles.candle, band: { horizontal: 16 }, room: { start: 8, end: 8 } }, (d) => (
+export const CandleSlat = slat({ css: styles.candle, thickness: { horizontal: 16 }, room: { start: 8, end: 8 } }, (d) => (
   <div class={d.close >= d.open ? "up" : "down"}>
     <Bar from={d.low} to={d.high} thick="1.5px" class="wick" />
     <Bar from={d.open} to={d.close} thick={0.7} class="body" />

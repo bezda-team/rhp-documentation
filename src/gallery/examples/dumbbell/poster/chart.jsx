@@ -11,7 +11,7 @@ const metres = (v) => Math.round(v).toLocaleString("en-GB") + " m";
 
 // A climb: the route from the tent at base camp to the snow-capped peak.
 export const ClimbSlat = slat({
-  band: { horizontal: 50 },
+  thickness: { horizontal: 50 },
   room: { horizontal: { start: 124, end: 70 }, vertical: { start: 38, end: 34, after: 18 } },
   css: styles.climb,
 }, (d) => (

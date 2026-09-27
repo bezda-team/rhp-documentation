@@ -1,9 +1,9 @@
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
-// band: each row's height. room: the space outside the plot for the
+// thickness: each row's height. room: the space outside the plot for the
 // names
 // (start) and the numbers (end).
-const Row = slat({ band: 30, room: { start: 150, end: 60 } }, (d) => (
+const Row = slat({ thickness: 30, room: { start: 150, end: 60 } }, (d) => (
   <div>
     <Label edge="start">{d.language}</Label>
     <Bar to={d.speakers} />

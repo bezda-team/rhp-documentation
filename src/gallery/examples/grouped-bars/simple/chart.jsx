@@ -12,7 +12,7 @@ const MEDALS = [[12, 9, 14], [8, 15, 6], [17, 11, 9], [5, 7, 13]]; // per team: 
 export const CountSlat = slat({ css: styles.count }, (m) => <div><Bar to={m.value} color={m.color} class="bar" /></div>);
 
 // A team: its name, and a Plot of its three counts, which share the team's band.
-export const TeamSlat = slat({ css: styles.team, band: { horizontal: 72 } }, (d) => (
+export const TeamSlat = slat({ css: styles.team, thickness: { horizontal: 72 } }, (d) => (
   <div class="team">
     <Label edge="start" class="name">{d.name}</Label>
     <Plot value={d.medals} color={METAL_COLORS}>{CountSlat}</Plot>

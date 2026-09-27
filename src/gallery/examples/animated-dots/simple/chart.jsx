@@ -6,7 +6,7 @@ const ROWS = 5, DOTS = 16;
 const still = Array(ROWS).fill(0);
 
 // A row: an overlap Plot of dots, all in one band, moved along by the row's shift.
-export const RowSlat = slat({ css: styles.row, band: 30, room: {} }, (d) => (
+export const RowSlat = slat({ css: styles.row, thickness: 30, room: {} }, (d) => (
   <div class="row">
     <Plot overlap slats={DOTS} x={(c) => d.shift + c.index + 0.5}>
       {(c) => <Dot at={c.x} size="22px" color={(c.index + d.index) % 4 ? "series-1" : "series-2"} class="dot" />}
