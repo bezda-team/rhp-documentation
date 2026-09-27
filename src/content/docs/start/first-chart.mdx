@@ -18,9 +18,8 @@ Its child is the row, written as a function of `d`, the row's data.
 `sold` is a list, so the Plot makes one row per number.
 In each row, `d.sold` is that row's number, and the `Bar` runs from 0 to it.
 
-The `<div>` is the row itself: rhp stacks it with the others and moves it when the rows are sorted.
-The `Bar` is drawn inside it, placed by its values.
-Keep that `<div>` even when a row holds a single block: a `Bar` returned on its own would be placed as the row, and would ignore where its values say it goes.
+A row is always one element that holds everything drawn in it: here, a `<div>` around the `Bar`.
+rhp stacks that element with the others and moves it when the rows are sorted, and the blocks inside it are placed by their values.
 
 ## 2. Names and numbers
 
