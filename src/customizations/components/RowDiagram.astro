@@ -1,0 +1,237 @@
+---
+// The one-row idea, drawn: each thing's data on the left, the one row a user describes in the middle, and the chart
+// on the right, where rhp has made a copy of that row per thing and filled in its data. Colors tie each thing to its copy.
+const things = [
+	{ name: "Apples", value: 12, hue: "var(--diagram-a)" },
+	{ name: "Kiwis", value: 22, hue: "var(--diagram-b)" },
+	{ name: "Lemons", value: 7, hue: "var(--diagram-c)" },
+];
+const max = 25;
+---
+
+<figure class="row-diagram not-content" aria-label="rhp draws one copy of the row you describe for each thing in your data, and fills in that thing's values">
+	<div class="panel">
+		<p class="step">Your data</p>
+		<table class="things">
+			<thead><tr><th>name</th><th>value</th><th>picture</th></tr></thead>
+			<tbody>
+				{things.map((t) => (
+					<tr style={`--hue: ${t.hue}`}>
+						<td>{t.name}</td>
+						<td class="n">{t.value}</td>
+						<td><span class="pic" /></td>
+					</tr>
+				))}
+			</tbody>
+		</table>
+		<p class="caption">A row per thing, a column per value.</p>
+	</div>
+
+	<p class="arrow" aria-hidden="true"><span>→</span></p>
+
+	<div class="panel template">
+		<p class="step">The one row you describe</p>
+		<div class="row">
+			<span class="slot">d.name</span>
+			<span class="slot picture"><span class="pic empty" />d.picture</span>
+			<span class="bar empty">d.value</span>
+			<span class="slot">d.value</span>
+		</div>
+		<p class="caption">Written once, from blocks: a Label, a picture, a Bar and a Label.</p>
+	</div>
+
+	<p class="arrow" aria-hidden="true"><span>→</span></p>
+
+	<div class="panel">
+		<p class="step">The chart rhp draws</p>
+		<div class="chart">
+			{things.map((t) => (
+				<div class="row copy" style={`--hue: ${t.hue}`}>
+					<span class="name">{t.name}</span>
+					<span class="pic" />
+					<span class="bar" style={`width: ${(t.value / max) * 100}%`} />
+					<span class="num">{t.value}</span>
+				</div>
+			))}
+		</div>
+		<p class="caption">One copy of the row per thing, filled with its values.</p>
+	</div>
+</figure>
+
+<style>
+	.row-diagram {
+		--diagram-a: #d9534f;
+		--diagram-b: #3f9e5a;
+		--diagram-c: #d4a72c;
+		--diagram-accent: var(--sl-color-accent-high);
+		display: grid;
+		grid-template-columns: minmax(0, 32rem);
+		justify-content: center;
+		gap: 0.25rem;
+		margin: 1.5rem 0;
+		font-size: var(--sl-text-sm);
+	}
+	.panel {
+		display: grid;
+		grid-template-rows: auto auto auto;
+		gap: 0.75rem;
+		padding: 1rem;
+		border: 1px solid var(--sl-color-hairline);
+		border-radius: 0.75rem;
+		background: var(--sl-color-bg);
+	}
+	:global(:root[data-theme="light"]) .row-diagram {
+		--diagram-accent: var(--sl-color-accent);
+	}
+	.panel.template {
+		border: 2px dashed var(--diagram-accent);
+	}
+	.step {
+		margin: 0;
+		font-size: var(--sl-text-xs);
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--sl-color-gray-2);
+	}
+	.template .step {
+		color: var(--diagram-accent);
+	}
+	.caption {
+		margin: 0;
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-3);
+		line-height: 1.4;
+	}
+	.things {
+		align-self: center;
+		width: 100%;
+		margin: 0;
+		border-collapse: separate;
+		border-spacing: 0 0.35rem;
+		font-size: var(--sl-text-xs);
+	}
+	.things th {
+		padding: 0 0.5rem;
+		border: 0;
+		background: none;
+		text-align: left;
+		font-family: var(--sl-font-system-mono);
+		font-weight: 400;
+		color: var(--sl-color-gray-3);
+	}
+	.things td {
+		padding: 0.35rem 0.5rem;
+		border: 0;
+		background: color-mix(in srgb, var(--hue) 16%, transparent);
+		color: var(--sl-color-white);
+		vertical-align: middle;
+	}
+	.things td:first-child {
+		border-radius: 0.4rem 0 0 0.4rem;
+		font-weight: 600;
+	}
+	.things td:last-child {
+		border-radius: 0 0.4rem 0.4rem 0;
+	}
+	.things .n {
+		font-variant-numeric: tabular-nums;
+	}
+	.things .pic {
+		display: block;
+	}
+	.pic {
+		flex: none;
+		width: 0.9rem;
+		height: 0.9rem;
+		border-radius: 50%;
+		background: var(--hue);
+	}
+	.slot.picture {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+	.pic.empty {
+		background: none;
+		border: 1.5px dashed var(--sl-color-gray-3);
+	}
+	.row {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		min-width: 0;
+	}
+	.template .row {
+		flex-wrap: wrap;
+		align-self: center;
+		padding: 0.5rem;
+		border-radius: 0.5rem;
+		background: color-mix(in srgb, var(--diagram-accent) 10%, transparent);
+	}
+	.slot {
+		flex: none;
+		padding: 0.1rem 0.4rem;
+		border: 1.5px dashed var(--sl-color-gray-3);
+		border-radius: 0.3rem;
+		font-family: var(--sl-font-system-mono);
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-2);
+	}
+	.bar {
+		height: 1rem;
+		border-radius: 0 0.3rem 0.3rem 0;
+		background: var(--hue);
+	}
+	.bar.empty {
+		flex: 1 1 6rem;
+		min-width: 0;
+		overflow: hidden;
+		height: auto;
+		padding: 0.1rem 0.4rem;
+		line-height: 1.4;
+		display: grid;
+		place-items: center;
+		background: none;
+		border: 1.5px dashed var(--sl-color-gray-3);
+		font-family: var(--sl-font-system-mono);
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-2);
+	}
+	.chart {
+		display: grid;
+		gap: 0.5rem;
+		align-content: center;
+	}
+	.copy {
+		padding: 0.3rem 0.4rem;
+		border-radius: 0.5rem;
+		background: color-mix(in srgb, var(--hue) 10%, transparent);
+	}
+	.copy .name {
+		flex: none;
+		width: 3.9rem;
+		text-align: right;
+		color: var(--sl-color-white);
+	}
+	.copy .bar {
+		flex: none;
+		max-width: calc(100% - 8rem);
+	}
+	.num {
+		font-variant-numeric: tabular-nums;
+		color: var(--sl-color-gray-2);
+	}
+	.arrow {
+		margin: 0;
+		display: grid;
+		place-items: center;
+		font-size: 1.4rem;
+		line-height: 1.2;
+		color: var(--sl-color-gray-3);
+	}
+	.arrow span {
+		display: inline-block;
+		transform: rotate(90deg);
+	}
+</style>
