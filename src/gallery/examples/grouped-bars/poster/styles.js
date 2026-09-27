@@ -6,8 +6,7 @@ export const theme = { font: "system-ui, sans-serif", ink: "#111214", muted: "#6
 // A count: a ribbon fading up to its medal. The medal's face lifts on hover, with a springy ease.
 export const medal = `
 .ribbon { --rhp-radius: 2px; }
-[data-rhp-o="h"].ribbon { background: linear-gradient(90deg, transparent, var(--metal)); }
-[data-rhp-o="v"].ribbon { background: linear-gradient(0deg, transparent, var(--metal)); }
+.ribbon { background: linear-gradient(var(--rhp-toward-end), transparent, var(--metal)); }
 .medal { background: none; }
 .face { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 50%;
   font: 800 11px/1 var(--rhp-font); font-variant-numeric: tabular-nums; color: var(--stamp);
@@ -26,6 +25,6 @@ export const medal = `
 export const team = `
 .team { font: 700 22px/1 "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .03em; text-transform: uppercase; }
 .team small { display: block; margin-top: 3px; font: 500 11px/1 var(--rhp-font); letter-spacing: .06em; text-transform: none; color: var(--rhp-muted); }
-[data-rhp-o="h"].team { padding-right: 14px; }
-[data-rhp-o="v"].team { font-size: 18px; }
+.team:horizontal { --rhp-label-gap: 14px; }
+.team:vertical { font-size: 18px; }
 `;

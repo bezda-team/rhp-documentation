@@ -6,18 +6,17 @@ export const theme = { font: "system-ui, sans-serif", ink: "#f5f5f7", muted: "#8
 // A goal: its icon and name, the track, the glowing progress, the white goal line and the percentage. Hover it for a bubble with the amount.
 export const goal = `
 .habit { display: flex; align-items: center; gap: 10px; overflow: visible; font-size: 15px; font-weight: 700; }
-[data-rhp-o="h"].habit { justify-content: flex-end; padding-right: 18px; }
-[data-rhp-o="v"].habit { flex-direction: column; gap: 4px; padding-top: 10px; font-size: 12px; text-align: center; }
+.habit:horizontal { justify-content: flex-end; padding-right: 18px; }
+.habit:vertical { flex-direction: column; gap: 4px; padding-top: 10px; font-size: 12px; text-align: center; }
 .habit small { display: block; font-size: 11px; font-weight: 500; color: var(--rhp-muted); }
 .icon { flex: none; width: 30px; height: 30px; padding: 6px; border-radius: 50%; fill: var(--rhp-color);
   background: color-mix(in srgb, var(--rhp-color) 18%, transparent); }
 .track { background: #1c1c22; --rhp-radius: 99px; }
 .done { --rhp-radius: 99px; box-shadow: 0 0 14px color-mix(in srgb, var(--rhp-color) 55%, transparent); }
-[data-rhp-o="h"].done { background: linear-gradient(90deg, color-mix(in srgb, var(--rhp-color) 25%, transparent), var(--rhp-color)); }
-[data-rhp-o="v"].done { background: linear-gradient(0deg, color-mix(in srgb, var(--rhp-color) 25%, transparent), var(--rhp-color)); }
+.done { background: linear-gradient(var(--rhp-toward-end), color-mix(in srgb, var(--rhp-color) 25%, transparent), var(--rhp-color)); }
 .goal { background: #fff; --rhp-tick-width: 2px; border-radius: 2px; }
 .pct { font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
-[data-rhp-o="h"].pct { padding-left: 14px; }
+.pct:horizontal { --rhp-label-gap: 14px; }
 .row:hover .done { box-shadow: 0 0 24px 2px color-mix(in srgb, var(--rhp-color) 80%, transparent); filter: brightness(1.2); }
 .row:hover .icon { background: color-mix(in srgb, var(--rhp-color) 34%, transparent); }
 .tip { width: 0; height: 0; padding: 0; translate: none; } /* a point at the tip of the progress; the bubble hangs from it */

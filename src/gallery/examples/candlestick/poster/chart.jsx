@@ -10,7 +10,7 @@ const dollars = (v) => "$" + v.toFixed(v < 100 ? 2 : 0);
 // Its root carries data-day, so the poster knows which day is under the pointer; that day's band is shaded.
 export const DaySlat = slat({
   band: { horizontal: 15 },
-  room: { horizontal: { start: 24, end: 64 }, vertical: { start: 10, end: 10 } }, // the axis numbers read "$42.5"
+  room: { horizontal: { start: 24, end: 64 }, vertical: { start: 10, end: 30 } }, // the axis numbers read "$42.5"; vertical, the last price's badge can stand 28px above the top
   css: styles.day,
 }, (d) => {
   const color = () => (d.close >= d.open ? "#0d7680" : "#990f3d");

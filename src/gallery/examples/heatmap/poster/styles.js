@@ -3,5 +3,5 @@
 // The hour numbers, small and muted.
 export const dayRow = `
 .hour { --rhp-label-size: 10px; color: var(--rhp-muted); }
-    .hour[data-rhp-o="h"] { width: auto; }
+    .hour:horizontal { width: auto; }
 `;

@@ -9,7 +9,7 @@ export const bin = `
 .deg { font-size: 11px; font-weight: 700; color: var(--rhp-muted); }
 .days { font-size: 11px; font-weight: 800; }
 .days > span { opacity: 0; transition: opacity .15s; }
-[data-rhp-o="h"].days { padding-left: 6px; }
+.days:horizontal { --rhp-label-gap: 6px; }
 .slat:hover .days > span { opacity: 1; }
 .slat:hover .bin { filter: brightness(1.08) saturate(1.1); }
 `;

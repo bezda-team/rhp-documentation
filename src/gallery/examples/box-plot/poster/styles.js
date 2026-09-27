@@ -3,43 +3,41 @@
 // v1's scale: a mark and a number per tick. The first and last marks are solid; the ones between are dashed lines (marks="line") or short ticks ("tick").
 export const scale = `
 .mark { --rhp-tick-width: 4px; background: var(--rhp-muted); translate: none; }
-[data-rhp-o="h"].mark { top: -16px; bottom: -12.8px; height: auto; }
-[data-rhp-o="v"].mark { left: -16px; right: -12.8px; width: auto; }
-.zero > [data-rhp-o="h"].mark { translate: -100% 0; }
-.zero > [data-rhp-o="v"].mark { translate: 0 100%; }
+.mark:horizontal { top: -16px; bottom: -12.8px; height: auto; }
+.mark:vertical { left: -16px; right: -12.8px; width: auto; }
+.zero > .mark:horizontal { translate: -100% 0; }
+.zero > .mark:vertical { translate: 0 100%; }
 .line > .mark { background: none; }
-.line > [data-rhp-o="h"].mark { border-left: 4px dashed var(--rhp-grid); }
-.line > [data-rhp-o="v"].mark { border-top: 4px dashed var(--rhp-grid); }
+.line > .mark:horizontal { border-left: 4px dashed var(--rhp-grid); }
+.line > .mark:vertical { border-top: 4px dashed var(--rhp-grid); }
 .tick > .mark { background: var(--rhp-grid); }
-.tick > [data-rhp-o="h"].mark { bottom: auto; height: 13px; }
-.tick > [data-rhp-o="v"].mark { right: auto; width: 13px; }
-.num { font-size: 13px; font-weight: 700; line-height: 19.5px; font-variant-numeric: normal; color: var(--rhp-muted); translate: none; padding: 0; }
-[data-rhp-o="h"].num { top: -20px; padding-left: 8px; }
-.zero > [data-rhp-o="h"].num { padding-left: 4px; }
-[data-rhp-o="v"].num { left: -20px; bottom: calc(var(--rhp-p) * 100% + 8px); }
-.zero > [data-rhp-o="v"].num { bottom: calc(var(--rhp-p) * 100% + 4px); }
+.tick > .mark:horizontal { bottom: auto; height: 13px; }
+.tick > .mark:vertical { right: auto; width: 13px; }
+.num { font-size: 13px; font-weight: 700; line-height: 19.5px; font-variant-numeric: normal; color: var(--rhp-muted); translate: none; --rhp-label-gap: 8px; }
+.zero > .num { --rhp-label-gap: 4px; }
+.num:horizontal { top: -20px; }
+.num:vertical { left: -20px; }
 .num.crowded { visibility: hidden; }
 `;
 
 // A cloud: its photo in a circle, the whiskers and their caps, the box with the name inside, and the top value. Hover a row to zoom the photo.
 export const box = `
 .photo { display: flex; align-items: center; justify-content: center; padding: 0; overflow: visible; }
-[data-rhp-o="h"].photo { top: 8px; bottom: 8px; translate: none; }
-[data-rhp-o="v"].photo { height: var(--rhp-room-start); }
+.photo:horizontal { top: 8px; bottom: 8px; translate: none; }
+.photo:vertical { height: var(--rhp-room-start); }
 .circle { flex: none; aspect-ratio: 1; border-radius: 50%; border: 4px solid var(--rhp-grid); overflow: hidden; }
-[data-rhp-o="h"] > .circle { height: 100%; }
-[data-rhp-o="v"] > .circle { width: min(63px, 100% - 16px); }
+.photo:horizontal > .circle { height: 100%; }
+.photo:vertical > .circle { width: min(63px, 100% - 16px); }
 .circle > img { display: block; width: 100%; height: 100%; margin: 0; object-fit: cover; transform: scale(5); }
 .whisker, .box { --rhp-radius: 0px; }
 .cap { --rhp-tick-width: 4px; }
-[data-rhp-o="h"].cap { translate: 0 -50%; }
-[data-rhp-o="v"].cap { translate: -50% 0; }
+.cap:horizontal { translate: 0 -50%; }
+.cap:vertical { translate: -50% 0; }
 .box { display: flex; align-items: center; justify-content: center; overflow: hidden; background: none;
   border: 4px solid var(--rhp-color); color: var(--rhp-color); font-size: 16px; line-height: 24px; white-space: nowrap; }
-[data-rhp-o="v"].box > span { writing-mode: vertical-rl; rotate: 180deg; }
-.value { font-size: 13px; font-weight: 700; line-height: 19.5px; font-variant-numeric: normal; color: var(--rhp-color); }
-[data-rhp-o="h"].value { padding-left: 8px; margin-top: -1px; } /* v1: 1px above the middle */
-[data-rhp-o="v"].value { padding-bottom: 8px; }
+.box:vertical > span { writing-mode: vertical-rl; rotate: 180deg; }
+.value { font-size: 13px; font-weight: 700; line-height: 19.5px; font-variant-numeric: normal; color: var(--rhp-color); --rhp-label-gap: 8px; }
+.value:horizontal { margin-top: -1px; } /* v1: 1px above the middle */
 .slat:hover .circle { border: 5px solid var(--rhp-muted); }
 .slat:hover .circle > img { transform: scale(1.5); }
 .slat:hover .box { border: 5px solid var(--rhp-muted); color: var(--rhp-muted); font-weight: 500; }

@@ -13,9 +13,9 @@ export const patient = `
 // An arm of the trial: its name, the average's line and its number.
 export const arm = `
 .arm { font-size: 15px; font-weight: 700; }
-[data-rhp-o="h"].arm { padding-right: 14px; }
+.arm:horizontal { --rhp-label-gap: 14px; }
 .mean { background: var(--rhp-ink); --rhp-tick-width: 3px; border-radius: 2px; }
 .avg { font-size: 12px; font-weight: 700; color: var(--rhp-ink); }
 .avg small { display: block; font-size: 10.5px; font-weight: 500; color: var(--rhp-muted); }
-[data-rhp-o="h"].avg { padding-left: 12px; }
+.avg:horizontal { --rhp-label-gap: 12px; }
 `;

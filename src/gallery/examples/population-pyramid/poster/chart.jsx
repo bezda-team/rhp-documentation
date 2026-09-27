@@ -8,7 +8,7 @@ const AGES = ["0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-7
 const MEN = [3.6, 4.2, 4.9, 5.5, 6.7, 7.3, 6.8, 5.7, 4.1]; // % of the population in each band
 const SPINE = 1.7; // scale units kept clear each side of 0, for the age labels
 
-// Men to the left of a spine of ages, women to the right: both Bars start SPINE away from 0.
+// Men to the left of a spine of ages, women to the right: both Bars start SPINE away from 0 and run outward.
 export const AgeSlat = slat({
   band: { horizontal: 30 },
   inset: 0.13,
@@ -16,8 +16,8 @@ export const AgeSlat = slat({
   css: styles.age,
 }, (d) => (
   <div>
-    <Bar from={-(d.men + SPINE)} to={-SPINE} color="#1d6fa5" class="men" />
-    <Bar from={SPINE} to={d.women + SPINE} color="#d9694c" class="women" />
+    <Bar from={-SPINE} to={-(d.men + SPINE)} color="#1d6fa5" class="side" />
+    <Bar from={SPINE} to={d.women + SPINE} color="#d9694c" class="side" />
     <Label at={0} class="age">{d.age}</Label>
     <Label at={-(d.men + SPINE)} side="before" class="pct">{d.men.toFixed(1)}</Label>
     <Label at={d.women + SPINE} class="pct">{d.women.toFixed(1)}</Label>

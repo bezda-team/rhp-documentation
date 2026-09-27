@@ -8,12 +8,12 @@ const MEN = [2, 9, 13, 13, 12]; // % of the population
 const WOMEN = [3, 10, 13, 13, 12];
 const COLORS = ["#2a78d6", "#eb6834"];
 
-// An age band: men as a Bar to the left of 0 (negative values), women to the right.
+// An age band: men as a Bar from 0 to the left (negative values), women to the right.
 export const BandSlat = slat({ css: styles.band, band: { horizontal: 36 } }, (d) => (
   <div>
     <Label edge="start" class="age">{d.age}</Label>
-    <Bar from={-d.men} to={0} color={COLORS[0]} class="men" />
-    <Bar from={0} to={d.women} color={COLORS[1]} class="women" />
+    <Bar to={-d.men} color={COLORS[0]} class="side" />
+    <Bar to={d.women} color={COLORS[1]} class="side" />
   </div>
 ));
 

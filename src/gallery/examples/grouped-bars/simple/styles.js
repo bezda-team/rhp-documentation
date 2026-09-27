@@ -1,7 +1,6 @@
 // A count's bar, rounded at its end.
 export const count = `
-[data-rhp-o="h"].bar { border-radius: 0 4px 4px 0; }
-[data-rhp-o="v"].bar { border-radius: 4px 4px 0 0; }
+.bar { --rhp-start-radius: 0px; --rhp-end-radius: 4px; }
 `;
 
 // A team's name, and a faint band behind its counts on hover.

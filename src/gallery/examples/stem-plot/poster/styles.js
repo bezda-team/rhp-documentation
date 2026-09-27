@@ -7,10 +7,7 @@ export const theme = { font: "system-ui, sans-serif", ink: "#f4f1ff", muted: "#8
 export const sample = `
 .swing, .tip { transition-delay: calc(var(--k) * 8ms); }
 .swing { --rhp-radius: 99px; opacity: var(--fade); }
-[data-rhp-o="h"].swing { background: linear-gradient(90deg, #6d28d9, #ec4899); }
-[data-rhp-o="h"].swing.down { background: linear-gradient(270deg, #6d28d9, #ec4899); }
-[data-rhp-o="v"].swing { background: linear-gradient(0deg, #6d28d9, #ec4899); }
-[data-rhp-o="v"].swing.down { background: linear-gradient(180deg, #6d28d9, #ec4899); }
+.swing { background: linear-gradient(var(--rhp-toward-end), #6d28d9, #ec4899); }
 .tip { background: #fff; opacity: var(--fade); box-shadow: 0 0 10px 2px rgb(236 72 153 / .7); }
 `;
 

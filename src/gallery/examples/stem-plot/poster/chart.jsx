@@ -13,7 +13,7 @@ export const SampleSlat = slat({
   css: styles.sample,
 }, (d) => (
   <div style={{ "--fade": 1 - d.index / 46, "--k": d.index }}>
-    <Bar to={d.y} thick="4px" class={d.y < 0 ? "swing down" : "swing"} />
+    <Bar to={d.y} thick="4px" class="swing" />
     <Dot at={d.y} size="7px" class="tip" />
   </div>
 ));
