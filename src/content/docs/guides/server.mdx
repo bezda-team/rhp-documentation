@@ -1,0 +1,27 @@
+---
+title: Server rendering
+description: Draw charts on the server, so they show before any script runs; the browser then takes them over.
+---
+
+rhp can draw charts on a server, as HTML.
+The page then shows them before any script has run, and the browser takes them over without drawing them again.
+
+## How to use it
+
+Nothing changes in your code.
+Render your app with Solid on the server, as SolidStart and Astro do (or `renderToString` on your own server), and `hydrate` it in the browser.
+
+`@bezda/rhp` picks the right build by itself: its server build where Solid picks its own (Node, Deno, workers), and its browser build in a browser.
+
+## What comes with the HTML
+
+- **Every chart, drawn.** Rows, bars and labels are in their places, sorted, with the right gutters.
+- **The CSS.** Each chart writes the CSS it needs into the page: rhp's own CSS once, and each row type's CSS.
+  When the browser takes the page over, it swaps those for its own stylesheets.
+
+## What waits for the browser
+
+A server can't measure the screen or run animations, so:
+
+- A `Scale` row's `d.toEnd` (its distance to the end of the scale, in pixels) is `Infinity` until the browser measures it.
+- Motion starts in the browser: the server draws the data as it is, and changes after that animate as usual.

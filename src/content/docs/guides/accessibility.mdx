@@ -1,0 +1,50 @@
+---
+title: Screen readers
+description: A chart reads as a named figure with a list of its rows, in the order they're shown.
+---
+
+rhp charts are HTML, so a screen reader reads their text.
+rhp adds the structure around it, with nothing to set up.
+
+## Name the chart
+
+Give the Chart a `label`, and it becomes a figure with that name:
+
+```jsx
+<Chart label="Fruit sold this week" scale={[0, 30]}>…</Chart>
+```
+
+It also takes `aria-labelledby` (the id of a heading on the page), `aria-describedby`, and any other `aria-` attribute.
+
+## Rows are a list
+
+Each Plot is a list, and each row is an item in it.
+A screen reader announces "list, 4 items" and reads each row's text: its Labels, and anything else the row writes.
+
+Sorted rows are read in the order they're shown.
+On screen they slide to their places, but they keep their place in the page, so rhp tells the screen reader the order with `aria-owns`.
+
+The axis numbers and a `Scale` are left out: they're for the eye, and each row's own values say more.
+
+## Rows that show only shapes
+
+A row with a bar and no value reads nothing.
+Give it words: a Label with the value, or text that a screen reader reads but the page doesn't show.
+
+```jsx
+const Row = slat({
+  css: `
+    .say { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  `,
+}, (d) => (
+  <div>
+    <Bar to={d.sold} />
+    <span class="say">{d.fruit}: {d.sold} sold</span>
+  </div>
+));
+```
+
+## Your own roles
+
+A row whose root has a role of its own keeps it: `<div role="group" aria-label={d.name}>` is read as a group, not a list item.
+Blocks take `aria-` attributes like any element.

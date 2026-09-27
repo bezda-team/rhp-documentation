@@ -44,6 +44,8 @@ export default defineConfig({
         { label: 'Layout and orientation', link: '/guides/layout/' },
         { label: 'Charts inside rows', link: '/guides/nesting/' },
         { label: 'Interaction', link: '/guides/interaction/' },
+        { label: 'Screen readers', link: '/guides/accessibility/' },
+        { label: 'Server rendering', link: '/guides/server/' },
         { label: 'Other frameworks', link: '/guides/other-frameworks/' },
       ],
     }, {

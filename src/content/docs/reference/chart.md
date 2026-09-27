@@ -19,6 +19,8 @@ description: The frame around one or more Plots. It sets the scale, the directio
 | `height` | `240` (vertical) | the plot's height, in px. A vertical chart always has one; a horizontal chart with a height fits rows that have no `thickness` into it, and one without grows with its rows. |
 | `animate` | off | `true` for the [JS version](/guides/motion/); or `{ duration, ease, slide }` with timings in ms. Plots inside take it too. |
 | `static` | off | for data that doesn't change: rows are drawn once and use much less memory. A change draws them again, without animation. See [data](/guides/data/#data-that-never-changes). |
+| `label` | | the chart's name for screen readers; with it, the chart is a figure. See [screen readers](/guides/accessibility/). |
+| `aria-*`, `id` | | set on the chart's element, like any element's (`aria-labelledby` also makes it a figure) |
 | `class`, `style` | | the chart's own box: width, margin, background, border |
 | `ref` | | the chart's element |
 

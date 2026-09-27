@@ -28,14 +28,23 @@ const strings = (pg) => pg.locator(".pg-file").first().evaluate((file) => {
 });
 
 // Types `text` at the start of the editor's line `line`, as a reader would: the cursor goes there (scrolled into view),
-// and the keys are typed.
+// and the keys are typed once the editor has the focus. What landed is read back: a lost key is the harness's error,
+// not a chart that didn't restyle (a rule missing a character changes nothing).
 async function typeAt(pg, line, text) {
-  await pg.locator(".pg-file").first().evaluate((file, line) => {
+  const file = pg.locator(".pg-file").first();
+  await file.evaluate((file, line) => {
     const v = file.editor;
     v.dispatch({ selection: { anchor: v.state.doc.line(line).from }, scrollIntoView: true });
     v.focus();
   }, line);
-  await page.keyboard.type(text);
+  await file.evaluate((file) => new Promise((done) => { const wait = () => (file.editor.hasFocus ? done() : requestAnimationFrame(wait)); wait(); }));
+  // A key every 15 ms, like a fast typist: with no delay at all, a key that comes while the chart restyles from the one
+  // before can be missed by the editor (it reads what was typed from the page), where a person's keys, some 100 ms
+  // apart, never are.
+  await page.keyboard.type(text, { delay: 15 });
+  const typed = await file.evaluate((file, [line, n]) => { const d = file.editor.state.doc; return Array.from({ length: n }, (_, k) => d.line(line + k).text).join("\n"); },
+    [line, text.split("\n").length - 1]);
+  if (typed !== text.replace(/\n$/, "")) throw new Error(`check-styles: typed ${JSON.stringify(text)} but the editor has ${JSON.stringify(typed)}`);
 }
 
 for (const slug of slugs) {
