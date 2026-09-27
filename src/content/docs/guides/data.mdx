@@ -5,14 +5,14 @@ description: How a Plot hands your data to its rows, as lists or as row objects,
 
 import Demo from '../../../customizations/components/Demo.astro';
 
-A Plot gives each row its share of the data, as `d`.
-You can pass the data in three ways, and mix them.
+Each row stands for one thing (a fruit, a city) and takes the values that belong to it together, as `d`: `d.name`, `d.sold`, `d.picture`.
+You can hand a Plot those values in three ways, and mix them.
 
 ## Lists, shared values and functions
 
 Every prop you give a Plot (other than its settings, such as `order`) is a piece of data:
 
-- **A list** gives each row its own entry: row 3 gets the third name, the third number, the third picture. The longest list sets how many rows there are.
+- **Lists** line up by position: the third name, the third number and the third picture belong together, and go to the third row. The longest list sets how many rows there are.
 - **A single value** is shared by every row.
 - **A function of `d`** is worked out for each row, and again only when what it reads changes.
 
@@ -23,8 +23,8 @@ Each row also has `d.index` (its place in the data, from 0) and `d.position` (it
 
 ## Row objects
 
-If your data is a list of objects, pass it as `rows`.
-Each object's fields become `d.city`, `d.temp` and so on.
+If your data already keeps each thing's values together, as a list of objects, pass it as `rows`.
+Each object becomes one row, and its fields become `d.city`, `d.temp` and so on.
 
 <Demo name="data-rows" height={150} />
 
