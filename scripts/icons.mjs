@@ -18,7 +18,7 @@ import { chromium } from "playwright";
 const BG = "#2e2f43";
 const SIZE = 512;
 const RADIUS = 115; // the square's corners
-const OUTLINE = 32; // the favicons' white outline: 1px at 16px
+const OUTLINE = 16; // the favicons' white outline, along the square's very edge: half a pixel at 16px
 
 // The dots: their centers, with the splash's own offset applied, and their radius
 const splash = fs.readFileSync("src/assets/rhp-splash.svg", "utf8");
