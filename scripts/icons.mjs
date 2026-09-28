@@ -4,6 +4,7 @@
 //   src/assets/rhp-icon.svg    the official icon
 //   src/assets/rhp-logo.svg    the logo alone, with no square behind it (the header's)
 //   public/favicon-rhp.svg     the r, for the browser tab (a new name, so no cache still holds Starlight's default)
+//   public/favicon.svg         the same, for pages a browser cached when they still linked this name
 //   public/favicon-rhp-16.png, public/favicon-rhp-32.png  the r as PNGs, which Safari reads when it skips an SVG
 //   public/favicon.ico         the r at 16, 32 and 48px, for browsers that ask for /favicon.ico
 //   public/apple-touch-icon.png  180px on a full square (iOS rounds the corners itself)
@@ -69,6 +70,7 @@ const rounded = icon(LOGO, 60, true); // the word 392px wide on the 512px square
 const small = icon(R, 96, true); // the r 320px tall
 fs.writeFileSync("src/assets/rhp-icon.svg", rounded);
 fs.writeFileSync("public/favicon-rhp.svg", small);
+fs.writeFileSync("public/favicon.svg", small);
 
 // PNGs, drawn by Chromium with a transparent page, so the rounded corners stay clear
 const browser = await chromium.launch();
