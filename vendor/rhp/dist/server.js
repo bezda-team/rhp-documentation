@@ -647,6 +647,15 @@ var _tmpl$ = ["<div", ' style="', '">', "</div>"], _tmpl$22 = ["<div", ' style="
   warned = !0;
   let name = el.getAttribute("class").match(BLOCK)[2], Name = name[0].toUpperCase() + name.slice(1);
   console.warn(`rhp: a ${Name} is a slat's root here, so the Plot places it as the row and it ignores part of its own placing. Put it in an element: (d) => <div><${Name} \u2026 /></div>. (Only a Plot with overlap takes a block as its slat.)`);
+}, autoRoom = (r) => r === "auto" || r?.start === "auto" || r?.end === "auto", warnedWrapped = !1, warnWrapped = (el) => {
+  if (!warnedWrapped)
+    for (let label of el.querySelectorAll(".rhp-label[data-rhp-edge]")) {
+      let inner = label.closest(".rhp-plot");
+      if (!(label.parentElement === el || inner && el.contains(inner))) {
+        warnedWrapped = !0, console.warn(`rhp: an edge Label is inside another element here, so room "auto" doesn't measure it and it gets no room. Make it a child of the slat's root element: (d) => <div><Label edge="start">\u2026</Label> \u2026 </div>. (Room in px has no such limit.)`);
+        return;
+      }
+    }
 }, SPACE = /\s/;
 function readTag(node) {
   for (; typeof node == "function"; )
@@ -834,6 +843,9 @@ function makePlot(props, role) {
     let want = () => pick(layout.room, frame.orientation()) ?? (nested || role !== "Plot" ? null : DEFAULT_ROOM[frame.orientation()]);
     frame.need(want), onCleanup(() => frame.drop(want));
   }
+  let edgesUnchecked = !1, checkEdges = (el) => {
+    edgesUnchecked = !1, autoRoom(pick(layout.room, orientation())) && warnWrapped(el);
+  };
   if (frame && !nested && role === "Plot" && !props.overlap) {
     let fits = () => pick(layout.thickness, orientation()) == null;
     frame.fit(fits), onCleanup(() => frame.unfit(fits));

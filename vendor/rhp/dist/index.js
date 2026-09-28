@@ -699,6 +699,15 @@ var _tmpl$4 = /* @__PURE__ */ _$template2("<div class=rhp-axis aria-hidden=true>
   warned = !0;
   let name = el.getAttribute("class").match(BLOCK)[2], Name = name[0].toUpperCase() + name.slice(1);
   console.warn(`rhp: a ${Name} is a slat's root here, so the Plot places it as the row and it ignores part of its own placing. Put it in an element: (d) => <div><${Name} \u2026 /></div>. (Only a Plot with overlap takes a block as its slat.)`);
+}, autoRoom = (r) => r === "auto" || r?.start === "auto" || r?.end === "auto", warnedWrapped = !1, warnWrapped = (el) => {
+  if (!warnedWrapped)
+    for (let label of el.querySelectorAll(".rhp-label[data-rhp-edge]")) {
+      let inner = label.closest(".rhp-plot");
+      if (!(label.parentElement === el || inner && el.contains(inner))) {
+        warnedWrapped = !0, console.warn(`rhp: an edge Label is inside another element here, so room "auto" doesn't measure it and it gets no room. Make it a child of the slat's root element: (d) => <div><Label edge="start">\u2026</Label> \u2026 </div>. (Room in px has no such limit.)`);
+        return;
+      }
+    }
 };
 function Plot(props) {
   return makePlot(props, "Plot");
@@ -810,6 +819,9 @@ function makePlot(props, role) {
     let want = () => pick(layout.room, frame.orientation()) ?? (nested || role !== "Plot" ? null : DEFAULT_ROOM[frame.orientation()]);
     frame.need(want), onCleanup(() => frame.drop(want));
   }
+  let edgesUnchecked = !nested && layout.room != null, checkEdges = (el) => {
+    edgesUnchecked = !1, autoRoom(pick(layout.room, orientation())) && warnWrapped(el);
+  };
   if (frame && !nested && role === "Plot" && !props.overlap) {
     let fits = () => pick(layout.thickness, orientation()) == null;
     frame.fit(fits), onCleanup(() => frame.unfit(fits));
@@ -819,7 +831,7 @@ function makePlot(props, role) {
     if (typeof Element < "u" && !(el instanceof Element)) throw new Error("rhp: a slat must return one element");
     asList() && !el.hasAttribute("role") && el.setAttribute("role", "listitem");
     let ownId = el.id.startsWith(`rhp-${uid}-`) ? "" : el.id;
-    return !props.overlap && BLOCK.test(el.getAttribute("class")) && warnBare(el), props.children.scope && el.setAttribute("data-rhp-slat", props.children.scope), createRenderEffect2((prev) => {
+    return !props.overlap && BLOCK.test(el.getAttribute("class")) && warnBare(el), edgesUnchecked && checkEdges(el), props.children.scope && el.setAttribute("data-rhp-slat", props.children.scope), createRenderEffect2((prev) => {
       let r = row(), dir = short(orientation()), p = pos[r], id2 = ownId || (reordered() ? `rhp-${uid}-${r}` : "");
       return dir !== prev?.dir && el.setAttribute("data-rhp-o", dir), p !== prev?.p && (el.hidden = p == null, p != null && el.style.setProperty("--rhp-position", p)), id2 !== prev?.id && id2 !== el.id && (id2 ? el.id = id2 : el.removeAttribute("id")), ownId && r !== prev?.r && (prev && untrack2(rowIds)?.get(prev.r) === ownId && ownIdAt(prev.r), ownIdAt(r, ownId)), {
         r,
@@ -833,7 +845,7 @@ function makePlot(props, role) {
     return createRoot((dispose) => {
       if (el = props.children(datum(() => i, null)), typeof Element < "u" && !(el instanceof Element)) throw new Error("rhp: a slat must return one element");
       props.children.scope && el.setAttribute("data-rhp-slat", props.children.scope), asList() && !el.hasAttribute("role") && el.setAttribute("role", "listitem"), !el.id && reordered() && (el.id = `rhp-${uid}-${i}`), el.setAttribute("data-rhp-o", short(orientation())), el.hidden = p == null, p != null && el.style.setProperty("--rhp-position", p), dispose();
-    }), el.$row = () => i, el;
+    }), edgesUnchecked && checkEdges(el), el.$row = () => i, el;
   }, action = () => props.reorder ?? "slide", Slats = () => still ? createMemo2(() => {
     for (let key of groups)
       group[key]();

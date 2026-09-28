@@ -50,8 +50,20 @@ Each side can be set on its own: `room: { start: "auto", end: 40 }` fits the nam
 A few things to know:
 
 - Rows then span the room as well: a row's background reaches under its name.
-- It costs more layout than a number of pixels. Charts of tens of rows don't notice; for hundreds of rows, give `room` in px.
+- Only a label that is a child of the row's root element is measured. A label inside another element gets no room, and rhp warns about it in the console.
+- When the widest name changes, the room changes at once, and the bars resize with it instead of animating.
 - Firefox makes the room under a vertical chart one line tall, so names that wrap onto more lines there need `room` in px.
+
+### When px is better
+
+`"auto"` suits charts of tens of rows whose names don't change much.
+Give `room` in px when:
+
+- the chart has hundreds of rows,
+- its names change often, with new data or `reorder="refill"`,
+- many of your readers use Safari.
+
+Each time a name changes, the chart lays out all its rows again to find the widest one, and Safari is the slowest at it.
 
 ## Width
 
