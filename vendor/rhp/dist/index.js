@@ -13,10 +13,13 @@ import { use as _$use2 } from "solid-js/web";
 import { createComponent as _$createComponent } from "solid-js/web";
 
 // src/rhp.css
-var rhp_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-area path){display:revert;box-sizing:border-box;margin:0;padding:0;border:0 solid transparent;border-radius:0;box-shadow:none;outline:revert;outline-offset:revert;background:none;overflow:visible;float:none;min-width:0;min-height:0;max-width:none;max-height:none;vertical-align:baseline;transition:none;animation:none;text-decoration:none;user-select:auto;touch-action:auto;font:inherit;font-synthesis:inherit;letter-spacing:inherit;word-spacing:inherit;text-transform:inherit;text-indent:inherit;text-align:inherit;text-shadow:inherit;color:inherit;white-space:inherit;text-rendering:inherit;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-text-stroke:inherit;-webkit-tap-highlight-color:inherit;word-break:inherit;overflow-wrap:inherit;hyphens:inherit;line-break:inherit;print-color-adjust:inherit}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object),.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){width:auto;height:auto}:where(:root:active-view-transition .rhp-plot>*){view-transition-name:none}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area)[hidden]{display:none}:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):before,:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):after{display:none}:is(.rhp-label,.rhp-gridline>span)::selection,:is(.rhp-label,.rhp-gridline>span,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell) ::selection{color:HighlightText;background-color:Highlight;text-shadow:none}.rhp-chart{--rhp-min: 0;--rhp-max: 100;--rhp-inset: 18%;padding:var(--rhp-pad-top, 2px) var(--rhp-pad-right, 2px) var(--rhp-pad-bottom, 2px) var(--rhp-pad-left, 2px)}.rhp-body{all:initial}.rhp-body{position:relative;display:grid;width:100%;direction:ltr;container-type:inline-size;visibility:inherit;pointer-events:inherit;font:400 12px/1.15 var(--rhp-font);color:var(--rhp-ink);print-color-adjust:exact}.rhp-chart[data-rhp-o=h]>.rhp-body{height:auto}.rhp-chart[data-rhp-o=v]>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-o=h][data-rhp-sized]>.rhp-body{height:var(--rhp-height)}.rhp-body>*{grid-area:1 / 1;min-width:0;min-height:0}.rhp-axis{position:relative;pointer-events:none}.rhp-gridline{position:absolute;--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-gridline[data-rhp-o=h]{top:0;bottom:0;left:calc(var(--rhp-p) * 100%);border-left:1px solid var(--rhp-grid)}.rhp-gridline[data-rhp-o=v]{left:0;right:0;bottom:calc(var(--rhp-p) * 100%);border-bottom:1px solid var(--rhp-grid)}.rhp-gridline>span{position:absolute;font-size:11px;line-height:1;color:var(--rhp-muted);white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-gridline[data-rhp-o=h]>span{top:calc(100% + 5px);left:0;translate:-50% 0}.rhp-gridline[data-rhp-o=v]>span{right:calc(100% + 6px);bottom:0;translate:0 50%}.rhp-plot{position:relative;z-index:1}.rhp-plot[data-rhp-o=h],.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){--rhp-toward-end: to right}.rhp-plot[data-rhp-o=v],.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){--rhp-toward-end: to top}.rhp-bar[data-rhp-o=h][data-rhp-back]{--rhp-toward-end: to left}.rhp-bar[data-rhp-o=v][data-rhp-back]{--rhp-toward-end: to bottom}.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 32px))}.rhp-chart[data-rhp-sized]>.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap]){width:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-overlap][data-rhp-o=h]{min-height:var(--rhp-pitch, 32px)}.rhp-plot>*>.rhp-plot,.rhp-plot>.rhp-plot{--rhp-pitch: initial}.rhp-plot>*>.rhp-plot{position:absolute}.rhp-plot[data-rhp-o=h]>*>.rhp-plot{inset:calc((100% - var(--rhp-plot-thick, 100%)) / 2) 0}.rhp-plot[data-rhp-o=v]>*>.rhp-plot{inset:0 calc((100% - var(--rhp-plot-thick, 100%)) / 2)}:is(.rhp-bar,.rhp-area){--rhp-lo: clamp(0, (min(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1);--rhp-hi: clamp(0, (max(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)}:is(.rhp-dot,.rhp-tick,.rhp-label){--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area){position:absolute}.rhp-area[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-area[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-bar[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){left:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){bottom:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar{background:var(--rhp-color, var(--rhp-series-1))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h][data-rhp-back]{border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v][data-rhp-back]{border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h]{top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:0 -50%}.rhp-bar[data-rhp-o=v]{left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:-50% 0}.rhp-dot{width:var(--rhp-size, 10px);height:var(--rhp-size, 10px);border-radius:50%;background:var(--rhp-color, var(--rhp-series-1))}.rhp-dot[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%);translate:-50% -50%}.rhp-dot[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%);translate:-50% 50%}.rhp-tick{background:var(--rhp-color, var(--rhp-ink))}.rhp-tick[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));width:var(--rhp-tick-width, 2px);translate:-50% -50%}.rhp-tick[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));height:var(--rhp-tick-width, 2px);translate:-50% 50%}.rhp-label{font-size:var(--rhp-label-size, 12px);line-height:1.15;white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-label[data-rhp-at][data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;translate:0 -50%;padding-left:var(--rhp-label-gap, 5px)}.rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% -50%;padding:0 var(--rhp-label-gap, 5px) 0 0}.rhp-label[data-rhp-at][data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;translate:-50% 0;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-label[data-rhp-at][data-rhp-o=v][data-rhp-side=before]{translate:-50% 100%;padding:var(--rhp-label-gap, 3px) 0 0}.rhp-label[data-rhp-edge][data-rhp-o=h]{top:50%;translate:0 -50%;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=h]{right:100%;width:var(--rhp-room-start, 104px);text-align:right;padding-right:var(--rhp-label-gap, 8px)}.rhp-label[data-rhp-edge=end][data-rhp-o=h]{left:100%;width:var(--rhp-room-end, 44px);padding-left:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge][data-rhp-o=v]{left:0;right:0;text-align:center;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=v]{top:100%;padding-top:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge=end][data-rhp-o=v]{bottom:100%;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-cell{inset:var(--rhp-cell-gap, 1px);background:var(--rhp-color, color-mix(in oklab, var(--rhp-high) calc(clamp(0, (var(--rhp-value) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)*100%) , var(--rhp-low)));border-radius:var(--rhp-radius, 2px)}.rhp-area{overflow:visible;fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 35%,transparent);stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:1.5px;filter:none;pointer-events:inherit;stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:miter;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;fill-rule:nonzero;paint-order:normal;shape-rendering:auto}.rhp-area path{fill:inherit;stroke:inherit;stroke-width:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;fill-rule:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit;d:var(--rhp-d, none)}.rhp-area[data-rhp-o=h]{top:calc(var(--rhp-inset) / 2);height:calc(100% - var(--rhp-inset))}.rhp-area[data-rhp-o=v]{left:calc(var(--rhp-inset) / 2);width:calc(100% - var(--rhp-inset))}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label[data-rhp-at],.rhp-area,.rhp-gridline){transition-property:left,width,bottom,height,background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out)}.rhp-cell{transition:background-color var(--rhp-length-time, .15s) var(--rhp-length-ease, ease-out)}}@layer rhp.place{.rhp-plot>*{position:absolute;box-sizing:border-box}.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap])>*{inset:0 0 auto;height:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:0 calc(var(--rhp-position) * 100%)}.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap])>*{inset:0 auto 0 0;width:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:calc(var(--rhp-position) * 100%) 0}.rhp-plot[data-rhp-reorder=slide]:not([data-rhp-overlap])>*{transition:translate var(--rhp-slide-time, .3s) var(--rhp-slide-ease, ease-in-out)}.rhp-chart[data-rhp-turning] .rhp-plot[data-rhp-reorder]>*{transition:none}.rhp-chart[data-rhp-turning],.rhp-chart[data-rhp-turning] *{transition:none}[data-rhp-animate=js] :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-area,.rhp-gridline,.rhp-cell){transition:none}.rhp-plot>[hidden]{display:none}.rhp-plot[data-rhp-overlap]>:not(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area){inset:0}@media(prefers-reduced-motion:reduce){.rhp-plot[data-rhp-reorder]:not([data-rhp-overlap])>*{transition:none}.rhp-chart :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-area,.rhp-gridline,.rhp-cell){transition:none}}}";
+var rhp_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-area path,.rhp-line,.rhp-line path){display:revert;box-sizing:border-box;margin:0;padding:0;border:0 solid transparent;border-radius:0;box-shadow:none;outline:revert;outline-offset:revert;background:none;overflow:visible;float:none;min-width:0;min-height:0;max-width:none;max-height:none;vertical-align:baseline;transition:none;animation:none;text-decoration:none;user-select:auto;touch-action:auto;font:inherit;font-synthesis:inherit;letter-spacing:inherit;word-spacing:inherit;text-transform:inherit;text-indent:inherit;text-align:inherit;text-shadow:inherit;color:inherit;white-space:inherit;text-rendering:inherit;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-text-stroke:inherit;-webkit-tap-highlight-color:inherit;word-break:inherit;overflow-wrap:inherit;hyphens:inherit;line-break:inherit;print-color-adjust:inherit}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object),.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){width:auto;height:auto}:where(:root:active-view-transition .rhp-plot>*){view-transition-name:none}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line)[hidden]{display:none}:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):before,:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):after{display:none}:is(.rhp-label,.rhp-gridline>span)::selection,:is(.rhp-label,.rhp-gridline>span,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell) ::selection{color:HighlightText;background-color:Highlight;text-shadow:none}.rhp-chart{--rhp-min: 0;--rhp-max: 100;--rhp-inset: 18%;padding:var(--rhp-pad-top, 2px) var(--rhp-pad-right, 2px) var(--rhp-pad-bottom, 2px) var(--rhp-pad-left, 2px)}.rhp-body{all:initial}.rhp-body{position:relative;display:grid;width:100%;direction:ltr;container-type:inline-size;visibility:inherit;pointer-events:inherit;font:400 12px/1.15 var(--rhp-font);color:var(--rhp-ink);print-color-adjust:exact}.rhp-chart[data-rhp-o=h]>.rhp-body{height:auto}.rhp-chart[data-rhp-o=v]>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-o=h][data-rhp-sized]>.rhp-body{height:var(--rhp-height)}.rhp-body>*{grid-area:1 / 1;min-width:0;min-height:0}.rhp-axis{position:relative;pointer-events:none}.rhp-gridline{position:absolute;--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-gridline[data-rhp-o=h]{top:0;bottom:0;left:calc(var(--rhp-p) * 100%);border-left:1px solid var(--rhp-grid)}.rhp-gridline[data-rhp-o=v]{left:0;right:0;bottom:calc(var(--rhp-p) * 100%);border-bottom:1px solid var(--rhp-grid)}.rhp-gridline>span{position:absolute;font-size:11px;line-height:1;color:var(--rhp-muted);white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-gridline[data-rhp-o=h]>span{top:calc(100% + 5px);left:0;translate:-50% 0}.rhp-gridline[data-rhp-o=v]>span{right:calc(100% + 6px);bottom:0;translate:0 50%}.rhp-plot{position:relative;z-index:1}.rhp-plot[data-rhp-o=h],.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){--rhp-toward-end: to right}.rhp-plot[data-rhp-o=v],.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){--rhp-toward-end: to top}.rhp-bar[data-rhp-o=h][data-rhp-back]{--rhp-toward-end: to left}.rhp-bar[data-rhp-o=v][data-rhp-back]{--rhp-toward-end: to bottom}.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 32px))}.rhp-chart[data-rhp-sized]>.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap]){width:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-overlap][data-rhp-o=h]{min-height:var(--rhp-pitch, 32px)}.rhp-plot>*>.rhp-plot,.rhp-plot>.rhp-plot{--rhp-pitch: initial}.rhp-plot>*>.rhp-plot{position:absolute}.rhp-plot[data-rhp-o=h]>*>.rhp-plot{inset:calc((100% - var(--rhp-plot-thick, 100%)) / 2) 0}.rhp-plot[data-rhp-o=v]>*>.rhp-plot{inset:0 calc((100% - var(--rhp-plot-thick, 100%)) / 2)}:is(.rhp-bar,.rhp-area,.rhp-line){--rhp-lo: clamp(0, (min(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1);--rhp-hi: clamp(0, (max(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)}:is(.rhp-dot,.rhp-tick,.rhp-label){--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){position:absolute}:is(.rhp-area,.rhp-line)[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}:is(.rhp-area,.rhp-line)[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-bar[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){left:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){bottom:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar{background:var(--rhp-color, var(--rhp-series-1))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h][data-rhp-back]{border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v][data-rhp-back]{border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h]{top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:0 -50%}.rhp-bar[data-rhp-o=v]{left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:-50% 0}.rhp-dot{width:var(--rhp-size, 10px);height:var(--rhp-size, 10px);border-radius:50%;background:var(--rhp-color, var(--rhp-series-1))}.rhp-dot[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%);translate:-50% -50%}.rhp-dot[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%);translate:-50% 50%}.rhp-tick{background:var(--rhp-color, var(--rhp-ink))}.rhp-tick[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));width:var(--rhp-tick-width, 2px);translate:-50% -50%}.rhp-tick[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));height:var(--rhp-tick-width, 2px);translate:-50% 50%}.rhp-label{font-size:var(--rhp-label-size, 12px);line-height:1.15;white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-label[data-rhp-at][data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;translate:0 -50%;padding-left:var(--rhp-label-gap, 5px)}.rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% -50%;padding:0 var(--rhp-label-gap, 5px) 0 0}.rhp-label[data-rhp-at][data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;translate:-50% 0;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-label[data-rhp-at][data-rhp-o=v][data-rhp-side=before]{translate:-50% 100%;padding:var(--rhp-label-gap, 3px) 0 0}.rhp-label[data-rhp-edge][data-rhp-o=h]{top:50%;translate:0 -50%;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=h]{right:100%;width:var(--rhp-room-start, 104px);text-align:right;padding-right:var(--rhp-label-gap, 8px)}.rhp-label[data-rhp-edge=end][data-rhp-o=h]{left:100%;width:var(--rhp-room-end, 44px);padding-left:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge][data-rhp-o=v]{left:0;right:0;text-align:center;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=v]{top:100%;padding-top:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge=end][data-rhp-o=v]{bottom:100%;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-cell{inset:var(--rhp-cell-gap, 1px);background:var(--rhp-color, color-mix(in oklab, var(--rhp-high) calc(clamp(0, (var(--rhp-value) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)*100%) , var(--rhp-low)));border-radius:var(--rhp-radius, 2px)}.rhp-area{overflow:visible;fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 35%,transparent);stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:1.5px;filter:none;pointer-events:inherit;stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:miter;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;fill-rule:nonzero;paint-order:normal;shape-rendering:auto}.rhp-area path{fill:inherit;stroke:inherit;stroke-width:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;fill-rule:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit;d:var(--rhp-d, none)}:is(.rhp-area,.rhp-line)[data-rhp-o=h]{top:calc(var(--rhp-inset) / 2);height:calc(100% - var(--rhp-inset))}:is(.rhp-area,.rhp-line)[data-rhp-o=v]{left:calc(var(--rhp-inset) / 2);width:calc(100% - var(--rhp-inset))}.rhp-line{overflow:visible;fill:none;stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:2px;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;paint-order:normal;shape-rendering:auto;filter:none;pointer-events:inherit;--rhp-d-under: none}.rhp-line path{stroke-width:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit}.rhp-line .rhp-stroke{fill:none;stroke:inherit;d:var(--rhp-d, none)}.rhp-line .rhp-under{fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 22%,transparent);stroke:none;d:var(--rhp-d-under, none)}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label[data-rhp-at],.rhp-area,.rhp-line,.rhp-gridline){transition-property:left,width,bottom,height,background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out)}.rhp-cell{transition:background-color var(--rhp-length-time, .15s) var(--rhp-length-ease, ease-out)}}@layer rhp.place{.rhp-plot>*{position:absolute;box-sizing:border-box}.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap])>*{left:0;right:0;top:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));bottom:auto;height:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap])>*{top:0;bottom:0;left:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));right:auto;width:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-reorder=slide]:not([data-rhp-overlap])>*{transition:top var(--rhp-slide-time, .3s) var(--rhp-slide-ease, ease-in-out),left var(--rhp-slide-time, .3s) var(--rhp-slide-ease, ease-in-out)}.rhp-chart[data-rhp-turning] .rhp-plot[data-rhp-reorder]>*{transition:none}.rhp-chart[data-rhp-turning],.rhp-chart[data-rhp-turning] *{transition:none}[data-rhp-animate=js] :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-area,.rhp-line,.rhp-gridline,.rhp-cell){transition:none}.rhp-plot>[hidden]{display:none}.rhp-plot[data-rhp-overlap]>:not(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){inset:0}@media(prefers-reduced-motion:reduce){.rhp-plot[data-rhp-reorder]:not([data-rhp-overlap])>*{transition:none}.rhp-chart :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-area,.rhp-line,.rhp-gridline,.rhp-cell){transition:none}}}";
 
 // src/gutters.css
-var gutters_default = "@layer rhp.core{[data-rhp-gutters=h]>.rhp-body{grid-template-columns:[start-start] var(--rhp-gutter-start) [start-end track-start] minmax(0,1fr) [track-end end-start] var(--rhp-gutter-end) [end-end]}.rhp-chart[data-rhp-gutters=v]>.rhp-body{height:auto;grid-template-rows:[end-start] var(--rhp-gutter-end) [end-end track-start] var(--rhp-height, 240px) [track-end start-start] var(--rhp-gutter-start) [start-end]}[data-rhp-gutters=h]>.rhp-body>*{grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>*{grid-area:track / 1}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{inset:auto;translate:none;width:auto;min-width:0;min-height:0}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{align-self:center;max-width:var(--rhp-gutter-max, 40cqw)}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{justify-self:end}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{justify-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{justify-self:stretch}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{align-self:end}}@layer rhp.place{[data-rhp-gutters=h]>.rhp-body>.rhp-plot{grid-column:1 / -1;display:grid;grid-template-columns:subgrid}[data-rhp-gutters=v]>.rhp-body>.rhp-plot{grid-row:1 / -1;display:grid;grid-template-rows:subgrid}[data-rhp-gutters]>.rhp-body>.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area){position:relative;display:grid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / auto / -1;grid-template-columns:subgrid}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / -1;grid-template-rows:subgrid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{justify-self:start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area){grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area){grid-area:track / 1}[data-rhp-gutters=h] .rhp-plot .rhp-bar,[data-rhp-gutters=h] .rhp-plot .rhp-dot,[data-rhp-gutters=h] .rhp-plot .rhp-tick,[data-rhp-gutters=h] .rhp-plot .rhp-label,[data-rhp-gutters=h] .rhp-plot .rhp-cell,[data-rhp-gutters=h] .rhp-plot .rhp-area,[data-rhp-gutters=h] .rhp-plot .rhp-plot{grid-column:track}[data-rhp-gutters=v] .rhp-plot .rhp-bar,[data-rhp-gutters=v] .rhp-plot .rhp-dot,[data-rhp-gutters=v] .rhp-plot .rhp-tick,[data-rhp-gutters=v] .rhp-plot .rhp-label,[data-rhp-gutters=v] .rhp-plot .rhp-cell,[data-rhp-gutters=v] .rhp-plot .rhp-area,[data-rhp-gutters=v] .rhp-plot .rhp-plot{grid-row:track}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{position:relative}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:1 / start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:1 / end}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:start / 1}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:end / 1}}";
+var gutters_default = "@layer rhp.core{[data-rhp-gutters=h]>.rhp-body{grid-template-columns:[start-start] var(--rhp-gutter-start) [start-end track-start] minmax(0,1fr) [track-end end-start] var(--rhp-gutter-end) [end-end]}.rhp-chart[data-rhp-gutters=v]>.rhp-body{height:auto;grid-template-rows:[end-start] var(--rhp-gutter-end) [end-end track-start] var(--rhp-height, 240px) [track-end start-start] var(--rhp-gutter-start) [start-end]}[data-rhp-gutters=h]>.rhp-body>*{grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>*{grid-area:track / 1}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{inset:auto;translate:none;width:auto;min-width:0;min-height:0}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{align-self:center;max-width:var(--rhp-gutter-max, 40cqw)}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{justify-self:end}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{justify-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{justify-self:stretch}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{align-self:end}}@layer rhp.place{[data-rhp-gutters=h]>.rhp-body>.rhp-plot{grid-column:1 / -1;display:grid;grid-template-columns:subgrid;grid-template-rows:100%}[data-rhp-gutters=v]>.rhp-body>.rhp-plot{grid-row:1 / -1;display:grid;grid-template-rows:subgrid;grid-template-columns:100%}[data-rhp-gutters]>.rhp-body>.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){position:relative;display:grid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / auto / -1;grid-template-columns:subgrid}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / -1;grid-template-rows:subgrid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{justify-self:start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){grid-area:track / 1}[data-rhp-gutters=h] .rhp-plot .rhp-bar,[data-rhp-gutters=h] .rhp-plot .rhp-dot,[data-rhp-gutters=h] .rhp-plot .rhp-tick,[data-rhp-gutters=h] .rhp-plot .rhp-label,[data-rhp-gutters=h] .rhp-plot .rhp-cell,[data-rhp-gutters=h] .rhp-plot .rhp-area,[data-rhp-gutters=h] .rhp-plot .rhp-line,[data-rhp-gutters=h] .rhp-plot .rhp-plot{grid-column:track}[data-rhp-gutters=v] .rhp-plot .rhp-bar,[data-rhp-gutters=v] .rhp-plot .rhp-dot,[data-rhp-gutters=v] .rhp-plot .rhp-tick,[data-rhp-gutters=v] .rhp-plot .rhp-label,[data-rhp-gutters=v] .rhp-plot .rhp-cell,[data-rhp-gutters=v] .rhp-plot .rhp-area,[data-rhp-gutters=v] .rhp-plot .rhp-line,[data-rhp-gutters=v] .rhp-plot .rhp-plot{grid-row:track}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{position:relative}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:1 / start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:1 / end}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:start / 1}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:end / 1}}";
+
+// src/cross.css
+var cross_default = "@layer rhp.core{.rhp-chart[data-rhp-cross]{--rhp-cross: initial}.rhp-chart[data-rhp-cross][data-rhp-o=h]>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-cross] :is(.rhp-dot,.rhp-label[data-rhp-at]){--rhp-q: calc((var(--rhp-cross) - var(--rhp-cross-min)) / (var(--rhp-cross-max) - var(--rhp-cross-min)))}.rhp-chart[data-rhp-cross] .rhp-dot[data-rhp-o=h]{top:auto;bottom:calc(var(--rhp-q, (1 - var(--rhp-across, .5))) * 100%);translate:-50% 50%}.rhp-chart[data-rhp-cross] .rhp-dot[data-rhp-o=v]{left:calc(var(--rhp-q, var(--rhp-across, .5)) * 100%)}.rhp-chart[data-rhp-cross] .rhp-label[data-rhp-at][data-rhp-o=h]{top:auto;bottom:calc(var(--rhp-q, .5) * 100%);translate:0 50%}.rhp-chart[data-rhp-cross] .rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% 50%}.rhp-chart[data-rhp-cross] .rhp-label[data-rhp-at][data-rhp-o=v]{left:calc(var(--rhp-q, .5) * 100%)}.rhp-chart[data-rhp-cross] .rhp-line{--rhp-q0: calc((var(--rhp-cross-from) - var(--rhp-cross-min)) / (var(--rhp-cross-max) - var(--rhp-cross-min)));--rhp-q1: calc((var(--rhp-cross-to) - var(--rhp-cross-min)) / (var(--rhp-cross-max) - var(--rhp-cross-min)))}.rhp-chart[data-rhp-cross] .rhp-line[data-rhp-o=h]{top:auto;bottom:calc(var(--rhp-q0) * 100%);height:calc((var(--rhp-q1) - var(--rhp-q0)) * 100%)}.rhp-chart[data-rhp-cross] .rhp-line[data-rhp-o=v]{left:calc(var(--rhp-q0) * 100%);width:calc((var(--rhp-q1) - var(--rhp-q0)) * 100%)}.rhp-axis[data-rhp-cross]{--rhp-min: var(--rhp-cross-min);--rhp-max: var(--rhp-cross-max)}}";
 
 // src/style.js
 var LAYERS = "@layer rhp.place, rhp.slat, rhp.core;", DESCRIPTORS = /^@(-webkit-)?keyframes\b|^@(font-face|property|counter-style|font-palette-values|font-feature-values|view-transition|position-try)\b/i;
@@ -260,8 +263,8 @@ function update(entry, css) {
     sheet && (sheet.replaceSync ? sheet.replaceSync(css) : sheet.textContent = css);
   }
 }
-var coreText, guttersText, coreSheet = () => coreText ?? (coreText = LAYERS + `
-` + important(rhp_default)), gutterSheet = () => guttersText ?? (guttersText = important(gutters_default));
+var coreText, guttersText, crossText, coreSheet = () => coreText ?? (coreText = LAYERS + `
+` + important(rhp_default)), gutterSheet = () => guttersText ?? (guttersText = important(gutters_default)), crossSheet = () => crossText ?? (crossText = important(cross_default));
 var linked = !1, checked = !1;
 function linkedCss() {
   linked = !0;
@@ -277,6 +280,10 @@ function checkLinked(body) {
 var gutters = !1;
 function useGutters() {
   gutters || typeof document > "u" || (gutters = !0, add(gutterSheet(), !0));
+}
+var cross = !1;
+function useCross() {
+  cross || typeof document > "u" || (cross = !0, add(crossSheet(), !0));
 }
 var core = !1;
 function useCore() {
@@ -337,7 +344,8 @@ function slat(def, fn) {
 }
 
 // src/plot.jsx
-import { createMemo as createMemo2, createComputed, createRenderEffect as createRenderEffect2, createContext, useContext, getOwner, runWithOwner, onMount, onCleanup, createSignal as createSignal2, createRoot, createUniqueId, mergeProps, splitProps as splitProps2, untrack as untrack2, Index, For, Show } from "solid-js";
+import { createMemo as createMemo2, createComputed, createRenderEffect as createRenderEffect2, createEffect, createContext, useContext, getOwner, runWithOwner, onMount, onCleanup, createSignal as createSignal2, createSelector, createRoot, createUniqueId, mergeProps, splitProps as splitProps2, untrack as untrack2, Index, For, Show } from "solid-js";
+import { delegateEvents } from "solid-js/web";
 import { createStore } from "solid-js/store";
 
 // src/animate.js
@@ -554,7 +562,7 @@ import { spread as _$spread } from "solid-js/web";
 import { mergeProps as _$mergeProps } from "solid-js/web";
 import { createMemo, createRenderEffect, splitProps } from "solid-js";
 import { insert, style } from "solid-js/web";
-var _tmpl$ = /* @__PURE__ */ _$template("<div>"), _tmpl$2 = /* @__PURE__ */ _$template("<svg><path vector-effect=non-scaling-stroke>"), cls = (base, c) => c ? base + " " + c : base, KEY = /^(series-\d+|positive|negative|ink|muted|grid|surface|low|high)$/, tok = (c) => typeof c != "string" ? c : KEY.test(c) ? "var(--rhp-" + c + ")" : (/var\(--(?!rhp-)/.test(c) && console.warn("rhp: " + c + " reads a page variable; use a theme key"), c), length = (v) => typeof v == "number" ? v * 100 + "%" : v;
+var _tmpl$ = /* @__PURE__ */ _$template("<div>"), _tmpl$2 = /* @__PURE__ */ _$template("<svg><path vector-effect=non-scaling-stroke>"), _tmpl$3 = /* @__PURE__ */ _$template("<svg><path class=rhp-under></path><path class=rhp-stroke vector-effect=non-scaling-stroke>"), cls = (base, c) => c ? base + " " + c : base, KEY = /^(series-\d+|positive|negative|ink|muted|grid|surface|low|high)$/, tok = (c) => typeof c != "string" ? c : KEY.test(c) ? "var(--rhp-" + c + ")" : (/var\(--(?!rhp-)/.test(c) && console.warn("rhp: " + c + " reads a page variable; use a theme key"), c), length = (v) => typeof v == "number" ? v * 100 + "%" : v;
 function writeVars(el, vars, back) {
   createRenderEffect((prev) => {
     let v = vars();
@@ -616,10 +624,11 @@ var Bar = block("rhp-bar", ["from", "to", "thick", "color"], (p) => ({
   "--rhp-to": p.to ?? 0,
   "--rhp-thick": length(p.thick),
   "--rhp-color": tok(p.color)
-}), (v) => v["--rhp-to"] < v["--rhp-from"]), Dot = block("rhp-dot", ["at", "size", "across", "color"], (p) => ({
+}), (v) => v["--rhp-to"] < v["--rhp-from"]), Dot = block("rhp-dot", ["at", "size", "across", "cross", "color"], (p) => ({
   "--rhp-at": p.at,
   "--rhp-size": length(p.size),
   "--rhp-across": p.across,
+  "--rhp-cross": p.cross,
   "--rhp-color": tok(p.color)
 })), Tick = block("rhp-tick", ["at", "thick", "color"], (p) => ({
   "--rhp-at": p.at,
@@ -628,8 +637,9 @@ var Bar = block("rhp-bar", ["from", "to", "thick", "color"], (p) => ({
 })), Cell = block("rhp-cell", ["value", "color"], (p) => ({
   "--rhp-value": p.value,
   "--rhp-color": tok(p.color)
-})), LABEL = /* @__PURE__ */ new Set([...MINE, "at", "side", "edge"]), Label = (props) => blockElement(props, LABEL, "rhp-label", () => ({
-  "--rhp-at": props.at
+})), LABEL = /* @__PURE__ */ new Set([...MINE, "at", "side", "edge", "cross"]), Label = (props) => blockElement(props, LABEL, "rhp-label", () => ({
+  "--rhp-at": props.at,
+  "--rhp-cross": props.cross
 }), () => ({
   "data-rhp-edge": props.edge,
   "data-rhp-side": props.side,
@@ -669,10 +679,59 @@ function Area(props) {
   })();
   return writeVars(el, vars), node;
 }
+function Line(props) {
+  let orientation = useOrientation(), crossed = useCrossed(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "fill", "base", "color"]), box = createMemo(() => {
+    let pts = p.points ?? [];
+    if (!pts.length) return [0, 0, 0, 1];
+    let xs = pts.map((q) => q[0]), ys = pts.map((q) => q[1]);
+    p.fill && ys.push(p.base ?? 0);
+    let y0 = Math.min(...ys), y1 = Math.max(...ys);
+    return y0 === y1 && (y0 -= 0.5, y1 += 0.5), [Math.min(...xs), Math.max(...xs), y0, y1];
+  }), paths = createMemo(() => {
+    let pts = p.points ?? [];
+    if (pts.length < 2) return ["", ""];
+    let [x0, x1, y0, y1] = box(), w = x1 - x0 || 1, peak = p.peak ?? Math.max(...pts.map((q) => q[1])), vertical = orientation() === "vertical", up = crossed() ? (y) => (y - y0) / (y1 - y0) : (y) => Math.min(1, y / (peak || 1)), xy = (u, t) => vertical ? `${(1e3 - t).toFixed(1)},${(1e3 - u).toFixed(1)}` : `${u.toFixed(1)},${t.toFixed(1)}`, ut = pts.map(([x, y]) => [(x - x0) / w * 1e3, 1e3 - up(y) * 1e3]), line = "M" + ut.map(([u, t]) => xy(u, t)).join("L");
+    if (!p.fill) return [line, ""];
+    let floor = crossed() ? 1e3 - up(p.base ?? 0) * 1e3 : 1e3, under = line + "L" + xy(ut[ut.length - 1][0], floor) + "L" + xy(ut[0][0], floor) + "Z";
+    return [line, under];
+  }), vars = () => ({
+    "--rhp-from": box()[0],
+    "--rhp-to": box()[1],
+    "--rhp-cross-from": crossed() ? box()[2] : void 0,
+    "--rhp-cross-to": crossed() ? box()[3] : void 0,
+    "--rhp-color": tok(p.color),
+    "--rhp-d": paths()[0] ? `path("${paths()[0]}")` : void 0,
+    "--rhp-d-under": paths()[1] ? `path("${paths()[1]}")` : void 0
+  }), el, node = (() => {
+    var _el$6 = _$getNextElement(_tmpl$3), _el$7 = _el$6.firstChild, _el$8 = _el$7.nextSibling;
+    return _$use((e) => {
+      el = e, p.ref?.(e);
+    }, _el$6), _$spread(_el$6, _$mergeProps(rest, {
+      get class() {
+        return cls("rhp-line", p.class);
+      },
+      get "data-rhp-o"() {
+        return short(orientation());
+      },
+      viewBox: "0 0 1000 1000",
+      preserveAspectRatio: "none",
+      get style() {
+        return p.style;
+      }
+    }), !0, !0), _$effect((_p$) => {
+      var _v$ = paths()[1], _v$2 = paths()[0];
+      return _v$ !== _p$.e && _$setAttribute(_el$7, "d", _p$.e = _v$), _v$2 !== _p$.t && _$setAttribute(_el$8, "d", _p$.t = _v$2), _p$;
+    }, {
+      e: void 0,
+      t: void 0
+    }), _$runHydrationEvents(), _el$6;
+  })();
+  return writeVars(el, vars), node;
+}
 
 // src/plot.jsx
-var _tmpl$3 = /* @__PURE__ */ _$template2("<div>"), _tmpl$22 = /* @__PURE__ */ _$template2("<div><div class=rhp-body><!$><!/><!$><!/></div><!$><!/>");
-var _tmpl$4 = /* @__PURE__ */ _$template2("<div class=rhp-axis aria-hidden=true>"), _tmpl$5 = /* @__PURE__ */ _$template2("<div class=rhp-gridline><span>"), isList = (g) => Array.isArray(g) || ArrayBuffer.isView(g) && !(g instanceof DataView), at = (group, i) => {
+var _tmpl$4 = /* @__PURE__ */ _$template2("<div>"), _tmpl$22 = /* @__PURE__ */ _$template2("<div><div class=rhp-body><!$><!/><!$><!/><!$><!/></div><!$><!/>");
+var _tmpl$42 = /* @__PURE__ */ _$template2("<div class=rhp-axis aria-hidden=true>"), _tmpl$5 = /* @__PURE__ */ _$template2("<div class=rhp-gridline><span>"), isList = (g) => Array.isArray(g) || ArrayBuffer.isView(g) && !(g instanceof DataView), at = (group, i) => {
   if (!isList(group)) return group;
   let v = group[i];
   return v !== void 0 || !group.length ? v : group[i % group.length];
@@ -683,7 +742,17 @@ var _tmpl$4 = /* @__PURE__ */ _$template2("<div class=rhp-axis aria-hidden=true>
   frame: null,
   nested: !1,
   still: !1
-}), useOrientation = () => useContext(Around).orientation, short = (o) => o === "vertical" ? "v" : "h", SETTINGS = /* @__PURE__ */ new Set(["children", "order", "reorder", "orientation", "overlap", "slats", "key", "rows", "animate", "thick", "class", "style", "ref", "onLoop", "static"]), pick = (v, o) => v != null && typeof v == "object" && ("horizontal" in v || "vertical" in v) ? v[o] : v, px = (v) => typeof v == "number" ? v + "px" : v, share = (v) => typeof v == "number" ? v * 100 + "%" : v, same2 = (a, b) => a.length === b.length && a.every((v, k) => v === b[k]), sameSet = (a, b) => a.size === b.size && [...a].every((v) => b.has(v)), range = (n) => Array.from({
+}), useOrientation = () => useContext(Around).orientation, useCrossed = () => {
+  let frame = useContext(Around).frame;
+  return () => frame?.crossed() ?? !1;
+}, short = (o) => o === "vertical" ? "v" : "h", SETTINGS = /* @__PURE__ */ new Set(["children", "order", "reorder", "orientation", "overlap", "slats", "key", "rows", "animate", "thick", "class", "style", "ref", "onLoop", "static", "keyboard"]), STEPS = {
+  ArrowDown: 1,
+  ArrowRight: 1,
+  ArrowUp: -1,
+  ArrowLeft: -1,
+  Home: -1 / 0,
+  End: 1 / 0
+}, pick = (v, o) => v != null && typeof v == "object" && ("horizontal" in v || "vertical" in v) ? v[o] : v, px = (v) => typeof v == "number" ? v + "px" : v, share = (v) => typeof v == "number" ? v * 100 + "%" : v, same2 = (a, b) => a.length === b.length && a.every((v, k) => v === b[k]), sameSet = (a, b) => a.size === b.size && [...a].every((v) => b.has(v)), range = (n) => Array.from({
   length: n
 }, (_, i) => i), byPosition = (positions) => range(positions.length).filter((i) => positions[i] != null).sort((a, b) => positions[a] - positions[b]), ROW = {
   get: (t, key) => typeof key == "string" ? t.P.read(t, key) : void 0,
@@ -814,9 +883,51 @@ function makePlot(props, role) {
     let list = shown(), own = rowIds();
     if (list.some((r, k) => r !== k))
       return list.map((r) => own?.get(r) ?? `rhp-${uid}-${r}`).join(" ");
+  }, keyboard = !!props.keyboard, plotEl, [picked, setPicked] = keyboard ? createSignal2() : [], stop = keyboard && later(() => {
+    let id = picked(), r = id === void 0 ? void 0 : rowOfId(id);
+    if (r != null && r < n() && positions()[r] != null) return id;
+    let first = shown()[0];
+    return first === void 0 ? void 0 : idOf(first);
+  }), isStop = keyboard && !still && !0 && createSelector(stop), elementOf = (r) => {
+    for (let child of plotEl.children)
+      if (child.$row?.() === r) return child;
+  };
+  function onKey(e) {
+    let step = STEPS[e.key];
+    if (e.target.parentElement !== plotEl || step === void 0 || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    e.preventDefault();
+    let list = shown(), k = list.indexOf(e.target.$row());
+    elementOf(list[Math.min(Math.max(k + step, 0), list.length - 1)])?.focus();
+  }
+  function onFocusIn(e) {
+    let el = e.target;
+    if (el.parentElement !== plotEl) return;
+    if (still)
+      for (let child of plotEl.children) {
+        let want = child === el ? 0 : -1;
+        child.tabIndex !== want && (child.tabIndex = want);
+      }
+    let id = idOf(el.$row());
+    setPicked(() => id);
+  }
+  let had = !1, note = () => had = plotEl != null && document.activeElement?.parentElement === plotEl, restore = () => {
+    if (!had) return;
+    had = !1;
+    let el = elementOf(rowOfId(stop()));
+    el && el !== document.activeElement && el.focus({
+      preventScroll: !0
+    });
+  };
+  keyboard && !still && (createComputed(() => {
+    shown(), stop(), untrack2(note);
+  }), createEffect(() => {
+    shown(), stop(), untrack2(restore);
+  }));
+  let attach = (el) => {
+    plotEl = el, keyboard && (delegateEvents(["keydown", "focusin"]), el.$$keydown = onKey, el.$$focusin = onFocusIn);
   };
   if (frame && (layout.room || !nested && role === "Plot")) {
-    let want = () => pick(layout.room, frame.orientation()) ?? (nested || role !== "Plot" ? null : DEFAULT_ROOM[frame.orientation()]);
+    let defaults = () => nested || role !== "Plot" || props.overlap && frame.crossed() ? null : DEFAULT_ROOM[frame.orientation()], want = () => pick(layout.room, frame.orientation()) ?? defaults();
     frame.need(want), onCleanup(() => frame.drop(want));
   }
   let edgesUnchecked = !nested && layout.room != null, checkEdges = (el) => {
@@ -839,46 +950,54 @@ function makePlot(props, role) {
         p,
         id: id2
       };
-    }), ownId && onCleanup(() => untrack2(rowIds)?.get(untrack2(row)) === ownId && ownIdAt(untrack2(row))), el.$row = row, el;
+    }), ownId && onCleanup(() => untrack2(rowIds)?.get(untrack2(row)) === ownId && ownIdAt(untrack2(row))), keyboard && createRenderEffect2(() => el.tabIndex = isStop(id()) ? 0 : -1), el.$row = row, el;
   }, serverRow = !1, drawn = (i, p) => {
     let el;
     return createRoot((dispose) => {
       if (el = props.children(datum(() => i, null)), typeof Element < "u" && !(el instanceof Element)) throw new Error("rhp: a slat must return one element");
-      props.children.scope && el.setAttribute("data-rhp-slat", props.children.scope), asList() && !el.hasAttribute("role") && el.setAttribute("role", "listitem"), !el.id && reordered() && (el.id = `rhp-${uid}-${i}`), el.setAttribute("data-rhp-o", short(orientation())), el.hidden = p == null, p != null && el.style.setProperty("--rhp-position", p), dispose();
+      props.children.scope && el.setAttribute("data-rhp-slat", props.children.scope), asList() && !el.hasAttribute("role") && el.setAttribute("role", "listitem"), !el.id && reordered() && (el.id = `rhp-${uid}-${i}`), el.setAttribute("data-rhp-o", short(orientation())), el.hidden = p == null, p != null && el.style.setProperty("--rhp-position", p), keyboard && (el.tabIndex = idOf(i) === untrack2(stop) ? 0 : -1), dispose();
     }), edgesUnchecked && checkEdges(el), el.$row = () => i, el;
-  }, action = () => props.reorder ?? "slide", Slats = () => still ? createMemo2(() => {
-    for (let key of groups)
-      group[key]();
-    rowsList(), orientation();
-    let p = positions();
-    return untrack2(() => ran(range(n())).map((i) => drawn(i, p[i])));
-  }) : createMemo2(() => {
-    let a = action();
-    return untrack2(() => a === "move" ? _$createComponent(For, {
-      get each() {
-        return ran(shown().map(idOf));
-      },
-      children: (id) => {
-        let row = createMemo2(() => rowOfId(id));
-        return slat2(row, () => id);
-      }
-    }) : a === "refill" ? _$createComponent(Index, {
-      get each() {
-        return ran(shown());
-      },
-      children: (row) => slat2(row, () => idOf(row()))
-    }) : keyed ? _$createComponent(For, {
-      get each() {
-        return ran(ids());
-      },
-      children: (id, i) => slat2(i, () => id)
-    }) : _$createComponent(Index, {
-      get each() {
-        return ran(Array(n()));
-      },
-      children: (_, i) => slat2(() => i, () => i)
-    }));
-  });
+  }, action = () => props.reorder ?? "slide", Slats = () => {
+    if (still) {
+      let rows = createMemo2(() => {
+        for (let key of groups)
+          group[key]();
+        rowsList(), orientation();
+        let p = positions();
+        return keyboard && note(), untrack2(() => ran(range(n())).map((i) => drawn(i, p[i])));
+      });
+      return keyboard && createEffect(() => {
+        rows(), untrack2(restore);
+      }), rows;
+    }
+    return createMemo2(() => {
+      let a = action();
+      return untrack2(() => a === "move" ? _$createComponent(For, {
+        get each() {
+          return ran(shown().map(idOf));
+        },
+        children: (id) => {
+          let row = createMemo2(() => rowOfId(id));
+          return slat2(row, () => id);
+        }
+      }) : a === "refill" ? _$createComponent(Index, {
+        get each() {
+          return ran(shown());
+        },
+        children: (row) => slat2(row, () => idOf(row()))
+      }) : keyed ? _$createComponent(For, {
+        get each() {
+          return ran(ids());
+        },
+        children: (id, i) => slat2(i, () => id)
+      }) : _$createComponent(Index, {
+        get each() {
+          return ran(Array(n()));
+        },
+        children: (_, i) => slat2(() => i, () => i)
+      }));
+    });
+  };
   return _$createComponent(Around.Provider, {
     value: {
       orientation,
@@ -889,8 +1008,10 @@ function makePlot(props, role) {
       still
     },
     get children() {
-      var _el$ = _$getNextElement2(_tmpl$3), _ref$ = props.ref;
-      return typeof _ref$ == "function" ? _$use2(_ref$, _el$) : props.ref = _el$, _$setAttribute2(_el$, "aria-hidden", scale ? "true" : void 0), _$insert2(_el$, _$createComponent(Slats, {})), _$effect2((_p$) => {
+      var _el$ = _$getNextElement2(_tmpl$4);
+      return _$use2((e) => {
+        attach(e), props.ref?.(e);
+      }, _el$), _$setAttribute2(_el$, "aria-hidden", scale ? "true" : void 0), _$insert2(_el$, _$createComponent(Slats, {})), _$effect2((_p$) => {
         var _v$ = props.class ? "rhp-plot " + props.class : "rhp-plot", _v$2 = asList() ? "list" : void 0, _v$3 = owns(), _v$4 = short(orientation()), _v$5 = action(), _v$6 = props.overlap ? "" : void 0, _v$7 = js() ? "js" : void 0, _v$8 = {
           ...props.style,
           "--rhp-n": extent2(),
@@ -1037,11 +1158,12 @@ function Chart(props) {
     h: 0
   }, {
     equals: (a, b) => a.w === b.w && a.h === b.h
-  }), length2 = () => orientation() === "vertical" ? size().h : size().w, slats = /* @__PURE__ */ new Set(), frame = {
+  }), length2 = () => orientation() === "vertical" ? size().h : size().w, slats = /* @__PURE__ */ new Set(), crossed = () => props.cross != null, crossMoves, crossShown = () => anim() ? (crossMoves ?? (crossMoves = [animated(() => props.cross[0], timing), animated(() => props.cross[1], timing)]), [crossMoves[0](), crossMoves[1]()]) : props.cross, crossAxis = () => crossed() && tickValues(props.crossTicks, props.cross).length > 0, frame = {
     orientation,
     domain,
     shown,
     length: length2,
+    crossed,
     sheet: (fn) => fn?.scope && slats.add(fn),
     need: (want) => setWants((list) => [...list, want]),
     drop: (want) => setWants((list) => list.filter((x) => x !== want)),
@@ -1071,11 +1193,16 @@ function Chart(props) {
     if (axis())
       for (let [s, n] of [AXIS[o], AXIS_END[o], AXIS_START[o]])
         out[s] = Math.max(out[s], n);
+    if (crossAxis()) {
+      let other = o === "vertical" ? "horizontal" : "vertical";
+      for (let [s, n] of [AXIS[other], AXIS_END[other], AXIS_START[other]])
+        out[s] = Math.max(out[s], n);
+    }
     let vars = {
       "--rhp-room-start": room.start + "px",
       "--rhp-room-end": room.end + "px"
     }, gutters2 = !!(auto.start || auto.end);
-    if (gutters2 && useGutters(), gutters2)
+    if (gutters2 && useGutters(), crossed() && useCross(), gutters2)
       for (let k of ["start", "end"]) {
         let n = out[side[k]];
         out[side[k]] = 0, vars["--rhp-gutter-" + k] = auto[k] ? `minmax(${n}px, max-content)` : n + "px";
@@ -1122,7 +1249,7 @@ function Chart(props) {
       };
     },
     get children() {
-      var _el$2 = _$getNextElement2(_tmpl$22), _el$3 = _el$2.firstChild, _el$4 = _el$3.firstChild, [_el$5, _co$] = _$getNextMarker(_el$4.nextSibling), _el$6 = _el$5.nextSibling, [_el$7, _co$2] = _$getNextMarker(_el$6.nextSibling), _el$8 = _el$3.nextSibling, [_el$9, _co$3] = _$getNextMarker(_el$8.nextSibling);
+      var _el$2 = _$getNextElement2(_tmpl$22), _el$3 = _el$2.firstChild, _el$4 = _el$3.firstChild, [_el$5, _co$] = _$getNextMarker(_el$4.nextSibling), _el$6 = _el$5.nextSibling, [_el$7, _co$2] = _$getNextMarker(_el$6.nextSibling), _el$8 = _el$7.nextSibling, [_el$9, _co$3] = _$getNextMarker(_el$8.nextSibling), _el$0 = _el$3.nextSibling, [_el$1, _co$4] = _$getNextMarker(_el$0.nextSibling);
       return _$use2((e) => {
         el = e, props.ref?.(e);
       }, _el$2), _$insert2(_el$3, () => props.children, _el$5, _co$), _$insert2(_el$3, _$createComponent(Show, {
@@ -1139,15 +1266,30 @@ function Chart(props) {
             }
           });
         }
-      }), _el$7, _co$2), _$insert2(_el$2, !1, _el$9, _co$3), _$effect2((_p$) => {
-        var _v$9 = props.id, _v$0 = figure(), _v$1 = name(), _v$10 = props["aria-labelledby"], _v$11 = props["aria-describedby"], _v$12 = props.class ? "rhp-chart " + props.class : "rhp-chart", _v$13 = short(orientation()), _v$14 = anim() ? "js" : void 0, _v$15 = turning() ? "" : void 0, _v$16 = arranged().sized ? "" : void 0, _v$17 = arranged().gutters ? short(orientation()) : void 0, _v$18 = {
+      }), _el$7, _co$2), _$insert2(_el$3, _$createComponent(Show, {
+        get when() {
+          return crossAxis();
+        },
+        get children() {
+          return _$createComponent(Axis, {
+            cross: !0,
+            get ticks() {
+              return tickValues(props.crossTicks, crossShown(), props.cross);
+            },
+            get format() {
+              return props.crossFormat;
+            }
+          });
+        }
+      }), _el$9, _co$3), _$insert2(_el$2, !1, _el$1, _co$4), _$effect2((_p$) => {
+        var _v$9 = props.id, _v$0 = figure(), _v$1 = name(), _v$10 = props["aria-labelledby"], _v$11 = props["aria-describedby"], _v$12 = props.class ? "rhp-chart " + props.class : "rhp-chart", _v$13 = short(orientation()), _v$14 = anim() ? "js" : void 0, _v$15 = turning() ? "" : void 0, _v$16 = arranged().sized ? "" : void 0, _v$17 = arranged().gutters ? short(orientation()) : void 0, _v$18 = crossed() ? "" : void 0, _v$19 = {
           ...KNOBS,
           ...theme(),
           ...arranged().vars,
           ...props.style,
           "--rhp-height": px(props.height ?? 240)
         };
-        return _v$9 !== _p$.e && _$setAttribute2(_el$2, "id", _p$.e = _v$9), _v$0 !== _p$.t && _$setAttribute2(_el$2, "role", _p$.t = _v$0), _v$1 !== _p$.a && _$setAttribute2(_el$2, "aria-label", _p$.a = _v$1), _v$10 !== _p$.o && _$setAttribute2(_el$2, "aria-labelledby", _p$.o = _v$10), _v$11 !== _p$.i && _$setAttribute2(_el$2, "aria-describedby", _p$.i = _v$11), _v$12 !== _p$.n && _$className(_el$2, _p$.n = _v$12), _v$13 !== _p$.s && _$setAttribute2(_el$2, "data-rhp-o", _p$.s = _v$13), _v$14 !== _p$.h && _$setAttribute2(_el$2, "data-rhp-animate", _p$.h = _v$14), _v$15 !== _p$.r && _$setAttribute2(_el$2, "data-rhp-turning", _p$.r = _v$15), _v$16 !== _p$.d && _$setAttribute2(_el$2, "data-rhp-sized", _p$.d = _v$16), _v$17 !== _p$.l && _$setAttribute2(_el$2, "data-rhp-gutters", _p$.l = _v$17), _p$.u = _$style(_el$2, _v$18, _p$.u), _p$;
+        return _v$9 !== _p$.e && _$setAttribute2(_el$2, "id", _p$.e = _v$9), _v$0 !== _p$.t && _$setAttribute2(_el$2, "role", _p$.t = _v$0), _v$1 !== _p$.a && _$setAttribute2(_el$2, "aria-label", _p$.a = _v$1), _v$10 !== _p$.o && _$setAttribute2(_el$2, "aria-labelledby", _p$.o = _v$10), _v$11 !== _p$.i && _$setAttribute2(_el$2, "aria-describedby", _p$.i = _v$11), _v$12 !== _p$.n && _$className(_el$2, _p$.n = _v$12), _v$13 !== _p$.s && _$setAttribute2(_el$2, "data-rhp-o", _p$.s = _v$13), _v$14 !== _p$.h && _$setAttribute2(_el$2, "data-rhp-animate", _p$.h = _v$14), _v$15 !== _p$.r && _$setAttribute2(_el$2, "data-rhp-turning", _p$.r = _v$15), _v$16 !== _p$.d && _$setAttribute2(_el$2, "data-rhp-sized", _p$.d = _v$16), _v$17 !== _p$.l && _$setAttribute2(_el$2, "data-rhp-gutters", _p$.l = _v$17), _v$18 !== _p$.u && _$setAttribute2(_el$2, "data-rhp-cross", _p$.u = _v$18), _p$.c = _$style(_el$2, _v$19, _p$.c), _p$;
       }, {
         e: void 0,
         t: void 0,
@@ -1160,14 +1302,24 @@ function Chart(props) {
         r: void 0,
         d: void 0,
         l: void 0,
-        u: void 0
+        u: void 0,
+        c: void 0
       }), _el$2;
     }
   });
-  return writeVars(el, () => ({
-    "--rhp-min": min(),
-    "--rhp-max": max()
-  })), moreAria().length && createRenderEffect2(() => {
+  return writeVars(el, () => {
+    if (!crossed()) return {
+      "--rhp-min": min(),
+      "--rhp-max": max()
+    };
+    let [a, b] = crossShown();
+    return {
+      "--rhp-min": min(),
+      "--rhp-max": max(),
+      "--rhp-cross-min": a,
+      "--rhp-cross-max": b
+    };
+  }), moreAria().length && createRenderEffect2(() => {
     for (let key of moreAria())
       props[key] == null ? el.removeAttribute(key) : el.setAttribute(key, props[key]);
   }), node;
@@ -1178,10 +1330,10 @@ var OWN_ARIA = /* @__PURE__ */ new Set(["aria-label", "aria-labelledby", "aria-d
 for (let name of ["color", "thick", "size", "across", "radius", "start-radius", "end-radius", "label-gap", "gap", "tick-width", "label-size", "cell-gap", "pitch", "plot-thick", "length-time", "length-ease", "slide-time", "slide-ease", "at", "from", "to", "value", "d", "position"])
   KNOBS["--rhp-" + name] = "initial";
 function Axis(props) {
-  let orientation = useOrientation();
+  let along = useOrientation(), orientation = () => props.cross ? along() === "vertical" ? "horizontal" : "vertical" : along();
   return (() => {
-    var _el$1 = _$getNextElement2(_tmpl$4);
-    return _$insert2(_el$1, _$createComponent(For, {
+    var _el$11 = _$getNextElement2(_tmpl$42);
+    return _$insert2(_el$11, _$createComponent(For, {
       get each() {
         return props.ticks;
       },
@@ -1193,7 +1345,7 @@ function Axis(props) {
           num.replaceChildren(...parts.map((x) => x instanceof Node ? x : String(x ?? "")));
         }), el;
       }
-    })), _el$1;
+    })), _$effect2(() => _$setAttribute2(_el$11, "data-rhp-cross", props.cross ? "" : void 0)), _el$11;
   })();
 }
 export {
@@ -1204,6 +1356,7 @@ export {
   Chart,
   Dot,
   Label,
+  Line,
   Plot,
   Scale,
   THEME,

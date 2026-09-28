@@ -1,9 +1,11 @@
 // Chart, Plot and Scale. A Plot stacks slats (one per row of data), and a Chart holds the scale, the orientation and the axis.
-import { useCore, useGutters, useSlatCss, useRoot, watchRoot, serverSheets, checkLinked } from "./style.js";
+import { useCore, useGutters, useCross, useSlatCss, useRoot, watchRoot, serverSheets, checkLinked } from "./style.js";
 import {
-  createMemo, createComputed, createRenderEffect, createContext, useContext, getOwner, runWithOwner, onMount, onCleanup,
-  createSignal, createRoot, createUniqueId, mergeProps, splitProps, untrack, sharedConfig, Index, For, Show,
+  createMemo, createComputed, createRenderEffect, createEffect, createContext, useContext, getOwner, runWithOwner, onMount,
+  onCleanup, createSignal, createSelector, createRoot, createUniqueId, mergeProps, splitProps, untrack, sharedConfig, Index,
+  For, Show,
 } from "solid-js";
+import { delegateEvents } from "solid-js/web";
 import { isServer } from "./env.js";
 import { createStore } from "solid-js/store";
 import { animated, curve, cssCurve, MOVE_MS } from "./animate.js";
@@ -31,10 +33,19 @@ export const at = (group, i) => {
 // (nested) and whether the Chart is static (still).
 const Around = createContext({ orientation: () => "horizontal", motion: () => undefined, frame: null, nested: false, still: false });
 export const useOrientation = () => useContext(Around).orientation;
+
+// Whether the Chart around has a cross scale (a Line then draws its y on it)
+export const useCrossed = () => {
+  const frame = useContext(Around).frame;
+  return () => frame?.crossed() ?? false;
+};
 export const short = (o) => (o === "vertical" ? "v" : "h");
 
 // Plot settings. Every other prop of a Plot is a data group.
-const SETTINGS = new Set(["children", "order", "reorder", "orientation", "overlap", "slats", "key", "rows", "animate", "thick", "class", "style", "ref", "onLoop", "static"]);
+const SETTINGS = new Set(["children", "order", "reorder", "orientation", "overlap", "slats", "key", "rows", "animate", "thick", "class", "style", "ref", "onLoop", "static", "keyboard"]);
+
+// The keys that move focus between the rows of a Plot with `keyboard`, and how many rows they move it
+const STEPS = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1, Home: -Infinity, End: Infinity };
 
 // A slat's layout setting for an orientation: a plain value, or { horizontal, vertical }
 const pick = (v, o) => {
@@ -414,10 +425,103 @@ function makePlot(props, role) {
     return list.map((r) => own?.get(r) ?? `rhp-${uid}-${r}`).join(" ");
   };
 
+  // Keyboard (keyboard={true}): the rows take focus. Tab stops at one row of the Plot (the row focused last, or else the
+  // first shown), the arrow keys go to the row shown before or after it, and Home and End to the first and the last.
+  // A row with focus keeps it when the rows are sorted, moved in the page or drawn again. Without it a Plot adds nothing.
+  const keyboard = !!props.keyboard;
+  let plotEl;
+
+  const [picked, setPicked] = keyboard ? createSignal() : [];
+
+  // The row Tab stops at (its id)
+  const stop = keyboard && later(() => {
+    const id = picked();
+    const r = id === undefined ? undefined : rowOfId(id);
+    if (r != null && r < n() && positions()[r] != null) return id;
+
+    const first = shown()[0];
+
+    return first === undefined ? undefined : idOf(first);
+  });
+
+  const isStop = keyboard && !still && !isServer && createSelector(stop);
+
+  // The element that shows row r (a Plot's children are its slat roots)
+  const elementOf = (r) => {
+    for (const child of plotEl.children) {
+      if (child.$row?.() === r) return child;
+    }
+  };
+
+  function onKey(e) {
+    const step = STEPS[e.key];
+    if (e.target.parentElement !== plotEl || step === undefined || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+
+    e.preventDefault();
+
+    const list = shown();
+    const k = list.indexOf(e.target.$row());
+
+    elementOf(list[Math.min(Math.max(k + step, 0), list.length - 1)])?.focus();
+  }
+
+  function onFocusIn(e) {
+    const el = e.target;
+    if (el.parentElement !== plotEl) return;
+
+    // A static Plot keeps no effects, so it moves the tab stop itself
+    if (still) {
+      for (const child of plotEl.children) {
+        const want = child === el ? 0 : -1;
+        if (child.tabIndex !== want) child.tabIndex = want;
+      }
+    }
+
+    const id = idOf(el.$row());
+    setPicked(() => id);
+  }
+
+  // Moving a row in the page or drawing it again takes its focus away, so the Plot notes whether a row has focus before
+  // the rows change, and after they change it focuses the row Tab stops at
+  let had = false;
+  const note = () => (had = plotEl != null && document.activeElement?.parentElement === plotEl);
+  const restore = () => {
+    if (!had) return;
+
+    had = false;
+    const el = elementOf(rowOfId(stop()));
+    if (el && el !== document.activeElement) el.focus({ preventScroll: true });
+  };
+
+  if (keyboard && !isServer && !still) {
+    createComputed(() => {
+      shown();
+      stop();
+      untrack(note);
+    });
+    createEffect(() => {
+      shown();
+      stop();
+      untrack(restore);
+    });
+  }
+
+  // The keys are handled like Solid's own events (onKeyDown), after the handlers of a row and what is in it
+  const attach = (el) => {
+    plotEl = el;
+    if (!keyboard || isServer) return;
+
+    delegateEvents(["keydown", "focusin"]);
+    el.$$keydown = onKey;
+    el.$$focusin = onFocusIn;
+  };
+
   // Gutters: the Chart pads each side for the largest room its Plots ask for. A top-level Plot whose slat gives no room
-  // gets the defaults (names at the start and values at the end).
+  // gets the defaults (names at the start and values at the end), except an overlap Plot on a cross scale (its points
+  // have no names).
   if (frame && (layout.room || (!nested && role === "Plot"))) {
-    const want = () => pick(layout.room, frame.orientation()) ?? (nested || role !== "Plot" ? null : DEFAULT_ROOM[frame.orientation()]);
+    const defaults = () => (nested || role !== "Plot" || (props.overlap && frame.crossed()) ? null : DEFAULT_ROOM[frame.orientation()]);
+    const want = () => pick(layout.room, frame.orientation()) ?? defaults();
     frame.need(want);
     onCleanup(() => frame.drop(want));
   }
@@ -480,6 +584,7 @@ function makePlot(props, role) {
     });
 
     if (ownId) onCleanup(() => untrack(rowIds)?.get(untrack(row)) === ownId && ownIdAt(untrack(row)));
+    if (keyboard) createRenderEffect(() => (el.tabIndex = isStop(id()) ? 0 : -1));
     el.$row = row; // lets a handler on the chart find which row a slat shows
 
     return el;
@@ -499,6 +604,7 @@ function makePlot(props, role) {
       hidden: p == null ? true : null,
       role: asList() ? (v) => (v === undefined ? "listitem" : undefined) : undefined,
       id: own ? undefined : id,
+      tabindex: keyboard ? (idOf(r) === stop() ? "0" : "-1") : undefined,
     }, { "--rhp-position": p });
   });
 
@@ -516,6 +622,7 @@ function makePlot(props, role) {
       el.setAttribute("data-rhp-o", short(orientation()));
       el.hidden = p == null;
       if (p != null) el.style.setProperty("--rhp-position", p);
+      if (keyboard) el.tabIndex = idOf(i) === untrack(stop) ? 0 : -1;
       dispose();
     });
 
@@ -530,7 +637,7 @@ function makePlot(props, role) {
   // The slats, made by the reorder action. It is a component so that the memo is made inside the Provider below.
   const Slats = () => {
     if (still) {
-      return createMemo(() => {
+      const rows = createMemo(() => {
         // The rows are drawn again when what they are drawn from changes
         for (const key of groups) {
           group[key]();
@@ -538,9 +645,19 @@ function makePlot(props, role) {
         rowsList();
         orientation();
         const p = positions();
+        if (keyboard && !isServer) note();
 
         return untrack(() => ran(range(n())).map((i) => drawn(i, p[i])));
       });
+
+      if (keyboard && !isServer) {
+        createEffect(() => {
+          rows();
+          untrack(restore);
+        });
+      }
+
+      return rows;
     }
 
     return createMemo(() => {
@@ -565,7 +682,7 @@ function makePlot(props, role) {
   // A Plot inside a slat doesn't take the Chart's `animate` (its data already moves)
   return (
     <Around.Provider value={{ orientation, motion: () => undefined, frame, nested: true, still }}>
-      <div ref={props.ref} class={props.class ? "rhp-plot " + props.class : "rhp-plot"}
+      <div ref={(e) => { attach(e); props.ref?.(e); }} class={props.class ? "rhp-plot " + props.class : "rhp-plot"}
         role={asList() ? "list" : undefined} aria-hidden={scale ? "true" : undefined} aria-owns={owns()}
         data-rhp-o={short(orientation())} data-rhp-reorder={action()} data-rhp-overlap={props.overlap ? "" : undefined}
         data-rhp-animate={js() ? "js" : undefined}
@@ -732,11 +849,23 @@ export function Chart(props) {
   const length = () => (orientation() === "vertical" ? size().h : size().w);
   const slats = new Set(); // on a server, the slat types drawn inside (their CSS goes into the page with the chart)
 
+  // A second axis, across the band (cross={[min, max]}): an overlap Plot's rows then share the whole plot, and a Dot,
+  // Label or Line takes a cross value on it, for scatter plots and lines. Without it, nothing of this is made.
+  const crossed = () => props.cross != null;
+  let crossMoves;
+  const crossShown = () => {
+    if (!anim()) return props.cross;
+    crossMoves ??= [animated(() => props.cross[0], timing), animated(() => props.cross[1], timing)];
+    return [crossMoves[0](), crossMoves[1]()];
+  };
+  const crossAxis = () => crossed() && tickValues(props.crossTicks, props.cross).length > 0;
+
   const frame = {
     orientation,
     domain,
     shown,
     length,
+    crossed,
     sheet: (fn) => fn?.scope && slats.add(fn),
     need: (want) => setWants((list) => [...list, want]),
     drop: (want) => setWants((list) => list.filter((x) => x !== want)),
@@ -778,9 +907,18 @@ export function Chart(props) {
       }
     }
 
+    // The cross axis' numbers go where the other orientation's value axis would put them
+    if (crossAxis()) {
+      const other = o === "vertical" ? "horizontal" : "vertical";
+      for (const [s, n] of [AXIS[other], AXIS_END[other], AXIS_START[other]]) {
+        out[s] = Math.max(out[s], n);
+      }
+    }
+
     const vars = { "--rhp-room-start": room.start + "px", "--rhp-room-end": room.end + "px" };
     const gutters = !!(auto.start || auto.end);
     if (gutters && !isServer) useGutters(); // their rules come with the first chart that uses them
+    if (crossed() && !isServer) useCross(); // and so do the cross scale's
 
     if (gutters) {
       // Both ends of the value axis move from the padding into the grid (at least as wide as the padding would be)
@@ -847,20 +985,26 @@ export function Chart(props) {
       <div ref={(e) => { el = e; props.ref?.(e); }} id={props.id} role={figure()} aria-label={name()} aria-labelledby={props["aria-labelledby"]}
         aria-describedby={props["aria-describedby"]} class={props.class ? "rhp-chart " + props.class : "rhp-chart"} data-rhp-o={short(orientation())}
         data-rhp-animate={anim() ? "js" : undefined} data-rhp-turning={turning() ? "" : undefined} data-rhp-sized={arranged().sized ? "" : undefined}
-        data-rhp-gutters={arranged().gutters ? short(orientation()) : undefined} style={{ ...KNOBS, ...theme(), ...arranged().vars, ...props.style, "--rhp-height": px(props.height ?? 240) }}>
+        data-rhp-gutters={arranged().gutters ? short(orientation()) : undefined} data-rhp-cross={crossed() ? "" : undefined} style={{ ...KNOBS, ...theme(), ...arranged().vars, ...props.style, "--rhp-height": px(props.height ?? 240) }}>
         <div class="rhp-body">
           {props.children}
           {/* after the children, so that a Scale among them has registered first */}
           <Show when={axis()}><Axis ticks={ticks()} format={props.format} /></Show>
+          <Show when={crossAxis()}><Axis cross ticks={tickValues(props.crossTicks, crossShown(), props.cross)} format={props.crossFormat} /></Show>
         </div>
         {/* after the body, since a server only knows the slat types once they are drawn */}
-        {isServer && <style data-rhp-server="" innerHTML={serverSheets(slats, sharedConfig.context?.assets, arranged().gutters)} />}
+        {isServer && <style data-rhp-server="" innerHTML={serverSheets(slats, sharedConfig.context?.assets, arranged().gutters, crossed())} />}
       </div>
     </Around.Provider>
   );
 
   // The scale is written like a block's numbers (now at first, then in the next frame)
-  writeVars(el, () => ({ "--rhp-min": min(), "--rhp-max": max() }));
+  const scaleVars = () => {
+    if (!crossed()) return { "--rhp-min": min(), "--rhp-max": max() };
+    const [a, b] = crossShown();
+    return { "--rhp-min": min(), "--rhp-max": max(), "--rhp-cross-min": a, "--rhp-cross-max": b };
+  };
+  writeVars(el, scaleVars);
 
   if (!isServer && moreAria().length) {
     createRenderEffect(() => {
@@ -876,7 +1020,7 @@ export function Chart(props) {
     const { vars, sized, gutters } = arranged();
     return onRoot(node, {
       ...Object.fromEntries(moreAria().map((key) => [key, props[key] ?? null])),
-      style: withVars(undefined, { ...KNOBS, ...theme(), ...vars, ...props.style, "--rhp-height": px(props.height ?? 240), "--rhp-min": min(), "--rhp-max": max() }),
+      style: withVars(undefined, { ...KNOBS, ...theme(), ...vars, ...props.style, "--rhp-height": px(props.height ?? 240), ...scaleVars() }),
       "data-rhp-sized": sized ? true : null,
       "data-rhp-gutters": gutters ? short(orientation()) : null,
     });
@@ -896,13 +1040,15 @@ for (const name of ["color", "thick", "size", "across", "radius", "start-radius"
   KNOBS["--rhp-" + name] = "initial";
 }
 
-// The value axis: one grid line per tick (keyed by value), and the numbers in the axis gutter
+// The value axis: one grid line per tick (keyed by value), and the numbers in the axis gutter. The cross axis (cross)
+// draws its lines as the other orientation's value axis would, on the cross scale.
 export function Axis(props) {
 
-  const orientation = useOrientation();
+  const along = useOrientation();
+  const orientation = () => (!props.cross ? along() : along() === "vertical" ? "horizontal" : "vertical");
 
   return (
-    <div class="rhp-axis" aria-hidden="true">
+    <div class="rhp-axis" data-rhp-cross={props.cross ? "" : undefined} aria-hidden="true">
       <For each={props.ticks}>
         {(t) => {
           // On a server the number is made inside the line, as in a browser, so the browser finds each element where

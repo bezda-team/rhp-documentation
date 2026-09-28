@@ -1,13 +1,14 @@
 {
   "name": "@bezda/rhp",
   "version": "2.0.0",
-  "description": "rhp (reactive html plots): plots as stacks of slats, built with SolidJS, HTML and CSS. Built from bezda-team/rhp at 5355670 by npm run sync-rhp: don't edit.",
+  "description": "rhp (reactive html plots): plots as stacks of slats, built with SolidJS, HTML and CSS. Built from bezda-team/rhp at 920f412 by npm run sync-rhp: don't edit.",
   "license": "MIT",
   "homepage": "https://rhp.vercel.app",
   "type": "module",
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "solid": "./dist/source/index.js",
       "worker": "./dist/server.js",
       "browser": "./dist/index.js",
@@ -15,7 +16,10 @@
       "node": "./dist/server.js",
       "default": "./dist/index.js"
     },
-    "./standalone": "./dist/standalone.js",
+    "./standalone": {
+      "types": "./dist/standalone.d.ts",
+      "default": "./dist/standalone.js"
+    },
     "./rhp.css": "./dist/rhp.css"
   },
   "module": "./dist/index.js",
