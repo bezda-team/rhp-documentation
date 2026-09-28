@@ -5,23 +5,49 @@ description: Draw charts on the server, so they show before any script runs; the
 
 rhp can draw charts on a server, as HTML.
 The page then shows them before any script has run, and the browser takes them over without drawing them again.
+The live charts in these pages are drawn that way.
 
 ## How to use it
 
 Nothing changes in your code.
 Render your app with Solid on the server, as SolidStart and Astro do (or `renderToString` on your own server), and `hydrate` it in the browser.
 
-`@bezda/rhp` picks the right build by itself: its server build where Solid picks its own (Node, Deno, workers), and its browser build in a browser.
+`@bezda/rhp` picks the right build by itself.
+A Solid app's build (SolidStart, Astro, Vite with its Solid plugin) compiles rhp with the app, for the server and for the browser.
+Elsewhere, Node, Deno and workers get rhp's server build, and a browser its browser build.
+
+In Astro, if you tell the Solid integration which files are Solid (`solid({ include: [...] })`), add rhp's: `"**/@bezda/rhp/**"`.
 
 ## What comes with the HTML
 
-- **Every chart, drawn.** Rows, bars and labels are in their places, sorted, with the right gutters.
+- **Every chart, drawn.** Rows, bars and labels are in their places, sorted, with the right room for names.
 - **The CSS.** Each chart writes the CSS it needs into the page: rhp's own CSS once, and each row type's CSS.
   When the browser takes the page over, it swaps those for its own stylesheets.
 
+## Many charts, or islands
+
+Each island of an Astro page is drawn on its own, so each would bring rhp's CSS with it.
+Link it once instead, on every page, and tell rhp the page has it:
+
+```js
+import "@bezda/rhp/rhp.css";          // or <link rel="stylesheet"> to it
+import { linkedCss } from "@bezda/rhp";
+linkedCss();                          // where your app starts: on the server and in the browser
+```
+
+Charts then leave that CSS out of their HTML, and the browser uses the page's copy.
+If a page doesn't link it after all, the first chart says so in the browser's console and brings its own.
+These pages do this.
+
+## Charts with no JavaScript
+
+A chart drawn on the server is complete as HTML and CSS: nothing needs to run for it to show.
+Leave hydration out (in Astro, a component with no `client:` directive; with Solid, `renderToString(() => <NoHydration><App /></NoHydration>)`), and the page has charts and no script, for static pages and for PDFs printed from a browser.
+It isn't for email: email programs drop most of the CSS rhp uses.
+
 ## What waits for the browser
 
-A server can't measure the screen or run animations, so:
+A server can't measure the screen, so a `Scale` row's `d.toEnd` (its distance to the end of the scale, in pixels) is `Infinity` until the browser measures it.
+To leave out a number that would crowd the end, use CSS instead: it works the same on the server (see [scales](/guides/scales/#drawing-the-scale-yourself)).
 
-- A `Scale` row's `d.toEnd` (its distance to the end of the scale, in pixels) is `Infinity` until the browser measures it.
-- Motion starts in the browser: the server draws the data as it is, and changes after that animate as usual.
+Motion is the browser's: the server draws the data as it is, and changes after that animate as usual, as they do when the browser draws the chart itself.

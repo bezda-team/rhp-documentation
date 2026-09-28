@@ -11,13 +11,15 @@
     "reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm install",
     "sync-rhp": "node scripts/sync-rhp.mjs",
     "thumbnails": "node scripts/thumbnails.mjs",
-    "check-styles": "node scripts/check-styles.mjs"
+    "check-styles": "node scripts/check-styles.mjs",
+    "check-ssr": "node scripts/check-ssr.mjs"
   },
   "dependencies": {
     "@astrojs/solid-js": "^3.0.3",
     "@astrojs/starlight": "^0.11.1",
     "@astrojs/starlight-tailwind": "^2.0.0",
     "@astrojs/tailwind": "^5.0.2",
+    "@bezda/rhp": "file:vendor/rhp",
     "@codemirror/commands": "^6.11.1",
     "@codemirror/lang-css": "^6.3.1",
     "@codemirror/lang-javascript": "^6.2.5",

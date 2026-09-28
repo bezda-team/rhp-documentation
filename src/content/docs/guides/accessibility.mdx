@@ -18,8 +18,9 @@ It also takes `aria-labelledby` (the id of a heading on the page), `aria-describ
 
 ## Rows are a list
 
-Each Plot is a list, and each row is an item in it.
+A chart's rows are a list, and each row is an item in it.
 A screen reader announces "list, 4 items" and reads each row's text: its Labels, and anything else the row writes.
+A Plot inside a row (a heatmap's cells) and an overlap Plot (dots in one band) are part of their rows, so they aren't lists of their own.
 
 Sorted rows are read in the order they're shown.
 On screen they slide to their places, but they keep their place in the page, so rhp tells the screen reader the order with `aria-owns`.

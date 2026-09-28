@@ -26,12 +26,14 @@ Set them on a block, or on the row to reach all its blocks.
 | `--rhp-cell-gap` | `1px` | the space around a Cell |
 | `--rhp-length-time`, `--rhp-length-ease` | `.15s`, `ease-out` | how values move (CSS version) |
 | `--rhp-slide-time`, `--rhp-slide-ease` | `.3s`, `ease-in-out` | how rows slide to new places |
+| `--rhp-gutter-max` | `40cqw` | with `room: "auto"`, the widest a label (and so the room) can be |
 
 ## Variables you read
 
 | Variable | |
 |---|---|
 | `--rhp-toward-end` | the direction from a Bar's start to its end: `linear-gradient(var(--rhp-toward-end), …)` |
+| `--rhp-p` | where a Dot, Tick or Label sits along the scale, from 0 to 1. A Label's room to the scale's end is `calc((1 - var(--rhp-p)) * 100%)` in its `max-width` or `max-height`. |
 | `--rhp-color` | the block's `color` |
 | `--rhp-ink`, `--rhp-muted`, `--rhp-grid`, `--rhp-surface` | theme colors |
 | `--rhp-series-1` … `--rhp-series-6` | the theme's series colors |

@@ -30,6 +30,29 @@ When the settings differ by direction, give each its own: `thickness: { horizont
 
 The chart makes room for the largest `room` any of its rows ask for, and for its axis numbers.
 
+## Room that fits the names
+
+With `room: "auto"`, the chart works the room out itself: the start is as wide as the widest name, and the end as wide as the widest label there.
+It's done in CSS, so a chart drawn on a server has it right too.
+
+<Demo name="layout-auto" height={170} />
+
+You still decide how much room names get, in the row's CSS: size the label and the room follows.
+
+```css
+.name { max-width: 9em; }                 /* longer names end in "…" */
+.name:vertical { white-space: normal; }   /* names wrap under their columns */
+```
+
+By default a name takes at most 40% of the chart; `--rhp-gutter-max` on a label changes that.
+Each side can be set on its own: `room: { start: "auto", end: 40 }` fits the names and keeps 40px at the end.
+
+A few things to know:
+
+- Rows then span the room as well: a row's background reaches under its name.
+- It costs more layout than a number of pixels. Charts of tens of rows don't notice; for hundreds of rows, give `room` in px.
+- Firefox makes the room under a vertical chart one line tall, so names that wrap onto more lines there need `room` in px.
+
 ## Width
 
 A chart is as wide as the element it's in, like any block of HTML.

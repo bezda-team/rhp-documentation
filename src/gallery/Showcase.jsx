@@ -1,5 +1,6 @@
 // The home page's showcase: a few gallery posters, picked at random on each visit, live and in their best orientation.
 // Each poster is drawn as its gallery page draws it (Playground.jsx), without the controls and the code.
+import "./ui/setup.js";
 import { createResource, createSignal, For, onMount, Show } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { Theme } from "@bezda/rhp";

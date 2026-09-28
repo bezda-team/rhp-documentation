@@ -26,6 +26,7 @@ npm install @bezda/rhp
 ```
 
 rhp has no stylesheet to import: it brings its own CSS the first time a chart appears.
+Its package gives each build what it needs: a Solid app's build (Vite, SolidStart, Astro) compiles rhp with the app, and a plain browser or server gets a build of its own.
 
 ## In a plain HTML page
 
@@ -69,4 +70,4 @@ See [other frameworks](/guides/other-frameworks/).
 ## Browsers
 
 rhp works in current versions of Chrome, Edge, Safari and Firefox.
-It draws in the browser only: it doesn't render on a server yet.
+It also draws on a server, for SolidStart, Astro and other Solid servers: see [server rendering](/guides/server/).

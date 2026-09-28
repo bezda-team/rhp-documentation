@@ -27,7 +27,7 @@ A Chart with a Scale in it draws no axis of its own.
 | `d.at` | the tick's value |
 | `d.next` | the next tick's value (the scale's end after the last tick): fill the space between two ticks |
 | `d.first`, `d.last` | `true` for the first and last ticks |
-| `d.toEnd` | the distance from the tick to the scale's end, in px: leave out a number that would crowd the end |
+| `d.toEnd` | the distance from the tick to the scale's end, in px, measured in the browser (`Infinity` until then, and on a server). CSS does the same job everywhere: see [scales](/guides/scales/#drawing-the-scale-yourself). |
 
 A tick keeps its row while the scale changes, so a tick at 20 stays the same element as the scale grows.
 The ticks at the two ends of the scale are always the same two rows, so the end line never slides.

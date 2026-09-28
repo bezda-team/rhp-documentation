@@ -1,5 +1,5 @@
-# build output
-dist/
+# build output (the site's; vendor/rhp/dist is rhp's package, kept)
+/dist/
 # generated types
 .astro/
 

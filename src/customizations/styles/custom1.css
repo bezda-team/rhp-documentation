@@ -451,3 +451,38 @@ input[type=number]::-webkit-inner-spin-button {
 .hero .copy > * {
 	max-width: 45ch;
 }
+/* The docs' colors for rhp charts (src/gallery/ui/themes.js: DOCS_THEME), dark by default and light under Starlight's
+   light theme. A chart's theme names these variables, so a chart drawn on the server into the page has the reader's
+   colors before any script runs. */
+:root {
+	--docs-chart-s1: #3987e5;
+	--docs-chart-s2: #d95926;
+	--docs-chart-s3: #199e70;
+	--docs-chart-s4: #c98500;
+	--docs-chart-s5: #d55181;
+	--docs-chart-s6: #9085e9;
+	--docs-chart-positive: #4fd18f;
+	--docs-chart-negative: #ff8a7a;
+	--docs-chart-ink: #c1c3c8;
+	--docs-chart-muted: #8a8d96;
+	--docs-chart-grid: #ffffff1a;
+	--docs-chart-surface: #2e2f43;
+	--docs-chart-low: #393b52;
+	--docs-chart-high: #f2cc8f;
+}
+:root[data-theme="light"] {
+	--docs-chart-s1: #2a78d6;
+	--docs-chart-s2: #eb6834;
+	--docs-chart-s3: #1baf7a;
+	--docs-chart-s4: #c2419a;
+	--docs-chart-s5: #7b5cd6;
+	--docs-chart-s6: #d39a12;
+	--docs-chart-positive: #13894f;
+	--docs-chart-negative: #c62828;
+	--docs-chart-ink: #353841;
+	--docs-chart-muted: #555a63;
+	--docs-chart-grid: #e3e4e8;
+	--docs-chart-surface: #ffffff;
+	--docs-chart-low: #f3f3f6;
+	--docs-chart-high: #2e2f43;
+}

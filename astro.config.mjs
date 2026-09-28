@@ -64,6 +64,8 @@ export default defineConfig({
       link: '/gallery/'
     }],
     customCss: [
+    // rhp's stylesheet, once for every chart on a page (src/gallery/ui/setup.js calls linkedCss)
+    '@bezda/rhp/rhp.css',
     // Relative path to your custom CSS file
     './src/tailwind.css',
     './src/customizations/styles/custom1.css'],
@@ -73,17 +75,16 @@ export default defineConfig({
       PageTitle: './src/customizations/components/PageTitle.astro' // the default title, with a link back above it on a gallery plot page
     }
   }),
-  // Solid draws the gallery (src/gallery) and the live demos (src/demos).
-  solid({ include: ["**/gallery/**", "**/demos/**"] }),
+  // Solid draws the gallery (src/gallery) and the live demos (src/demos), and compiles rhp's source (the package's
+  // "solid" export), which it takes as an app does.
+  solid({ include: ["**/gallery/**", "**/demos/**", "**/vendor/rhp/**", "**/@bezda/rhp/**"] }),
   tailwind({
     // Disable the default base styles:
     applyBaseStyles: false,
   })],
   vite: {
     resolve: {
-      // "@bezda/rhp" is the build of rhp 2 in vendor/rhp (npm run sync-rhp) until rhp 2 is published: then install it and drop this alias.
       alias: {
-        "@bezda/rhp": fileURLToPath(new URL("./vendor/rhp/index.js", import.meta.url)),
         "@gallery": fileURLToPath(new URL("./src/gallery", import.meta.url)), // so the examples' code reads "@gallery/ui/Poster.jsx"
       },
     },

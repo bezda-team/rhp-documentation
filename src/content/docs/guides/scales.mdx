@@ -39,7 +39,14 @@ A Scale row also gets:
 
 - `d.next`, the next tick's value, to fill the space between two ticks,
 - `d.first` and `d.last`, true at the two ends,
-- `d.toEnd`, how far the tick is from the end of the scale in pixels, to leave out a number that would crowd the end.
+- `d.toEnd`, how far the tick is from the end of the scale in pixels, measured in the browser.
+
+To leave out a number that would crowd the end of the scale, CSS is enough, and works the same when the chart is drawn on a server.
+A Label's room from its value to the end is `calc((1 - var(--rhp-p)) * 100%)` in its `max-width` (in a vertical chart, `max-height`), so this gives a number with less than 30px no size at all:
+
+```css
+.num { max-width: calc(((1 - var(--rhp-p)) * 100% - 30px) * 1000); overflow: hidden; }
+```
 
 `every(10)` gives a tick at each multiple of 10.
 `every(10, { ends: true })` adds the scale's two ends as ticks.

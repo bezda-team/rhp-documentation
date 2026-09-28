@@ -1,6 +1,7 @@
 // A live example: the chart, the controls every example takes (orientation, animation version, new data), and its two
 // files beside it. The CSS in styles.js can be edited, and the chart restyles as you type: each export's CSS goes to
 // rhp's restyle() for the slat types the chart module exports with that CSS.
+import "./setup.js";
 import { createSignal, onMount, onCleanup, Show, For } from "solid-js";
 import { Theme, restyle } from "@bezda/rhp";
 import { editStyles, showCode, resetStyles, cssParts } from "./code.js";

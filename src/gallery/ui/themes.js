@@ -17,6 +17,14 @@ export const DOCS_LIGHT = {
   surface: "#ffffff", low: "#f3f3f6", high: "#2e2f43", font,
 };
 
+// The same colors as CSS variables (custom1.css), dark or light with Starlight's theme: for a chart drawn on the server,
+// which can't tell which the reader has picked.
+export const DOCS_THEME = {
+  series: [1, 2, 3, 4, 5, 6].map((i) => `var(--docs-chart-s${i})`),
+  ...Object.fromEntries(["positive", "negative", "ink", "muted", "grid", "surface", "low", "high"].map((k) => [k, `var(--docs-chart-${k})`])),
+  font,
+};
+
 // v1's demos ran on Chakra UI's defaults: its system font, #555 text and axis lines, black on hover, faint #00000011 lines.
 const CHAKRA = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
 export const V1_LIGHT = { font: CHAKRA, muted: "#555555", ink: "#000000", grid: "#00000011" };
