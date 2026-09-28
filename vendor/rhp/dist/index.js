@@ -777,7 +777,7 @@ function makePlot(props, role) {
   }), all = later(() => anim()?.all === !0), isMoving = (key) => all() || listed().has(key), js = () => anim() != null, easing = later(() => curve(anim()?.ease)), timing = () => ({
     duration: anim()?.duration ?? MOVE_MS,
     ease: easing()
-  }), slideMs = () => anim()?.slide ?? (js() ? 250 : void 0), ids = keyed && createMemo2(() => {
+  }), slideMs = () => anim()?.slide ?? (js() ? 175 : void 0), ids = keyed && createMemo2(() => {
     let key = props.key;
     return range(n()).map((i) => typeof key == "function" ? key(datum(() => i, null)) : raw(key, i));
   }, void 0, {
