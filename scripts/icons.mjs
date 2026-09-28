@@ -3,8 +3,9 @@
 // since the whole word is too small to read there.
 //   src/assets/rhp-icon.svg    the official icon
 //   src/assets/rhp-logo.svg    the logo alone, with no square behind it (the header's)
-//   public/favicon.svg         the r, for the browser tab
-//   public/favicon.ico         the r at 16, 32 and 48px, for browsers without SVG favicons
+//   public/favicon-rhp.svg     the r, for the browser tab (a new name, so no cache still holds Starlight's default)
+//   public/favicon-rhp-16.png, public/favicon-rhp-32.png  the r as PNGs, which Safari reads when it skips an SVG
+//   public/favicon.ico         the r at 16, 32 and 48px, for browsers that ask for /favicon.ico
 //   public/apple-touch-icon.png  180px on a full square (iOS rounds the corners itself)
 //   public/icon-192.png, public/icon-512.png  for public/site.webmanifest
 // npm run icons
@@ -67,7 +68,7 @@ fs.writeFileSync("src/assets/rhp-logo.svg", logo);
 const rounded = icon(LOGO, 60, true); // the word 392px wide on the 512px square
 const small = icon(R, 96, true); // the r 320px tall
 fs.writeFileSync("src/assets/rhp-icon.svg", rounded);
-fs.writeFileSync("public/favicon.svg", small);
+fs.writeFileSync("public/favicon-rhp.svg", small);
 
 // PNGs, drawn by Chromium with a transparent page, so the rounded corners stay clear
 const browser = await chromium.launch();
@@ -84,6 +85,8 @@ const png = async (svg, size) => {
 fs.writeFileSync("public/apple-touch-icon.png", await png(icon(LOGO, 60, false), 180));
 fs.writeFileSync("public/icon-192.png", await png(rounded, 192));
 fs.writeFileSync("public/icon-512.png", await png(rounded, 512));
+fs.writeFileSync("public/favicon-rhp-16.png", await png(small, 16));
+fs.writeFileSync("public/favicon-rhp-32.png", await png(small, 32));
 
 // An .ico is a directory of images; each one here is a PNG
 const sizes = [16, 32, 48];

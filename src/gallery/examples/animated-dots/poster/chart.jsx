@@ -41,7 +41,14 @@ export default function Dots(p) {
   // The window is 11 dots of 60px (with its gutters, 664px across, 544px when vertical); on a narrow page it zooms to fit.
   const [room, setRoom] = createSignal(Infinity);
   let fit;
-  onMount(() => { const ro = new ResizeObserver(([e]) => setRoom(e.contentRect.width)); ro.observe(fit); onCleanup(() => ro.disconnect()); });
+  // Measured once before the first paint, then on each resize in the next frame: zooming inside the observer's callback
+  // would resize what it observes while it reports, a ResizeObserver loop.
+  onMount(() => {
+    setRoom(fit.clientWidth);
+    const ro = new ResizeObserver(([e]) => requestAnimationFrame(() => setRoom(e.contentRect.width)));
+    ro.observe(fit);
+    onCleanup(() => ro.disconnect());
+  });
   const zoom = () => Math.min(1, room() / (p.o() === "vertical" ? 544 : 664));
   return (
     <div class="dots-fit" ref={fit}>

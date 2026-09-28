@@ -25,8 +25,10 @@ export default defineConfig({
     // rhp's logo, with no square behind it, stands for the title (npm run icons builds it and every icon from
     // src/assets/rhp-splash.svg)
     logo: { src: './src/assets/rhp-logo.svg', replacesTitle: true },
-    favicon: '/favicon.svg',
+    favicon: '/favicon-rhp.svg',
     head: [
+      { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-rhp-32.png' } },
+      { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-rhp-16.png' } },
       { tag: 'link', attrs: { rel: 'icon', href: '/favicon.ico', sizes: '48x48' } },
       { tag: 'link', attrs: { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' } },
       { tag: 'link', attrs: { rel: 'manifest', href: '/site.webmanifest' } },
