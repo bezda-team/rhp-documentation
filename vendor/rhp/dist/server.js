@@ -13,12 +13,12 @@ var rhp_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp
 var gutters_default = "@layer rhp.core{[data-rhp-gutters=h]>.rhp-body{grid-template-columns:[start-start] var(--rhp-gutter-start) [start-end track-start] minmax(0,1fr) [track-end end-start] var(--rhp-gutter-end) [end-end]}.rhp-chart[data-rhp-gutters=v]>.rhp-body{height:auto;grid-template-rows:[end-start] var(--rhp-gutter-end) [end-end track-start] var(--rhp-height, 240px) [track-end start-start] var(--rhp-gutter-start) [start-end]}[data-rhp-gutters=h]>.rhp-body>*{grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>*{grid-area:track / 1}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{inset:auto;translate:none;width:auto;min-width:0;min-height:0}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{align-self:center;max-width:var(--rhp-gutter-max, 40cqw)}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{justify-self:end}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{justify-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{justify-self:stretch}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{align-self:end}}@layer rhp.place{[data-rhp-gutters=h]>.rhp-body>.rhp-plot{grid-column:1 / -1;display:grid;grid-template-columns:subgrid}[data-rhp-gutters=v]>.rhp-body>.rhp-plot{grid-row:1 / -1;display:grid;grid-template-rows:subgrid}[data-rhp-gutters]>.rhp-body>.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area){position:relative;display:grid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / auto / -1;grid-template-columns:subgrid}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / -1;grid-template-rows:subgrid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{justify-self:start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area){grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area){grid-area:track / 1}[data-rhp-gutters=h] .rhp-plot .rhp-bar,[data-rhp-gutters=h] .rhp-plot .rhp-dot,[data-rhp-gutters=h] .rhp-plot .rhp-tick,[data-rhp-gutters=h] .rhp-plot .rhp-label,[data-rhp-gutters=h] .rhp-plot .rhp-cell,[data-rhp-gutters=h] .rhp-plot .rhp-area,[data-rhp-gutters=h] .rhp-plot .rhp-plot{grid-column:track}[data-rhp-gutters=v] .rhp-plot .rhp-bar,[data-rhp-gutters=v] .rhp-plot .rhp-dot,[data-rhp-gutters=v] .rhp-plot .rhp-tick,[data-rhp-gutters=v] .rhp-plot .rhp-label,[data-rhp-gutters=v] .rhp-plot .rhp-cell,[data-rhp-gutters=v] .rhp-plot .rhp-area,[data-rhp-gutters=v] .rhp-plot .rhp-plot{grid-row:track}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{position:relative}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:1 / start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:1 / end}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:start / 1}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:end / 1}}";
 
 // src/style.js
-var LAYERS = "@layer rhp.place, rhp.slat, rhp.core;";
+var LAYERS = "@layer rhp.place, rhp.slat, rhp.core;", DESCRIPTORS = /^@(-webkit-)?keyframes\b|^@(font-face|property|counter-style|font-palette-values|font-feature-values|view-transition|position-try)\b/i;
 function important(css) {
   css = uncomment(css);
   let out = "", seg = "", depth = 0, quote2 = null, paren = 0, frames = -1, flush = (end) => {
-    let t = seg.trim(), decl = t && t[0] !== "@" && !t.startsWith("--") && frames < 0 && /^[a-z-]+\s*:/i.test(t) && !/!important\s*$/i.test(t);
-    out += (decl ? seg.replace(/\s*$/, " !important") : seg) + end, seg = "";
+    let t = seg.trim(), declaration = t && t[0] !== "@" && !t.startsWith("--") && frames < 0 && /^[a-z-]+\s*:/i.test(t) && !/!important\s*$/i.test(t);
+    out += (declaration ? seg.replace(/\s*$/, " !important") : seg) + end, seg = "";
   };
   for (let i = 0; i < css.length; i++) {
     let ch = css[i];
@@ -43,7 +43,6 @@ function important(css) {
   }
   return out + seg;
 }
-var DESCRIPTORS = /^@(-webkit-)?keyframes\b|^@(font-face|property|counter-style|font-palette-values|font-feature-values|view-transition|position-try)\b/i;
 function uncomment(css) {
   let out = "", quote2 = null;
   for (let i = 0; i < css.length; i++) {
@@ -83,9 +82,12 @@ function split(list) {
 `) && (quote2 = null);
       continue;
     }
-    if (ch === '"' || ch === "'") quote2 = ch;
-    else if (ch === "(" || ch === "[") depth++;
-    else if (ch === ")" || ch === "]") depth--;
+    if (ch === '"' || ch === "'")
+      quote2 = ch;
+    else if (ch === "(" || ch === "[")
+      depth++;
+    else if (ch === ")" || ch === "]")
+      depth--;
     else if (ch === "," && depth === 0) {
       parts.push(cur.trim()), cur = "";
       continue;
@@ -183,9 +185,10 @@ function oriented(sel) {
   }
   return out;
 }
-var hash = (t) => {
+var hash = (text) => {
   let h = 5381;
-  for (let i = 0; i < t.length; i++) h = h * 33 ^ t.charCodeAt(i);
+  for (let i = 0; i < text.length; i++)
+    h = h * 33 ^ text.charCodeAt(i);
   return (h >>> 0).toString(36);
 }, roots = /* @__PURE__ */ new Map(), entries = [];
 function adoptInto(root, entry) {
@@ -216,10 +219,10 @@ function declareLayers(root) {
       }, 1e3)), first ? first.before(el) : parent.prepend(el);
     }
     if (!el.sheet)
-      for (let s of root.styleSheets) {
-        if (edited.has(s)) return;
+      for (let sheet of root.styleSheets) {
+        if (edited.has(sheet)) return;
         try {
-          s.insertRule(LAYERS, 0), edited.add(s);
+          sheet.insertRule(LAYERS, 0), edited.add(sheet);
           return;
         } catch {
         }
@@ -232,21 +235,23 @@ function declareLayers(root) {
 function addRoot(root) {
   if (!roots.has(root)) {
     roots.set(root, /* @__PURE__ */ new Map()), declareLayers(root);
-    for (let e of entries) adoptInto(root, e);
+    for (let entry of entries)
+      adoptInto(root, entry);
   }
 }
 function add(css, core2 = !1) {
   roots.size || addRoot(document);
   let entry = { css, core: core2 };
   entries.push(entry);
-  for (let r of roots.keys()) adoptInto(r, entry);
+  for (let root of roots.keys())
+    adoptInto(root, entry);
   return entry;
 }
 function update(entry, css) {
   entry.css = css;
   for (let own of roots.values()) {
-    let s = own.get(entry);
-    s && (s.replaceSync ? s.replaceSync(css) : s.textContent = css);
+    let sheet = own.get(entry);
+    sheet && (sheet.replaceSync ? sheet.replaceSync(css) : sheet.textContent = css);
   }
 }
 var coreText, guttersText, coreSheet = () => coreText ?? (coreText = LAYERS + `
@@ -259,14 +264,17 @@ function checkLinked(body) {
   if (!linked || checked || (checked = !0, getComputedStyle(body).display === "grid")) return;
   console.warn("rhp: linkedCss() was called, but this page doesn't link @bezda/rhp/rhp.css: rhp adds its core stylesheet itself"), linked = !1;
   let own = roots.get(document);
-  if (own) for (let entry of entries) entry.core && !own.has(entry) && adoptInto(document, entry);
+  if (own)
+    for (let entry of entries)
+      entry.core && !own.has(entry) && adoptInto(document, entry);
 }
 var written = /* @__PURE__ */ new WeakMap();
 function serverSheets(slats, render, gutters) {
   let seen = render ? written.get(render) ?? written.set(render, /* @__PURE__ */ new Set()).get(render) : /* @__PURE__ */ new Set(), out = "";
   !linked && !seen.has("core") && (seen.add("core"), out += coreSheet()), !linked && gutters && !seen.has("gutters") && (seen.add("gutters"), out += `
 ` + gutterSheet());
-  for (let fn of slats) seen.has(fn.scope) || (seen.add(fn.scope), out += `
+  for (let fn of slats)
+    seen.has(fn.scope) || (seen.add(fn.scope), out += `
 ` + slatSheet(fn));
   return out;
 }
@@ -275,18 +283,19 @@ function useCore() {
   core || typeof document > "u" || (core = !0, add(coreSheet(), !0));
 }
 function useRoot(el) {
-  let r = el.getRootNode();
-  if (r === el || r.nodeType !== 9 && r.nodeType !== 11) return;
-  if (!roots.has(r)) return addRoot(r);
-  let own = [...roots.get(r).values()], list = r.adoptedStyleSheets;
-  Array.isArray(list) && own.some((s) => !list.includes(s)) && (r.adoptedStyleSheets = [...list.filter((s) => !own.includes(s)), ...own]);
+  let root = el.getRootNode();
+  if (root === el || root.nodeType !== 9 && root.nodeType !== 11) return;
+  if (!roots.has(root)) return addRoot(root);
+  let own = [...roots.get(root).values()], list = root.adoptedStyleSheets;
+  Array.isArray(list) && own.some((sheet) => !list.includes(sheet)) && (root.adoptedStyleSheets = [...list.filter((sheet) => !own.includes(sheet)), ...own]);
 }
 var ro;
 function watchRoot(el) {
   if (typeof ResizeObserver > "u") return () => {
   };
-  ro ?? (ro = new ResizeObserver((es) => {
-    for (let e of es) useRoot(e.target);
+  ro ?? (ro = new ResizeObserver((changes) => {
+    for (let change of changes)
+      useRoot(change.target);
   }));
   let body = el.querySelector(".rhp-body");
   return ro.observe(el, { box: "border-box" }), body && ro.observe(body), () => {
@@ -297,10 +306,11 @@ var sheets = /* @__PURE__ */ new Map();
 function useSlatCss(fn) {
   !fn?.scope || typeof document > "u" || sheets.has(fn.scope) || (useCore(), sheets.set(fn.scope, add(slatSheet(fn))));
 }
-var manyRadii = (css) => [...css.matchAll(/--rhp-radius\s*:([^;{}]*)/g)].some(([, v]) => {
-  let t = v, u;
-  for (; (u = t.replace(/\([^()]*\)/g, "")) !== t; ) t = u;
-  return t.trim().split(/\s+/).filter((x) => x && x !== "!important").length > 1;
+var manyRadii = (css) => [...css.matchAll(/--rhp-radius\s*:([^;{}]*)/g)].some(([, value]) => {
+  let text = value, inner;
+  for (; (inner = text.replace(/\([^()]*\)/g, "")) !== text; )
+    text = inner;
+  return text.trim().split(/\s+/).filter((x) => x && x !== "!important").length > 1;
 }), checkRadii = (css) => manyRadii(css) && console.warn("rhp: --rhp-radius takes one length. For different corners, use --rhp-start-radius and --rhp-end-radius, or border-radius.");
 function slatSheet(fn) {
   let S = `[data-rhp-slat="${fn.scope}"]`, own = /:(before|after)\b/i.test(fn.css) ? `:where(${S}, ${S} :where(.rhp-plot, .rhp-plot > *))::before, :where(${S}, ${S} :where(.rhp-plot, .rhp-plot > *))::after { content: none; display: inline; }
@@ -346,16 +356,22 @@ function drawing(f) {
 
 // src/animate.js
 var bezier = (x1, y1, x2, y2) => {
-  let cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx, cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by, X = (t) => ((ax * t + bx) * t + cx) * t, Y = (t) => ((ay * t + by) * t + cy) * t;
+  let cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx, cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by, curveX = (t) => ((ax * t + bx) * t + cx) * t, curveY = (t) => ((ay * t + by) * t + cy) * t;
   return (x) => {
     if (x <= 0) return 0;
     if (x >= 1) return 1;
     let lo = 0, hi = 1, t = x;
     for (let i = 0; i < 24; i++)
-      X(t) < x ? lo = t : hi = t, t = (lo + hi) / 2;
-    return Y(t);
+      curveX(t) < x ? lo = t : hi = t, t = (lo + hi) / 2;
+    return curveY(t);
   };
-}, easeInOut = bezier(0.42, 0, 0.58, 1), easeOut = bezier(0, 0, 0.58, 1), NAMED = { linear: (x) => x, ease: bezier(0.25, 0.1, 0.25, 1), "ease-in": bezier(0.42, 0, 1, 1), "ease-out": easeOut, "ease-in-out": easeInOut }, MOVE_MS = 150, curve = (c) => typeof c == "function" ? c : Array.isArray(c) ? bezier(...c) : (c != null && !NAMED[c] && console.warn(`rhp: unknown ease "${c}", using ease-out`), NAMED[c] ?? easeOut), cssCurve = (c) => Array.isArray(c) ? `cubic-bezier(${c.join(",")})` : typeof c == "string" ? c : void 0, reduce = typeof matchMedia == "function" ? matchMedia("(prefers-reduced-motion: reduce)") : { matches: !1 }, [clock, setClock] = createSignal(0), frameAt = 0, endAt = 0, raf = 0, frameCount = 0, waiting = [];
+}, easeInOut = bezier(0.42, 0, 0.58, 1), easeOut = bezier(0, 0, 0.58, 1), NAMED = {
+  linear: (x) => x,
+  ease: bezier(0.25, 0.1, 0.25, 1),
+  "ease-in": bezier(0.42, 0, 1, 1),
+  "ease-out": easeOut,
+  "ease-in-out": easeInOut
+}, MOVE_MS = 150, curve = (c) => typeof c == "function" ? c : Array.isArray(c) ? bezier(...c) : (c != null && !NAMED[c] && console.warn(`rhp: unknown ease "${c}", using ease-out`), NAMED[c] ?? easeOut), cssCurve = (c) => Array.isArray(c) ? `cubic-bezier(${c.join(",")})` : typeof c == "string" ? c : void 0, reduce = typeof matchMedia == "function" ? matchMedia("(prefers-reduced-motion: reduce)") : { matches: !1 }, [clock, setClock] = createSignal(0), frameAt = 0, endAt = 0, raf = 0, frameCount = 0, waiting = [];
 function tick(t) {
   frameAt = t, frameCount++, drawing(() => setClock(t)), t < endAt ? raf = requestAnimationFrame(tick) : (raf = 0, waiting.splice(0).forEach((f) => f()));
 }
@@ -364,13 +380,16 @@ var runUntil = (t) => {
 };
 var plain = (v) => v !== null && typeof v == "object" && !Array.isArray(v) && Object.getPrototypeOf(v) === Object.prototype, movable = (v) => typeof v == "number" ? Number.isFinite(v) : Array.isArray(v) || plain(v);
 function diff(b, a) {
-  if (typeof b == "number") return typeof a == "number" && Number.isFinite(a) && Number.isFinite(b) ? b - a : void 0;
-  if (Array.isArray(b)) return Array.isArray(a) && a.length === b.length ? b.map((v, i) => diff(v, a[i])) : void 0;
+  if (typeof b == "number")
+    return typeof a == "number" && Number.isFinite(a) && Number.isFinite(b) ? b - a : void 0;
+  if (Array.isArray(b))
+    return Array.isArray(a) && a.length === b.length ? b.map((v, i) => diff(v, a[i])) : void 0;
   if (plain(b)) {
     if (!plain(a)) return;
-    let o = {};
-    for (let k in b) o[k] = diff(b[k], a[k]);
-    return o;
+    let out = {};
+    for (let key in b)
+      out[key] = diff(b[key], a[key]);
+    return out;
   }
 }
 function less(v, d, k) {
@@ -378,9 +397,10 @@ function less(v, d, k) {
   if (typeof v == "number") return v - d * k;
   if (Array.isArray(v)) return v.map((x, i) => less(x, d[i], k));
   if (plain(v)) {
-    let o = {};
-    for (let key in v) o[key] = less(v[key], d[key], k);
-    return o;
+    let out = {};
+    for (let key in v)
+      out[key] = less(v[key], d[key], k);
+    return out;
   }
   return v;
 }
@@ -388,12 +408,12 @@ function same(a, b) {
   if (a === b) return !0;
   if (Array.isArray(b)) return Array.isArray(a) && a.length === b.length && b.every((v, i) => same(a[i], v));
   if (plain(b)) {
-    let k = Object.keys(b);
-    return plain(a) && Object.keys(a).length === k.length && k.every((x) => same(a[x], b[x]));
+    let keys = Object.keys(b);
+    return plain(a) && Object.keys(a).length === keys.length && keys.every((key) => same(a[key], b[key]));
   }
   return !1;
 }
-var snapshot = (v) => Array.isArray(v) ? v.map(snapshot) : plain(v) ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, snapshot(x)])) : v;
+var snapshot = (v) => Array.isArray(v) ? v.map(snapshot) : plain(v) ? Object.fromEntries(Object.entries(v).map(([key, x]) => [key, snapshot(x)])) : v;
 function animated(read, settings = () => ({})) {
   let to, moves = [], shown, seenAt = -1;
   return (ahead = 0) => {
@@ -401,7 +421,8 @@ function animated(read, settings = () => ({})) {
     if (!movable(v) || reduce.matches) return v;
     if (to === void 0 || !same(to, v)) {
       let target = snapshot(v), d = to === void 0 ? void 0 : diff(target, to);
-      if (d === void 0) moves = [];
+      if (d === void 0)
+        moves = [];
       else {
         let s = untrack(settings), start = performance.now(), dur = Math.max(1, s.duration ?? MOVE_MS);
         moves.push({ d, start, dur, ease: s.ease ?? easeOut }), runUntil(start + dur);
@@ -425,8 +446,8 @@ function animated(read, settings = () => ({})) {
 
 // src/data.js
 var compare = (a, b) => a < b ? -1 : a > b ? 1 : 0, sortBy = (key, direction = "asc") => (rows, current) => {
-  let k = rows.map((d) => typeof key == "function" ? key(d) : d[key]), s = direction === "desc" ? -1 : 1, onScreen = rows.map((_, i) => i).sort((a, b) => (current[a] ?? 1 / 0) - (current[b] ?? 1 / 0)), pos = Array(rows.length);
-  return onScreen.sort((a, b) => s * compare(k[a], k[b])).forEach((row, p) => pos[row] = p), pos;
+  let keys = rows.map((d) => typeof key == "function" ? key(d) : d[key]), sign = direction === "desc" ? -1 : 1, onScreen = rows.map((_, i) => i).sort((a, b) => (current[a] ?? 1 / 0) - (current[b] ?? 1 / 0)), positions = Array(rows.length);
+  return onScreen.sort((a, b) => sign * compare(keys[a], keys[b])).forEach((row, position) => positions[row] = position), positions;
 }, cycle = (list) => (d) => list[d.index % list.length], extent = (values) => {
   let lo = 1 / 0, hi = -1 / 0;
   for (let v of values)
@@ -434,13 +455,15 @@ var compare = (a, b) => a < b ? -1 : a > b ? 1 : 0, sortBy = (key, direction = "
   return [lo, hi];
 }, every = (step, { ends = !1 } = {}) => ([min, max]) => {
   let out = [];
-  for (let v = Math.ceil(min / step - 1e-9) * step; v <= max + 1e-9; v += step) out.push(+v.toFixed(10));
+  for (let v = Math.ceil(min / step - 1e-9) * step; v <= max + 1e-9; v += step)
+    out.push(+v.toFixed(10));
   return ends && out[0] !== min && out.unshift(min), ends && out.at(-1) !== max && out.push(max), out;
 };
 function nice(lo, hi, count = 5) {
   hi > lo || (hi = lo + 1);
-  let raw = (hi - lo) / Math.max(1, count), mag = 10 ** Math.floor(Math.log10(raw)), step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => s >= raw), min = Math.floor(lo / step + 1e-9) * step, max = Math.ceil(hi / step - 1e-9) * step, ticks = [];
-  for (let v = min; v <= max + step / 2; v += step) ticks.push(+v.toFixed(10));
+  let raw = (hi - lo) / Math.max(1, count), magnitude = 10 ** Math.floor(Math.log10(raw)), step = [1, 2, 2.5, 5, 10].map((m) => m * magnitude).find((s) => s >= raw), min = Math.floor(lo / step + 1e-9) * step, max = Math.ceil(hi / step - 1e-9) * step, ticks = [];
+  for (let v = min; v <= max + step / 2; v += step)
+    ticks.push(+v.toFixed(10));
   return { min, max, step, ticks };
 }
 function stackUp(values) {
@@ -454,9 +477,9 @@ var shares = (values, total = 100) => {
   return values.map((v) => v / sum * total);
 };
 function running(changes) {
-  let t = 0, from = [], to = [];
-  for (let c of changes)
-    from.push(t), t += c, to.push(t);
+  let total = 0, from = [], to = [];
+  for (let change of changes)
+    from.push(total), total += change, to.push(total);
   return { from, to };
 }
 var quantile = (sorted, p) => {
@@ -464,32 +487,33 @@ var quantile = (sorted, p) => {
   return sorted[lo] + (sorted[Math.min(lo + 1, sorted.length - 1)] - sorted[lo]) * (h - lo);
 };
 function summary(samples) {
-  let s = samples.slice().sort((a, b) => a - b), q1 = quantile(s, 0.25), median = quantile(s, 0.5), q3 = quantile(s, 0.75), iqr = q3 - q1, low = s.find((v) => v >= q1 - 1.5 * iqr), high = s.findLast((v) => v <= q3 + 1.5 * iqr);
+  let sorted = samples.slice().sort((a, b) => a - b), q1 = quantile(sorted, 0.25), median = quantile(sorted, 0.5), q3 = quantile(sorted, 0.75), iqr = q3 - q1, low = sorted.find((v) => v >= q1 - 1.5 * iqr), high = sorted.findLast((v) => v <= q3 + 1.5 * iqr);
   return {
-    min: s[0],
+    min: sorted[0],
     q1,
     median,
     q3,
-    max: s[s.length - 1],
+    max: sorted[sorted.length - 1],
     low,
     high,
-    mean: s.reduce((a, b) => a + b, 0) / s.length,
-    outliers: s.filter((v) => v < low || v > high)
+    mean: sorted.reduce((a, b) => a + b, 0) / sorted.length,
+    outliers: sorted.filter((v) => v < low || v > high)
   };
 }
 function bins(samples, { domain = extent(samples), count = 10 } = {}) {
-  let [lo, hi] = domain, w = (hi - lo) / count, x0 = [], x1 = [], tally = Array(count).fill(0);
+  let [lo, hi] = domain, width = (hi - lo) / count, x0 = [], x1 = [], tally = Array(count).fill(0);
   for (let k = 0; k < count; k++)
-    x0.push(lo + k * w), x1.push(lo + (k + 1) * w);
+    x0.push(lo + k * width), x1.push(lo + (k + 1) * width);
   for (let v of samples)
-    v < lo || v > hi || tally[Math.min(count - 1, Math.floor((v - lo) / w))]++;
+    v < lo || v > hi || tally[Math.min(count - 1, Math.floor((v - lo) / width))]++;
   return { x0, x1, tally };
 }
 function density(samples, { domain = extent(samples), points = 40, bandwidth } = {}) {
   let n = samples.length, mean = samples.reduce((a, b) => a + b, 0) / n, sd = Math.sqrt(samples.reduce((a, v) => a + (v - mean) ** 2, 0) / Math.max(1, n - 1)) || 1, h = bandwidth ?? 1.06 * sd * n ** -0.2, [lo, hi] = domain, out = [];
   for (let k = 0; k < points; k++) {
     let x = lo + (hi - lo) * k / (points - 1), y = 0;
-    for (let v of samples) y += Math.exp(-0.5 * ((x - v) / h) ** 2);
+    for (let v of samples)
+      y += Math.exp(-0.5 * ((x - v) / h) ** 2);
     out.push([x, y / (n * h * Math.sqrt(2 * Math.PI))]);
   }
   return out;
@@ -507,22 +531,26 @@ import { insert, style } from "solid-js/web";
 var _tmpl$2 = ["<path", ' vector-effect="non-scaling-stroke"></path>'], cls = (base, c) => c ? base + " " + c : base, KEY = /^(series-\d+|positive|negative|ink|muted|grid|surface|low|high)$/, tok = (c) => typeof c != "string" ? c : KEY.test(c) ? "var(--rhp-" + c + ")" : (/var\(--(?!rhp-)/.test(c) && console.warn("rhp: " + c + " reads a page variable; use a theme key"), c), length = (v) => typeof v == "number" ? v * 100 + "%" : v;
 function withVars(st, vars) {
   let css = typeof st == "string" ? st : "";
-  if (st && typeof st == "object") for (let k in st) st[k] != null && (css += (css && !css.endsWith(";") ? ";" : "") + k + ":" + st[k]);
-  for (let k in vars) vars[k] != null && (css += (css && !css.endsWith(";") ? ";" : "") + k + ":" + vars[k]);
+  if (st && typeof st == "object")
+    for (let key in st)
+      st[key] != null && (css += (css && !css.endsWith(";") ? ";" : "") + key + ":" + st[key]);
+  for (let key in vars)
+    vars[key] != null && (css += (css && !css.endsWith(";") ? ";" : "") + key + ":" + vars[key]);
   return css || void 0;
 }
 var others = (props, mine) => {
-  for (let k in props) if (!mine.has(k)) return !0;
+  for (let key in props)
+    if (!mine.has(key)) return !0;
   return !1;
 }, MINE = ["class", "style", "ref", "children"];
 function serverBlock(props, mine, base, vars, attrs, back) {
-  let o = useOrientation(), v = vars(), css = withVars(props.style, v);
+  let orientation = useOrientation(), v = vars(), css = withVars(props.style, v);
   return _$ssrElement("div", _$mergeProps(() => others(props, mine) ? splitProps(props, [...mine])[1] : {}, {
     get class() {
       return cls(base, props.class);
     },
     get "data-rhp-o"() {
-      return short(o());
+      return short(orientation());
     }
   }, () => attrs ? attrs() : {}, {
     get "data-rhp-back"() {
@@ -562,13 +590,13 @@ var Bar = block("rhp-bar", ["from", "to", "thick", "color"], (p) => ({
   "data-rhp-at": props.edge == null ? "" : void 0
 }));
 function Area(props) {
-  let o = useOrientation(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "mirror", "color"]), span = createMemo(() => {
+  let orientation = useOrientation(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "mirror", "color"]), span = createMemo(() => {
     let pts = p.points ?? [];
     return pts.length ? [pts[0][0], pts[pts.length - 1][0]] : [0, 0];
   }), path = createMemo(() => {
     let pts = p.points ?? [];
     if (pts.length < 2) return "";
-    let [x0, x1] = span(), w = x1 - x0 || 1, peak = p.peak ?? Math.max(...pts.map((q) => q[1])), vertical = o() === "vertical", xy = (u, t) => vertical ? `${(1e3 - t).toFixed(1)},${(1e3 - u).toFixed(1)}` : `${u.toFixed(1)},${t.toFixed(1)}`, ut = pts.map(([x, y]) => [(x - x0) / w * 1e3, Math.min(1, y / (peak || 1))]);
+    let [x0, x1] = span(), w = x1 - x0 || 1, peak = p.peak ?? Math.max(...pts.map((q) => q[1])), vertical = orientation() === "vertical", xy = (u, t) => vertical ? `${(1e3 - t).toFixed(1)},${(1e3 - u).toFixed(1)}` : `${u.toFixed(1)},${t.toFixed(1)}`, ut = pts.map(([x, y]) => [(x - x0) / w * 1e3, Math.min(1, y / (peak || 1))]);
     return "M" + (p.mirror ? [...ut.map(([u, y]) => xy(u, 500 - y * 500)), ...ut.slice().reverse().map(([u, y]) => xy(u, 500 + y * 500))] : [xy(ut[0][0], 1e3), ...ut.map(([u, y]) => xy(u, 1e3 - y * 1e3)), xy(ut[ut.length - 1][0], 1e3)]).join("L") + "Z";
   }), vars = () => ({
     "--rhp-from": span()[0],
@@ -580,7 +608,7 @@ function Area(props) {
       return cls("rhp-area", p.class);
     },
     get "data-rhp-o"() {
-      return short(o());
+      return short(orientation());
     },
     viewBox: "0 0 1000 1000",
     preserveAspectRatio: "none",
@@ -605,30 +633,33 @@ var _tmpl$ = ["<div", ' style="', '">', "</div>"], _tmpl$22 = ["<div", ' style="
   still: !1
 }), useOrientation = () => useContext(Around).orientation, short = (o) => o === "vertical" ? "v" : "h", SETTINGS = /* @__PURE__ */ new Set(["children", "order", "reorder", "orientation", "overlap", "slats", "key", "rows", "animate", "thick", "class", "style", "ref", "onLoop", "static"]), pick = (v, o) => v != null && typeof v == "object" && ("horizontal" in v || "vertical" in v) ? v[o] : v, px = (v) => typeof v == "number" ? v + "px" : v, share = (v) => typeof v == "number" ? v * 100 + "%" : v, same2 = (a, b) => a.length === b.length && a.every((v, k) => v === b[k]), sameSet = (a, b) => a.size === b.size && [...a].every((v) => b.has(v)), range = (n) => Array.from({
   length: n
-}, (_, i) => i), byPosition = (pos) => range(pos.length).filter((i) => pos[i] != null).sort((a, b) => pos[a] - pos[b]), ROW = {
-  get: (t, k) => typeof k == "string" ? t.P.read(t, k) : void 0,
-  has: (t, k) => t.P.has(t, k),
+}, (_, i) => i), byPosition = (positions) => range(positions.length).filter((i) => positions[i] != null).sort((a, b) => positions[a] - positions[b]), ROW = {
+  get: (t, key) => typeof key == "string" ? t.P.read(t, key) : void 0,
+  has: (t, key) => t.P.has(t, key),
   ownKeys: (t) => t.P.keys(t),
-  getOwnPropertyDescriptor: (t, k) => t.P.has(t, k) ? {
+  getOwnPropertyDescriptor: (t, key) => t.P.has(t, key) ? {
     configurable: !0,
     enumerable: !0,
-    get: () => t.P.read(t, k)
+    get: () => t.P.read(t, key)
   } : void 0
 }, BLOCK = /(^|\s)rhp-(bar|dot|tick|label|cell|area)(\s|$)/, warned = !1, warnBare = (el) => {
   if (warned) return;
   warned = !0;
-  let name = el.getAttribute("class").match(BLOCK)[2];
-  console.warn(`rhp: a ${name[0].toUpperCase() + name.slice(1)} is a slat's root here, so the Plot places it as the row and it ignores part of its own placing. Put it in an element: (d) => <div><${name[0].toUpperCase() + name.slice(1)} \u2026 /></div>. (Only a Plot with overlap takes a block as its slat.)`);
+  let name = el.getAttribute("class").match(BLOCK)[2], Name = name[0].toUpperCase() + name.slice(1);
+  console.warn(`rhp: a ${Name} is a slat's root here, so the Plot places it as the row and it ignores part of its own placing. Put it in an element: (d) => <div><${Name} \u2026 /></div>. (Only a Plot with overlap takes a block as its slat.)`);
 }, SPACE = /\s/;
 function readTag(node) {
-  for (; typeof node == "function"; ) node = node();
-  let t = node?.t, one = () => new Error("rhp: a slat must return one element");
-  if (typeof t != "string") throw one();
+  for (; typeof node == "function"; )
+    node = node();
+  let t = node?.t, oneElement = () => new Error("rhp: a slat must return one element");
+  if (typeof t != "string") throw oneElement();
   let i = 0;
-  for (; SPACE.test(t[i] ?? ""); ) i++;
-  if (t[i] !== "<" || !/[a-zA-Z]/.test(t[i + 1] ?? "")) throw one();
+  for (; SPACE.test(t[i] ?? ""); )
+    i++;
+  if (t[i] !== "<" || !/[a-zA-Z]/.test(t[i + 1] ?? "")) throw oneElement();
   let j = i + 1;
-  for (; j < t.length && !SPACE.test(t[j]) && t[j] !== ">" && t[j] !== "/"; ) j++;
+  for (; j < t.length && !SPACE.test(t[j]) && t[j] !== ">" && t[j] !== "/"; )
+    j++;
   let tag = {
     head: t.slice(0, i),
     name: t.slice(i + 1, j),
@@ -637,8 +668,9 @@ function readTag(node) {
     rest: ""
   };
   for (; ; ) {
-    for (; SPACE.test(t[j] ?? ""); ) j++;
-    if (j >= t.length) throw one();
+    for (; SPACE.test(t[j] ?? ""); )
+      j++;
+    if (j >= t.length) throw oneElement();
     if (t[j] === ">" || t[j] === "/" && t[j + 1] === ">")
       return tag.end = t[j] === ">" ? ">" : "/>", tag.rest = t.slice(j + tag.end.length), tag;
     if (t[j] === "/") {
@@ -646,32 +678,41 @@ function readTag(node) {
       continue;
     }
     let k = j;
-    for (; k < t.length && !SPACE.test(t[k]) && t[k] !== "=" && t[k] !== ">" && !(t[k] === "/" && t[k + 1] === ">"); ) k++;
+    for (; k < t.length && !SPACE.test(t[k]) && t[k] !== "=" && t[k] !== ">" && !(t[k] === "/" && t[k + 1] === ">"); )
+      k++;
     let name = t.slice(j, k);
-    for (j = k; SPACE.test(t[j] ?? ""); ) j++;
+    for (j = k; SPACE.test(t[j] ?? ""); )
+      j++;
     if (t[j] !== "=") {
       tag.attrs.push([name]);
       continue;
     }
-    for (j++; SPACE.test(t[j] ?? ""); ) j++;
+    for (j++; SPACE.test(t[j] ?? ""); )
+      j++;
     let q = t[j] === '"' || t[j] === "'" ? t[j] : "", e = q ? t.indexOf(q, j + 1) : j;
-    if (e < 0) throw one();
-    if (!q) for (; e < t.length && !SPACE.test(t[e]) && t[e] !== ">"; ) e++;
+    if (e < 0) throw oneElement();
+    if (!q)
+      for (; e < t.length && !SPACE.test(t[e]) && t[e] !== ">"; )
+        e++;
     tag.attrs.push([name, t.slice(q ? j + 1 : j, e), q]), j = q ? e + 1 : e;
   }
 }
-var quote = (v) => String(v).replace(/&/g, "&amp;").replace(/"/g, "&quot;"), writeTag = (tag) => tag.head + "<" + tag.name + tag.attrs.map(([k, v, q]) => " " + k + (v === void 0 ? "" : "=" + (q ?? '"') + v + (q ?? '"'))).join("") + tag.end + tag.rest;
+var quote = (v) => String(v).replace(/&/g, "&amp;").replace(/"/g, "&quot;"), writeTag = (tag) => {
+  let attrs = tag.attrs.map(([key, value, q]) => value === void 0 ? " " + key : " " + key + "=" + (q ?? '"') + value + (q ?? '"'));
+  return tag.head + "<" + tag.name + attrs.join("") + tag.end + tag.rest;
+};
 function onRoot(tag, attrs, vars) {
   tag.attrs || (tag = readTag(tag));
-  let get = (k) => tag.attrs.find((a) => a[0] === k);
-  for (let k in attrs) {
-    let now = get(k), v = typeof attrs[k] == "function" ? attrs[k](now?.[1]) : attrs[k];
-    v !== void 0 && (now && tag.attrs.splice(tag.attrs.indexOf(now), 1), v !== null && tag.attrs.push([k, v === !0 ? void 0 : quote(v), '"']));
+  let get = (key) => tag.attrs.find((a) => a[0] === key);
+  for (let key in attrs) {
+    let now = get(key), value = typeof attrs[key] == "function" ? attrs[key](now?.[1]) : attrs[key];
+    value !== void 0 && (now && tag.attrs.splice(tag.attrs.indexOf(now), 1), value !== null && tag.attrs.push([key, value === !0 ? void 0 : quote(value), '"']));
   }
   let css = withVars(void 0, vars);
   if (css) {
     let st = get("style");
-    if (!st) tag.attrs.push(["style", quote(css), '"']);
+    if (!st)
+      tag.attrs.push(["style", quote(css), '"']);
     else {
       let q = st[2] || '"', add2 = q === "'" ? css.replace(/&/g, "&amp;").replace(/'/g, "&#39;") : quote(css);
       st[1] = (st[1] ? st[1].replace(/;?\s*$/, ";") : "") + add2, st[2] = q;
@@ -697,30 +738,31 @@ function makePlot(props, role) {
   frame?.sheet(props.children);
   let still = props.static ?? stillAround, orientation = () => {
     let o = props.orientation ?? inherited();
-    return o === "across" ? inherited() === "vertical" ? "horizontal" : "vertical" : o;
-  }, groups = Object.keys(props).filter((k) => !SETTINGS.has(k)), isGroup = new Set(groups), owner = getOwner(), later = (fn, options) => {
-    let m;
-    return () => (m ?? (m = runWithOwner(owner, () => createMemo2(fn, void 0, options))))();
+    return o !== "across" ? o : inherited() === "vertical" ? "horizontal" : "vertical";
+  }, groups = Object.keys(props).filter((key) => !SETTINGS.has(key)), isGroup = new Set(groups), owner = getOwner(), later = (fn, options) => {
+    let memo;
+    return () => (memo ?? (memo = runWithOwner(owner, () => createMemo2(fn, void 0, options))))();
   }, group = {};
-  for (let k of groups) group[k] = createMemo2(() => props[k]);
+  for (let key of groups)
+    group[key] = createMemo2(() => props[key]);
   let rowsList = "rows" in props ? createMemo2(() => props.rows) : () => {
   }, keyed = props.key != null, n = createMemo2(() => {
     if (props.slats != null) return props.slats;
-    let len = isList(rowsList()) ? rowsList().length : 0;
-    for (let k of groups) {
-      let g = group[k]();
-      isList(g) && (len = Math.max(len, g.length));
+    let count = isList(rowsList()) ? rowsList().length : 0;
+    for (let key of groups) {
+      let g = group[key]();
+      isList(g) && (count = Math.max(count, g.length));
     }
-    return len;
-  }), raw = (k, i) => isGroup.has(k) ? at(group[k](), i) : at(rowsList(), i)?.[k], P = {
-    read(t, k) {
+    return count;
+  }), raw = (key, i) => isGroup.has(key) ? at(group[key](), i) : at(rowsList(), i)?.[key], P = {
+    read(t, key) {
       var _a;
-      if (k === "index") return t.row();
-      if (k === "position") return pos[t.row()];
-      let g = isGroup.has(k) ? group[k]() : void 0;
-      return typeof g == "function" ? ((_a = t.memos ?? (t.memos = {}))[k] ?? (_a[k] = runWithOwner(t.owner, () => createMemo2(() => g(t.self)))))() : t.id && js() && isMoving(k) ? moving(k, t.id())(t.ahead) : raw(k, t.row());
+      if (key === "index") return t.row();
+      if (key === "position") return pos[t.row()];
+      let g = isGroup.has(key) ? group[key]() : void 0;
+      return typeof g == "function" ? ((_a = t.memos ?? (t.memos = {}))[key] ?? (_a[key] = runWithOwner(t.owner, () => createMemo2(() => g(t.self)))))() : t.id && js() && isMoving(key) ? moving(key, t.id())(t.ahead) : raw(key, t.row());
     },
-    has: (t, k) => k === "index" || k === "position" || isGroup.has(k) || rowsList() != null && k in (at(rowsList(), t.row()) ?? {}),
+    has: (t, key) => key === "index" || key === "position" || isGroup.has(key) || rowsList() != null && key in (at(rowsList(), t.row()) ?? {}),
     keys: (t) => [.../* @__PURE__ */ new Set(["index", "position", ...groups, ...Object.keys(at(rowsList(), t.row()) ?? {})])]
   };
   function datum(row, id, ahead = 0) {
@@ -747,29 +789,32 @@ function makePlot(props, role) {
     } : null;
   }), listed = later(() => new Set(anim()?.groups ?? []), {
     equals: sameSet
-  }), all = later(() => anim()?.all === !0), isMoving = (k) => all() || listed().has(k), js = () => anim() != null, easing = later(() => curve(anim()?.ease)), timing = () => ({
+  }), all = later(() => anim()?.all === !0), isMoving = (key) => all() || listed().has(key), js = () => anim() != null, easing = later(() => curve(anim()?.ease)), timing = () => ({
     duration: anim()?.duration ?? MOVE_MS,
     ease: easing()
   }), slideMs = () => anim()?.slide ?? (js() ? 250 : void 0), ids = keyed && createMemo2(() => {
-    let k = props.key;
-    return range(n()).map((i) => typeof k == "function" ? k(datum(() => i, null)) : raw(k, i));
+    let key = props.key;
+    return range(n()).map((i) => typeof key == "function" ? key(datum(() => i, null)) : raw(key, i));
   }, void 0, {
     equals: same2
-  }), rowOf = keyed && later(() => new Map(ids().map((id, i) => [id, i]))), rowOfId = (id) => keyed ? rowOf().get(id) : id, idOf = (i) => keyed ? ids()[i] : i, readers = {}, pruning = !1, moving = (k, id) => {
+  }), rowOf = keyed && later(() => new Map(ids().map((id, i) => [id, i]))), rowOfId = (id) => keyed ? rowOf().get(id) : id, idOf = (i) => keyed ? ids()[i] : i, readers = {}, pruning = !1, moving = (key, id) => {
     pruning || (pruning = !0, runWithOwner(owner, () => createComputed(() => {
       let live = new Set(keyed ? ids() : range(n()));
-      for (let k2 in readers)
-        if (!js() || !isMoving(k2)) delete readers[k2];
-        else for (let id2 of readers[k2].keys()) live.has(id2) || readers[k2].delete(id2);
+      for (let k in readers)
+        if (!js() || !isMoving(k))
+          delete readers[k];
+        else
+          for (let readerId of readers[k].keys())
+            live.has(readerId) || readers[k].delete(readerId);
     })));
-    let m = readers[k] ?? (readers[k] = /* @__PURE__ */ new Map()), r = m.get(id);
-    return r || m.set(id, r = animated(() => raw(k, rowOfId(id)), timing)), r;
+    let forGroup = readers[key] ?? (readers[key] = /* @__PURE__ */ new Map()), reader = forGroup.get(id);
+    return reader || forGroup.set(id, reader = animated(() => raw(key, rowOfId(id)), timing)), reader;
   }, [pos, setPos] = createStore([]), lead = () => js() && (props.reorder ?? "slide") === "slide" ? (slideMs() ?? 0) / 2 : 0, views = later(() => {
     let ms = lead();
     return range(n()).map((i) => datum(() => i, () => idOf(i), ms));
   }), positions = createMemo2((prev) => {
-    let o = props.order;
-    return o == null ? range(n()) : typeof o == "function" ? o(views(), prev?.length === n() ? prev : range(n())) : range(n()).map((i) => (isList(o) ? o[i] : o) ?? null);
+    let order = props.order;
+    return order == null ? range(n()) : typeof order == "function" ? order(views(), prev?.length === n() ? prev : range(n())) : range(n()).map((i) => (isList(order) ? order[i] : order) ?? null);
   }, void 0, {
     equals: same2
   });
@@ -782,7 +827,8 @@ function makePlot(props, role) {
   }), reordered = () => props.order != null && (props.reorder ?? "slide") === "slide", owns = () => {
     if (scale || !reordered()) return;
     let list = shown(), own = rowIds();
-    return list.some((r, k) => r !== k) ? list.map((r) => own?.get(r) ?? `rhp-${uid}-${r}`).join(" ") : void 0;
+    if (list.some((r, k) => r !== k))
+      return list.map((r) => own?.get(r) ?? `rhp-${uid}-${r}`).join(" ");
   };
   if (frame && (layout.room || !nested && role === "Plot")) {
     let want = () => pick(layout.room, frame.orientation()) ?? (nested || role !== "Plot" ? null : DEFAULT_ROOM[frame.orientation()]);
@@ -804,7 +850,8 @@ function makePlot(props, role) {
       "--rhp-position": p
     });
   }), drawn = (i, p) => serverRow(props.children(datum(() => i, null)), i, p), action = () => props.reorder ?? "slide", Slats = () => still ? createMemo2(() => {
-    for (let k of groups) group[k]();
+    for (let key of groups)
+      group[key]();
     rowsList(), orientation();
     let p = positions();
     return untrack2(() => ran(range(n())).map((i) => drawn(i, p[i])));
@@ -882,10 +929,9 @@ function Scale(props) {
     first: (t) => t.index === 0,
     last: (t) => t.index === ticks().length - 1,
     toEnd: (t) => {
-      let [a, b] = frame.shown(), px2 = frame.length();
-      return px2 ? (b - t.at) / (b - a || 1) * px2 : 1 / 0;
+      let [a, b] = frame.shown(), length2 = frame.length();
+      return length2 ? (b - t.at) / (b - a || 1) * length2 : 1 / 0;
     }
-    // Infinity until measured
   }), "Scale");
 }
 function tickValues(t, [a, b], [a0, b0] = [a, b]) {
@@ -896,7 +942,8 @@ function tickValues(t, [a, b], [a0, b0] = [a, b]) {
   let {
     step
   } = nice(a0, b0, t ?? 5), out = [];
-  for (let v = Math.ceil(a / step - 1e-9) * step; v <= b + 1e-9 * step; v += step) out.push(+v.toFixed(10));
+  for (let v = Math.ceil(a / step - 1e-9) * step; v <= b + 1e-9 * step; v += step)
+    out.push(+v.toFixed(10));
   return out;
 }
 var THEME = {
@@ -923,11 +970,12 @@ function Theme(props) {
     }
   });
 }
-function themeVars(t) {
-  let v = {};
-  t.series.forEach((c, i) => v["--rhp-series-" + (i + 1)] = c);
-  for (let k in t) k !== "series" && (v["--rhp-" + k] = t[k]);
-  return v;
+function themeVars(theme) {
+  let vars = {};
+  theme.series.forEach((color, i) => vars["--rhp-series-" + (i + 1)] = color);
+  for (let key in theme)
+    key !== "series" && (vars["--rhp-" + key] = theme[key]);
+  return vars;
 }
 var series = (n = THEME.series.length) => (d) => "series-" + (d.index % n + 1), DEFAULT_ROOM = {
   horizontal: {
@@ -939,7 +987,6 @@ var series = (n = THEME.series.length) => (d) => "series-" + (d.index % n + 1), 
     end: 20
   }
 }, SIDES = {
-  // room side → padding side
   horizontal: {
     start: "left",
     end: "right",
@@ -986,12 +1033,12 @@ function Chart(props) {
     shown,
     length: length2,
     sheet: (fn) => fn?.scope && slats.add(fn),
-    need: (w) => setWants((l) => [...l, w]),
-    drop: (w) => setWants((l) => l.filter((x) => x !== w)),
-    addScale: () => setScales((n) => n + 1),
-    fit: (f) => setFitters((l) => [...l, f]),
-    unfit: (f) => setFitters((l) => l.filter((x) => x !== f)),
-    dropScale: () => setScales((n) => n - 1)
+    need: (want) => setWants((list) => [...list, want]),
+    drop: (want) => setWants((list) => list.filter((x) => x !== want)),
+    addScale: () => setScales((count) => count + 1),
+    fit: (f) => setFitters((list) => [...list, f]),
+    unfit: (f) => setFitters((list) => list.filter((x) => x !== f)),
+    dropScale: () => setScales((count) => count - 1)
   }, arrange = () => {
     let o = orientation(), side = SIDES[o], out = {
       top: 2,
@@ -1002,37 +1049,47 @@ function Chart(props) {
       start: 0,
       end: 0
     }, auto = {};
-    for (let w of wants()) {
-      let r = w() === "auto" ? {
+    for (let want of wants()) {
+      let r = want() === "auto" ? {
         start: "auto",
         end: "auto"
-      } : w();
-      if (r) for (let k in side)
-        r[k] === "auto" ? k in room && (auto[k] = !0) : r[k] != null && (out[side[k]] = Math.max(out[side[k]], r[k]), k in room && (room[k] = Math.max(room[k], r[k])));
+      } : want();
+      if (r)
+        for (let k in side)
+          r[k] === "auto" ? k in room && (auto[k] = !0) : r[k] != null && (out[side[k]] = Math.max(out[side[k]], r[k]), k in room && (room[k] = Math.max(room[k], r[k])));
     }
-    if (axis()) for (let [s, n] of [AXIS[o], AXIS_END[o], AXIS_START[o]]) out[s] = Math.max(out[s], n);
+    if (axis())
+      for (let [s, n] of [AXIS[o], AXIS_END[o], AXIS_START[o]])
+        out[s] = Math.max(out[s], n);
     let vars = {
       "--rhp-room-start": room.start + "px",
       "--rhp-room-end": room.end + "px"
     }, gutters = !!(auto.start || auto.end);
-    if (gutters) for (let k of ["start", "end"]) {
-      let n = out[side[k]];
-      out[side[k]] = 0, vars["--rhp-gutter-" + k] = auto[k] ? `minmax(${n}px, max-content)` : n + "px";
-    }
-    for (let s in out) vars["--rhp-pad-" + s] = out[s] + "px";
+    if (gutters)
+      for (let k of ["start", "end"]) {
+        let n = out[side[k]];
+        out[side[k]] = 0, vars["--rhp-gutter-" + k] = auto[k] ? `minmax(${n}px, max-content)` : n + "px";
+      }
+    for (let s in out)
+      vars["--rhp-pad-" + s] = out[s] + "px";
     return {
       vars,
       gutters,
       sized: props.height != null && o === "horizontal" && fitters().some((f) => f())
     };
-  }, sameArrangement = (a, b) => a.gutters === b.gutters && a.sized === b.sized && Object.keys(a.vars).length === Object.keys(b.vars).length && Object.keys(a.vars).every((k) => a.vars[k] === b.vars[k]), arranged = arrange, [turning, setTurning] = createSignal2(!1);
+  }, sameArrangement = (a, b) => {
+    if (a.gutters !== b.gutters || a.sized !== b.sized) return !1;
+    let keys = Object.keys(a.vars);
+    return keys.length === Object.keys(b.vars).length && keys.every((key) => a.vars[key] === b.vars[key]);
+  }, arranged = arrange, [turning, setTurning] = createSignal2(!1);
   createComputed((was) => {
     let o = orientation();
     return was && was !== o && typeof requestAnimationFrame == "function" && (setTurning(!0), requestAnimationFrame(() => requestAnimationFrame(() => setTurning(!1)))), o;
   });
   let el;
   onMount(() => {
-    for (let st of el.querySelectorAll(":scope > style[data-rhp-server]")) st.remove();
+    for (let st of el.querySelectorAll(":scope > style[data-rhp-server]"))
+      st.remove();
     useRoot(el), onCleanup(watchRoot(el));
     let body = el.querySelector(".rhp-body");
     if (body && checkLinked(body), !body || typeof ResizeObserver > "u") return;
@@ -1042,7 +1099,7 @@ function Chart(props) {
     }));
     ro2.observe(body), onCleanup(() => ro2.disconnect());
   });
-  let name = () => props.label ?? props["aria-label"], figure = () => name() != null || props["aria-labelledby"] != null ? props.role ?? "figure" : props.role, moreAria = () => Object.keys(props).filter((k) => k.startsWith("aria-") && !OWN_ARIA.has(k)), node = _$createComponent(Around.Provider, {
+  let name = () => props.label ?? props["aria-label"], figure = () => name() != null || props["aria-labelledby"] != null ? props.role ?? "figure" : props.role, moreAria = () => Object.keys(props).filter((key) => key.startsWith("aria-") && !OWN_ARIA.has(key)), node = _$createComponent(Around.Provider, {
     get value() {
       return {
         orientation,
@@ -1083,7 +1140,7 @@ function Chart(props) {
       gutters
     } = arranged();
     return onRoot(node, {
-      ...Object.fromEntries(moreAria().map((k) => [k, props[k] ?? null])),
+      ...Object.fromEntries(moreAria().map((key) => [key, props[key] ?? null])),
       style: withVars(void 0, {
         ...KNOBS,
         ...theme(),
@@ -1102,14 +1159,15 @@ function Chart(props) {
 var OWN_ARIA = /* @__PURE__ */ new Set(["aria-label", "aria-labelledby", "aria-describedby"]), KNOBS = {
   "--rhp-inset": "18%"
 };
-for (let k of ["color", "thick", "size", "across", "radius", "start-radius", "end-radius", "label-gap", "gap", "tick-width", "label-size", "cell-gap", "pitch", "plot-thick", "length-time", "length-ease", "slide-time", "slide-ease", "at", "from", "to", "value", "d", "position"]) KNOBS["--rhp-" + k] = "initial";
+for (let name of ["color", "thick", "size", "across", "radius", "start-radius", "end-radius", "label-gap", "gap", "tick-width", "label-size", "cell-gap", "pitch", "plot-thick", "length-time", "length-ease", "slide-time", "slide-ease", "at", "from", "to", "value", "d", "position"])
+  KNOBS["--rhp-" + name] = "initial";
 function Axis(props) {
-  let o = useOrientation();
+  let orientation = useOrientation();
   return _$ssr2(_tmpl$4, _$ssrHydrationKey2(), _$escape2(_$createComponent(For, {
     get each() {
       return props.ticks;
     },
-    children: (t) => _$ssr2(_tmpl$5, _$ssrHydrationKey2(), _$ssrAttribute2("data-rhp-o", _$escape2(short(o()), !0), !1), _$ssrStyle(withVars(void 0, {
+    children: (t) => _$ssr2(_tmpl$5, _$ssrHydrationKey2(), _$ssrAttribute2("data-rhp-o", _$escape2(short(orientation()), !0), !1), _$ssrStyle(withVars(void 0, {
       "--rhp-at": t
     })), props.format ? _$escape2(props.format(t)) : _$escape2(String(t)))
   })));
