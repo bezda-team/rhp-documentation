@@ -1,6 +1,7 @@
 // Builds rhp's icons from its logo, the dots of src/assets/rhp-splash.svg: the logo centered on a rounded square in the
 // landing page's color (#2e2f43), with room around it. The favicons, drawn at 16 to 48px, show the logo's r alone,
-// since the whole word is too small to read there.
+// since the whole word is too small to read there, and have a white outline, so the dark square stands out on a dark
+// tab bar.
 //   src/assets/rhp-icon.svg    the official icon
 //   src/assets/rhp-logo.svg    the logo alone, with no square behind it (the header's)
 //   src/assets/rhp-hero.svg    the splash without its shadow filter (the landing page's; its CSS draws the shadow)
@@ -17,6 +18,7 @@ import { chromium } from "playwright";
 const BG = "#2e2f43";
 const SIZE = 512;
 const RADIUS = 115; // the square's corners
+const OUTLINE = 32; // the favicons' white outline: 1px at 16px
 
 // The dots: their centers, with the splash's own offset applied, and their radius
 const splash = fs.readFileSync("src/assets/rhp-splash.svg", "utf8");
@@ -36,9 +38,10 @@ function mark(list) {
 const LOGO = mark(dots);
 const R = mark(dots.filter((d) => d.x < LOGO.left + 300)); // the r: the first three columns of dots
 
-// The icon at SIZE: the mark scaled to fit inside `room` px of space on every side and centered, with the splash's
-// soft shadow scaled with it (not on the favicons, drawn too small for it)
-function icon(m, room, rounded, shadow = true) {
+// The icon at SIZE: the mark scaled to fit inside `room` px of space on every side and centered, on a square with
+// rounded corners or not, with the splash's soft shadow scaled with it or not (the favicons are too small for it), and
+// with a white outline inside the square's edge or not
+function icon(m, room, { rounded = true, shadow = true, outline = false } = {}) {
 
   const k = Math.min((SIZE - 2 * room) / m.width, (SIZE - 2 * room) / m.height);
   const dx = (SIZE - m.width * k) / 2;
@@ -48,14 +51,18 @@ function icon(m, room, rounded, shadow = true) {
 
   const filter = `<defs><filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="${n(4 * k)}" stdDeviation="${n(2 * k)} ${n(4 * k)}" flood-color="#1b1d28"/></filter></defs>`;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SIZE} ${SIZE}">
-${shadow ? filter : ""}
-<rect width="${SIZE}" height="${SIZE}"${rounded ? ` rx="${RADIUS}"` : ""} fill="${BG}"/>
-<g${shadow ? ' filter="url(#shadow)"' : ""}>
-${circles.join("\n")}
-</g>
-</svg>
-`;
+  const lines = [
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SIZE} ${SIZE}">`,
+    shadow && filter,
+    `<rect width="${SIZE}" height="${SIZE}"${rounded ? ` rx="${RADIUS}"` : ""} fill="${BG}"/>`,
+    outline && `<rect x="${OUTLINE / 2}" y="${OUTLINE / 2}" width="${SIZE - OUTLINE}" height="${SIZE - OUTLINE}"${rounded ? ` rx="${RADIUS - OUTLINE / 2}"` : ""} fill="none" stroke="#fff" stroke-width="${OUTLINE}"/>`,
+    `<g${shadow ? ' filter="url(#shadow)"' : ""}>`,
+    ...circles,
+    "</g>",
+    "</svg>",
+  ];
+
+  return lines.filter(Boolean).join("\n") + "\n";
 }
 
 // The logo alone: the splash's dots as they are, cropped to them. It has no shadow: in the header it is 38px tall, where
@@ -73,8 +80,8 @@ const hero = splash.replace(/<defs>[\s\S]*?<\/defs>/, "").replace(/ filter="url\
 if (hero.includes("filter")) throw new Error("icons: the splash's filter is not where rhp-hero.svg expects it");
 fs.writeFileSync("src/assets/rhp-hero.svg", hero);
 
-const rounded = icon(LOGO, 60, true); // the word 392px wide on the 512px square
-const small = icon(R, 96, true, false); // the r 320px tall
+const rounded = icon(LOGO, 60); // the word 392px wide on the 512px square
+const small = icon(R, 96, { shadow: false, outline: true }); // the r 320px tall
 fs.writeFileSync("src/assets/rhp-icon.svg", rounded);
 fs.writeFileSync("public/favicon-rhp.svg", small);
 fs.writeFileSync("public/favicon.svg", small);
@@ -91,7 +98,7 @@ const png = async (svg, size) => {
   return page.screenshot({ omitBackground: true });
 };
 
-fs.writeFileSync("public/apple-touch-icon.png", await png(icon(LOGO, 60, false), 180));
+fs.writeFileSync("public/apple-touch-icon.png", await png(icon(LOGO, 60, { rounded: false }), 180));
 fs.writeFileSync("public/icon-192.png", await png(rounded, 192));
 fs.writeFileSync("public/icon-512.png", await png(rounded, 512));
 fs.writeFileSync("public/favicon-rhp-16.png", await png(small, 16));
