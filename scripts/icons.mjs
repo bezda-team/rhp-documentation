@@ -3,6 +3,7 @@
 // since the whole word is too small to read there.
 //   src/assets/rhp-icon.svg    the official icon
 //   src/assets/rhp-logo.svg    the logo alone, with no square behind it (the header's)
+//   src/assets/rhp-hero.svg    the splash without its shadow filter (the landing page's; its CSS draws the shadow)
 //   public/favicon-rhp.svg     the r, for the browser tab (a new name, so no cache still holds Starlight's default)
 //   public/favicon.svg         the same, for pages a browser cached when they still linked this name
 //   public/favicon-rhp-16.png, public/favicon-rhp-32.png  the r as PNGs, which Safari reads when it skips an SVG
@@ -65,6 +66,12 @@ ${LOGO.dots.map((d) => `<circle cx="${n(d.x)}" cy="${n(d.y)}" r="${r}" fill="${d
 </svg>
 `;
 fs.writeFileSync("src/assets/rhp-logo.svg", logo);
+
+// The splash as it is, less its drop shadow filter, for the landing page's hero: Safari draws that filter at low
+// resolution there too. The hero's CSS draws the same shadow instead (custom1.css), which Safari keeps sharp.
+const hero = splash.replace(/<defs>[\s\S]*?<\/defs>/, "").replace(/ filter="url\(#[^)]*\)"/, "");
+if (hero.includes("filter")) throw new Error("icons: the splash's filter is not where rhp-hero.svg expects it");
+fs.writeFileSync("src/assets/rhp-hero.svg", hero);
 
 const rounded = icon(LOGO, 60, true); // the word 392px wide on the 512px square
 const small = icon(R, 96, true, false); // the r 320px tall

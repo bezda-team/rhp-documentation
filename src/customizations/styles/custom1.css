@@ -451,6 +451,12 @@ input[type=number]::-webkit-inner-spin-button {
 .hero .copy > * {
 	max-width: 45ch;
 }
+
+/* The logo's soft shadow, drawn here and not by a filter in its SVG (src/assets/rhp-hero.svg has none): Safari draws an
+   image's SVG filter at low resolution, which blurs the dots */
+.hero > img {
+	filter: drop-shadow(0 1.4px 2px #1b1d28);
+}
 /* The docs' colors for rhp charts (src/gallery/ui/themes.js: DOCS_THEME), dark by default and light under Starlight's
    light theme. A chart's theme names these variables, so a chart drawn on the server into the page has the reader's
    colors before any script runs. */
