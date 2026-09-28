@@ -1,6 +1,6 @@
 ---
 title: Blocks
-description: Bar, Dot, Tick, Label, Cell and Area, and the props each one takes.
+description: Bar, Dot, Tick, Label, Cell, Area and Line, and the props each one takes.
 ---
 
 Blocks are the pieces of a row.
@@ -33,6 +33,7 @@ Every block also takes `class`, `style` (an object), `ref`, `color`, children, e
 | `at` | | its value |
 | `size` | `"10px"` | its diameter |
 | `across` | `0.5` | where it sits across the band, from 0 to 1 |
+| `cross` | | its value on the chart's [second axis](/guides/scales/#a-second-axis), instead of `across` |
 | `color` | `series-1` | |
 
 ## Tick
@@ -59,6 +60,7 @@ Every block also takes `class`, `style` (an object), `ref`, `color`, children, e
 | `at` | a value | the text starts just past it |
 | `side` | `"before"` | with `at`: the text ends just before the value instead |
 | `edge` | `"start"` or `"end"` | outside the chart: before it (names) or after it |
+| `cross` | a value | with `at`: its place on the chart's [second axis](/guides/scales/#a-second-axis) |
 
 ## Cell
 
@@ -83,3 +85,20 @@ Every block also takes `class`, `style` (an object), `ref`, `color`, children, e
 | `peak` | the largest height | the height that fills the band |
 | `mirror` | `false` | draw both ways from the band's middle (violins) |
 | `color` | `series-1` | |
+
+## Line
+
+```jsx
+<Line points={[[1, 320], [2, 280], [3, 350], [4, 300]]} peak={400} fill />
+```
+
+| Prop | Default | |
+|---|---|---|
+| `points` | | `[value, y]` pairs. Out of the value's order, they make a connected scatter plot. |
+| `peak` | the largest y | in a row: the y that reaches the top of the band |
+| `fill` | `false` | fill under the line: to the band's edge, or on a second axis down to `base` |
+| `base` | `0` | on a second axis: where the fill ends |
+| `color` | `series-1` | |
+
+In a row, a Line is a sparkline across the band.
+On a chart with a [second axis](/guides/scales/#a-second-axis), its y is on that axis.

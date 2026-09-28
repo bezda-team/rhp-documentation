@@ -52,3 +52,23 @@ A Label's room from its value to the end is `calc((1 - var(--rhp-p)) * 100%)` in
 `every(10, { ends: true })` adds the scale's two ends as ticks.
 
 A Chart with a Scale in it draws no axis of its own.
+
+## A second axis
+
+`cross` on the Chart adds a second scale, `[min, max]`, that runs across the rows: the y of a scatter plot or a line chart.
+In a horizontal chart it runs from bottom to top, and in a vertical chart from left to right.
+
+An `overlap` Plot's rows all share the whole plot, so a Dot or a Label with `cross` sits at its `at` on the scale and at its `cross` on the second axis: a scatter plot.
+
+<Demo name="scale-cross" height={270} />
+
+A [Line](/guides/blocks/#line) puts its points' y on the second axis: a line chart.
+`fill` fills under the line, down to `base` (0 by default).
+
+<Demo name="scale-cross-line" height={250} />
+
+`crossTicks` and `crossFormat` set the second axis, like `ticks` and `format` for the first.
+A horizontal chart with a second axis is 240px tall unless `height` says otherwise.
+
+`cross` is optional.
+A chart without it is drawn exactly as before, and the CSS for a second axis is only added to the page once a chart has one.

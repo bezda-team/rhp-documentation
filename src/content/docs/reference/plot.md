@@ -35,6 +35,7 @@ Every prop that isn't a setting below is data, read in the row as `d.<prop>`:
 | `animate` | the Chart's | `true`, a list of data names that move (`["value"]`), or `{ groups, duration, ease, slide }` |
 | `thick` | `1` | inside a row: the share of the row's band the Plot uses, such as `0.5` |
 | `static` | the Chart's | draw the rows once (see the Chart's `static`); lets one Plot be still while another one moves |
+| `keyboard` | off | the rows take focus: Tab stops at one row, and the arrow keys, Home and End go through them in the order shown. See [keyboard](/guides/interaction/#keyboard). |
 | `class`, `style`, `ref` | | the Plot's element |
 
 ## In a row

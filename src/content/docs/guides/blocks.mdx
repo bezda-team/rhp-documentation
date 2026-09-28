@@ -1,6 +1,6 @@
 ---
 title: Blocks
-description: The six building blocks of a row, Bar, Dot, Tick, Label, Cell and Area, each with an example.
+description: The seven building blocks of a row, Bar, Dot, Tick, Label, Cell, Area and Line, each with an example.
 ---
 
 import Demo from '../../../customizations/components/Demo.astro';
@@ -58,6 +58,16 @@ Add `mirror` to draw it both ways from the middle, for violin plots.
 <Demo name="block-area" height={150} />
 
 For a shape made from raw samples, the `density` helper computes the points for you.
+
+## Line
+
+A line through a list of `points`, each `[value, y]`.
+In a row it is a sparkline: the largest y reaches the top of the row, or set `peak` to the y that does, so that rows compare.
+Add `fill` to fill under the line.
+
+<Demo name="block-line" height={170} />
+
+On a chart with a [second axis](/guides/scales/#a-second-axis), y is on that axis instead: a line chart.
 
 ## What every block takes
 
