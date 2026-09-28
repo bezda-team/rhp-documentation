@@ -36,8 +36,8 @@ const LOGO = mark(dots);
 const R = mark(dots.filter((d) => d.x < LOGO.left + 300)); // the r: the first three columns of dots
 
 // The icon at SIZE: the mark scaled to fit inside `room` px of space on every side and centered, with the splash's
-// soft shadow scaled with it
-function icon(m, room, rounded) {
+// soft shadow scaled with it (not on the favicons, drawn too small for it)
+function icon(m, room, rounded, shadow = true) {
 
   const k = Math.min((SIZE - 2 * room) / m.width, (SIZE - 2 * room) / m.height);
   const dx = (SIZE - m.width * k) / 2;
@@ -45,29 +45,29 @@ function icon(m, room, rounded) {
   const n = (v) => +v.toFixed(2);
   const circles = m.dots.map((d) => `<circle cx="${n(dx + (d.x - m.left) * k)}" cy="${n(dy + (d.y - m.top) * k)}" r="${n(r * k)}" fill="${d.fill}"/>`);
 
+  const filter = `<defs><filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="${n(4 * k)}" stdDeviation="${n(2 * k)} ${n(4 * k)}" flood-color="#1b1d28"/></filter></defs>`;
+
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SIZE} ${SIZE}">
-<defs><filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="${n(4 * k)}" stdDeviation="${n(2 * k)} ${n(4 * k)}" flood-color="#1b1d28"/></filter></defs>
+${shadow ? filter : ""}
 <rect width="${SIZE}" height="${SIZE}"${rounded ? ` rx="${RADIUS}"` : ""} fill="${BG}"/>
-<g filter="url(#shadow)">
+<g${shadow ? ' filter="url(#shadow)"' : ""}>
 ${circles.join("\n")}
 </g>
 </svg>
 `;
 }
 
-// The logo alone: the splash's dots and shadow as they are, cropped to them (with room below for the shadow)
+// The logo alone: the splash's dots as they are, cropped to them. It has no shadow: in the header it is 38px tall, where
+// the shadow is less than a pixel, and a browser draws an image's SVG filter at low resolution, which blurs the dots.
 const n = (v) => +v.toFixed(2);
-const logo = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${n(LOGO.left - 8)} ${n(LOGO.top - 8)} ${n(LOGO.width + 16)} ${n(LOGO.height + 20)}">
-<defs><filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="4" stdDeviation="2 4" flood-color="#1b1d28"/></filter></defs>
-<g filter="url(#shadow)">
+const logo = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${n(LOGO.left - 2)} ${n(LOGO.top - 2)} ${n(LOGO.width + 4)} ${n(LOGO.height + 4)}">
 ${LOGO.dots.map((d) => `<circle cx="${n(d.x)}" cy="${n(d.y)}" r="${r}" fill="${d.fill}"/>`).join("\n")}
-</g>
 </svg>
 `;
 fs.writeFileSync("src/assets/rhp-logo.svg", logo);
 
 const rounded = icon(LOGO, 60, true); // the word 392px wide on the 512px square
-const small = icon(R, 96, true); // the r 320px tall
+const small = icon(R, 96, true, false); // the r 320px tall
 fs.writeFileSync("src/assets/rhp-icon.svg", rounded);
 fs.writeFileSync("public/favicon-rhp.svg", small);
 fs.writeFileSync("public/favicon.svg", small);

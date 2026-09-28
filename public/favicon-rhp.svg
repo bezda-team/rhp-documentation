@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<defs><filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="4.41" stdDeviation="2.21 4.41" flood-color="#1b1d28"/></filter></defs>
+
 <rect width="512" height="512" rx="115" fill="#2e2f43"/>
-<g filter="url(#shadow)">
+<g>
 <circle cx="145.64" cy="256.33" r="49.64" fill="#f2cc8f"/>
 <circle cx="255.96" cy="146.01" r="49.64" fill="#f2cc8f"/>
 <circle cx="145.64" cy="365.99" r="49.64" fill="#f2cc8f"/>
