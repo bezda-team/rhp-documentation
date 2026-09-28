@@ -1,8 +1,10 @@
 // Builds rhp's icons from its logo, the dots of src/assets/rhp-splash.svg: the logo centered on a rounded square in the
-// landing page's color (#2e2f43), with room around it.
-//   src/assets/rhp-icon.svg    the official icon (and the header's logo)
-//   public/favicon.svg         the same icon, for the browser tab
-//   public/favicon.ico         16, 32 and 48px, for browsers without SVG favicons
+// landing page's color (#2e2f43), with room around it. The favicons, drawn at 16 to 48px, show the logo's r alone,
+// since the whole word is too small to read there.
+//   src/assets/rhp-icon.svg    the official icon
+//   src/assets/rhp-logo.svg    the logo alone, with no square behind it (the header's)
+//   public/favicon.svg         the r, for the browser tab
+//   public/favicon.ico         the r at 16, 32 and 48px, for browsers without SVG favicons
 //   public/apple-touch-icon.png  180px on a full square (iOS rounds the corners itself)
 //   public/icon-192.png, public/icon-512.png  for public/site.webmanifest
 // npm run icons
@@ -11,7 +13,6 @@ import { chromium } from "playwright";
 
 const BG = "#2e2f43";
 const SIZE = 512;
-const WIDE = 392; // the logo's width in the icon, so 60px of room on each side
 const RADIUS = 115; // the square's corners
 
 // The dots: their centers, with the splash's own offset applied, and their radius
@@ -19,19 +20,28 @@ const splash = fs.readFileSync("src/assets/rhp-splash.svg", "utf8");
 const [, ox, oy] = splash.match(/<g transform="translate\((-?[\d.]+)(-?[\d.]+)\)"/).map(Number); // "(-50.4-251.3)"
 const r = Number(splash.match(/rx="([\d.]+)"/)[1]);
 const dots = [...splash.matchAll(/translate\(([\d.]+) ([\d.]+)\)" fill="([^"]+)"/g)].map(([, x, y, fill]) => ({ x: +x + ox, y: +y + oy, fill }));
-const left = Math.min(...dots.map((d) => d.x)) - r;
-const top = Math.min(...dots.map((d) => d.y)) - r;
-const width = Math.max(...dots.map((d) => d.x)) + r - left;
-const height = Math.max(...dots.map((d) => d.y)) + r - top;
 
-// The icon at SIZE: the dots scaled to WIDE and centered, with the splash's soft shadow scaled with them
-function icon(rounded) {
+// A mark: some of the dots, and the box around them
+function mark(list) {
 
-  const k = WIDE / width;
-  const dx = (SIZE - width * k) / 2;
-  const dy = (SIZE - height * k) / 2;
+  const left = Math.min(...list.map((d) => d.x)) - r;
+  const top = Math.min(...list.map((d) => d.y)) - r;
+
+  return { dots: list, left, top, width: Math.max(...list.map((d) => d.x)) + r - left, height: Math.max(...list.map((d) => d.y)) + r - top };
+}
+
+const LOGO = mark(dots);
+const R = mark(dots.filter((d) => d.x < LOGO.left + 300)); // the r: the first three columns of dots
+
+// The icon at SIZE: the mark scaled to fit inside `room` px of space on every side and centered, with the splash's
+// soft shadow scaled with it
+function icon(m, room, rounded) {
+
+  const k = Math.min((SIZE - 2 * room) / m.width, (SIZE - 2 * room) / m.height);
+  const dx = (SIZE - m.width * k) / 2;
+  const dy = (SIZE - m.height * k) / 2;
   const n = (v) => +v.toFixed(2);
-  const circles = dots.map((d) => `<circle cx="${n(dx + (d.x - left) * k)}" cy="${n(dy + (d.y - top) * k)}" r="${n(r * k)}" fill="${d.fill}"/>`);
+  const circles = m.dots.map((d) => `<circle cx="${n(dx + (d.x - m.left) * k)}" cy="${n(dy + (d.y - m.top) * k)}" r="${n(r * k)}" fill="${d.fill}"/>`);
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SIZE} ${SIZE}">
 <defs><filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="${n(4 * k)}" stdDeviation="${n(2 * k)} ${n(4 * k)}" flood-color="#1b1d28"/></filter></defs>
@@ -43,9 +53,21 @@ ${circles.join("\n")}
 `;
 }
 
-const rounded = icon(true);
+// The logo alone: the splash's dots and shadow as they are, cropped to them (with room below for the shadow)
+const n = (v) => +v.toFixed(2);
+const logo = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${n(LOGO.left - 8)} ${n(LOGO.top - 8)} ${n(LOGO.width + 16)} ${n(LOGO.height + 20)}">
+<defs><filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="4" stdDeviation="2 4" flood-color="#1b1d28"/></filter></defs>
+<g filter="url(#shadow)">
+${LOGO.dots.map((d) => `<circle cx="${n(d.x)}" cy="${n(d.y)}" r="${r}" fill="${d.fill}"/>`).join("\n")}
+</g>
+</svg>
+`;
+fs.writeFileSync("src/assets/rhp-logo.svg", logo);
+
+const rounded = icon(LOGO, 60, true); // the word 392px wide on the 512px square
+const small = icon(R, 96, true); // the r 320px tall
 fs.writeFileSync("src/assets/rhp-icon.svg", rounded);
-fs.writeFileSync("public/favicon.svg", rounded);
+fs.writeFileSync("public/favicon.svg", small);
 
 // PNGs, drawn by Chromium with a transparent page, so the rounded corners stay clear
 const browser = await chromium.launch();
@@ -59,7 +81,7 @@ const png = async (svg, size) => {
   return page.screenshot({ omitBackground: true });
 };
 
-fs.writeFileSync("public/apple-touch-icon.png", await png(icon(false), 180));
+fs.writeFileSync("public/apple-touch-icon.png", await png(icon(LOGO, 60, false), 180));
 fs.writeFileSync("public/icon-192.png", await png(rounded, 192));
 fs.writeFileSync("public/icon-512.png", await png(rounded, 512));
 
@@ -67,7 +89,7 @@ fs.writeFileSync("public/icon-512.png", await png(rounded, 512));
 const sizes = [16, 32, 48];
 const images = [];
 for (const size of sizes) {
-  images.push(await png(rounded, size));
+  images.push(await png(small, size));
 }
 const head = Buffer.alloc(6 + 16 * sizes.length);
 head.writeUInt16LE(0, 0);
@@ -87,4 +109,4 @@ sizes.forEach((size, i) => {
 fs.writeFileSync("public/favicon.ico", Buffer.concat([head, ...images]));
 
 await browser.close();
-console.log(`icons: ${dots.length} dots, logo ${Math.round(width)} x ${Math.round(height)} scaled to ${WIDE}px on a ${SIZE}px square`);
+console.log(`icons: the logo's ${LOGO.dots.length} dots on the icons, the r's ${R.dots.length} on the favicons`);

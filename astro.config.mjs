@@ -22,8 +22,9 @@ export default defineConfig({
   },
   integrations: [starlight({
     title: 'rhp',
-    // rhp's icon (npm run icons builds it and every favicon from src/assets/rhp-splash.svg) stands for the title
-    logo: { src: './src/assets/rhp-icon.svg', replacesTitle: true },
+    // rhp's logo, with no square behind it, stands for the title (npm run icons builds it and every icon from
+    // src/assets/rhp-splash.svg)
+    logo: { src: './src/assets/rhp-logo.svg', replacesTitle: true },
     favicon: '/favicon.svg',
     head: [
       { tag: 'link', attrs: { rel: 'icon', href: '/favicon.ico', sizes: '48x48' } },
