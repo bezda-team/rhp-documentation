@@ -457,6 +457,13 @@ input[type=number]::-webkit-inner-spin-button {
 .hero > img {
 	filter: drop-shadow(0 1.4px 2px #1b1d28);
 }
+
+/* Room on either side of a docs page's content (the pages with a sidebar, not the landing page or the gallery) */
+[data-has-sidebar] main {
+	padding-left: 20px;
+	padding-right: 10px;
+}
+
 /* The docs' colors for rhp charts (src/gallery/ui/themes.js: DOCS_THEME), dark by default and light under Starlight's
    light theme. A chart's theme names these variables, so a chart drawn on the server into the page has the reader's
    colors before any script runs. */
