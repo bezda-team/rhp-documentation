@@ -16,20 +16,25 @@ for (const dir of fs.readdirSync(docs, { recursive: true })) {
 }
 const browser = await chromium.launch();
 let failed = 0, checked = 0;
-// Whether two screenshots show the same, but for their outermost pixels: the site's 1.2 scale gives a demo a fractional
-// size, and its edge row blends with what's next to it by where the page is scrolled.
+// How far apart two screenshots are: the largest difference of any one colour channel, or 255 if they aren't even the
+// same size. Their outermost pixels are left out, since the site's 1.2 scale gives a demo a fractional size and its edge
+// row blends with what's next to it by where the page is scrolled.
+// A channel off by one is how Chromium rasterises the same antialiased text in two browser contexts, so only a
+// difference of two or more means the drawing really changed: anything a reader could see (a bar in another place,
+// a colour, text that isn't there) moves a channel by tens.
 const cmp = await browser.newPage();
-const same = (a, b) => cmp.evaluate(async ([a, b]) => {
+const apart = (a, b) => cmp.evaluate(async ([a, b]) => {
   const load = (s) => new Promise((ok) => { const i = new Image(); i.onload = () => ok(i); i.src = "data:image/png;base64," + s; });
   const [ia, ib] = [await load(a), await load(b)];
-  if (ia.width !== ib.width || ia.height !== ib.height) return false;
+  if (ia.width !== ib.width || ia.height !== ib.height) return 255;
   const px = (i) => { const c = new OffscreenCanvas(i.width, i.height).getContext("2d"); c.drawImage(i, 0, 0); return c.getImageData(0, 0, i.width, i.height).data; };
   const [da, db] = [px(ia), px(ib)];
+  let off = 0;
   for (let y = 1; y < ia.height - 1; y++) for (let x = 1; x < ia.width - 1; x++) {
     const k = (y * ia.width + x) * 4;
-    if (da[k] !== db[k] || da[k + 1] !== db[k + 1] || da[k + 2] !== db[k + 2] || da[k + 3] !== db[k + 3]) return false;
+    for (let c = 0; c < 4; c++) off = Math.max(off, Math.abs(da[k + c] - db[k + c]));
   }
-  return true;
+  return off;
 }, [a.toString("base64"), b.toString("base64")]);
 const fail = (m) => { failed++; console.log("FAIL " + m); };
 const shots = async (p) => {
@@ -59,7 +64,10 @@ for (const scheme of ["dark", "light"]) {
     const got = await shots(live);
     checked++;
     if (want.length !== got.length || !want.length) fail(`${page} ${scheme}: ${want.length} demos without script, ${got.length} with`);
-    for (let i = 0; i < want.length; i++) if (got[i] && !(await same(want[i], got[i]))) fail(`${page} ${scheme}: demo ${i + 1} looks different once the browser takes it over`);
+    for (let i = 0; i < want.length; i++) {
+      const off = got[i] && (await apart(want[i], got[i]));
+      if (off > 1) fail(`${page} ${scheme}: demo ${i + 1} looks different once the browser takes it over (a channel off by ${off})`);
+    }
     if (errors.length) fail(`${page} ${scheme}: ${errors.join(" | ")}`);
     // still live: a demo with controls changes its chart when one is used (tried in turn: a reset button may have
     // nothing to reset yet), or, for one whose bars are its controls, when a bar is clicked
