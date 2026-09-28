@@ -1,4 +1,4 @@
-import { createSignal, createMemo } from "solid-js";
+import { createSignal, createMemo, onMount, onCleanup } from "solid-js";
 import { Plot, Chart, Bar, Tick, Label, slat, stackUp, shares } from "@bezda/rhp";
 import { Poster } from "@gallery/ui/Poster.jsx";
 import { rand } from "@gallery/random.js";
@@ -43,26 +43,29 @@ export const BatterySlat = slat({
 export default function Segmented(p) {
   const use = createMemo(() => (p.seed() ? PEOPLE.map(() => APPS.map(() => rand(4, 40))) : USE));
   // The app in focus: the one the pointer is on, in the key or in a battery, else the one clicked. The key buttons and
-  // the segments carry data-app, and the poster listens for both. A click, or Enter on a key, pins an app or unpins it.
+  // the segments carry data-app, and the poster listens for both. A click on an app, or Enter on a key, keeps it; a
+  // click anywhere else, in the poster or on the page, or Escape, lets it go.
   // The pointer counts when it moves: a still pointer over a badge that comes or goes isn't a new choice.
   const [hovered, setHovered] = createSignal(null), [pinned, setPinned] = createSignal(null);
   const app = () => hovered() ?? pinned();
-  const under = (e) => e.target.closest("[data-app]")?.dataset.app ?? null;
-  const pin = (e) => {
-    const a = under(e);
-    if (!a) return;
-    setPinned(pinned() === a ? null : a);
-    setHovered(null); // the click is the latest word, until the pointer moves again
-  };
+  const under = (e) => e.target.closest?.("[data-app]")?.dataset.app ?? null;
+  onMount(() => {
+    const click = (e) => {
+      setPinned(under(e));
+      setHovered(null); // the click is the latest word, until the pointer moves again
+    };
+    document.addEventListener("click", click);
+    onCleanup(() => document.removeEventListener("click", click));
+  });
   return (
     <Poster look="battery" kicker="A day on one charge" title="Where the battery goes"
-      onPointerMove={(e) => setHovered(under(e))} onPointerLeave={() => setHovered(null)} onClick={pin}
+      onPointerMove={(e) => setHovered(under(e))} onPointerLeave={() => setHovered(null)} onKeyDown={(e) => e.key === "Escape" && setPinned(null)}
       dek={<span class="keys">{APPS.map((a, i) => (
         <button type="button" data-app={a} aria-pressed={pinned() === a} classList={{ off: app() != null && app() !== a }}>
           <i style={{ background: APP_COLORS[i] }} />{a}
         </button>
       ))}</span>}
-      note="Point at an app, in the key or in a battery, to follow it through everyone's day; click to keep it.">
+      note="Point at an app, in the key or in a battery, to follow it through everyone's day. Click it to keep it; click anywhere else to let it go.">
       <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={300} animate={p.js()} theme={styles.theme}>
         <Plot name={PEOPLE} use={use()} focus={app()}>{BatterySlat}</Plot>
       </Chart>

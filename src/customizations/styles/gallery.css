@@ -20,6 +20,12 @@
 .poster .note { display: block; margin-top: 12px; font-size: 11px; line-height: 1.4; opacity: .62; }
 .poster .keys { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; }
 .poster .keys i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+/* A choice inside a poster (a year, an order): joined buttons, the one in use filled. Each look gives its colors. */
+.poster .choice { display: inline-flex; width: fit-content; }
+.poster .choice button { font: inherit; color: inherit; background: none; cursor: pointer; border: 1.5px solid currentColor; margin-left: -1.5px; }
+.poster .choice button:first-child { margin-left: 0; border-radius: 6px 0 0 6px; }
+.poster .choice button:last-child { border-radius: 0 6px 6px 0; }
+.poster .choice button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; position: relative; }
 @media (max-width: 480px) { .poster { padding: 16px 14px 12px; } .poster .headline { font-size: 26px; } }
 /* Gold rush: a sports-page medal table on warm white. */
 .poster.medals { background: #f7f3ec; color: #111214; }
@@ -54,6 +60,11 @@
 /* An ageing country: a census poster. */
 .poster.census { background: #f4f1ea; color: #1f2933; }
 .poster.census .headline { font-size: 36px; }
+.poster.census .keys { align-items: center; }
+.poster.census .choice { margin-right: 4px; }
+.poster.census .choice button { padding: 3px 10px; font-weight: 700; font-variant-numeric: tabular-nums; border-color: rgb(31 41 51 / .35); }
+.poster.census .choice button[aria-pressed="true"] { background: #1f2933; border-color: #1f2933; color: #f4f1ea; }
+.poster.census .choice button:not([aria-pressed="true"]):hover { background: rgb(31 41 51 / .07); }
 /* Hotter than normal: climate stripes at night. */
 .poster.climate { background: #0d1117; color: #e8ecf2; }
 .poster.climate .kicker { color: #f58058; opacity: 1; }
@@ -84,6 +95,9 @@
 .poster.clinic { background: #f3faf8; color: #0f3d3a; }
 .poster.clinic .kicker { color: #0e9f8a; opacity: 1; }
 .poster.clinic .headline { font: 800 32px/1.02 system-ui, -apple-system, sans-serif; letter-spacing: -0.035em; }
+/* The dek reads out the capsule under the pointer: one line, so the chart under it never moves */
+.poster.clinic .dek { max-width: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 480px) { .poster.clinic .dek { font-size: 13px; } }
 /* The sound of a bell: a music app's waveform. */
 .poster.sound { background: radial-gradient(120% 90% at 50% 0%, #2a1d48, #0e0c14 62%); color: #f4f1ff; }
 .poster.sound .kicker { color: #ec4899; opacity: 1; }
@@ -94,6 +108,11 @@
 .poster.alpine { background: linear-gradient(180deg, #dce9f4, #f4ede3); color: #13293d; }
 .poster.alpine .kicker { color: #c96524; opacity: 1; }
 .poster.alpine .headline { font: 800 44px/.92 "Barlow Condensed", "Arial Narrow", sans-serif; text-transform: uppercase; letter-spacing: .01em; }
+.poster.alpine .choice { display: flex; margin-top: 10px; }
+.poster.alpine .choice button { padding: 5px 12px 4px; font: 700 13px/1.1 "Barlow Condensed", "Arial Narrow", sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; color: #13293d; border-color: #13293d; }
+.poster.alpine .choice button[aria-pressed="true"] { background: #13293d; color: #fff; }
+.poster.alpine .choice button:not([aria-pressed="true"]):hover { background: rgb(19 41 61 / .08); }
 /* From plot to keys: an architect's drawing sheet. */
 .poster.drawing { color: #141414; background-color: #fbfaf7;
   background-image: linear-gradient(#efece6 1px, transparent 1px), linear-gradient(90deg, #efece6 1px, transparent 1px); background-size: 16px 16px; }

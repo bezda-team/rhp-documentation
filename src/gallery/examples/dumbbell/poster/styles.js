@@ -3,7 +3,9 @@
 // The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#13293d", muted: "#5d7285", grid: "#cad8e4", surface: "#e6eef5" };
 
-// A climb: the peak's name and country, the route from the tent to the snow-capped summit, and its height.
+// A climb: the peak's name and country, the route from the tent to the snow-capped summit, and its height. Ordered by
+// the climb, the height fades out and the climb fades in halfway up the route: under it, or on it and turned along it
+// when vertical.
 export const climb = `
 .peak-name { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
 .peak-name small { display: block; margin-top: 2px; font-size: 11px; font-weight: 500; color: var(--rhp-muted); }
@@ -20,4 +22,12 @@ export const climb = `
 .height { font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .height:horizontal { --rhp-label-gap: 16px; }
 .height:vertical { padding-bottom: 14px; font-size: 11px; }
+.gain { padding: 0; }
+.gain > span { display: block; font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.gain:horizontal { translate: -50% 9px; }
+.gain:vertical { translate: -50% 50%; rotate: -90deg; }
+.gain:vertical > span { padding: 2px 8px; border-radius: 99px; background: #fff; box-shadow: 0 0 0 1.5px #d9772b; font-size: 12px; }
+.height > span, .gain > span { transition: opacity .3s, visibility .3s; }
+.gain > span, .by-climb .height > span { opacity: 0; visibility: hidden; }
+.by-climb .gain > span { opacity: 1; visibility: visible; }
 `;

@@ -35,17 +35,18 @@ export const ArmSlat = slat({
 
 export default function Strip(p) {
   const days = createMemo(() => (p.seed(), TRIAL.map(([m, s]) => normalsIn(30, 1, 23, m, s))));
-  // The patient under the pointer, [arm, patient], read out in the dek; the other arms fade.
+  // The patient under the pointer, [arm, patient], read out in the dek on one line (so the chart never moves); the
+  // other arms fade.
   const [picked, setPicked] = createSignal(null);
   const point = (e) => { const c = e.target.closest("[data-patient]"); setPicked(c ? [+c.dataset.arm, +c.dataset.patient] : null); };
   const dek = () => {
     const at = picked();
-    if (!at) return "Each capsule is one patient; the dark line is the group's average.";
+    if (!at) return "Each capsule is a patient; the line is the average.";
     const [arm, i] = at, mine = days()[arm][i], mean = sum(days()[arm]) / days()[arm].length;
-    return `${ARMS[arm]}: back in ${mine.toFixed(1)} days, ${Math.abs(mine - mean).toFixed(1)} ${mine < mean ? "sooner" : "later"} than its average.`;
+    return `${ARMS[arm]}: ${mine.toFixed(1)} days, ${Math.abs(mine - mean).toFixed(1)} ${mine < mean ? "sooner" : "later"} than its average`;
   };
   return (
-    <Poster look="clinic" kicker="Trial results · days to recover" title="Back on your feet sooner" dek={dek()} note="Illustrative data."
+    <Poster look="clinic" kicker="Trial results · days to recover" title="Back on your feet sooner" dek={dek()} note="Point at a capsule to read that patient's recovery. Illustrative data."
       onPointerMove={point} onPointerDown={point} onPointerLeave={(e) => e.pointerType !== "touch" && setPicked(null)}>
       <Chart orientation={p.o()} scale={[0, 24]} ticks={[0, 8, 16, 24]} format={(v) => v + " d"} height={320} animate={p.js()} theme={styles.theme}>
         <Plot arm={ARMS} days={days()} color={CAPSULE} pickedArm={picked()?.[0] ?? -1} pickedPatient={picked()?.[1] ?? -1}>{ArmSlat}</Plot>
