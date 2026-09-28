@@ -22,6 +22,14 @@ export default defineConfig({
   },
   integrations: [starlight({
     title: 'rhp',
+    // rhp's icon (npm run icons builds it and every favicon from src/assets/rhp-splash.svg) stands for the title
+    logo: { src: './src/assets/rhp-icon.svg', replacesTitle: true },
+    favicon: '/favicon.svg',
+    head: [
+      { tag: 'link', attrs: { rel: 'icon', href: '/favicon.ico', sizes: '48x48' } },
+      { tag: 'link', attrs: { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' } },
+      { tag: 'link', attrs: { rel: 'manifest', href: '/site.webmanifest' } },
+    ],
     social: {
       github: 'https://github.com/bezda-team/rhp'
     },
