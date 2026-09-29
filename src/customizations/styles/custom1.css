@@ -63,8 +63,10 @@
 	--rhp-color-gray: hsla(234, 37%, 27%, 0.08);
 	--sl-color-gray-6: hsla(225, 15%, 16%, 0);
 
-	--sl-color-accent-high: #f2cc8f;
-	--sl-color-text-accent: #f2cc8f;
+	/* The gold darkened for light mode, where it sits on white: 2.60:1 against it, where the dark page's #f2cc8f is
+	   1.52:1. scripts/icons.mjs draws the logo and the hero in the same two golds. */
+	--sl-color-accent-high: #db9119;
+	--sl-color-text-accent: #db9119;
 
 	--rhp-gradient-accent: linear-gradient(
 			45deg,
@@ -454,8 +456,19 @@ input[type=number]::-webkit-inner-spin-button {
 
 /* The logo's soft shadow, drawn here and not by a filter in its SVG (src/assets/rhp-hero.svg has none): Safari draws an
    image's SVG filter at low resolution, which blurs the dots */
-.hero > img {
+.hero img {
 	filter: drop-shadow(0 1.4px 2px #1b1d28);
+}
+
+/* The hero's logo comes in both golds (Hero.astro hands the two to Starlight as the hero's html), and the theme picks */
+.hero .hero-html img {
+	width: 100%;
+	height: auto;
+}
+
+[data-theme='light'] .hero-html .hero-dark,
+[data-theme='dark'] .hero-html .hero-light {
+	display: none;
 }
 
 /* Room on either side of a docs page's content (the pages with a sidebar, not the landing page or the gallery). A phone

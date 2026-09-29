@@ -3,9 +3,29 @@
 // and a lede, left-aligned above the plots. The text comes from the page's `hero` frontmatter either way.
 import type { Props } from '@astrojs/starlight/props';
 import DefaultHero from '@astrojs/starlight/components/Hero.astro';
+import heroDark from '../../assets/rhp-hero.svg';
+import heroLight from '../../assets/rhp-hero-light.svg';
 
 const gallery = Astro.props.entry.slug === 'gallery';
-const { title = Astro.props.entry.data.title, tagline } = Astro.props.entry.data.hero ?? {};
+const data = Astro.props.entry.data;
+const { title = data.title, tagline } = data.hero ?? {};
+
+// The logo is drawn in two golds (scripts/icons.mjs): the pale one of the dark page, and a darker one for light mode,
+// where it sits on white. Starlight's hero takes one image file, so both go to it as the hero's html and its CSS picks
+// (custom1.css). Everything else about the hero is Starlight's.
+const img = (src: { src: string; width: number; height: number }, cls: string) =>
+	`<img class="${cls}" src="${src.src}" width="${src.width}" height="${src.height}" alt="" loading="eager" decoding="async">`;
+
+const props = gallery || !data.hero?.image?.file ? Astro.props : {
+	...Astro.props,
+	entry: {
+		...Astro.props.entry,
+		data: {
+			...data,
+			hero: { ...data.hero, image: { alt: data.hero.image.alt ?? '', html: img(heroDark, 'hero-dark') + img(heroLight, 'hero-light') } },
+		},
+	},
+};
 ---
 
 {gallery ? (
@@ -16,5 +36,5 @@ const { title = Astro.props.entry.data.title, tagline } = Astro.props.entry.data
 		{tagline && <p class="gallery-lede" set:html={tagline} />}
 	</header>
 ) : (
-	<DefaultHero {...Astro.props} />
+	<DefaultHero {...props} />
 )}

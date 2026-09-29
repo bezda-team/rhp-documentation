@@ -24,7 +24,7 @@ export default defineConfig({
     title: 'rhp',
     // rhp's logo, with no square behind it, stands for the title (npm run icons builds it and every icon from
     // src/assets/rhp-splash.svg)
-    logo: { src: './src/assets/rhp-logo.svg', replacesTitle: true },
+    logo: { dark: './src/assets/rhp-logo.svg', light: './src/assets/rhp-logo-light.svg', replacesTitle: true },
     favicon: '/favicon-rhp.svg',
     head: [
       { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-rhp-32.png' } },
