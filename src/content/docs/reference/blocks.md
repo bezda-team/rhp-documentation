@@ -3,7 +3,7 @@ title: Blocks
 description: Bar, Dot, Tick, Label, Cell, Area and Line, and the props each one takes.
 ---
 
-Blocks are the pieces of a row.
+Blocks are the pieces of a slat.
 Values are on the chart's scale.
 Every block also takes `class`, `style` (an object), `ref`, `color`, children, event handlers (`onClick`…) and HTML attributes (`title`, `data-*`, `aria-*`).
 
@@ -95,10 +95,10 @@ Every block also takes `class`, `style` (an object), `ref`, `color`, children, e
 | Prop | Default | |
 |---|---|---|
 | `points` | | `[value, y]` pairs. Out of the value's order, they make a connected scatter plot. |
-| `peak` | the largest y | in a row: the y that reaches the top of the band |
+| `peak` | the largest y | in a slat: the y that reaches the top of the band |
 | `fill` | `false` | fill under the line: to the band's edge, or on a second axis down to `base` |
 | `base` | `0` | on a second axis: where the fill ends |
 | `color` | `series-1` | |
 
-In a row, a Line is a sparkline across the band.
+In a slat, a Line is a sparkline across the band.
 On a chart with a [second axis](/guides/scales/#a-second-axis), its y is on that axis.
