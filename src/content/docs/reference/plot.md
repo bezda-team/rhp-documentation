@@ -15,7 +15,7 @@ A Plot's child is the slat: a function of `d` that returns one element, often ma
 
 Every prop that isn't a setting below is data, read in the slat as `d.<prop>`:
 
-- a list gives item i to slat i, and the longest list sets the number of slats,
+- a list gives item `i` to slat `i`, and the longest list sets the number of slats,
 - a single value is shared by every slat,
 - a function of `d` is worked out per slat, and again when what it reads changes.
 
