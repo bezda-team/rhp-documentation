@@ -41,6 +41,39 @@ Style `:focus-visible` next to `:hover`, and what the pointer shows, the keyboar
 
 A `<button>` inside a Label (a name you can click, for example) gets focus and keyboard presses on its own, in a Plot with or without `keyboard`.
 
+## One element instead of one per slat
+
+The hover demo above keeps a tip in every slat and shows one of them with CSS.
+For a number or a highlight that is the right thing: no state, nothing to wire, and the browser does all of it.
+
+It stops being right when what shows is more than a number.
+A card, a menu of actions, an image, a small chart of its row's own data: one in every slat is a subtree per slat so that a single one can be seen, and in a chart of hundreds of slats most are never pointed at.
+Keep the row the reader is on in a signal instead, and draw the card in that slat alone.
+
+<Demo name="interaction-one" height={230} />
+
+- **`Show` is what saves the nodes.**
+  The card exists in the slat the reader is on and nothing is in the page for the others, so the chart holds one card rather than one per slat.
+  Whatever is expensive belongs inside it: an image, a fetch, a Plot of its own.
+- **`createSelector` keeps the work to two slats.**
+  Moving from one slat to the next draws those two again, however many there are.
+  Passing the row in as a value (`on={on()}`) has every slat read it instead, which is the cost this pattern is here to avoid.
+  A data group that is a function of the row, like `on={(d) => isOn(d.index)}` above, is worked out per slat and cached, so it stays at two.
+- **The row comes from the event.**
+  `data-row={d.index}` on the slat's root names its row, and `closest` finds it from whatever the pointer is actually on, a block or an element inside one.
+  An edge label is drawn in the gutter, outside the plot, and is still inside the slat's root, so pointing at a name counts as pointing at its row.
+  When rows come and go, hold the row's key rather than its number (`data-row={d.city}`), because removing a row moves the numbers of the rows after it.
+- **The keyboard gets the same card.**
+  `focusin` and `focusout` sit next to the pointer handlers, and with `keyboard` on the Plot, Tab and the arrow keys move the card exactly as the pointer does.
+  A card that only follows `:hover` is nothing to a reader who doesn't use a pointer.
+- **`pointerdown` covers a tap**, and letting a `pointerleave` whose `pointerType` is `"touch"` pass keeps what the tap chose once the finger lifts.
+- **The state is yours.**
+  A legend, a click that pins a row (`on() ?? pinned()`), a readout above the chart or a second chart can all read it and write it.
+  rhp keeps no interaction state of its own to get in the way.
+- **What isn't per slat is a Plot of its own.**
+  A crosshair, a line marking today or a band across the whole plot is one Plot over the other, fed with the picked row's values: `<Plot overlap slats={on() == null ? 0 : 1} …>`.
+  It draws one set of elements, and none at all while nothing is picked.
+
 ## Good to know
 
 - **Follow the pointer with `pointermove`, not `pointerover`.** When a hover changes the layout (a badge appears), the browser can fire `pointerover` again under a pointer that hasn't moved.

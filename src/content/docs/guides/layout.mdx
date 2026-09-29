@@ -20,7 +20,9 @@ Give a horizontal chart a `height` too, and rows without a `thickness` share it,
 
 `slat()` takes two layout settings besides `css`:
 
-- `thickness`: each row's height in a horizontal chart, in px (32 by default). In a vertical chart, columns share the width unless `thickness` sets theirs.
+- `thickness`: how thick a slat is along the stack, in px: its height in a horizontal chart, its width in a vertical one.
+  Leave it out and the slats share what the chart has: a vertical chart's width, a horizontal chart's `height`.
+  A horizontal chart with no `height` has none to share, so its slats are 32px each and the chart grows with them.
 - `room`: the space the row's labels need outside the chart, in px. `start` is before the chart, where names go; `end` is after it, where numbers go past the bars.
 
 <Demo name="layout" height={180} />

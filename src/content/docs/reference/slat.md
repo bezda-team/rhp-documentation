@@ -24,7 +24,7 @@ A row without settings can be a plain function: `{(d) => <div>…</div>}`.
 | Setting | Default | What it does |
 |---|---|---|
 | `css` | | CSS for the row: see [styling](/guides/styling/). It reaches only rows of this type. |
-| `thickness` | `32` (horizontal) | each row's height in a horizontal chart (its width in a vertical one), in px. Vertical rows share the width unless set. |
+| `thickness` | the chart's space, or `32` | how thick a slat is along the stack, in px: its height in a horizontal chart, its width in a vertical one. Without one, the slats share what the chart has: a vertical chart's width, a horizontal chart's `height`. A horizontal chart with no `height` has none to share, so its slats are 32px each and it grows with them. |
 | `inset` | `0.18` | the empty share of the band on each side of a Bar, Tick or Area, or a size such as `"8px"` |
 | `room` | names and numbers | px outside the chart for the row's labels: `start`, `end`, `before`, `after`. `"auto"` for `start` or `end` (or `room: "auto"` for both) fits that side to its widest label: see [layout](/guides/layout/#room-that-fits-the-names). |
 
