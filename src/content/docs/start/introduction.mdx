@@ -1,15 +1,19 @@
 ---
 title: What is rhp?
-description: rhp builds charts out of HTML elements placed by CSS, never drawn into an SVG or a canvas, and they react as your data changes. You describe one slat, and rhp repeats it for every row of your data.
+description: rhp is a free, open-source SolidJS library that turns tabular data into interactive, infographic-style charts. You describe one slat, and rhp repeats it for every row of your data.
 ---
 
 import Demo from '../../../customizations/components/Demo.astro';
 import SlatDiagram from '../../../customizations/components/SlatDiagram.astro';
 
-rhp (reactive html plots) builds charts out of HTML elements, placed by CSS.
+rhp (reactive html plots) is a free, open-source SolidJS library that turns tabular data into interactive, infographic-style charts.
+
+Unlike other libraries, it combines HTML elements, CSS, and JavaScript to create the visualizations.
 A bar is a div in your page, not a shape drawn into an SVG or a canvas.
-You never write HTML: you write a Solid component, and rhp puts the elements in the page.
-Change a number and only the elements that show it change.
+This means you are able to take advantage of tools that the browser already provides and is optimized for.
+It also opens up possibilities that are tricky or difficult for a chart drawn into an SVG or a canvas: a photo cropped inside a bar, a button in a label, a chart nested inside another one.
+It also allows you to make things that are as interactive as you want.
+
 Drag the slider, then look at the code under the chart: that's all it takes.
 
 <Demo name="intro" height={230} />
