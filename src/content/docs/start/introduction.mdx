@@ -1,10 +1,10 @@
 ---
 title: What is rhp?
-description: rhp draws charts out of ordinary elements placed by CSS, not into an SVG or a canvas. You describe one row, and rhp repeats it for your data.
+description: rhp draws charts out of ordinary elements placed by CSS, not into an SVG or a canvas. You describe one slat, and rhp repeats it for every row of your data.
 ---
 
 import Demo from '../../../customizations/components/Demo.astro';
-import RowDiagram from '../../../customizations/components/RowDiagram.astro';
+import SlatDiagram from '../../../customizations/components/SlatDiagram.astro';
 
 rhp (reactive html plots) draws charts out of the elements a page is already made of, placed by CSS, rather than into an SVG or a canvas. You write them as Solid components.
 Drag the slider, then look at the code under the chart: that's all it takes.
@@ -13,43 +13,43 @@ Drag the slider, then look at the code under the chart: that's all it takes.
 
 ## How it works
 
-A chart in rhp is a stack of rows, one for each thing you're charting.
-Each row gets the data that comes together to represent that thing: a name, a value, maybe a picture.
-You describe **one row**, and rhp draws the rest.
+A chart in rhp is a stack of **slats**, one for each row of your data.
+A slat holds everything that represents that row: a name, a value, maybe a picture.
+You describe **one slat**, and rhp draws the rest.
 
-<RowDiagram />
+<SlatDiagram />
 
-That row is called a **slat**.
-You build it from a few blocks, and rhp puts each block in its place on the chart's scale:
+It is called a slat rather than a row because it is a row in a horizontal chart and a column in a vertical one, and because a row, in these pages, is a row of your data.
+You build a slat from a few blocks, and rhp puts each block in its place on the chart's scale:
 
 | Block | What it draws |
 |---|---|
 | `Bar` | a bar from one value to another |
 | `Dot` | a point at a value |
-| `Tick` | a short line across the row, at a value |
+| `Tick` | a short line across the slat, at a value |
 | `Label` | text at a value, or beside the chart |
 | `Cell` | a colored cell, for heatmaps |
 | `Area` | a smooth shape, for how values spread |
 
 When your numbers change, the chart follows by itself.
-Only what changed moves: the bar that grew, and the rows that swap places.
+Only what changed moves: the bar that grew, and the slats that swap places.
 
 ## Why it's built this way
 
 Look at the code under the chart above: it has two parts, and each has one job.
 
 - **The slat designs, the Chart assembles.**
-  The slat (`Row`) is a template for one row: which blocks it holds and how they look.
-  The Chart and its Plot put the rows together: the data, the scale and the order.
-  Change the design and every row follows; change the data and the design stays as it is.
-- **You write a row once, not once per bar.**
+  The slat (`Fruit` in the code above) is a template for one row of data: which blocks it holds and how they look.
+  The Chart and its Plot put the slats together: the data, the scale and the order.
+  Change the design and every slat follows; change the data and the design stays as it is.
+- **You write a slat once, not once per bar.**
   There are no loops to write, no code for each bar, and no copies to keep in step.
-  A fix to the slat fixes every row, in every chart that uses it.
+  A fix to the slat reaches every slat drawn from it, in every chart that uses it.
 - **Blocks, not chart types.**
   Instead of a catalog of chart types, each with its own options, rhp has six blocks you combine.
   A bar chart, a box plot and a timeline are the same few blocks arranged differently, so a chart nobody planned for needs nothing new.
 - **Data goes in as columns.**
-  Each prop of a Plot is one column of your table (`fruit`, `sold`), and each row gets its values as `d.fruit` and `d.sold`.
+  Each prop of a Plot is one column of your table (`fruit`, `sold`), and each slat gets its row's values as `d.fruit` and `d.sold`.
   A table from a spreadsheet or an API maps straight onto the chart.
 - **Logic and markup stay apart.**
   A chart is a component: its state, sorting and event handlers live in the function, and its JSX only says what is drawn.
@@ -67,7 +67,7 @@ Look at the code under the chart above: it has two parts, and each has one job.
 - **It's quick.**
   Changing a number changes one CSS variable on one element, so charts stay smooth while you drag, type or stream data.
 - **Charts don't break each other.**
-  A slat's styles only reach its own rows, and the page's CSS can't bend a chart out of shape.
+  A slat's styles only reach its own slats, and the page's CSS can't bend a chart out of shape.
 - **One chart, two directions.**
   The same code draws horizontal and vertical charts.
 

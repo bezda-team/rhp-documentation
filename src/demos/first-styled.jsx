@@ -9,11 +9,11 @@ import {
   series,
 } from "@bezda/rhp";
 
-const Row = slat(
+const Fruit = slat(
   {
     thickness: 40,
     css: `
-      .row:hover {
+      .slat:hover {
         background: color-mix(in srgb, var(--rhp-ink) 8%, transparent);
         border-radius: 8px;
       }
@@ -22,7 +22,7 @@ const Row = slat(
     `,
   },
   (d) => (
-    <div class="row">
+    <div class="slat">
       <Label edge="start">{d.fruit}</Label>
       <Bar to={d.sold} color={d.color} class="bar" />
       <Label at={d.sold} class="value">
@@ -48,7 +48,7 @@ export default function FirstChart() {
           color={series()}
           order={sortBy("sold", "desc")}
         >
-          {Row}
+          {Fruit}
         </Plot>
       </Chart>
     </>

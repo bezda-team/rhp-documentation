@@ -1,8 +1,8 @@
 import { createSignal } from "solid-js";
 import { Chart, Plot, Bar, Label, slat, sortBy } from "@bezda/rhp";
 
-// One row of the chart: a name, a bar and a number.
-const Row = slat(
+// One slat of the chart: a name, a bar and a number.
+const Fruit = slat(
   {
     css: `
       .bar { --rhp-end-radius: 6px; }
@@ -40,7 +40,7 @@ export default function FruitSold() {
           sold={[apples(), 18, 7, 22]}
           order={sortBy("sold", "desc")}
         >
-          {Row}
+          {Fruit}
         </Plot>
       </Chart>
     </>

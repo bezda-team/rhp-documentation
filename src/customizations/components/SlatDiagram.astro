@@ -1,6 +1,6 @@
 ---
-// The one-row idea, drawn: each thing's data on the left, the one row a user describes in the middle, and the chart
-// on the right, where rhp has made a copy of that row per thing and filled in its data. Colors tie each thing to its copy.
+// The one-slat idea, drawn: each thing's data on the left, the one slat a user describes in the middle, and the chart
+// on the right, where rhp has drawn that slat once per row and filled in its data. Colors tie each row to its slat.
 const things = [
 	{ name: "Apples", value: 12, hue: "var(--diagram-a)" },
 	{ name: "Kiwis", value: 22, hue: "var(--diagram-b)" },
@@ -9,7 +9,7 @@ const things = [
 const max = 25;
 ---
 
-<figure class="row-diagram not-content" aria-label="rhp draws one copy of the row you describe for each thing in your data, and fills in that thing's values">
+<figure class="slat-diagram not-content" aria-label="rhp draws the slat you describe once for every row of your data, and fills in that row's values">
 	<div class="panel">
 		<p class="step">Your data</p>
 		<table class="things">
@@ -30,8 +30,8 @@ const max = 25;
 	<p class="arrow" aria-hidden="true"><span>→</span></p>
 
 	<div class="panel template">
-		<p class="step">The one row you describe</p>
-		<div class="row">
+		<p class="step">The one slat you describe</p>
+		<div class="slat">
 			<span class="part"><code class="tag">&lt;Label&gt;</code><span class="slot">d.name</span></span>
 			<span class="part"><code class="tag">&lt;img&gt;</code><span class="slot picture"><span class="pic empty" />d.picture</span></span>
 			<span class="part grow"><code class="tag">&lt;Bar&gt;</code><span class="bar empty">d.value</span></span>
@@ -46,7 +46,7 @@ const max = 25;
 		<p class="step">The chart rhp draws</p>
 		<div class="chart">
 			{things.map((t) => (
-				<div class="row copy" style={`--hue: ${t.hue}`}>
+				<div class="slat copy" style={`--hue: ${t.hue}`}>
 					<span class="name">{t.name}</span>
 					<span class="pic" />
 					<span class="bar" style={`width: ${(t.value / max) * 100}%`} />
@@ -54,12 +54,12 @@ const max = 25;
 				</div>
 			))}
 		</div>
-		<p class="caption">One copy of the row per thing, filled with its values.</p>
+		<p class="caption">One slat per row, filled with its values.</p>
 	</div>
 </figure>
 
 <style>
-	.row-diagram {
+	.slat-diagram {
 		--diagram-a: #d9534f;
 		--diagram-b: #3f9e5a;
 		--diagram-c: #d4a72c;
@@ -80,7 +80,7 @@ const max = 25;
 		border-radius: 0.75rem;
 		background: var(--sl-color-bg);
 	}
-	:global(:root[data-theme="light"]) .row-diagram {
+	:global(:root[data-theme="light"]) .slat-diagram {
 		--diagram-accent: var(--sl-color-accent);
 	}
 	.panel.template {
@@ -156,13 +156,13 @@ const max = 25;
 		background: none;
 		border: 1.5px dashed var(--sl-color-gray-3);
 	}
-	.row {
+	.slat {
 		display: flex;
 		align-items: center;
 		gap: 0.45rem;
 		min-width: 0;
 	}
-	.template .row {
+	.template .slat {
 		flex-wrap: wrap;
 		align-items: end;
 		align-self: center;

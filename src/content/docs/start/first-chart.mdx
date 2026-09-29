@@ -11,19 +11,19 @@ We'll draw how much fruit a shop sold today, in four steps.
 
 A `Chart` sets the scale: here, from 0 to 30.
 A `Plot` inside it gets the data.
-Its child is the row, written as a function of `d`, the row's data.
+Its child is the slat, written as a function of `d`, one row of the data.
 
 <Demo name="first-bars" height={170} />
 
-`sold` is a list, so the Plot makes one row per number.
-In each row, `d.sold` is that row's number, and the `Bar` runs from 0 to it.
+`sold` is a list, so the Plot makes one slat per number.
+In each slat, `d.sold` is its row's number, and the `Bar` runs from 0 to it.
 
-A row is always one element that holds everything drawn in it: here, a `<div>` around the `Bar`.
+A slat is always one element that holds everything drawn in it: here, a `<div>` around the `Bar`.
 rhp stacks that element with the others and moves it when the rows are sorted, and the blocks inside it are placed by their values.
 
 ## 2. Names and numbers
 
-Give the Plot a second list, `fruit`, and each row gets its item as `d.fruit`.
+Give the Plot a second list, `fruit`, and each slat gets its item as `d.fruit`.
 A `Label` with `edge="start"` sits at the start of the chart, and one with `at` sits just past a value.
 
 <Demo name="first-labels" height={170} />
@@ -34,7 +34,7 @@ Keep the numbers in a signal, Solid's box for a value that changes.
 When you set it, the chart updates: the bars grow or shrink.
 
 `order` sorts the rows.
-`sortBy("sold", "desc")` puts the largest first, and the rows slide to their new places.
+`sortBy("sold", "desc")` puts the largest first, and the slats slide to their new places.
 
 <Demo name="first-live" height={210} />
 
@@ -43,15 +43,15 @@ The chart reads the signal, so it knows when the numbers change.
 
 ## 4. Style
 
-`slat()` gives the row its own look.
-Its `css` is plain CSS for the classes in the row, and it only reaches this chart's rows.
-`thickness` sets each row's height, and `series()` gives each row a color from the theme.
+`slat()` gives the slat its own look.
+Its `css` is plain CSS for the classes in the slat, and it only reaches this chart's slats.
+`thickness` sets each slat's height, and `series()` gives each slat a color from the theme.
 
 <Demo name="first-styled" height={250} />
 
 A few things to notice in the CSS:
 
-- `.row:hover` lights up the row under the pointer.
+- `.slat:hover` lights up the slat under the pointer.
 - `--rhp-end-radius` rounds the bar's end only. rhp reads a few variables like this one; they're listed in [Styling](/guides/styling/).
 - `var(--rhp-color)` is the bar's color, so the number matches its bar.
 

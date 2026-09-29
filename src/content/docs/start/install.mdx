@@ -33,7 +33,7 @@ Its package gives each build what it needs: a Solid app's build (Vite, SolidStar
 No npm, no build step: load rhp from a CDN in a `<script type="module">`.
 This file has Solid built in (29 kB gzipped).
 
-Without a build step there is no JSX, so you write rows with Solid's `html` template instead.
+Without a build step there is no JSX, so you write slats with Solid's `html` template instead.
 It's the same chart, with two differences:
 
 - a component is written `<${Bar} …>` and closed with `<//>`
@@ -45,7 +45,7 @@ It's the same chart, with two differences:
 <script type="module">
   import { Chart, Plot, Bar, Label, html, render } from "https://cdn.jsdelivr.net/npm/@bezda/rhp@2/dist/standalone.js";
 
-  const row = (d) => html`
+  const Fruit = (d) => html`
     <div>
       <${Label} edge="start">${() => d.fruit}<//>
       <${Bar} to=${() => d.sold} />
@@ -54,7 +54,7 @@ It's the same chart, with two differences:
 
   render(() => html`
     <${Chart} scale=${[0, 30]}>
-      <${Plot} fruit=${["Apples", "Bananas", "Cherries"]} sold=${[12, 18, 7]}>${row}<//>
+      <${Plot} fruit=${["Apples", "Bananas", "Cherries"]} sold=${[12, 18, 7]}>${Fruit}<//>
     <//>`, document.getElementById("chart"));
 </script>
 ```
