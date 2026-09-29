@@ -25,12 +25,15 @@ export default defineConfig({
     // rhp's logo, with no square behind it, stands for the title (npm run icons builds it and every icon from
     // src/assets/rhp-splash.svg)
     logo: { dark: './src/assets/rhp-logo.svg', light: './src/assets/rhp-logo-light.svg', replacesTitle: true },
-    favicon: '/favicon-rhp.svg',
+    // Safari takes the legacy link first and reads an .ico for certain, so that one is the .ico; the SVG is declared
+    // beside it the standard way, with a size of its own (Safari skips an SVG icon that has none). ?v=2 gives each one
+    // a URL that no browser has filed against these pages before.
+    favicon: '/favicon.ico',
     head: [
-      { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-rhp-32.png' } },
-      { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-rhp-16.png' } },
-      { tag: 'link', attrs: { rel: 'icon', href: '/favicon.ico', sizes: '48x48' } },
-      { tag: 'link', attrs: { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' } },
+      { tag: 'link', attrs: { rel: 'icon', type: 'image/svg+xml', href: '/favicon-rhp.svg?v=2' } },
+      { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-rhp-32.png?v=2' } },
+      { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-rhp-16.png?v=2' } },
+      { tag: 'link', attrs: { rel: 'apple-touch-icon', href: '/apple-touch-icon.png?v=2' } },
       { tag: 'link', attrs: { rel: 'manifest', href: '/site.webmanifest' } },
     ],
     social: {
@@ -83,7 +86,8 @@ export default defineConfig({
     components: {
       Header: './src/customizations/components/Header.astro',
       Hero: './src/customizations/components/Hero.astro', // the default hero, except on the gallery page
-      PageTitle: './src/customizations/components/PageTitle.astro' // the default title, with a link back above it on a gallery plot page
+      PageTitle: './src/customizations/components/PageTitle.astro', // the default title, with a link back above it on a gallery plot page
+      Footer: './src/customizations/components/Footer.astro' // the default footer, with a site footer under it on the landing page and in the gallery
     }
   }),
   // Solid draws the gallery (src/gallery) and the live demos (src/demos), and compiles rhp's source (the package's

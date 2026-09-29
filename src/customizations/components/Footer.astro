@@ -1,0 +1,79 @@
+---
+// Starlight's footer, with a small site footer under it on the landing page and in the gallery. Those pages end at the
+// bottom of their content otherwise, with nothing to say what the site is or where else to go.
+import type { Props } from '@astrojs/starlight/props';
+import DefaultFooter from '@astrojs/starlight/components/Footer.astro';
+
+const path = Astro.url.pathname;
+const wanted = path === '/' || path === '/index.html' || path.startsWith('/gallery');
+const year = new Date().getFullYear();
+---
+
+<DefaultFooter {...Astro.props} />
+
+{wanted && (
+	<div class="site-footer not-content">
+		<div class="row">
+			<p class="who"><span class="name">rhp</span> <span class="what">reactive html plots</span></p>
+			<nav class="links" aria-label="Footer">
+				<a href="/start/introduction/">Docs</a>
+				<a href="/gallery/">Gallery</a>
+				<a href="https://github.com/bezda-team/rhp">GitHub</a>
+			</nav>
+		</div>
+		<p class="note">MIT licensed. &copy; {year} Bezda.</p>
+	</div>
+)}
+
+<style>
+	.site-footer {
+		margin-top: 4rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--sl-color-gray-5);
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-3);
+	}
+
+	.row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.75rem 2rem;
+	}
+
+	.who {
+		margin: 0;
+	}
+
+	.name {
+		font-weight: 600;
+		color: var(--sl-color-white);
+	}
+
+	.what {
+		margin-inline-start: 0.5rem;
+	}
+
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 1.5rem;
+	}
+
+	.links a {
+		color: var(--sl-color-gray-2);
+		text-decoration: none;
+	}
+
+	.links a:hover {
+		color: var(--sl-color-white);
+		text-decoration: underline;
+	}
+
+	.note {
+		margin: 1rem 0 0;
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-3);
+	}
+</style>
