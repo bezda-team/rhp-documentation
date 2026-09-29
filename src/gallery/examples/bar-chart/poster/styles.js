@@ -23,7 +23,7 @@ export const scale = `
 // A fruit: its name, its bar with the art cropped inside, and its value in the fruit's color. Hover a bar to outline it.
 export const fruit = `
 .name { font-size: 16px; font-weight: 600; line-height: 24px; color: var(--rhp-muted); }
-.name:horizontal { text-align: center; --rhp-label-gap: 0px; }
+.name:horizontal { text-align: start; --rhp-label-gap: 0px; }
 .bar { display: flex; align-items: center; overflow: hidden; --rhp-start-radius: 0px; --rhp-end-radius: 16px; }
 .bar:vertical { flex-direction: column-reverse; }
 .bar:hover { border: 4px solid var(--rhp-ink); }
