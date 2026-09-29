@@ -9,6 +9,7 @@
   --gallery-accent-ink: #f2cc8f; /* text in the accent */
 }
 :root[data-theme="light"] { --gallery-accent: #db9119; --gallery-accent-ink: #9a6b1c; } /* the gold darkened for white */
+@media (max-width: 50rem) { :root[data-theme="light"] { --gallery-accent: #e99e24; } } /* brighter on a phone */
 
 /* Posters: the magazine-style panels the redesigned charts sit in. The panel is the page's (its paper, headline and
    note); the chart inside takes its colors and font from the theme its demo passes. Each look below sets its paper. */

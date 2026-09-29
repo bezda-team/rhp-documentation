@@ -479,6 +479,24 @@ input[type=number]::-webkit-inner-spin-button {
 	}
 }
 
+/* A phone in light mode takes a brighter gold than a wide screen does, the two logos included: each is one colour on
+   nothing, so the phone's copy of the file stands in for it (scripts/icons.mjs draws all three). */
+@media (max-width: 50rem) {
+	:root[data-theme='light'],
+	[data-theme='light'] ::backdrop {
+		--sl-color-accent-high: #e99e24;
+		--sl-color-text-accent: #e99e24;
+	}
+
+	[data-theme='light'] .site-title img.light-only {
+		content: url('../../assets/rhp-logo-light-phone.svg');
+	}
+
+	[data-theme='light'] .hero-html .hero-light {
+		content: url('../../assets/rhp-hero-light-phone.svg');
+	}
+}
+
 /* Room on either side of a docs page's content (the pages with a sidebar, not the landing page or the gallery). A phone
    has no width to give, so it keeps none. */
 @media (min-width: 50rem) {
