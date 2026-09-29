@@ -1,4 +1,12 @@
-- **A day per slat**, holding a Plot with `orientation="across"` of 24 Cells: the hours run across the day's band.
-- **Color by CSS.** A Cell mixes the theme's `low` and `high` colors by its value on the chart's scale.
-- **Point at an hour** to read it above the chart; only its day and its hour keep their color. Each Cell carries `data-day` and `data-hour`, and the picked day and hour reach every cell as values of the Plot.
-- **rhp's plain look**, in the page's colors.
+A heatmap is a Plot inside a Plot.
+The outer Plot draws one slat per day, and inside that slat `<Plot orientation="across" v={d.hours}>` draws one slat per hour.
+`across` turns the inner Plot the other way, so its hours run along the day's band instead of stacking, and its data comes straight from the row it sits in: `d.hours`.
+
+- **A Cell colors itself.**
+  Its `value` is read on the Chart's scale, and the Cell mixes the theme's `low` and `high` colors by it, so there is no color scale to write.
+  `ticks={false}` on the Chart leaves the axis out.
+- **The hour numbers come from one slat.**
+  Only the first day draws them, as edge Labels of its inner Plot, so the row of numbers is part of the chart rather than an axis of its own.
+- **The pointer's choice goes back in as data.**
+  Each Cell carries `data-day` and `data-hour`, one handler above the chart reads them with `closest`, and the picked pair is passed to the Plot, so every cell can decide for itself whether to stay lit.
+  See [interaction](/guides/interaction/) for when to feed a choice back like this and when to draw a single element instead.
