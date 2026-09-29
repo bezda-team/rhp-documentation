@@ -56,6 +56,11 @@ const entries = (await getCollection("docs", (e) => !!e.data.gallery)).map((e) =
 	:root[data-theme="light"] .showcase-kicker {
 		color: var(--sl-color-accent);
 	}
+	/* The kicker is a way into the gallery, and looks the same as it did */
+	.showcase-kicker a {
+		color: inherit;
+		text-decoration: none;
+	}
 	.showcase-shuffle {
 		font: 500 0.85rem/1 var(--__sl-font);
 		padding: 0.5rem 0.9rem;

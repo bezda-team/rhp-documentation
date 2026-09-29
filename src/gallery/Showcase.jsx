@@ -88,7 +88,7 @@ export default function Showcase(props) {
   return (
     <>
       <div class="showcase-head">
-        <p class="showcase-kicker">Live from the gallery</p>
+        <p class="showcase-kicker"><a href="/gallery/">Live from the gallery</a></p>
         <button type="button" class="showcase-shuffle" onClick={shuffle}>Show others</button>
       </div>
       {/* two columns, each a stack: a short plot leaves no hole under it, the next one follows */}
