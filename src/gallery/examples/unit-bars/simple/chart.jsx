@@ -6,7 +6,7 @@ import * as styles from "./styles.js";
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 const CUPS = [3, 5, 2, 6, 4]; // cups of coffee
 
-// A cup: a Bar one unit long, at its place in the row.
+// A cup: a Bar one unit long, at its place in the slat.
 export const UnitSlat = slat({ css: styles.unit }, (u) => <Bar from={u.index} to={u.index + 1} class="unit" />);
 
 // A day: its name, as many units as its count (an overlap Plot with that many slats), and the count.

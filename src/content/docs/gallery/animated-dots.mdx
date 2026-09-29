@@ -1,10 +1,10 @@
 ---
 title: "Animated dots"
-description: "v1's logo in dots: nine rows of thirty behind a window eleven dots wide, which the rows shift across without ever leaving a gap."
+description: "v1's logo in dots: nine slats of thirty behind a window eleven dots wide, which the slats shift across without ever leaving a gap."
 template: splash
 gallery:
   poster: "The rhp logo"
-  simple: "A few rows of dots that scatter and come back."
+  simple: "A few slats of dots that scatter and come back."
   order: 1
   orientation: horizontal
   theme: v1
@@ -22,8 +22,8 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 ## How it's built
 
-- **Rows of dots.** Each row is a slat holding an overlap Plot of 30 Dots, lit or not from a line of the logo's art (`#` is lit).
-- **A window, not a canvas.** The scale is 11 dots wide and each row clips its dots to it (`overflow-x: clip` in the slat's CSS), so a row can shift 4 dots one way or 5 the other and the window stays full.
-- **Motion is data.** Every 5 seconds a signal gives the middle rows new shifts, and the next time it puts them back. Hover the window to hold the logo; **New data** scatters it now.
+- **Slats of dots.** Each slat holds an overlap Plot of 30 Dots, lit or not from a line of the logo's art (`#` is lit).
+- **A window, not a canvas.** The scale is 11 dots wide and each slat clips its dots to it (`overflow-x: clip` in the slat's CSS), so a slat can shift 4 dots one way or 5 the other and the window stays full.
+- **Motion is data.** Every 5 seconds a signal gives the middle slats new shifts, and the next time it puts them back. Hover the window to hold the logo; **New data** scatters it now.
 
 <GalleryPager slug="animated-dots" />

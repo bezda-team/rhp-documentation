@@ -5,7 +5,7 @@ import * as styles from "./styles.js";
 const ROWS = 5, DOTS = 16;
 const still = Array(ROWS).fill(0);
 
-// A row: an overlap Plot of dots, all in one band, moved along by the row's shift.
+// A slat: an overlap Plot of dots, all in one band, moved along by its row's shift.
 export const RowSlat = slat({ css: styles.row, thickness: 30, room: {} }, (d) => (
   <div class="row">
     <Plot overlap slats={DOTS} x={(c) => d.shift + c.index + 0.5}>
@@ -15,7 +15,7 @@ export const RowSlat = slat({ css: styles.row, thickness: 30, room: {} }, (d) =>
 ));
 
 export default function Dots(p) {
-  // Every 3 s the rows scatter, up to 2 dots either way, or come back.
+  // Every 3 s the slats scatter, up to 2 dots either way, or come back.
   const [shift, setShift] = createSignal(still);
   const step = () => setShift((s) => (s.some((v) => v) ? still : s.map(() => Math.floor(Math.random() * 5) - 2)));
   const timer = setInterval(step, 3000);

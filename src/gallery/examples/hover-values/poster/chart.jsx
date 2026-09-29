@@ -7,7 +7,7 @@ import * as styles from "./styles.js";
 const QUARTERS = ["North", "East", "South", "West"];
 const BEARING = { North: 0, East: 90, South: 180, West: 270 };
 
-// v1's tutorial: the value hides until you hover its row, with CSS the slat owns. The compass needle points
+// v1's tutorial: the value hides until you hover its slat, with CSS the slat owns. The compass needle points
 // to the quarter the wind comes from. The fade is on the text inside the Label: a transition set on a block
 // would replace the one rhp gives it, and the Label would jump to a new value instead of moving with its bar.
 export const WindSlat = slat({

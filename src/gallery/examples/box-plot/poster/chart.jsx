@@ -12,7 +12,7 @@ import cumulus from "./assets/cumulus.jpg?url";
 import cirrocumulus from "./assets/cirrocumulus.jpg?url";
 
 // v1's scale: a Scale in the Chart draws it, one slat per tick, a mark and its number.
-// The marks start 16px above the first row, and the numbers sit over them, in the room this slat asks for.
+// The marks start 16px above the first slat, and the numbers sit over them, in the room this slat asks for.
 // A mark is "zero" (solid, just before 0), "end" (solid, at the max), or between them `marks`:
 // "line" (dashed, as long as the plot) or "tick" (13px long).
 // A cloud's name may break (with a hyphen) between its Latin roots, cumulo-nimbus, when its label is narrow.

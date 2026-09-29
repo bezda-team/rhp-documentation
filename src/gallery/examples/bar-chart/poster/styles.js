@@ -1,4 +1,4 @@
-// v1's fruit bars: its scale, and a row per fruit. Each CSS string is one slat's look; edit one and its slats restyle as you type.
+// v1's fruit bars: its scale, and a slat per fruit. Each CSS string is one slat's look; edit one and its slats restyle as you type.
 
 // v1's scale: a mark and a number per tick. The first and last marks are solid; the ones between are dashed lines (marks="line") or short ticks ("tick").
 export const scale = `

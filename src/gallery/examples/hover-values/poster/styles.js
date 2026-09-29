@@ -3,7 +3,7 @@
 // The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#0b2a3c", muted: "#55707f", grid: "#c3d9e3", surface: "#e3f0f5" };
 
-// A quarter: its compass dial and needle, the gust, and the knots, which fade in when you hover the row.
+// A quarter: its compass dial and needle, the gust, and the knots, which fade in when you hover the slat.
 export const wind = `
 .quarter { display: flex; align-items: center; gap: 10px; overflow: visible; font-size: 16px; font-weight: 700; }
 .quarter:horizontal { justify-content: flex-end; padding-right: 16px; }

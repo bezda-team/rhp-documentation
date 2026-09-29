@@ -3,7 +3,7 @@ import { Plot, Chart, Dot, slat } from "@bezda/rhp";
 import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
-// v1's logo: 9 rows of 30 dots; # is lit. The scale shows dots 10 to 20 of each row.
+// v1's logo: 9 slats of 30 dots; # is lit. The scale shows dots 10 to 20 of each slat.
 const LOGO = [
   "..............................",
   "..............#...............",
@@ -31,8 +31,8 @@ export const DotRow = slat({
 export default function Dots(p) {
   const still = LOGO.map(() => 0);
   const [shift, setShift] = createSignal(still);
-  // Every 5 s the middle rows jump up to 4 dots left or 5 right, and the next time they come back.
-  // A row reaches 10 dots past the start of the scale and 9 past its end, so no shift leaves a gap.
+  // Every 5 s the middle slats jump up to 4 dots left or 5 right, and the next time they come back.
+  // A slat reaches 10 dots past the start of the scale and 9 past its end, so no shift leaves a gap.
   const step = () => setShift((s) => (s.some((v) => v) ? still : LOGO.map((_, r) => (r === 0 || r === 8 ? 0 : Math.floor(rand(0, 10)) - 4))));
   let timer = setInterval(step, 5000);
   onCleanup(() => clearInterval(timer));

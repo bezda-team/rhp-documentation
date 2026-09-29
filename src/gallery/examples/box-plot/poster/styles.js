@@ -1,4 +1,4 @@
-// v1's cloud box plot: its scale, and a row per cloud. Each CSS string is one slat's look; edit one and its slats restyle as you type.
+// v1's cloud box plot: its scale, and a slat per cloud. Each CSS string is one slat's look; edit one and its slats restyle as you type.
 
 // v1's scale: a mark and a number per tick. The first and last marks are solid; the ones between are dashed lines (marks="line") or short ticks ("tick").
 export const scale = `
@@ -20,7 +20,7 @@ export const scale = `
 .num.crowded { visibility: hidden; }
 `;
 
-// A cloud: its name, the whiskers and their caps, the box filled with its photo, and the top value. Hover a row to zoom the photo out.
+// A cloud: its name, the whiskers and their caps, the box filled with its photo, and the top value. Hover a slat to zoom the photo out.
 export const box = `
 .name { font-size: 15px; font-weight: 600; line-height: 1.2; color: var(--rhp-muted); }
 .name:vertical { font-size: 11px; white-space: normal; hyphens: manual; padding-inline: 4px; }
