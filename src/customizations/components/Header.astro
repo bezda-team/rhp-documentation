@@ -34,6 +34,7 @@ const landing = path === '/' || path === '/index.html';
 		{landing && (
 			<div class="theme-icon">
 				<ThemeSelect {...Astro.props} />
+				<button type="button" class="theme-cycle" aria-label="Change the theme"></button>
 			</div>
 		)}
 		<div class="sl-hidden md:sl-flex">
@@ -56,7 +57,7 @@ const landing = path === '/' || path === '/index.html';
 		align-items: center;
 	}
 	.header :global(.site-title img) {
-		padding-left: 12px;
+		padding-left: 4px;
 	}
 	.site-links {
 		gap: 0.25rem;
@@ -82,8 +83,8 @@ const landing = path === '/' || path === '/index.html';
 	   updates every picker on the page, so this one and the one for wider screens stay together). */
 	.theme-icon {
 		position: relative;
-		width: 2rem;
-		height: 2rem;
+		width: 2.5rem;
+		height: 2.5rem;
 	}
 	/* starlight-theme-select is an inline element between the two, so it has to take a size before the label can fill it */
 	.theme-icon :global(starlight-theme-select),
@@ -98,17 +99,27 @@ const landing = path === '/' || path === '/index.html';
 	.theme-icon :global(.label-icon) {
 		position: static;
 		transform: none;
-		font-size: 1.5rem;
+		font-size: 1.75rem;
 	}
 	.theme-icon :global(.caret) {
 		display: none;
 	}
+	/* Starlight's select stays to hold the choice and to be told about it; the button over the icon is what is tapped */
 	.theme-icon :global(select) {
 		position: absolute;
-		inset: 0;
-		width: 100%;
+		width: 1px;
+		height: 1px;
 		padding: 0;
 		opacity: 0;
+		pointer-events: none;
+	}
+	.theme-cycle {
+		position: absolute;
+		inset: 0;
+		padding: 0;
+		border: 0;
+		border-radius: 0.5rem;
+		background: none;
 		cursor: pointer;
 	}
 
@@ -130,6 +141,9 @@ const landing = path === '/' || path === '/index.html';
 		}
 		:global(:root:not([data-has-toc])) {
 			--__toc-width: 0rem;
+		}
+		.header :global(.site-title img) {
+			padding-left: 12px;
 		}
 		.header {
 			/* the gap is for wide screens only: a phone gives its width to the title, the search and the links */
@@ -169,4 +183,22 @@ const landing = path === '/' || path === '/index.html';
 		if (document.body.scrollTop === 0 && document.documentElement.scrollTop === 0) {document.getElementsByTagName("header")[0].classList.add("header-top");}
 		else {document.getElementsByTagName("header")[0].classList.remove("header-top");}
 	});
+
+	// The landing page's theme icon on a phone: each tap takes the next of auto, light and dark. The change goes through
+	// Starlight's own select, which stores the choice, sets the page's theme and swaps the icon on every picker.
+	const cycle = document.querySelector(".theme-cycle");
+
+	if (cycle) {
+		const select = cycle.parentElement.querySelector("select");
+		const order = ["auto", "light", "dark"];
+		const say = () => cycle.setAttribute("aria-label", `Theme: ${select.value}. Tap for the next one.`);
+
+		say();
+
+		cycle.addEventListener("click", () => {
+			select.value = order[(order.indexOf(select.value) + 1) % order.length];
+			select.dispatchEvent(new Event("change", { bubbles: true }));
+			say();
+		});
+	}
 </script>
