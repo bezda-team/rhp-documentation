@@ -1,15 +1,15 @@
 ---
 title: What is rhp?
-description: rhp draws charts out of ordinary elements placed by CSS, not into an SVG or a canvas. You describe one slat, and rhp repeats it for every row of your data.
+description: rhp builds charts out of HTML elements placed by CSS, never drawn into an SVG or a canvas, and they react as your data changes. You describe one slat, and rhp repeats it for every row of your data.
 ---
 
 import Demo from '../../../customizations/components/Demo.astro';
 import SlatDiagram from '../../../customizations/components/SlatDiagram.astro';
 
-rhp (reactive html plots) builds charts out of ordinary elements, placed by CSS.
-Nothing is drawn into a canvas or a single SVG.
-A bar is an element in your page like any other.
-You write a chart as a Solid component.
+rhp (reactive html plots) builds charts out of HTML elements, placed by CSS.
+A bar is a div in your page, not a shape drawn into an SVG or a canvas.
+You never write HTML: you write a Solid component, and rhp puts the elements in the page.
+Change a number and only the elements that show it change.
 Drag the slider, then look at the code under the chart: that's all it takes.
 
 <Demo name="intro" height={230} />
