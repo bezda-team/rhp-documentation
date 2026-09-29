@@ -471,6 +471,13 @@ input[type=number]::-webkit-inner-spin-button {
 	display: none;
 }
 
+/* On a phone in light mode the logo is drawn large on white, where the shadow reads as a smudge under every dot */
+@media (max-width: 50rem) {
+	[data-theme='light'] .hero img {
+		filter: none;
+	}
+}
+
 /* Room on either side of a docs page's content (the pages with a sidebar, not the landing page or the gallery). A phone
    has little width to give, so it keeps just enough to lift the text off the edges. */
 [data-has-sidebar] main {
