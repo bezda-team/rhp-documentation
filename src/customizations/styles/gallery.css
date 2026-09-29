@@ -5,11 +5,12 @@
   --poster-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --gallery-card: var(--rhp-color-gray);
   --gallery-radius: var(--page-border-radius-4, 0.5rem);
-  --gallery-accent: #f2cc8f; /* rhp's sand: fills and marks; text on it is the docs' dark */
+  --gallery-accent: var(--sl-color-accent-high); /* the site's accent: fills and marks */
   --gallery-accent-ink: #f2cc8f; /* text in the accent */
+  --gallery-on-accent: #2e2f43; /* text on an accent fill: dark on the pale sand, 8.61:1 */
 }
-:root[data-theme="light"] { --gallery-accent: #db9119; --gallery-accent-ink: #9a6b1c; } /* the gold darkened for white */
-@media (max-width: 50rem) { :root[data-theme="light"] { --gallery-accent: #e99e24; } } /* brighter on a phone */
+/* Light mode's accent is a deeper gold, with white on it where it is a button's fill */
+:root[data-theme="light"] { --gallery-accent-ink: #9a6b1c; --gallery-on-accent: #fff; }
 
 /* Posters: the magazine-style panels the redesigned charts sit in. The panel is the page's (its paper, headline and
    note); the chart inside takes its colors and font from the theme its demo passes. Each look below sets its paper. */
@@ -160,7 +161,7 @@
 .pg-seg button { font: 500 14px/1 var(--__sl-font); padding: 8px 14px; border: 0; border-radius: 999px; background: none; color: var(--sl-color-text); cursor: pointer; }
 .pg-seg button:hover { color: var(--sl-color-white); }
 .pg-seg button[aria-checked="true"] { background: var(--sl-color-text); color: var(--sl-color-bg); }
-.pg-button { font: 500 14px/1 var(--__sl-font); padding: 10px 18px; border: 0; border-radius: 999px; background: var(--gallery-accent); color: #2e2f43; cursor: pointer; }
+.pg-button { font: 500 14px/1 var(--__sl-font); padding: 10px 18px; border: 0; border-radius: 999px; background: var(--gallery-accent); color: var(--gallery-on-accent); cursor: pointer; }
 .pg-button:hover { filter: brightness(1.06); }
 .playground :is(.pg-seg button, .pg-button, .pg-tabs button, .pg-actions button):focus-visible { outline: 2px solid var(--gallery-accent); outline-offset: 2px; }
 .pg-body { display: grid; gap: 18px; }

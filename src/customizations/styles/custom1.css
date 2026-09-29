@@ -65,8 +65,8 @@
 
 	/* The gold darkened for light mode, where it sits on white: 2.60:1 against it, where the dark page's #f2cc8f is
 	   1.52:1. scripts/icons.mjs draws the logo and the hero in the same two golds. */
-	--sl-color-accent-high: #db9119;
-	--sl-color-text-accent: #db9119;
+	--sl-color-accent-high: #e99e24;
+	--sl-color-text-accent: #e99e24;
 
 	--rhp-gradient-accent: linear-gradient(
 			45deg,
@@ -476,24 +476,6 @@ input[type=number]::-webkit-inner-spin-button {
 @media (max-width: 50rem), (hover: none) {
 	[data-theme='light'] .hero img {
 		filter: none;
-	}
-}
-
-/* A phone in light mode takes a brighter gold than a wide screen does, the two logos included: each is one colour on
-   nothing, so the phone's copy of the file stands in for it (scripts/icons.mjs draws all three). */
-@media (max-width: 50rem) {
-	:root[data-theme='light'],
-	[data-theme='light'] ::backdrop {
-		--sl-color-accent-high: #e99e24;
-		--sl-color-text-accent: #e99e24;
-	}
-
-	[data-theme='light'] .site-title img.light-only {
-		content: url('../../assets/rhp-logo-light-phone.svg');
-	}
-
-	[data-theme='light'] .hero-html .hero-light {
-		content: url('../../assets/rhp-hero-light-phone.svg');
 	}
 }
 

@@ -5,8 +5,7 @@
 //   src/assets/rhp-icon.svg    the official icon
 //   src/assets/rhp-logo.svg    the logo alone, with no square behind it (the header's)
 //   src/assets/rhp-hero.svg    the splash without its shadow filter (the landing page's; its CSS draws the shadow)
-//   src/assets/rhp-logo-light.svg, src/assets/rhp-hero-light.svg  the same two in the darker gold of light mode
-//   src/assets/rhp-logo-light-phone.svg, src/assets/rhp-hero-light-phone.svg  and in the brighter gold a phone uses
+//   src/assets/rhp-logo-light.svg, src/assets/rhp-hero-light.svg  the same two in the gold of light mode
 //   public/favicon-rhp.svg     the r, for the browser tab (a new name, so no cache still holds Starlight's default)
 //   public/favicon.svg         the same, for pages a browser cached when they still linked this name
 //   public/favicon-rhp-16.png, public/favicon-rhp-32.png  the r as PNGs, which Safari reads when it skips an SVG
@@ -22,11 +21,8 @@ const BG = "#2e2f43";
 // (1.52:1 against white, against 2.60:1 for the darker one). The site's accent follows it: --sl-color-text-accent
 // and --gallery-accent in src/customizations/styles.
 const GOLD = "#f2cc8f";
-const GOLD_LIGHT = "#db9119";
-// A phone in light mode shows the logo large and close, where the darker gold goes muddy, so it takes a brighter one.
-const GOLD_LIGHT_PHONE = "#e99e24";
+const GOLD_LIGHT = "#e99e24";
 const inLight = (svg) => svg.split(GOLD).join(GOLD_LIGHT);
-const inLightPhone = (svg) => svg.split(GOLD).join(GOLD_LIGHT_PHONE);
 const SIZE = 512;
 const RADIUS = 115; // the square's corners
 const OUTLINE = 32; // the favicons' white outline: a whole pixel at 16px, two at 32px
@@ -86,7 +82,6 @@ ${LOGO.dots.map((d) => `<circle cx="${n(d.x)}" cy="${n(d.y)}" r="${r}" fill="${d
 `;
 fs.writeFileSync("src/assets/rhp-logo.svg", logo);
 fs.writeFileSync("src/assets/rhp-logo-light.svg", inLight(logo));
-fs.writeFileSync("src/assets/rhp-logo-light-phone.svg", inLightPhone(logo));
 
 // The splash as it is, less its drop shadow filter, for the landing page's hero: Safari draws that filter at low
 // resolution there too. The hero's CSS draws the same shadow instead (custom1.css), which Safari keeps sharp.
@@ -94,7 +89,6 @@ const hero = splash.replace(/<defs>[\s\S]*?<\/defs>/, "").replace(/ filter="url\
 if (hero.includes("filter")) throw new Error("icons: the splash's filter is not where rhp-hero.svg expects it");
 fs.writeFileSync("src/assets/rhp-hero.svg", hero);
 fs.writeFileSync("src/assets/rhp-hero-light.svg", inLight(hero));
-fs.writeFileSync("src/assets/rhp-hero-light-phone.svg", inLightPhone(hero));
 
 const rounded = icon(LOGO, 60); // the word 392px wide on the 512px square
 const small = icon(R, 96, { shadow: false, outline: true }); // the r 320px tall
