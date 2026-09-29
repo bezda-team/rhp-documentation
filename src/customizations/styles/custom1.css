@@ -471,8 +471,9 @@ input[type=number]::-webkit-inner-spin-button {
 	display: none;
 }
 
-/* On a phone in light mode the logo is drawn large on white, where the shadow reads as a smudge under every dot */
-@media (max-width: 50rem) {
+/* On a phone in light mode the logo is drawn large on white, where the shadow reads as a smudge under every dot. It
+   covers a touch screen at any width too, so turning a phone on its side doesn't bring the shadow back. */
+@media (max-width: 50rem), (hover: none) {
 	[data-theme='light'] .hero img {
 		filter: none;
 	}
