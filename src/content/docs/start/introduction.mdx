@@ -1,12 +1,12 @@
 ---
 title: What is rhp?
-description: rhp draws charts with plain HTML and CSS. You describe one row, and rhp repeats it for your data.
+description: rhp draws charts out of ordinary elements placed by CSS, not into an SVG or a canvas. You describe one row, and rhp repeats it for your data.
 ---
 
 import Demo from '../../../customizations/components/Demo.astro';
 import RowDiagram from '../../../customizations/components/RowDiagram.astro';
 
-rhp (reactive html plots) draws charts with HTML, CSS, and JavaScript.
+rhp (reactive html plots) draws charts out of the elements a page is already made of, placed by CSS, rather than into an SVG or a canvas. You write them as Solid components.
 Drag the slider, then look at the code under the chart: that's all it takes.
 
 <Demo name="intro" height={230} />
@@ -59,9 +59,9 @@ Look at the code under the chart above: it has two parts, and each has one job.
 
 ## Why rhp
 
-- **It's HTML (and CSS and JS).**
-  You style a chart the way you style the rest of your page: classes, hover states, gradients, images and fonts.
-  A bar is an element you can inspect in the browser.
+- **A chart is elements, not a drawing.**
+  You style it the way you style the rest of your page: classes, hover states, gradients, images and fonts.
+  A bar is an element you can inspect in the browser, not a shape inside an SVG or a canvas.
 - **It's small.**
   15 kB gzipped, or 29 kB together with Solid, the library it's built on.
 - **It's quick.**
