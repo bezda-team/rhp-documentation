@@ -25,7 +25,7 @@ const GOLD_LIGHT = "#db9119";
 const inLight = (svg) => svg.split(GOLD).join(GOLD_LIGHT);
 const SIZE = 512;
 const RADIUS = 115; // the square's corners
-const OUTLINE = 16; // the favicons' white outline, along the square's very edge: half a pixel at 16px
+const OUTLINE = 32; // the favicons' white outline: a whole pixel at 16px, two at 32px
 
 // The dots: their centers, with the splash's own offset applied, and their radius
 const splash = fs.readFileSync("src/assets/rhp-splash.svg", "utf8");
