@@ -45,7 +45,8 @@ function mark(list) {
 const LOGO = mark(dots);
 const R = mark(dots.filter((d) => d.x < LOGO.left + 300)); // the r: the first three columns of dots
 
-// The icon at SIZE: the mark scaled to fit inside `room` px of space on every side and centered, on a square with
+// The icon at SIZE, with a width and a height of its own as well as a viewBox, since Safari skips an SVG favicon that
+// has no size to draw at: the mark scaled to fit inside `room` px of space on every side and centered, on a square with
 // rounded corners or not, with the splash's soft shadow scaled with it or not (the favicons are too small for it), and
 // with a white outline inside the square's edge or not
 function icon(m, room, { rounded = true, shadow = true, outline = false } = {}) {
@@ -59,7 +60,7 @@ function icon(m, room, { rounded = true, shadow = true, outline = false } = {}) 
   const filter = `<defs><filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="${n(4 * k)}" stdDeviation="${n(2 * k)} ${n(4 * k)}" flood-color="#1b1d28"/></filter></defs>`;
 
   const lines = [
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SIZE} ${SIZE}">`,
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}" viewBox="0 0 ${SIZE} ${SIZE}">`,
     shadow && filter,
     `<rect width="${SIZE}" height="${SIZE}"${rounded ? ` rx="${RADIUS}"` : ""} fill="${BG}"/>`,
     outline && `<rect x="${OUTLINE / 2}" y="${OUTLINE / 2}" width="${SIZE - OUTLINE}" height="${SIZE - OUTLINE}"${rounded ? ` rx="${RADIUS - OUTLINE / 2}"` : ""} fill="none" stroke="#fff" stroke-width="${OUTLINE}"/>`,
