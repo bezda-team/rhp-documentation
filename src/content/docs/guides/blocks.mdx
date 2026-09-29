@@ -1,19 +1,19 @@
 ---
 title: Blocks
-description: The seven building blocks of a row, Bar, Dot, Tick, Label, Cell, Area and Line, each with an example.
+description: The seven building blocks of a slat, Bar, Dot, Tick, Label, Cell, Area and Line, each with an example.
 ---
 
 import Demo from '../../../customizations/components/Demo.astro';
 
-A row is made of blocks.
+A slat is made of blocks.
 Each block takes values on the chart's scale, and rhp works out where they go.
-You can put as many blocks in a row as you like, and any elements of your own around or inside them.
+You can put as many blocks in a slat as you like, and any elements of your own around or inside them.
 
 ## Bar
 
 A bar from `from` to `to`.
 `from` is 0 if you leave it out.
-`thick` sets how thick it is: a size like `"10px"`, or a share of the row like `0.5`.
+`thick` sets how thick it is: a size like `"10px"`, or a share of the slat like `0.5`.
 
 <Demo name="block-bar" height={150} />
 
@@ -28,7 +28,7 @@ A round point at `at`.
 
 ## Tick
 
-A short line across the row at `at`: a goal, a median, a threshold.
+A short line across the slat at `at`: a goal, a median, a threshold.
 
 <Demo name="block-tick" height={150} />
 
@@ -45,14 +45,14 @@ Text on the chart.
 
 A cell that fills its spot, colored by `value` on the chart's scale: from the theme's `low` color to its `high` color.
 Cells make heatmaps.
-Here each day's row holds a small Plot of its own, one cell per hour (more about this in [charts inside rows](/guides/nesting/)).
+Here each day's slat holds a small Plot of its own, one cell per hour (more about this in [charts inside slats](/guides/nesting/)).
 
 <Demo name="block-cell" height={140} />
 
 ## Area
 
 A smooth shape over the scale, from a list of `points`, each `[value, height]`.
-The tallest point fills the row.
+The tallest point fills the slat.
 Add `mirror` to draw it both ways from the middle, for violin plots.
 
 <Demo name="block-area" height={150} />
@@ -62,7 +62,7 @@ For a shape made from raw samples, the `density` helper computes the points for 
 ## Line
 
 A line through a list of `points`, each `[value, y]`.
-In a row it is a sparkline: the largest y reaches the top of the row, or set `peak` to the y that does, so that rows compare.
+In a slat it is a sparkline: the largest y reaches the top of the slat, or set `peak` to the y that does, so that slats compare.
 Add `fill` to fill under the line.
 
 <Demo name="block-line" height={170} />

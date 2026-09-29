@@ -20,8 +20,8 @@ In Astro, if you tell the Solid integration which files are Solid (`solid({ incl
 
 ## What comes with the HTML
 
-- **Every chart, drawn.** Rows, bars and labels are in their places, sorted, with the right room for names.
-- **The CSS.** Each chart writes the CSS it needs into the page: rhp's own CSS once, and each row type's CSS.
+- **Every chart, drawn.** Slats, bars and labels are in their places, sorted, with the right room for names.
+- **The CSS.** Each chart writes the CSS it needs into the page: rhp's own CSS once, and each slat type's CSS.
   When the browser takes the page over, it swaps those for its own stylesheets.
 
 ## Many charts, or islands
@@ -47,7 +47,7 @@ It isn't for email: email programs drop most of the CSS rhp uses.
 
 ## What waits for the browser
 
-A server can't measure the screen, so a `Scale` row's `d.toEnd` (its distance to the end of the scale, in pixels) is `Infinity` until the browser measures it.
+A server can't measure the screen, so a `Scale` slat's `d.toEnd` (its distance to the end of the scale, in pixels) is `Infinity` until the browser measures it.
 To leave out a number that would crowd the end, use CSS instead: it works the same on the server (see [scales](/guides/scales/#drawing-the-scale-yourself)).
 
 Motion is the browser's: the server draws the data as it is, and changes after that animate as usual, as they do when the browser draws the chart itself.

@@ -1,34 +1,34 @@
 ---
-title: Charts inside rows
-description: Put a Plot inside a row to draw stacked bars, grouped bars, heatmaps and strips of dots.
+title: Charts inside slats
+description: Put a Plot inside a slat to draw stacked bars, grouped bars, heatmaps and strips of dots.
 ---
 
 import Demo from '../../../customizations/components/Demo.astro';
 
-A row can hold a Plot of its own.
-That inner Plot draws inside the row, on the same scale, and its rows follow the same rules as any other.
+A slat can hold a Plot of its own.
+That inner Plot draws inside the slat, on the same scale, and its own slats follow the same rules as any other.
 This one idea gives you stacked bars, grouped bars, heatmaps and more.
 
 ## Stacked bars
 
-Each day's row holds a Plot with `overlap`: its rows share the day's band instead of stacking, so its Bars line up end to end.
+Each day's slat holds a Plot with `overlap`: its slats share the day's band instead of stacking, so its Bars line up end to end.
 `stackUp` works out where each piece starts and ends.
 
 <Demo name="nesting-stacked" height={150} />
 
 ## Grouped bars
 
-Without `overlap`, the inner Plot splits the row's band, one thin row per item: three bars per team.
+Without `overlap`, the inner Plot splits the slat's band, one thin slat per item: three bars per team.
 
 <Demo name="nesting-grouped" height={230} />
 
-## Across the row
+## Across the slat
 
-`orientation="across"` turns the inner Plot the other way: its rows run along the scale instead of stacking.
-That's how the [heatmap](/guides/blocks/#cell) puts one cell per hour in each day's row.
+`orientation="across"` turns the inner Plot the other way: its slats run along the scale instead of stacking.
+That's how the [heatmap](/guides/blocks/#cell) puts one cell per hour in each day's slat.
 
 ## Tips
 
-- An inner Plot gets its data from the row: pass it `d.hours`, `d.medals` and so on.
-- Work out derived data once per row with `createMemo`, as the stacked example does with `stackUp`.
-- `thick` on an inner Plot makes it use part of the row's thickness: `thick={0.5}` is half.
+- An inner Plot gets its data from `d`: pass it `d.hours`, `d.medals` and so on.
+- Work out derived data once per slat with `createMemo`, as the stacked example does with `stackUp`.
+- `thick` on an inner Plot makes it use part of the slat's thickness: `thick={0.5}` is half.

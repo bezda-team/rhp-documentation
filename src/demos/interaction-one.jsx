@@ -3,7 +3,7 @@ import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
 // Point at a slat, or Tab in and use the arrow keys: the card is drawn in
 // that slat alone, so the page holds one card rather than one per slat.
-const Row = slat(
+const City = slat(
   {
     room: { start: 88, end: 124 },
     css: `
@@ -64,7 +64,7 @@ export default function Rain() {
           days={[19, 17, 13, 11, 6, 1]}
           on={(d) => isOn(d.index)}
         >
-          {Row}
+          {City}
         </Plot>
       </Chart>
     </div>

@@ -56,7 +56,7 @@ export default defineConfig({
         { label: 'Scales and axes', link: '/guides/scales/' },
         { label: 'Sorting and motion', link: '/guides/motion/' },
         { label: 'Layout and orientation', link: '/guides/layout/' },
-        { label: 'Charts inside rows', link: '/guides/nesting/' },
+        { label: 'Charts inside slats', link: '/guides/nesting/' },
         { label: 'Interaction', link: '/guides/interaction/' },
         { label: 'Screen readers', link: '/guides/accessibility/' },
         { label: 'Server rendering', link: '/guides/server/' },

@@ -10,7 +10,7 @@ The idea is the same everywhere:
 2. Keep the chart's data in a Solid signal, and set it when your app's data changes.
 3. Clean up when the component goes away.
 
-Your app's JSX belongs to your framework, so the rows are written with Solid's `html` template, as in a [plain HTML page](/start/install/#in-a-plain-html-page).
+Your app's JSX belongs to your framework, so the slats are written with Solid's `html` template, as in a [plain HTML page](/start/install/#in-a-plain-html-page).
 For React there's a package that does the rest; for other frameworks, `@bezda/rhp/standalone` has rhp, Solid and `html` in one import.
 
 ## React
@@ -25,7 +25,7 @@ npm install @bezda/rhp-react
 import { useState } from "react";
 import { toReact, Chart, Plot, Bar, Label, html } from "@bezda/rhp-react";
 
-const row = (d) => html`
+const Fruit = (d) => html`
   <div>
     <${Label} edge="start">${() => d.fruit}<//>
     <${Bar} to=${() => d.sold} />
@@ -34,7 +34,7 @@ const row = (d) => html`
 
 const FruitChart = toReact((props) => html`
   <${Chart} scale=${[0, 30]}>
-    <${Plot} fruit=${() => props.fruit} sold=${() => props.sold}>${row}<//>
+    <${Plot} fruit=${() => props.fruit} sold=${() => props.sold}>${Fruit}<//>
   <//>`);
 
 export function App() {
@@ -65,10 +65,10 @@ const [data, setData] = createSignal({ fruit: props.fruit, sold: props.sold });
 let dispose;
 
 onMounted(() => {
-  const row = (d) => html`<div><${Bar} to=${() => d.sold} /></div>`;
+  const Fruit = (d) => html`<div><${Bar} to=${() => d.sold} /></div>`;
   dispose = render(() => html`
     <${Chart} scale=${[0, 30]}>
-      <${Plot} fruit=${() => data().fruit} sold=${() => data().sold}>${row}<//>
+      <${Plot} fruit=${() => data().fruit} sold=${() => data().sold}>${Fruit}<//>
     <//>`, box.value);
 });
 watch(() => [props.fruit, props.sold], ([fruit, sold]) => setData({ fruit, sold }));

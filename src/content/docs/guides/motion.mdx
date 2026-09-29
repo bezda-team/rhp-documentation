@@ -25,16 +25,16 @@ A position of `null` hides that row.
 
 ## How things move
 
-When a value changes, its bar grows or shrinks, and when the order changes, rows slide to their new places.
+When a value changes, its bar grows or shrinks, and when the order changes, slats slide to their new places.
 rhp has two ways to do this.
 
 **The CSS version** is the default.
-The browser animates each change with CSS transitions: 0.15 s for values, 0.3 s for rows sliding.
+The browser animates each change with CSS transitions: 0.15 s for values, 0.3 s for slats sliding.
 It costs almost nothing, even with many charts.
 
 **The JS version** moves the numbers themselves, frame by frame, on one clock for the whole page.
 Turn it on with `animate` on the Chart or a Plot.
-Everything drawn from a value moves together with it, so a label rides exactly on its bar's end, and two rows cross exactly when their values are equal.
+Everything drawn from a value moves together with it, so a label rides exactly on its bar's end, and two slats cross exactly when their values are equal.
 
 ```jsx
 <Chart animate>…</Chart>                                  // the JS version
@@ -46,10 +46,10 @@ Try both with the checkbox above.
 
 ## Timing
 
-In the CSS version, set the timing in a row's CSS:
+In the CSS version, set the timing in a slat's CSS:
 
 ```css
-.row { --rhp-length-time: .4s; --rhp-length-ease: ease-in-out; --rhp-slide-time: .5s; }
+.slat { --rhp-length-time: .4s; --rhp-length-ease: ease-in-out; --rhp-slide-time: .5s; }
 ```
 
 To time a whole chart at once, set the same variables on the Chart:
@@ -72,8 +72,8 @@ If someone has asked their system for less motion, rhp jumps to new values inste
 
 ## Other ways to reorder
 
-`reorder` on a Plot picks how rows change places:
+`reorder` on a Plot picks how slats change places:
 
-- `"slide"` (the default): rows slide on screen.
-- `"move"`: rows jump, and their elements move in the page, so the page's reading order follows the sort.
-- `"refill"`: rows stay put and swap contents.
+- `"slide"` (the default): slats slide on screen.
+- `"move"`: the slats move in the page instead of sliding, so the page's reading order follows the sort.
+- `"refill"`: slats stay put and swap contents.

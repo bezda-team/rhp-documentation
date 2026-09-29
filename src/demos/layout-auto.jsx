@@ -3,7 +3,7 @@ import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
 // room: "auto": the start is as wide as the widest name, and the end as
 // wide as the widest share. Change the names, and the room follows.
-const Row = slat({ room: "auto" }, (d) => (
+const Team = slat({ room: "auto" }, (d) => (
   <div>
     <Label edge="start">{d.team}</Label>
     <Bar to={d.share} />
@@ -25,7 +25,7 @@ export default function Teams() {
       </div>
       <Chart scale={[0, 100]}>
         <Plot team={long() ? LONG : SHORT} share={[42, 35, 23]}>
-          {Row}
+          {Team}
         </Plot>
       </Chart>
     </>

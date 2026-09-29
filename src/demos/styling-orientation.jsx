@@ -1,7 +1,7 @@
 import { createSignal } from "solid-js";
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
-const Row = slat(
+const Planet = slat(
   {
     css: `
       .bar { --rhp-start-radius: 0px; --rhp-end-radius: 8px; }
@@ -38,7 +38,7 @@ export default function Moons() {
           planet={["Jupiter", "Saturn", "Uranus", "Neptune"]}
           moons={[95, 146, 28, 16]}
         >
-          {Row}
+          {Planet}
         </Plot>
       </Chart>
     </>

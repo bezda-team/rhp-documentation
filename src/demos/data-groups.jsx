@@ -4,12 +4,12 @@ export default function Weather() {
   return (
     <Chart scale={[0, 30]}>
       <Plot
-        // a list: each row gets its own entry
+        // a list: each slat gets its own entry
         city={["Oslo", "Rome", "Cairo"]}
         temp={[6, 16, 27]}
-        // one value: shared by every row
+        // one value: shared by every slat
         unit="°C"
-        // a function of the row: worked out per row
+        // a function of `d`: worked out per slat
         warm={(d) => d.temp > 15}
       >
         {(d) => (

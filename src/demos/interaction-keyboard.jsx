@@ -1,19 +1,19 @@
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
-// Tab to the chart, then use the arrow keys: the row with focus shows its
-// number, like the row under the pointer.
-const Row = slat(
+// Tab to the chart, then use the arrow keys: the slat with focus shows
+// its number, like the slat under the pointer.
+const City = slat(
   {
     css: `
-      .row:is(:hover, :focus-visible) {
+      .slat:is(:hover, :focus-visible) {
         background: color-mix(in srgb, var(--rhp-ink) 8%, transparent);
       }
       .tip { opacity: 0; transition: opacity .15s; }
-      .row:is(:hover, :focus-visible) .tip { opacity: 1; }
+      .slat:is(:hover, :focus-visible) .tip { opacity: 1; }
     `,
   },
   (d) => (
-    <div class="row">
+    <div class="slat">
       <Label edge="start">{d.city}</Label>
       <Bar to={d.rain} />
       <Label at={d.rain}>
@@ -31,7 +31,7 @@ export default function Rain() {
         city={["Bergen", "Glasgow", "Dublin", "London"]}
         rain={[184, 124, 81, 56]}
       >
-        {Row}
+        {City}
       </Plot>
     </Chart>
   );

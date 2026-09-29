@@ -1,19 +1,19 @@
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
-// Point at a row: its band lights up and its exact number appears. Only
-// CSS.
-const Row = slat(
+// Point at a slat: its band lights up and its exact number appears.
+// Only CSS.
+const City = slat(
   {
     css: `
-      .row:hover {
+      .slat:hover {
         background: color-mix(in srgb, var(--rhp-ink) 8%, transparent);
       }
       .tip { opacity: 0; transition: opacity .15s; }
-      .row:hover .tip { opacity: 1; }
+      .slat:hover .tip { opacity: 1; }
     `,
   },
   (d) => (
-    <div class="row">
+    <div class="slat">
       <Label edge="start">{d.city}</Label>
       <Bar to={d.rain} />
       <Label at={d.rain}>
@@ -30,7 +30,7 @@ export default function Rain() {
         city={["Bergen", "Glasgow", "Dublin", "London"]}
         rain={[184, 124, 81, 56]}
       >
-        {Row}
+        {City}
       </Plot>
     </Chart>
   );

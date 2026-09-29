@@ -1,10 +1,10 @@
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
-const Row = slat(
+const Planet = slat(
   {
     thickness: 44,
     css: `
-      .row:hover {
+      .slat:hover {
         background: color-mix(in srgb, var(--rhp-ink) 8%, transparent);
         border-radius: 10px;
       }
@@ -26,7 +26,7 @@ const Row = slat(
     `,
   },
   (d) => (
-    <div class="row">
+    <div class="slat">
       <Label edge="start" class="name">
         {d.planet}
       </Label>
@@ -45,7 +45,7 @@ export default function Moons() {
         planet={["Jupiter", "Saturn", "Uranus", "Neptune"]}
         moons={[95, 146, 28, 16]}
       >
-        {Row}
+        {Planet}
       </Plot>
     </Chart>
   );

@@ -9,7 +9,7 @@ Charts are made of ordinary elements, so interaction works the way it does anywh
 
 ## Hover with CSS only
 
-Most hover effects need no code: style `:hover` in the row's CSS.
+Most hover effects need no code: style `:hover` in the slat's CSS.
 
 <Demo name="interaction-hover" height={200} />
 
@@ -19,25 +19,25 @@ rhp moves blocks with transitions of its own, and a `transition` on a block woul
 ## Clicks
 
 Blocks take handlers like any element: `onClick`, `onPointerEnter`, `onKeyDown`.
-With many rows, one handler around the chart is simpler: mark blocks with a `data-` attribute and find it with `closest`.
+With many slats, one handler around the chart is simpler: mark blocks with a `data-` attribute and find it with `closest`.
 
 What the handler decides goes back into the Plot as data.
-Here the picked city becomes `d.faded` for the other rows, and their CSS fades them.
+Here the picked city becomes `d.faded` for every other row, and the CSS fades those slats.
 
 <Demo name="interaction-click" height={220} />
 
 ## Keyboard
 
-Add `keyboard` to a Plot, and its rows take focus.
-Tab stops at one row of the chart, the arrow keys go to the row shown before or after it, and Home and End to the first and the last.
+Add `keyboard` to a Plot, and its slats take focus.
+Tab stops at one slat of the chart, the arrow keys go to the slat shown before or after it, and Home and End to the first and the last.
 Style `:focus-visible` next to `:hover`, and what the pointer shows, the keyboard shows too.
 
 <Demo name="interaction-keyboard" height={200} />
 
-- **Tab comes back to the row focused last**, so a reader who leaves the chart picks up where they were.
-- **The keys follow the order on screen**, also when the rows are sorted, and a row keeps its focus when it moves.
-- **For code, use `onFocus`** on the row, as you would `onPointerEnter`.
-- **A key that something inside the row uses stays with it**: a field, or a handler that calls `preventDefault()`.
+- **Tab comes back to the slat focused last**, so a reader who leaves the chart picks up where they were.
+- **The keys follow the order on screen**, also when the rows are sorted, and a slat keeps its focus when it moves.
+- **For code, use `onFocus`** on the slat, as you would `onPointerEnter`.
+- **A key that something inside the slat uses stays with it**: a field, or a handler that calls `preventDefault()`.
 
 A `<button>` inside a Label (a name you can click, for example) gets focus and keyboard presses on its own, in a Plot with or without `keyboard`.
 

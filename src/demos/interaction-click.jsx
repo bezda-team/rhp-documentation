@@ -4,7 +4,7 @@ import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 // Click a bar to pick its city; the others fade. The pick goes back
 // into the
 // Plot as data.
-const Row = slat(
+const City = slat(
   {
     css: `
       .bar { cursor: pointer; }
@@ -34,7 +34,7 @@ export default function Rain() {
           rain={[184, 124, 81, 56]}
           faded={(d) => picked() !== undefined && d.city !== picked()}
         >
-          {Row}
+          {City}
         </Plot>
       </Chart>
     </div>

@@ -31,11 +31,11 @@ The Chart draws an axis on its own: grid lines with numbers.
 ## Drawing the scale yourself
 
 For a scale that looks different (dashed lines, numbers in a pill, bands between ticks), put a `Scale` in the Chart.
-A Scale is a Plot of ticks: its row is drawn once per tick, and gets `d.at`, the tick's value.
+A Scale is a Plot of ticks: its slat is drawn once per tick, and gets `d.at`, the tick's value.
 
 <Demo name="scale-custom" height={220} />
 
-A Scale row also gets:
+A Scale slat also gets:
 
 - `d.next`, the next tick's value, to fill the space between two ticks,
 - `d.first` and `d.last`, true at the two ends,
@@ -55,10 +55,10 @@ A Chart with a Scale in it draws no axis of its own.
 
 ## A second axis
 
-`cross` on the Chart adds a second scale, `[min, max]`, that runs across the rows: the y of a scatter plot or a line chart.
+`cross` on the Chart adds a second scale, `[min, max]`, that runs across the slats: the y of a scatter plot or a line chart.
 In a horizontal chart it runs from bottom to top, and in a vertical chart from left to right.
 
-An `overlap` Plot's rows all share the whole plot, so a Dot or a Label with `cross` sits at its `at` on the scale and at its `cross` on the second axis: a scatter plot.
+An `overlap` Plot's slats all share the whole plot, so a Dot or a Label with `cross` sits at its `at` on the scale and at its `cross` on the second axis: a scatter plot.
 
 <Demo name="scale-cross" height={270} />
 
