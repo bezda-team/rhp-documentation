@@ -28,7 +28,9 @@
 	--sl-nav-pad-x: calc(var(--global-scale)*1rem);
 	--sl-nav-pad-y: calc(var(--global-scale)*0.75rem);
 	--sl-mobile-toc-height: calc(var(--global-scale)*3rem);
-	--sl-sidebar-width: calc(var(--global-scale)*18rem);
+	--sl-sidebar-width: 16rem;
+	/* The table of contents keeps the wider measure, so its entries don't wrap; only the left sidebar is 16rem. */
+	--rhp-toc-width: calc(var(--global-scale)*18rem);
 	--sl-sidebar-pad-x: calc(var(--global-scale)*1rem);
 	--sl-content-width: calc(var(--global-scale)*46rem);
 	--sl-content-pad-x: calc(var(--global-scale)*1rem);
@@ -73,14 +75,6 @@
 			var(--sl-color-bg) 24%,
 			var(--sl-color-accent-high) 60%
 	);
-}
-
-@media screen and (max-width: 1150px) {
-	:root,
-	::backdrop {
-		--sl-sidebar-width: 16rem;
-	}
-	
 }
 
 /* @media (prefers-color-scheme: light) {
@@ -299,19 +293,24 @@ starlight-theme-select select:focus-visible {
 	overflow: hidden;
 }
 
+/* Both sidebars are one width, so the content column belongs in the middle of what is left: the main pane takes the
+   space the table of contents doesn't, and centers the column in it (Starlight pins it to the right by default). */
 @media (min-width: 72rem) {
 	[data-has-sidebar][data-has-toc] .main-pane {
-	   width: calc(var(--sl-content-width) + (100vw - var(--sl-content-width) - 2*var(--sl-sidebar-width) + 1.2*var(--sl-content-pad-x)) / 2);
-   	}
+		--sl-content-margin-inline: auto;
+		width: auto;
+		flex: 1;
+		min-width: 0;
+	}
 }
 
 .right-sidebar-container {
-    width: min(calc(var(--sl-sidebar-width) + (100vw - var(--sl-content-width) - 2*var(--sl-sidebar-width) + 1.2*var(--sl-content-pad-x)) / 2), calc(var(--sl-sidebar-width) ));
+    width: min(calc(var(--rhp-toc-width) + (100vw - var(--sl-content-width) - var(--sl-sidebar-width) - var(--rhp-toc-width) + 1.2*var(--sl-content-pad-x)) / 2), var(--rhp-toc-width));
     margin-left: auto;
 }
 
 .right-sidebar-panel > .sl-container {
-	max-width: min(calc(var(--sl-sidebar-width) - 2*var(--sl-content-pad-x) + (100vw - var(--sl-content-width) - 2*var(--sl-sidebar-width)) / 2), calc(var(--sl-sidebar-width) - 2*var(--sl-content-pad-x)));
+	max-width: min(calc(var(--rhp-toc-width) - 2*var(--sl-content-pad-x) + (100vw - var(--sl-content-width) - var(--sl-sidebar-width) - var(--rhp-toc-width)) / 2), calc(var(--rhp-toc-width) - 2*var(--sl-content-pad-x)));
 }
 
 .sidebar-content {
