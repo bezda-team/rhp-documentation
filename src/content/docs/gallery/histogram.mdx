@@ -12,6 +12,7 @@ gallery:
 
 import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
 import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+import Built from '../../../customizations/built/histogram.mdx';
 
 <GalleryExample slug="histogram" />
 
@@ -21,8 +22,6 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 ## How it's built
 
-- **`bins()`** over 365 days gives `x0`, `x1` and `tally` per bin, three data groups for the Plot.
-- **Color from the bin.** Each Bar takes its temperature's color from a cool-to-hot ramp, shown in the key.
-- **Hover a bar** for its count of days. Horizontal puts the hottest bins on top, like a thermometer.
+<Built />
 
 <GalleryPager slug="histogram" />

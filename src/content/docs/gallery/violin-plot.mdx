@@ -12,6 +12,7 @@ gallery:
 
 import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
 import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+import Built from '../../../customizations/built/violin-plot.mdx';
 
 <GalleryExample slug="violin-plot" />
 
@@ -21,8 +22,6 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 ## How it's built
 
-- **`density()`** feeds a mirrored Area per instrument, with one peak for all four, so their widths compare.
-- **The pitch scale is a keyboard**: a `Scale` with a slat per semitone, each key a Bar from `d.at` to `d.next`.
-- **Point at an instrument.** Its range goes to the Scale as data (`low`, `high`, `tint`), and the keys it reaches light up in its varnish.
+<Built />
 
 <GalleryPager slug="violin-plot" />

@@ -12,6 +12,7 @@ gallery:
 
 import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
 import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+import Built from '../../../customizations/built/diverging-bars.mdx';
 
 <GalleryExample slug="diverging-bars" />
 
@@ -21,9 +22,6 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 ## How it's built
 
-- **Color from the value.** Each month's Bar takes a color from a blue, gray and red ramp; its band is tinted with the same color through a CSS variable on the slat.
-- **The scale is a `Scale`.** A hairline each degree, with 0 drawn brighter and named "normal".
-- **Labels on the outside.** A negative bar's value sits before its end (`side="before"`).
-- **Point at a month** to read it in the dek; the other months fade. Each month's slat carries `data-month`, and a `faded` value per row, passed to the Plot, gives the others a class.
+<Built />
 
 <GalleryPager slug="diverging-bars" />

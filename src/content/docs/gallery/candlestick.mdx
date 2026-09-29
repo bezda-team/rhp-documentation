@@ -12,6 +12,7 @@ gallery:
 
 import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
 import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+import Built from '../../../customizations/built/candlestick.mdx';
 
 <GalleryExample slug="candlestick" />
 
@@ -21,8 +22,6 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 ## How it's built
 
-- **Rows as objects.** `rows={days()}` passes one object per day; the slat reads `d.open`, `d.close` and so on.
-- **A fitted scale.** `nice()` rounds the month's range, and its ticks label the axis.
-- **Point at a day.** A second Plot of zero or one slat draws a dashed line at its close and its price over the axis, and the readout shows its open, high, low and close.
+<Built />
 
 <GalleryPager slug="candlestick" />

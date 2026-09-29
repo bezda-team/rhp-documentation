@@ -12,6 +12,7 @@ gallery:
 
 import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
 import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+import Built from '../../../customizations/built/population-pyramid.mdx';
 
 <GalleryExample slug="population-pyramid" />
 
@@ -21,9 +22,6 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 ## How it's built
 
-- **Two Bars per band.** Men from `-(value + SPINE)` to `-SPINE`, women from `SPINE` to `value + SPINE`, so the ages fit on a spine between them.
-- **Order is data.** Horizontal, a list of positions puts the oldest band on top, like a pyramid; vertical keeps data order.
-- **The scale fits the widest band** of either year, rounded up, on both sides, so the two years compare.
-- **1990 or 2024.** The two years are buttons in the poster's key; one swaps the Plot's data, and each band's Bars move to that year's shares.
+<Built />
 
 <GalleryPager slug="population-pyramid" />

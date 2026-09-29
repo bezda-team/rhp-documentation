@@ -12,6 +12,7 @@ gallery:
 
 import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
 import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+import Built from '../../../customizations/built/hover-values.mdx';
 
 <GalleryExample slug="hover-values" />
 
@@ -21,8 +22,6 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 ## How it's built
 
-- **Hover is CSS the slat owns.** `.slat:hover .knots > span { opacity: 1 }`: no state, no handler.
-- **The fade is inside the Label.** A transition set on a block would replace rhp's own, and the Label would jump to new values instead of moving with its bar.
-- **A needle turned by data.** The compass in the start gutter is an element of the slat's own, not a block; its `rotate` comes from the row's quarter.
+<Built />
 
 <GalleryPager slug="hover-values" />

@@ -74,8 +74,29 @@ export default defineConfig({
         { label: 'CSS', link: '/reference/css/' },
       ],
     }, {
-      label: 'Gallery',
-      link: '/gallery/'
+      label: 'Examples',
+      items: [
+        { label: "Animated dots", link: '/examples/animated-dots/' },
+        { label: "Bar chart", link: '/examples/bar-chart/' },
+        { label: "Box and whisker", link: '/examples/box-plot/' },
+        { label: "Values on hover", link: '/examples/hover-values/' },
+        { label: "Grouped bars", link: '/examples/grouped-bars/' },
+        { label: "Stacked bars", link: '/examples/stacked-bars/' },
+        { label: "100% segmented bars", link: '/examples/segmented-bars/' },
+        { label: "Unit bars", link: '/examples/unit-bars/' },
+        { label: "Population pyramid", link: '/examples/population-pyramid/' },
+        { label: "Diverging bars", link: '/examples/diverging-bars/' },
+        { label: "Waterfall", link: '/examples/waterfall/' },
+        { label: "Bullet chart", link: '/examples/bullet-chart/' },
+        { label: "Histogram", link: '/examples/histogram/' },
+        { label: "Violin plot", link: '/examples/violin-plot/' },
+        { label: "Strip plot", link: '/examples/strip-plot/' },
+        { label: "Stem plot", link: '/examples/stem-plot/' },
+        { label: "Dumbbell", link: '/examples/dumbbell/' },
+        { label: "Heatmap", link: '/examples/heatmap/' },
+        { label: "Gantt timeline", link: '/examples/gantt/' },
+        { label: "Candlestick", link: '/examples/candlestick/' },
+      ],
     }],
     customCss: [
     // rhp's stylesheet, once for every chart on a page (src/gallery/ui/setup.js calls linkedCss)

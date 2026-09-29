@@ -12,6 +12,7 @@ gallery:
 
 import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
 import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+import Built from '../../../customizations/built/gantt.mdx';
 
 <GalleryExample slug="gantt" />
 
@@ -21,8 +22,6 @@ import GalleryPager from '../../../customizations/components/gallery/GalleryPage
 
 ## How it's built
 
-- **Months are a `Scale` of intervals**: ticks every 4 weeks, each slat a Bar from `d.at` to `d.next`, every other one shaded.
-- **Today is a second Plot** drawn over the trades, with `pointer-events: none` so the pointer reaches the trades under it.
-- **Hover a trade** to see it dimensioned, as on a drawing: a line with end marks and its length in weeks.
+<Built />
 
 <GalleryPager slug="gantt" />
