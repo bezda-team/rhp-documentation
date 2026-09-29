@@ -12,6 +12,8 @@ import {
 // The part of the site this page is in, for the header's links
 const path = Astro.url.pathname;
 const section = path.startsWith('/gallery') ? 'gallery' : /^\/(start|guides|reference)\//.test(path) ? 'docs' : null;
+// The landing page has no sidebar, so on a phone it has no menu to hold the theme control: it gets one of its own.
+const landing = path === '/' || path === '/index.html';
 ---
 
 <div class="header sl-flex">
@@ -29,6 +31,11 @@ const section = path.startsWith('/gallery') ? 'gallery' : /^\/(start|guides|refe
 		<div class="sl-hidden md:sl-flex social-icons">
 			<SocialIcons {...Astro.props} />
 		</div>
+		{landing && (
+			<div class="theme-icon">
+				<ThemeSelect {...Astro.props} />
+			</div>
+		)}
 		<div class="sl-hidden md:sl-flex">
 			<ThemeSelect {...Astro.props} />
 			<LanguageSelect {...Astro.props} />
@@ -38,11 +45,9 @@ const section = path.startsWith('/gallery') ? 'gallery' : /^\/(start|guides|refe
 
 <style>
 	.header {
-		gap: var(--sl-nav-gap);
 		justify-content: space-between;
 		align-items: center;
 		height: 100%;
-		
 	}
 
 	.right-group,
@@ -72,6 +77,47 @@ const section = path.startsWith('/gallery') ? 'gallery' : /^\/(start|guides|refe
 	.site-links a[aria-current='page'] {
 		color: var(--sl-color-white);
 	}
+	/* On a phone the landing page's theme control is its icon alone: the select lies over it, so tapping opens the
+	   native list, and Starlight swaps the icon to the sun, moon or laptop of the theme in use (ThemeProvider
+	   updates every picker on the page, so this one and the one for wider screens stay together). */
+	.theme-icon {
+		position: relative;
+		width: 2rem;
+		height: 2rem;
+	}
+	/* starlight-theme-select is an inline element between the two, so it has to take a size before the label can fill it */
+	.theme-icon :global(starlight-theme-select),
+	.theme-icon :global(label) {
+		display: flex;
+		width: 100%;
+		height: 100%;
+		justify-content: center;
+		align-items: center;
+		gap: 0;
+	}
+	.theme-icon :global(.label-icon) {
+		position: static;
+		transform: none;
+		font-size: 1.5rem;
+	}
+	.theme-icon :global(.caret) {
+		display: none;
+	}
+	.theme-icon :global(select) {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		padding: 0;
+		opacity: 0;
+		cursor: pointer;
+	}
+
+	@media (min-width: 50rem) {
+		.theme-icon {
+			display: none;
+		}
+	}
+
 	.social-icons::after {
 		content: '';
 		height: 2rem;
@@ -86,6 +132,8 @@ const section = path.startsWith('/gallery') ? 'gallery' : /^\/(start|guides|refe
 			--__toc-width: 0rem;
 		}
 		.header {
+			/* the gap is for wide screens only: a phone gives its width to the title, the search and the links */
+			gap: var(--sl-nav-gap);
 			--__sidebar-width: max(0rem, var(--sl-content-inline-start, 0rem) - var(--sl-nav-pad-x));
 			--__main-column-fr: calc(
 				(
