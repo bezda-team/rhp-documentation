@@ -1,16 +1,23 @@
-The simple version is the whole shape of an rhp chart.
-Its slat is three blocks in a `<div>`: a `Label` with `edge="start"` for the name, which sits in the chart's start gutter, a `Bar` that runs from 0 to `d.sold`, and a `Label` with `at={d.sold}` that rides the bar's end.
-The Plot takes two lists, `name` and `sold`, so slat i reads item i of each, and `order={sortBy("sold", "desc")}` puts the largest first.
+The simple version has everything a chart needs and nothing more.
+Its slat contains only three blocks:
 
-The gallery version draws the same three blocks, and adds four things worth stealing:
+- a `Label` with `edge="start"`, which puts the fruit's name in the gutter beside the chart,
+- a `Bar` that runs from 0 to `d.sold`,
+- a `Label` with `at={d.sold}`, which sits just past the end of the bar.
 
-- **Blocks take children, so a Bar can hold art.**
-  The fruit is an `<img>` inside the `Bar`, which crops it to the bar's length.
-  Anything that goes in a div goes in a block: an image, an icon, a button, a chart of its own.
-- **The axis is a `Scale`, one slat per tick.**
-  `every(5, { ends: true })` picks the values, and the tick's slat draws a `Tick` and a `Label` at `d.at`, so the axis is built from the same blocks as the data.
-- **A tick knows how close it is to the end.**
-  `d.toEnd` is its distance to the end of the scale in px, so a number that would run into the end mark gets a class, and the slat's CSS hides it.
-- **The controls change data, not the chart.**
-  Rank swaps `order` between `sortBy` and nothing, Desaturate passes `dim` in as a data group the slat reads as `d.dim`, and the slider replaces the first value.
-  The chart follows on its own, because everything it draws is read from its props.
+The Plot is given two lists, `name` and `sold`, and slat i takes item i of each.
+`order={sortBy("sold", "desc")}` sorts the slats, largest first.
+
+The gallery version uses the same three blocks and adds four things:
+
+- **A Bar can hold anything, because a block takes children.**
+  The fruit is an `<img>` inside the `Bar`, and the Bar crops it to its own length.
+  An icon, a button, or a chart of its own would work the same way.
+- **The axis is drawn by a `Scale`, one slat per tick.**
+  `every(5, { ends: true })` picks which values get a tick, and the tick's slat draws a `Tick` and a `Label` at `d.at`.
+  The axis is made of the same blocks as the data.
+- **Each tick knows how far it is from the end of the scale.**
+  That distance is `d.toEnd`, in px, so a number that would collide with the end mark gets a class and the slat's CSS hides it.
+- **The buttons change the data, not the chart.**
+  Rank turns `order` on and off, Desaturate passes `dim` to the Plot as data the slat reads as `d.dim`, and the slider replaces the first value.
+  The chart redraws itself, because everything it shows is read from its props.

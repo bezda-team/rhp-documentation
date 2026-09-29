@@ -1,12 +1,14 @@
 A heatmap is a Plot inside a Plot.
-The outer Plot draws one slat per day, and inside that slat `<Plot orientation="across" v={d.hours}>` draws one slat per hour.
-`across` turns the inner Plot the other way, so its hours run along the day's band instead of stacking, and its data comes straight from the row it sits in: `d.hours`.
+The outer Plot draws one slat per day.
+Inside each day's slat sits another Plot, `<Plot orientation="across" v={d.hours}>`, which draws one slat per hour.
+`orientation="across"` turns that inner Plot the other way, so its hours run along the day's band instead of stacking, and its data comes from the day it sits in: `d.hours`.
 
 - **A Cell colors itself.**
-  Its `value` is read on the Chart's scale, and the Cell mixes the theme's `low` and `high` colors by it, so there is no color scale to write.
+  It reads its `value` on the Chart's scale and mixes the theme's `low` and `high` colors by it, so there is no color scale to write.
   `ticks={false}` on the Chart leaves the axis out.
-- **The hour numbers come from one slat.**
-  Only the first day draws them, as edge Labels of its inner Plot, so the row of numbers is part of the chart rather than an axis of its own.
+- **One slat draws the hour numbers.**
+  Only the first day draws them, as edge Labels of its inner Plot, so the numbers are part of the chart rather than a separate axis.
 - **The pointer's choice goes back in as data.**
-  Each Cell carries `data-day` and `data-hour`, one handler above the chart reads them with `closest`, and the picked pair is passed to the Plot, so every cell can decide for itself whether to stay lit.
-  See [interaction](/guides/interaction/) for when to feed a choice back like this and when to draw a single element instead.
+  Each Cell carries `data-day` and `data-hour`.
+  One handler above the chart reads them with `closest`, and the picked day and hour are passed to the Plot, so every cell decides for itself whether to stay lit.
+  See [interaction](/guides/interaction/) for when to pass a choice back like this and when to draw a single element instead.
