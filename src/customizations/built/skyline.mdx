@@ -1,22 +1,22 @@
 Each tower is a single `Bar`, and its length is the height in metres.
-What makes it a building rather than a bar is the roofline, cut out of the top of that bar with `clip-path`.
+What makes it a building rather than a bar is the roofline, which the Bar wears as a **shape**:
 
-The trick is the units.
-The points of the shape are given in **px from the top** and percentages across, so a gable is always 26px tall and always spans the tower, whatever the data does to the height.
-A percentage-only shape would stretch, and a tall tower would wear a tall hat.
-
-```css
-.gable { clip-path: polygon(0 100%, 0 26px, 50% 0, 100% 26px, 100% 100%); }
-.dome  { border-radius: 50% 50% 0 0 / 34px 34px 0 0; }
+```js
+const gable = shape(["M", 0, 0], ["L", "-26px", 0], ["L", 1, .5], ["L", "-26px", 1], ["L", 0, 1], ["Z"]);
 ```
+
+The first coordinate of each point runs along the value axis, where 0 is the tower's base, 1 is its roof, and `"-26px"` is 26px in from the roof.
+The second runs across the tower.
+That mix is the point: the crown stays 26px however tall the data makes the tower, while the tower's width is still its own.
+
+rhp turns the shape for a vertical chart and for a bar that runs backward, so each roofline is written once and the skyline survives being laid on its side.
 
 The gallery version adds:
 
 - **Towers that overlap, so the skyline has no gaps.**
   `thick` is a share of the slat's band, and here it comes from the data and goes **above 1**, so each tower spills into its neighbours' bands.
   With `inset: 0` as well, thirteen towers meet edge to edge and read as one silhouette rather than thirteen bars.
-- **Eight rooflines**, all in the slat's CSS: an art deco crown that steps in on the diagonal, a tiered spire, a gothic pinnacle, a gable, chamfered corners, walls that lean in, a taper and a dome.
-  Each is one `clip-path`, and they apply only under `:vertical`, so the chart laid on its side goes back to plain bars.
+- **Eight rooflines**, all in [shapes.js](https://github.com/bezda-team/rhp-documentation): an art deco crown that steps in on the diagonal, a tiered spire, a gothic pinnacle, a gable, chamfered corners, walls that lean in, a dome drawn with one curve, and a crown that flares on two.
 - **A thin bar for the spire**, from the roof to the tip, in the one colour that isn't the silhouette.
 - **The name turned on its side** with `writing-mode`, so thirteen names fit under thirteen towers.
 - **A note hung at the top of the spire** on a `Place`, which the slat's CSS fades in on hover.
