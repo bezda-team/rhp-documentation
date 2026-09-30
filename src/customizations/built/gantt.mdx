@@ -1,3 +1,11 @@
-- **Months are a `Scale` of intervals**: ticks every 4 weeks, each slat a Bar from `d.at` to `d.next`, every other one shaded.
-- **Today is a second Plot** drawn over the trades, with `pointer-events: none` so the pointer reaches the trades under it.
-- **Hover a trade** to see it dimensioned, as on a drawing: a line with end marks and its length in weeks.
+A task is a Bar that does not start at zero.
+`from={d.start}` and `to={d.end}` put it between two weeks on the scale, and a start `Label` carries its name.
+`key="task"` ties each slat to its task, and `order={sortBy("start")}` puts the earliest first.
+
+The gallery version adds:
+
+- **Months drawn by a `Scale`.**
+  Each tick's slat knows the next tick's value as `d.next`, so a Bar from `d.at` to `d.next` fills the band between two ticks, and every other one is shaded.
+- **A today line, as a second Plot over the first.**
+  It is given `pointer-events: none` so that the pointer still reaches the bars underneath it.
+- **Hovering a trade dimensions it**, the way a drawing does: a line with marks at both ends and its length in weeks.

@@ -1,4 +1,12 @@
-- **A route and two markers.** A 3px Bar from camp to summit, with the tent and the peak drawn as Dots clipped to triangles.
-- **Real peaks.** Summit heights from recent surveys; base camps are the usual ones, and vary by route.
-- **Re-sort by the climb.** Two buttons under the dek pick the order. Rows are keyed by peak, so each climb keeps its slat and slides to its new place.
-- **The climb on the route.** Ordered by the climb, each summit's height fades out and a Label at the middle of the route fades in with the climb: under the line, or on it and turned along it when vertical. The slat root's class, from the order passed to the Plot, switches them.
+A dumbbell is one Bar with a Dot at each end.
+The slat draws a `Bar` from `d.low` to `d.high`, then a `Dot` at each of those two values, so the bar becomes the line between them.
+`order={sortBy("high", "desc")}` puts the warmest city first.
+
+The gallery version adds:
+
+- **Two orders to choose between.**
+  The buttons swap `order` between the summit and the size of the climb.
+- **A key, so a climb keeps its own slat.**
+  `key` ties a slat to its peak rather than to a position, so when the order changes each climb slides to its new place instead of the data jumping from slat to slat.
+- **A label that only appears in one order.**
+  Which order is in use is passed to the Plot as data, so the slat can put a class on its root and let the CSS fade the summit height out and the climb in.

@@ -1,3 +1,11 @@
-- **`running()`** turns the month's amounts into `from` and `to` for each step; a hairline Tick at each step's end links it to the next.
-- **Click an expense to cut it.** An expense's name is a button, and the poster listens for clicks. A signal of cut rows feeds `running()`, so the later steps, the savings and the headline figure all move together.
-- **A cut keeps its place.** The step has no length, and a dashed Bar shows where it was.
+A waterfall is a Bar that starts where the one before it ended.
+`running(amounts)` does that arithmetic: it turns a list of ups and downs into a `from` and a `to` for each step.
+The slat draws a `Bar` from `d.from` to `d.to`, a `Tick` at `d.to` to link the step to the next one, and a `Label` at whichever end is further along.
+A class on the slat's root says whether the step is money in, money out, or the total, and the CSS colours it from there.
+
+The gallery version adds:
+
+- **An expense you can cut.**
+  Each name is a `<button>` inside the Label, and a click adds that row to a signal of cut expenses, which is fed back through `running()`, so the later steps, the savings and the headline all move together.
+- **A cut step that keeps its place.**
+  It has no length, and a dashed Bar is left behind to show where it was.

@@ -1,3 +1,11 @@
-- **`bins()`** over 365 days gives `x0`, `x1` and `tally` per bin, three data groups for the Plot.
-- **Color from the bin.** Each Bar takes its temperature's color from a cool-to-hot ramp, shown in the key.
-- **Hover a bar** for its count of days. Horizontal puts the hottest bins on top, like a thermometer.
+A histogram is one slat per bin, and `bins()` does the counting.
+Given 500 samples it returns three lists, `x0`, `x1` and `tally`, which go to the Plot as three data groups, so a slat reads its own bin as `d.x0`, `d.x1` and `d.tally`.
+The slat draws a `Bar` to `d.tally`, and `<Show when={d.index % 2 === 0}>` prints the lower edge of every other bin, so the numbers don't collide.
+`nice()` rounds the tallest count into a scale.
+
+The gallery version adds:
+
+- **A colour taken from the bin's temperature.**
+  Each Bar picks from a cool-to-hot ramp, and the key above the chart shows the same ramp.
+- **A count that appears on hover**, which is CSS in the slat rather than state.
+- **The hottest bins on top when the chart is horizontal**, so it reads like a thermometer standing up.

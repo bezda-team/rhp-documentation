@@ -1,3 +1,11 @@
-- **`stackUp(d.ml)`** in a memo per drink gives each layer its `from` and `to`; an overlap Plot lays the layers on one band.
-- **A shared data group** tells the last layer with anything in it to round the cup's end, and an empty layer hides.
-- **Hover a layer** to lift it and read its pour, from a tag inside the layer's Bar. The drink under the pointer comes over the others, since slats paint in data order.
+A stacked bar is an `overlap` Plot inside a slat.
+`stackUp(d.ml)`, in a `createMemo` so it runs once per drink, turns a list of amounts into a `from` and a `to` for each layer.
+Those two lists go to the inner Plot, `overlap` puts all its slats in the same space, and each layer is a single `Bar` from its own `from` to its own `to`.
+The total is a `Label` at `stack().to.at(-1)`, the end of the last layer, so it always sits at the end of the cup.
+
+The gallery version adds:
+
+- **A rounded end on the last layer that has anything in it.**
+  Which layer that is arrives as one shared value on the inner Plot, so each layer can tell whether it is the one to round, and an empty layer hides itself.
+- **A tag inside a layer's Bar**, which lifts on hover to show how much was poured.
+- **The drink under the pointer coming over its neighbours**, because slats paint in data order and a raised `z-index` in the slat's CSS is enough to change it.

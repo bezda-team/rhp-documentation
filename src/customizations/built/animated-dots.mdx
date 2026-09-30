@@ -1,3 +1,11 @@
-- **Slats of dots.** Each slat holds an overlap Plot of 30 Dots, lit or not from a line of the logo's art (`#` is lit).
-- **A window, not a canvas.** The scale is 11 dots wide and each slat clips its dots to it (`overflow-x: clip` in the slat's CSS), so a slat can shift 4 dots one way or 5 the other and the window stays full.
-- **Motion is data.** Every 5 seconds a signal gives the middle slats new shifts, and the next time it puts them back. Hover the window to hold the logo; **New data** scatters it now.
+Every dot here is a Dot on the chart's scale, and moving a row means changing numbers, not moving elements.
+Each slat holds an `overlap` Plot of dots, all in one band, and each dot sits at its own index plus its row's shift: `at={d.shift + c.index + 0.5}`.
+Add 2 to a row's shift and its dots are two places further along the scale, which rhp animates like any other value.
+
+- **The chart is a window onto a longer row.**
+  The scale only covers 11 dots, and the slat's CSS clips what falls outside (`overflow-x: clip`), so a row can hold 30 dots and shift left or right without ever leaving a gap.
+- **Motion is data, not animation code.**
+  A signal holds one shift per row; a timer changes it every few seconds and sets it back to zero the next time.
+  Nothing tells a dot to move, because a dot is only ever drawn where its number says.
+- **Both of rhp's animation modes drive it.**
+  The CSS version transitions each dot's position, and the JS version counts the numbers themselves on one clock, which is why this example is also the test for both.

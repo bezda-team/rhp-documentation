@@ -1,3 +1,17 @@
-- **Three blocks per goal.** A track Bar to 120, the progress Bar, and a white Tick at the goal (100).
-- **Icons in the gutter.** SVG paths in the start Label, colored by the slat's `--rhp-color`.
-- **Hover a goal** for what it comes to in its own unit, in a bubble at the tip of the progress.
+A bullet chart puts several blocks in the same place, so they read as one bar.
+The slat contains:
+
+- a `Bar` to 120, which is the track,
+- a `Bar` to `d.done`, the progress along that track,
+- a `Tick` at 100, the goal,
+- a `Label` with `edge="end"` for the percentage.
+
+Blocks paint in the order you write them, so the progress covers the track and the goal sits on top of both.
+The scale is `[0, 120]`, which leaves room to overshoot the goal.
+
+The gallery version adds:
+
+- **An icon instead of a name.**
+  The start `Label` holds an SVG path rather than text, colored with the slat's own `--rhp-color`, so the icon matches its bar.
+- **A bubble at the tip of the progress.**
+  It is a `Label` with `at={d.done}`, so it follows the end of the bar, and the slat's CSS fades it in on hover.

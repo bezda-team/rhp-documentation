@@ -1,3 +1,16 @@
-- **Five numbers, four blocks.** `d.box` is `[low, box start, box end, high]`: two 6px Bars for the whiskers, Ticks for the caps, and a Bar for the box.
-- **A photo in the box.** The box Bar holds an `<img>`, cropped to the box and zoomed in; hover a slat and it zooms out. The cloud's name is the Label in the start gutter.
-- **The slider** moves stratocumulus' box end, pushing its high whisker along, so you can watch the scale and the ranking follow.
+A box plot is five numbers drawn as three blocks.
+`summary(d.samples)` turns a list of samples into `low`, `q1`, `median`, `q3` and `high`, worked out once per slat with `createMemo`.
+The slat then draws:
+
+- a thin `Bar` from `low` to `high`, which is the whisker,
+- a `Bar` from `q1` to `q3`, which is the box,
+- a `Tick` at the median.
+
+The gallery version keeps those three blocks and adds:
+
+- **A photo inside the box.**
+  The box `Bar` holds an `<img>`, so the Bar crops the photo to that cloud's range, and hovering the slat zooms it out.
+- **Caps on the whiskers.**
+  A `Tick` is a short line across the slat, which is exactly what a cap is, so one at each end finishes the whisker.
+- **The slider changes one number.**
+  It moves where one cloud's box ends, and the whisker, the scale and the ranking all follow, because each of them is worked out from the same data.

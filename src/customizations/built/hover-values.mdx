@@ -1,3 +1,16 @@
-- **Hover is CSS the slat owns.** `.slat:hover .knots > span { opacity: 1 }`: no state, no handler.
-- **The fade is inside the Label.** A transition set on a block would replace rhp's own, and the Label would jump to new values instead of moving with its bar.
-- **A needle turned by data.** The compass in the start gutter is an element of the slat's own, not a block; its `rotate` comes from the row's quarter.
+This is the smallest interaction there is: no state, no handler, no JavaScript.
+The slat draws a start `Label` for the day, a `Bar` to `d.visits`, and a `Label` at the same value holding a `<span>`.
+The span starts at `opacity: 0`, and one line in the slat's CSS brings it back:
+
+```css
+.slat:hover .value > span { opacity: 1; }
+```
+
+Note that the fade is on the span inside the Label, never on the Label itself.
+rhp moves a block with a transition of its own, and your `transition` on that block would replace it, so the Label would jump to each new value instead of travelling with its bar.
+
+The gallery version adds:
+
+- **A compass needle turned by the data.**
+  The needle in the start gutter is an ordinary element of the slat, not a block, so its `rotate` can come straight from the row's wind direction.
+- **A gust that fades in with the value**, from the same `:hover` rule, so the whole slat reacts as one.

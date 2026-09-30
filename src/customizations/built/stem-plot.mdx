@@ -1,3 +1,11 @@
-- **A stem and a tip.** A 4px Bar from 0 to the sample and a glowing Dot at its end, both fading with time through a CSS variable on each slat.
-- **A one-tick `Scale`** draws the resting line.
-- **Click the wave** to strike again: each sample's transition starts 8 ms after the one before, so the new ring runs down the wave (in the CSS version).
+A stem plot is two blocks per sample: a thin `Bar` from 0 to `d.y`, and a `Dot` at the same value for the tip.
+The scale runs from -1 to 1, so a negative sample's Bar runs the other way on its own, and the wave sits around the middle of the chart.
+28 samples means 28 slats, each 14px thick.
+
+The gallery version adds:
+
+- **A resting line drawn by a `Scale` with one tick.**
+  A Scale is a Plot of ticks, so a scale of a single tick is the simplest way to draw one line across a chart.
+- **A glow that fades with time**, set as a CSS variable on each slat, so the stem and its tip fade together.
+- **A ring that runs down the wave.**
+  Each sample's transition starts 8ms after the one before it, which in the CSS version is a `transition-delay` and costs no JavaScript at all.

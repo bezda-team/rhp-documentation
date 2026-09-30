@@ -1,3 +1,13 @@
-- **`density()`** feeds a mirrored Area per instrument, with one peak for all four, so their widths compare.
-- **The pitch scale is a keyboard**: a `Scale` with a slat per semitone, each key a Bar from `d.at` to `d.next`.
-- **Point at an instrument.** Its range goes to the Scale as data (`low`, `high`, `tint`), and the keys it reaches light up in its varnish.
+A violin is one `Area` per group.
+`density(d.samples)` turns a list of samples into `[value, height]` points, a smooth count of how many samples fall where along the scale.
+`mirror` on the Area draws that shape both ways from the middle of the slat, which is what makes it a violin rather than a hill.
+A `Dot` at the median finishes it.
+
+The gallery version adds:
+
+- **One peak for all four instruments.**
+  `peak` is given the tallest density of any of them, so the widths can be compared instead of each violin filling its own slat.
+- **A piano keyboard as the scale.**
+  It is a `Scale` with one slat per semitone, and each key is a Bar from `d.at` to `d.next`, the next tick's value.
+- **Keys that light up with an instrument.**
+  Pointing at an instrument passes its range to the Scale as data (`low`, `high`, `tint`), and each key decides whether it is inside that range.

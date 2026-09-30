@@ -1,4 +1,13 @@
-- **A Plot inside a slat.** Each team is a slat, and the slat holds a Plot of three counts: gold, silver and bronze. The inner Plot fills its team's band (`thick={0.86}` of it) and splits it three ways.
-- **A ribbon and a medal.** A count is a 3px Bar from 0 and a Dot at its value, with the number struck on the medal's face.
-- **Ranked like a medal table.** `sortBy` puts the most golds first, then silvers, then bronzes. Rows are keyed by name, so a team keeps its slat when the order changes and slides to its new place.
-- **Hover a count.** The medal lifts off the table: its face is an element inside the Dot, so it can grow and cast a shadow on its own time while rhp moves the Dot.
+Grouped bars are a Plot inside a slat.
+The outer Plot draws one slat per team, and that slat holds `<Plot value={d.medals} color={METAL_COLORS}>`, which draws one thin slat per medal.
+Because the inner Plot has no `overlap`, it divides the team's thickness between its three slats, which is what makes them a group.
+Each medal's slat is a single `Bar`, coloured from the inner Plot's own `color` list.
+
+The gallery version adds:
+
+- **A ranking that reads like a medal table.**
+  `sortBy` puts the most golds first, then silvers, then bronzes.
+- **A key, so a team keeps its slat.**
+  Teams are keyed by name, so when the order changes a team slides to its new place with its medals.
+- **A medal that lifts on hover.**
+  The medal's face is an element inside the `Dot`, not the Dot itself, so it can grow and cast a shadow on its own timing while rhp keeps moving the Dot.

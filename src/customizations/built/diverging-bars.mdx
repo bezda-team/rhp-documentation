@@ -1,4 +1,12 @@
-- **Color from the value.** Each month's Bar takes a color from a blue, gray and red ramp; its band is tinted with the same color through a CSS variable on the slat.
-- **The scale is a `Scale`.** A hairline each degree, with 0 drawn brighter and named "normal".
-- **Labels on the outside.** A negative bar's value sits before its end (`side="before"`).
-- **Point at a month** to read it in the dek; the other months fade. Each month's slat carries `data-month`, and a `faded` value per row, passed to the Plot, gives the others a class.
+The scale runs from -10 to 10, so zero sits in the middle and a Bar drawn to a negative value runs the other way by itself.
+The slat contains three blocks: a start `Label` for the month, a `Bar` to `d.change`, and a `Label` at that same value.
+`side="before"` moves that label to the other side of the bar's end when the change is negative, so the number always sits outside the bar rather than on top of it.
+
+The gallery version adds:
+
+- **A colour taken from the value.**
+  Each month's Bar picks a colour from a blue-to-red ramp, and the same colour tints the slat through a CSS variable.
+- **The axis is drawn by a `Scale`.**
+  A hairline at every degree, with zero brighter than the rest and named "normal".
+- **Pointing at a month fades the others.**
+  The month under the pointer goes back into the Plot as data, so each slat decides for itself whether to fade.

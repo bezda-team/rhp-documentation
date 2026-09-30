@@ -1,3 +1,11 @@
-- **Shares, stacked.** `stackUp(shares(d.use))` turns each person's minutes into segments of 100, drawn inside a shell Bar a little larger than the track, with a Tick for the nub.
-- **Numbers only where they fit.** A segment under 9% hides its number; on a narrow battery (a container query) the cut is 16%.
-- **Point at an app**, in the key or in a battery, or click to keep it; a click anywhere else, or Escape, lets it go. The poster turns the pointer and the clicks into one app, passed to the Plot as `focus`: every battery lights that app and fades the rest.
+One bar made of segments is an `overlap` Plot inside a slat.
+`overlap` puts every slat of that Plot in the same space instead of stacking them, so the segments sit on one line and only their `from` and `to` keep them apart.
+Those numbers come from two helpers: `shares(d.hours)` turns the hours into shares of 100, and `stackUp` turns the shares into where each one starts and ends.
+The segment's slat is a single `Bar` with no wrapper at all, which an `overlap` Plot allows.
+
+The gallery version adds:
+
+- **Numbers only where they fit.**
+  A segment narrower than 9% hides its number, and on a narrow battery a container query raises that to 16%.
+- **One app followed everywhere.**
+  Pointing at an app, in the key or in any battery, or clicking to keep it, all end up as a single value passed to the Plot as `focus`, so every battery lights that app and fades the rest.

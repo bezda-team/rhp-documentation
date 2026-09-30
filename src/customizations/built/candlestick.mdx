@@ -1,3 +1,17 @@
-- **Rows as objects.** `rows={days()}` passes one object per day; the slat reads `d.open`, `d.close` and so on.
-- **A fitted scale.** `nice()` rounds the month's range, and its ticks label the axis.
-- **Point at a day.** A second Plot of zero or one slat draws a dashed line at its close and its price over the axis, and the readout shows its open, high, low and close.
+Each day here is one object, so the Plot is given the whole list at once with `rows={days()}` instead of a list per value.
+A slat then reads its own day as `d.open`, `d.close`, `d.low` and `d.high`, and draws two Bars in the same place:
+
+- a thin one from `low` to `high`, which is the wick,
+- a thicker one from `open` to `close`, which is the body.
+
+A Bar whose `to` is below its `from` runs the other way on its own, so a falling day needs no special case; only the colour changes, from a class on the slat.
+`nice()` turns the month's lowest and highest prices into a round scale and the ticks to go with it.
+
+The gallery version adds:
+
+- **A crosshair that is a Plot of zero or one slat.**
+  While no day is picked, `slats={0}` means there is nothing in the page at all.
+  Point at a day and that one slat draws a dashed `Tick` at its close and a `Label` with the price.
+  See [interaction](/guides/interaction/#one-element-instead-of-one-per-slat) for why one slat beats one per day.
+- **A readout above the chart.**
+  The day under the pointer is kept in a signal, and the numbers above the chart are read from it, so the chart and the text never disagree.
