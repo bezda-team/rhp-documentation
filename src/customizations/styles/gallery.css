@@ -130,7 +130,7 @@
 .poster.market .ohlc .down { color: #990f3d; }
 
 /* Where the building stops: a city guide's skyline plate. */
-.poster.skyline { background: #ece5d8; color: #2b3a55; }
+.poster.skyline { color: #27354e; background: #ece5d8 radial-gradient(circle at 83% 26%, #e0d4bd 0 104px, transparent 104px) no-repeat; }
 .poster.skyline .kicker { color: #e2703a; opacity: 1; }
 .poster.skyline .headline { font: 800 42px/.92 "Barlow Condensed", "Arial Narrow", sans-serif; text-transform: uppercase; letter-spacing: .01em; }
 
