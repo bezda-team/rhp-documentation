@@ -11,9 +11,9 @@ const COLORS = ["#2a78d6", "#eb6834"];
 // An age band: men as a Bar from 0 to the left (negative values), women to the right.
 export const BandSlat = slat({ css: styles.band, thickness: { horizontal: 36 } }, (d) => (
   <div>
-    <Label edge="start" class="age">{d.age}</Label>
-    <Bar to={-d.men} color={COLORS[0]} class="side" />
-    <Bar to={d.women} color={COLORS[1]} class="side" />
+    <Label edge="start" part="name" class="age">{d.age}</Label>
+    <Bar to={-d.men} color={COLORS[0]} part="mark" class="side" />
+    <Bar to={d.women} color={COLORS[1]} part="mark" class="side" />
   </div>
 ));
 

@@ -6,8 +6,8 @@ import * as styles from "./styles.js";
 // A sample: a Bar from 0 to its value, and a Dot at the value.
 export const StemSlat = slat({ css: styles.stem, thickness: { horizontal: 14 }, room: { start: 8, end: 8 } }, (d) => (
   <div>
-    <Bar to={d.y} thick="2px" class="stem" />
-    <Dot at={d.y} size="8px" class="tip" />
+    <Bar to={d.y} thick="2px" part="mark" class="stem" />
+    <Dot at={d.y} size="8px" part="mark" class="tip" />
   </div>
 ));
 

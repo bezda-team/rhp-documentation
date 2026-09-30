@@ -21,7 +21,7 @@ export const DotRow = slat({
   room: { horizontal: { start: 2, end: 2, before: 2, after: 4 }, vertical: { start: 4, end: 2, before: 2, after: 2 } },
   css: styles.dotRow,
 }, (d) => (
-  <div class="row">
+  <div class="slat">
     <Plot overlap lit={[...d.art]} x={(c) => d.shift + c.index + 0.5}>
       {(c) => <Dot at={c.x} size="52px" color={c.lit === "#" ? "#f2cc8f" : "#3d405b"} class="dot" />}
     </Plot>

@@ -9,8 +9,8 @@ const samples = () => Array.from({ length: 500 }, () => normal(50, 14));
 // A bin: a Bar as tall as its count, and every other bin's lower edge at the start.
 export const BinSlat = slat({ css: styles.bin, inset: "1px" }, (d) => (
   <div class="bin">
-    <Bar to={d.tally} class="bar" />
-    <Show when={d.index % 2 === 0}><Label edge="start" class="edge">{d.x0}</Label></Show>
+    <Bar to={d.tally} part="mark" class="bar" />
+    <Show when={d.index % 2 === 0}><Label edge="start" part="name" class="edge">{d.x0}</Label></Show>
   </div>
 ));
 

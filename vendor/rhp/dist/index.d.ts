@@ -2,7 +2,7 @@
 // blocks (Bar, Dot, Tick, Label, Cell, Area) draw inside it.
 import type { JSX } from "solid-js";
 
-/** "horizontal": bars run left to right and rows stack top to bottom. "vertical": bars run bottom to top, rows side by side. */
+/** "horizontal": bars run left to right and slats stack top to bottom, as rows. "vertical": bars run bottom to top, slats side by side, as columns. */
 export type Orientation = "horizontal" | "vertical";
 
 /** A row as a slat sees it: each data group by name, its row number (index) and its place on screen (position, null when hidden). */
@@ -10,6 +10,10 @@ export type Row<T extends object = Record<string, any>> = Readonly<T> & {
   readonly index: number;
   readonly position: number | null;
 };
+
+/** What an element is in its slat, so CSS written for one chart finds the same piece in another: the name beside it,
+ * the value it shows, the mark that shows it, the track behind the mark, or a note. Any other name is your own. */
+export type Part = "name" | "value" | "mark" | "track" | "note" | (string & {});
 
 /** A theme key or any CSS color. A theme key follows the page's theme: "series-1", "positive", "muted"... */
 export type Color =
@@ -46,9 +50,11 @@ export interface Room {
 
 /** A slat type's own CSS and layout. */
 export interface SlatLayout {
-  /** CSS scoped to this type's slats. Theme colors are var(--rhp-<key>); :horizontal and :vertical match an orientation. */
-  css?: string;
-  /** px per slat along the stack: a row's height, or a column's width. */
+  /** CSS scoped to this type's slats. Theme colors are var(--rhp-<key>); :horizontal and :vertical match an orientation.
+   * A list is joined, so a look someone else wrote is taken as it is and added to: css: [WEATHER, own]. */
+  css?: string | readonly (string | null | undefined)[];
+  /** px per slat along the stack: a row's height, or a column's width. Without one, slats share what the chart has: a
+   * vertical chart's width, a horizontal chart's height (one with no height gives its slats 32px each and grows with them). */
   thickness?: PerOrientation<number>;
   /** The empty share of the band on each side of a Bar, Tick or Area (0.18 by default), or a CSS length. */
   inset?: PerOrientation<number | string>;
@@ -66,7 +72,7 @@ export interface Timing {
   /** ms a value takes to move (150 by default). */
   duration?: number;
   ease?: Ease;
-  /** ms a row takes to slide to a new place (175 in the JS version by default). */
+  /** ms a slat takes to slide to a new place (175 in the JS version by default). */
   slide?: number;
 }
 
@@ -90,7 +96,7 @@ export interface ChartProps {
   /** [min, max] of the value axis ([0, 100] by default). */
   scale?: readonly [number, number];
   orientation?: Orientation;
-  /** The plot's height in px (240 by default when vertical). A horizontal chart with a height fits rows without a thickness into it. */
+  /** The plot's height in px (240 by default when vertical). A horizontal chart with a height fits slats without a thickness into it. */
   height?: number;
   /** The axis' ticks (5 round values by default); a Scale inside draws its own instead. */
   ticks?: Ticks;
@@ -101,7 +107,7 @@ export interface ChartProps {
   theme?: ThemeValues;
   /** For data that doesn't change: each row is drawn once and keeps no signals. */
   static?: boolean;
-  /** A second axis across the band, [min, max]: an overlap Plot's rows share the whole plot, and a Dot, Label or Line takes
+  /** A second axis across the band, [min, max]: an overlap Plot's slats share the whole plot, and a Dot, Label or Line takes
    * a cross value on it (scatter plots, lines). */
   cross?: readonly [number, number];
   /** The cross axis' ticks (5 round values by default, false for none). */
@@ -123,11 +129,11 @@ export interface PlotSettings<T extends object = Record<string, any>> {
   children: Slat<T> | ((d: Row<T>) => JSX.Element);
   /** Positions (null hides a row) or an order function like sortBy(). */
   order?: readonly (number | null)[] | OrderFn;
-  /** How rows change places: slide on screen (the default), move in the page, or refill the slots. */
+  /** How slats change places: slide on screen (the default), move in the page, or refill the slots. */
   reorder?: "slide" | "move" | "refill";
   /** The Chart's or the Plot's around it by default; "across" is the other one. */
   orientation?: Orientation | "across";
-  /** Every row in one band: stacked segments, strips of dots, layers. */
+  /** Every slat in one band: stacked segments, strips of dots, layers. */
   overlap?: boolean;
   /** The number of rows (the longest data group by default). */
   slats?: number;
@@ -137,10 +143,10 @@ export interface PlotSettings<T extends object = Record<string, any>> {
   rows?: readonly object[];
   /** The JS version for every data group of numbers (true), for some of them (their names), or with a timing. */
   animate?: boolean | readonly string[] | (Timing & { groups?: readonly string[] });
-  /** A Plot inside a row fills this share of the band (or a CSS length). */
+  /** A Plot inside a slat fills this share of the band (or a CSS length). */
   thick?: number | string;
   static?: boolean;
-  /** The rows take focus: Tab stops at one row, the arrow keys go to the row before or after it (in the order shown), and
+  /** The slats take focus: Tab stops at one slat, the arrow keys go to the slat before or after it (in the order shown), and
    * Home and End to the first and last. */
   keyboard?: boolean;
   class?: string;
@@ -169,8 +175,10 @@ export interface ScaleProps {
   children: Slat<ScaleTick> | ((t: Row<ScaleTick>) => JSX.Element);
 }
 
-type BlockProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "color" | "style"> & {
+type BlockProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "color" | "style" | "part"> & {
   style?: JSX.CSSProperties | string;
+  /** What this element is in the slat: see Part. */
+  part?: Part;
   children?: JSX.Element;
 };
 
@@ -201,6 +209,15 @@ export interface TickProps extends BlockProps {
   /** Its length across the band: a CSS length, or a share of the band. */
   thick?: number | string;
   color?: Color;
+}
+
+export interface PlaceProps extends BlockProps {
+  /** Its value on the value axis. */
+  at?: number;
+  /** Where it sits across the band, 0 to 1 (0.5 by default). */
+  across?: number;
+  /** Its value on the Chart's cross scale, instead of across. */
+  cross?: number;
 }
 
 export interface CellProps extends BlockProps {
@@ -254,16 +271,18 @@ export const Bar: (props: BarProps) => JSX.Element;
 export const Dot: (props: DotProps) => JSX.Element;
 export const Tick: (props: TickProps) => JSX.Element;
 export const Cell: (props: CellProps) => JSX.Element;
+/** A place on the chart and nothing else: no size and nothing drawn, so whatever you put inside it sits at its value. */
+export const Place: (props: PlaceProps) => JSX.Element;
 export const Label: (props: LabelProps) => JSX.Element;
 export function Area(props: AreaProps): JSX.Element;
-/** A line through points: a sparkline in a row, or on a Chart's cross scale a line chart. */
+/** A line through points: a sparkline in a slat, or on a Chart's cross scale a line chart. */
 export function Line(props: LineProps): JSX.Element;
 
 /** A slat type: the slat function with its own CSS and layout, so it looks and lays out the same in any app. */
 export function slat<T extends object = Record<string, any>>(fn: (d: Row<T>) => JSX.Element): Slat<T>;
 export function slat<T extends object = Record<string, any>>(layout: SlatLayout, fn: (d: Row<T>) => JSX.Element): Slat<T>;
 /** New CSS for a slat type (made with css): its slats restyle in place. For style editors and live previews. */
-export function restyle(type: { scope?: string; css?: string }, css: string): void;
+export function restyle(type: { scope?: string; css?: unknown }, css: string | readonly (string | null | undefined)[]): void;
 /** Call where the app starts, on the server and in the browser, when the page links @bezda/rhp/rhp.css itself. */
 export function linkedCss(): void;
 

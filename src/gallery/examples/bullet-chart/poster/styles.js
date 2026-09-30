@@ -17,12 +17,12 @@ export const goal = `
 .goal { background: #fff; --rhp-tick-width: 2px; border-radius: 2px; }
 .pct { font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .pct:horizontal { --rhp-label-gap: 14px; }
-.row:hover .done { box-shadow: 0 0 24px 2px color-mix(in srgb, var(--rhp-color) 80%, transparent); filter: brightness(1.2); }
-.row:hover .icon { background: color-mix(in srgb, var(--rhp-color) 34%, transparent); }
+.slat:hover .done { box-shadow: 0 0 24px 2px color-mix(in srgb, var(--rhp-color) 80%, transparent); filter: brightness(1.2); }
+.slat:hover .icon { background: color-mix(in srgb, var(--rhp-color) 34%, transparent); }
 .tip { width: 0; height: 0; padding: 0; translate: none; } /* a point at the tip of the progress; the bubble hangs from it */
 .tip > span { position: absolute; left: 0; bottom: 14px; padding: 5px 9px; border-radius: 99px; background: var(--rhp-color); color: #0a0a0c;
   font-size: 11.5px; font-weight: 800; box-shadow: 0 0 16px color-mix(in srgb, var(--rhp-color) 60%, transparent);
   opacity: 0; translate: -50% 4px; transition: opacity .15s, translate .15s; }
-.row:hover .tip > span { opacity: 1; translate: -50% 0; }
-.row:hover .pct { opacity: 0; } /* the bubble can reach the end gutter */
+.slat:hover .tip > span { opacity: 1; translate: -50% 0; }
+.slat:hover .pct { opacity: 0; } /* the bubble can reach the end gutter */
 `;
