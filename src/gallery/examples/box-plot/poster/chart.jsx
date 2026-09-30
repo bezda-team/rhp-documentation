@@ -15,9 +15,6 @@ import cirrocumulus from "./assets/cirrocumulus.jpg?url";
 // The marks start 16px above the first slat, and the numbers sit over them, in the room this slat asks for.
 // A mark is "zero" (solid, just before 0), "end" (solid, at the max), or between them `marks`:
 // "line" (dashed, as long as the plot) or "tick" (13px long).
-// A cloud's name may break (with a hyphen) between its Latin roots, cumulo-nimbus, when its label is narrow.
-const syllables = (name) => name.replace(/^(cirro|alto|nimbo|strato|cumulo)(?=\w)/, "$1\u00ad");
-
 export const V1Scale = slat({
   room: { horizontal: { before: 40, after: 13 }, vertical: { before: 24, end: 30, after: 13 } },
   css: styles.scale,
@@ -44,11 +41,11 @@ const WHISKERS = [[1, 3, 9, 10], [2, 3, 15, 20], [5, 9, 16, 18], [3, 4, 7, 9], [
 export const BoxSlat = slat({
   thickness: { horizontal: 79 },
   inset: "8px",
-  room: { horizontal: { start: 124, end: 37 }, vertical: { start: 44, end: 30 } }, // for the names and values
+  room: { horizontal: { start: 124, end: 37 }, vertical: { start: 96, end: 30 } }, // for the names and values
   css: styles.box,
 }, (d) => (
   <div class={d.dim ? "slat dim" : "slat"} style={{ "--rhp-color": d.color }}>
-    <Label edge="start" class="name">{syllables(d.name)}</Label>
+    <Label edge="start" class="name">{d.name}</Label>
     <Bar from={d.box[0]} to={d.box[1]} thick="6px" class="whisker" />
     <Bar from={d.box[2]} to={d.box[3]} thick="6px" class="whisker" />
     <Tick at={d.box[0]} thick="19px" class="cap" />
@@ -83,13 +80,11 @@ export default function Clouds(p) {
           <output>{boxes()[0][2]}</output>
         </label>
       </div>
-      <div class="v1-card">{/* v1's white card, from the page's CSS */}
-        <Chart orientation={p.o()} scale={[0, max()]} height={480} animate={p.js()}>
-          <Scale ticks={every(5, { ends: true })} marks="tick">{V1Scale}</Scale>
-          <Plot name={CLOUDS} photo={PHOTOS} color={GREYS} box={boxes()} dim={dim()}
-            order={ranked() ? sortBy((d) => d.box[2], "desc") : undefined}>{BoxSlat}</Plot>
-        </Chart>
-      </div>
+      <Chart orientation={p.o()} scale={[0, max()]} height={480} animate={p.js()}>
+        <Scale ticks={every(5, { ends: true })} marks="tick">{V1Scale}</Scale>
+        <Plot name={CLOUDS} photo={PHOTOS} color={GREYS} box={boxes()} dim={dim()}
+          order={ranked() ? sortBy((d) => d.box[2], "desc") : undefined}>{BoxSlat}</Plot>
+      </Chart>
     </>
   );
 }

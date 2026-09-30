@@ -23,7 +23,10 @@ export const scale = `
 // A cloud: its name, the whiskers and their caps, the box filled with its photo, and the top value. Hover a slat to zoom the photo out.
 export const box = `
 .name { font-size: 15px; font-weight: 600; line-height: 1.2; color: var(--rhp-muted); }
-.name:vertical { font-size: 11px; white-space: normal; hyphens: manual; padding-inline: 4px; }
+/* Standing up, a column is too narrow for a name, so the name is turned 60 degrees and reads up to its own column.
+   Its right end is pinned to the middle of the column and it swings down and to the left from there. */
+.name:vertical { left: auto; right: 50%; width: max-content; padding-inline: 0; font-size: 13px; white-space: nowrap;
+  text-align: right; overflow: visible; transform-origin: 100% 0; transform: rotate(-60deg); }
 .whisker, .box { --rhp-radius: 0px; }
 .cap { --rhp-tick-width: 4px; }
 .cap:horizontal { translate: 0 -50%; }
@@ -34,9 +37,9 @@ export const box = `
 .value { font-size: 13px; font-weight: 700; line-height: 19.5px; font-variant-numeric: normal; color: var(--rhp-color); --rhp-label-gap: 8px; }
 .value:horizontal { margin-top: -1px; } /* v1: 1px above the middle */
 .slat:hover .name { color: var(--rhp-ink); }
-.slat:hover .box { border: 5px solid var(--rhp-muted); }
+.slat:hover :is(.whisker, .cap) { background: var(--rhp-ink); }
+.slat:hover .box { border-color: var(--rhp-ink); border-width: 5px; } /* the box is a frame around a photo: its color is its border */
 .slat:hover .box > img { transform: scale(1.1); }
-.slat:hover :is(.whisker, .cap) { background: var(--rhp-muted); }
 .slat:hover .cap { --rhp-tick-width: 6px; }
 .slat:hover .value { color: var(--rhp-ink); }
 .dim { filter: saturate(10%); }
