@@ -6,19 +6,19 @@ description: Put a Plot inside a slat to draw stacked bars, grouped bars, heatma
 import Demo from '../../../customizations/components/Demo.astro';
 
 A slat can hold a Plot of its own.
-That inner Plot draws inside the slat, on the same scale, and its own slats follow the same rules as any other.
+The inner Plot draws inside that slat, on the same scale as everything else, and its own slats behave like the slats of any other Plot.
 This one idea gives you stacked bars, grouped bars, heatmaps and more.
 
 ## Stacked bars
 
-Each day's slat holds a Plot with `overlap`: its slats share the day's band instead of stacking, so its Bars line up end to end.
+Each day's slat holds a Plot with `overlap`, which puts all of that Plot's slats in the same space instead of stacking them, so its Bars line up end to end.
 `stackUp` works out where each piece starts and ends.
 
 <Demo name="nesting-stacked" height={150} />
 
 ## Grouped bars
 
-Without `overlap`, the inner Plot splits the slat's band, one thin slat per item: three bars per team.
+Without `overlap`, the inner Plot divides the day's thickness between its own slats, one thin slat per item: three bars per team.
 
 <Demo name="nesting-grouped" height={230} />
 

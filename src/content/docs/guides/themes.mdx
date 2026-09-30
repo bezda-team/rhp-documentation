@@ -35,9 +35,9 @@ A block's `color` takes a theme name or any CSS color:
 <Bar to={d.value} color="#d4a72c" />
 ```
 
-`series()` hands each row the next series color, in order: pass `color={series()}` to the Plot and use `d.color` in the slat.
+`series()` gives each row the next color from the theme's `series` list: pass `color={series()}` to the Plot, and read it as `d.color` in the slat.
 
-Theme names follow the theme, so a chart changes all its colors when the theme changes.
+A theme name is looked up as the block is drawn, so when the theme changes, every block that used a name changes with it.
 
 ## Dark mode
 
@@ -49,4 +49,4 @@ Keep two themes and pick one:
 </Theme>
 ```
 
-Switching is instant: rhp changes a handful of variables on each chart, not its slats.
+Switching is instant, because rhp changes a few CSS variables on each chart rather than drawing its slats again.

@@ -17,7 +17,8 @@ Every block in every Plot of the chart uses it.
 ```
 
 When the scale changes, everything on it moves together.
-A Bar that runs past the scale is cut at its end; dots and labels are drawn where their values are.
+A Bar that runs past the end of the scale is cut off there.
+A Dot or a Label keeps the place its value gives it, even when that is outside the chart.
 
 ## The axis
 
@@ -41,8 +42,10 @@ A Scale slat also gets:
 - `d.first` and `d.last`, true at the two ends,
 - `d.toEnd`, how far the tick is from the end of the scale in pixels, measured in the browser.
 
-To leave out a number that would crowd the end of the scale, CSS is enough, and works the same when the chart is drawn on a server.
-A Label's room from its value to the end is `calc((1 - var(--rhp-p)) * 100%)` in its `max-width` (in a vertical chart, `max-height`), so this gives a number with less than 30px no size at all:
+A number near the end of the scale can collide with the last one.
+CSS alone can hide it, and the same rule works when the chart is drawn on a server.
+rhp gives every Label the room it has left, from its own value to the end of the scale, as `calc((1 - var(--rhp-p)) * 100%)`.
+Put that in `max-width` (`max-height` in a vertical chart) and a number with less than 30px of room is given no size at all:
 
 ```css
 .num { max-width: calc(((1 - var(--rhp-p)) * 100% - 30px) * 1000); overflow: hidden; }
@@ -71,4 +74,4 @@ A [Line](/guides/blocks/#line) puts its points' y on the second axis: a line cha
 A horizontal chart with a second axis is 240px tall unless `height` says otherwise.
 
 `cross` is optional.
-A chart without it is drawn exactly as before, and the CSS for a second axis is only added to the page once a chart has one.
+A chart without it draws no second axis, and the CSS for one only reaches the page once some chart on it asks for a second axis.

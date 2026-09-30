@@ -7,7 +7,7 @@ import Demo from '../../../customizations/components/Demo.astro';
 
 ## Sorting
 
-`order` sets where each row sits.
+`order` decides which place on screen each row takes.
 The easiest way is `sortBy`:
 
 ```jsx
@@ -32,9 +32,9 @@ rhp has two ways to do this.
 The browser animates each change with CSS transitions: 0.15 s for values, 0.3 s for slats sliding.
 It costs almost nothing, even with many charts.
 
-**The JS version** moves the numbers themselves, frame by frame, on one clock for the whole page.
+**The JS version** counts each number from its old value to its new one, frame by frame, on a single clock shared by the whole page.
 Turn it on with `animate` on the Chart or a Plot.
-Everything drawn from a value moves together with it, so a label rides exactly on its bar's end, and two slats cross exactly when their values are equal.
+Everything drawn from a number moves with it, so a label stays exactly at the end of its bar, and two slats cross at the moment their values are equal.
 
 ```jsx
 <Chart animate>…</Chart>                                  // the JS version
@@ -64,7 +64,8 @@ In the JS version, pass `duration` (ms), `ease` and `slide` (ms) to `animate`:
 <Chart animate={{ duration: 400, ease: "ease-in-out", slide: 200 }}>…</Chart>
 ```
 
-Any time works, and 0 turns motion off: `--rhp-length-time: 0s` in the CSS version, or `duration: 0` in the JS version, and values jump straight to where they're going.
+Any duration works.
+Set it to 0 (`--rhp-length-time: 0s` in the CSS version, `duration: 0` in the JS version) and values jump straight to their new places with no motion at all.
 
 ## Reduced motion
 

@@ -5,21 +5,21 @@ description: Hover states in CSS, clicks and keyboard with ordinary handlers, an
 
 import Demo from '../../../customizations/components/Demo.astro';
 
-Charts are made of HTML elements, so interaction works the way it does anywhere else on a page.
+A chart is made of HTML elements, so everything you already do on a page works here: hover states in CSS, click handlers, focus, keyboard keys.
 
 ## Hover with CSS only
 
-Most hover effects need no code: style `:hover` in the slat's CSS.
+Most hover effects need no JavaScript at all: style `:hover` in the slat's CSS and the browser does the rest.
 
 <Demo name="interaction-hover" height={200} />
 
-The fade is on a `span` inside the Label, not on the Label.
-rhp moves blocks with transitions of its own, and a `transition` on a block would replace them.
+Notice that the fade is on a `span` inside the Label, not on the Label itself.
+rhp moves a block with a transition of its own, and a `transition` you set on that block would replace it, so the block would jump to its new position instead of gliding.
 
 ## Clicks
 
 Blocks take handlers like any element: `onClick`, `onPointerEnter`, `onKeyDown`.
-With many slats, one handler around the chart is simpler: mark blocks with a `data-` attribute and find it with `closest`.
+With many slats, one handler on an element around the chart is simpler than one per block: give the blocks a `data-` attribute, and find it from the event with `closest`.
 
 What the handler decides goes back into the Plot as data.
 Here the picked city becomes `d.faded` for every other row, and the CSS fades those slats.

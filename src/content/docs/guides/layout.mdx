@@ -51,7 +51,7 @@ Each side can be set on its own: `room: { start: "auto", end: 40 }` fits the nam
 
 A few things to know:
 
-- Slats then span the room as well: a slat's background reaches under its name.
+- Each slat then reaches into the room as well, so a slat's background runs under its own name.
 - Only a label that is a child of the slat's root element is measured. A label inside another element gets no room, and rhp warns about it in the console.
 - When the widest name changes, the room changes at once, and the bars resize with it instead of animating.
 - Firefox makes the room under a vertical chart one line tall, so names that wrap onto more lines there need `room` in px.
