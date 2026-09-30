@@ -2,6 +2,7 @@ import { createMemo, Show } from "solid-js";
 import { Plot, Chart, Bar, Label, Place, slat } from "@bezda/rhp";
 import { Poster } from "@gallery/ui/Poster.jsx";
 import { rand } from "@gallery/random.js";
+import { ROOFS } from "./shapes.js";
 import * as styles from "./styles.js";
 
 // Thirteen Manhattan towers, south to north.
@@ -18,7 +19,7 @@ const TOWERS = [
   { name: "Chrysler", roof: 282, tip: 320, wide: 1.25, shape: "tiered" },
   { name: "Empire State", roof: 381, tip: 443, wide: 1.5, shape: "deco" },
   { name: "Met Life", roof: 228, tip: 228, wide: 1.15, shape: "dome" },
-  { name: "Vanderbilt", roof: 370, tip: 427, wide: 1.3, shape: "taper" },
+  { name: "Vanderbilt", roof: 370, tip: 427, wide: 1.3, shape: "flare" },
   { name: "432 Park", roof: 426, tip: 426, wide: 1.08, shape: null },
   { name: "111 W 57th", roof: 435, tip: 435, wide: 1.06, shape: "lean" },
   { name: "Central Park", roof: 472, tip: 472, wide: 1.2, shape: "chamfer" },
@@ -35,7 +36,7 @@ export const TowerSlat = slat({
   css: styles.tower,
 }, (d) => (
   <div class="slat">
-    <Bar to={d.roof} thick={d.wide} class={d.shape ? "block " + d.shape : "block"} />
+    <Bar to={d.roof} thick={d.wide} shape={ROOFS[d.shape]} class="block" />
     <Show when={d.tip > d.roof}>
       <Bar from={d.roof} to={d.tip} thick="4px" class="spire" />
       <Place at={d.tip} across={0.5}><span class="vain">+{Math.round(d.tip - d.roof)} m of spire</span></Place>

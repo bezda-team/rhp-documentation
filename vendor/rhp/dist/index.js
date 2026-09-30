@@ -13,7 +13,7 @@ import { use as _$use2 } from "solid-js/web";
 import { createComponent as _$createComponent } from "solid-js/web";
 
 // src/rhp.css
-var rhp_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-area path,.rhp-line,.rhp-line path){display:revert;box-sizing:border-box;margin:0;padding:0;border:0 solid transparent;border-radius:0;box-shadow:none;outline:revert;outline-offset:revert;background:none;overflow:visible;float:none;min-width:0;min-height:0;max-width:none;max-height:none;vertical-align:baseline;transition:none;animation:none;text-decoration:none;user-select:auto;touch-action:auto;font:inherit;font-synthesis:inherit;letter-spacing:inherit;word-spacing:inherit;text-transform:inherit;text-indent:inherit;text-align:inherit;text-shadow:inherit;color:inherit;white-space:inherit;text-rendering:inherit;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-text-stroke:inherit;-webkit-tap-highlight-color:inherit;word-break:inherit;overflow-wrap:inherit;hyphens:inherit;line-break:inherit;print-color-adjust:inherit}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object),.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){width:auto;height:auto}:where(:root:active-view-transition .rhp-plot>*){view-transition-name:none}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line)[hidden]{display:none}:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):before,:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):after{display:none}:is(.rhp-label,.rhp-gridline>span)::selection,:is(.rhp-label,.rhp-gridline>span,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell) ::selection{color:HighlightText;background-color:Highlight;text-shadow:none}.rhp-chart{--rhp-min: 0;--rhp-max: 100;--rhp-inset: 18%;padding:var(--rhp-pad-top, 2px) var(--rhp-pad-right, 2px) var(--rhp-pad-bottom, 2px) var(--rhp-pad-left, 2px)}.rhp-body{all:initial}.rhp-body{position:relative;display:grid;width:100%;direction:ltr;container-type:inline-size;visibility:inherit;pointer-events:inherit;font:400 12px/1.15 var(--rhp-font);color:var(--rhp-ink);print-color-adjust:exact}.rhp-chart[data-rhp-o=h]>.rhp-body{height:auto}.rhp-chart[data-rhp-o=v]>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-o=h][data-rhp-sized]>.rhp-body{height:var(--rhp-height)}.rhp-body>*{grid-area:1 / 1;min-width:0;min-height:0}.rhp-axis{position:relative;pointer-events:none}.rhp-gridline{position:absolute;--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-gridline[data-rhp-o=h]{top:0;bottom:0;left:calc(var(--rhp-p) * 100%);border-left:1px solid var(--rhp-grid)}.rhp-gridline[data-rhp-o=v]{left:0;right:0;bottom:calc(var(--rhp-p) * 100%);border-bottom:1px solid var(--rhp-grid)}.rhp-gridline>span{position:absolute;font-size:11px;line-height:1;color:var(--rhp-muted);white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-gridline[data-rhp-o=h]>span{top:calc(100% + 5px);left:0;translate:-50% 0}.rhp-gridline[data-rhp-o=v]>span{right:calc(100% + 6px);bottom:0;translate:0 50%}.rhp-plot{position:relative;z-index:1}.rhp-plot[data-rhp-o=h],.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){--rhp-toward-end: to right}.rhp-plot[data-rhp-o=v],.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){--rhp-toward-end: to top}.rhp-bar[data-rhp-o=h][data-rhp-back]{--rhp-toward-end: to left}.rhp-bar[data-rhp-o=v][data-rhp-back]{--rhp-toward-end: to bottom}.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 32px))}.rhp-chart[data-rhp-sized]>.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap]){width:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-overlap][data-rhp-o=h]{min-height:var(--rhp-pitch, 32px)}.rhp-plot>*>.rhp-plot,.rhp-plot>.rhp-plot{--rhp-pitch: initial}.rhp-plot>*>.rhp-plot{position:absolute}.rhp-plot[data-rhp-o=h]>*>.rhp-plot{inset:calc((100% - var(--rhp-plot-thick, 100%)) / 2) 0}.rhp-plot[data-rhp-o=v]>*>.rhp-plot{inset:0 calc((100% - var(--rhp-plot-thick, 100%)) / 2)}:is(.rhp-bar,.rhp-area,.rhp-line){--rhp-lo: clamp(0, (min(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1);--rhp-hi: clamp(0, (max(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)}:is(.rhp-dot,.rhp-tick,.rhp-label,.rhp-place){--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){position:absolute}:is(.rhp-area,.rhp-line)[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}:is(.rhp-area,.rhp-line)[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-bar[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){left:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){bottom:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar{background:var(--rhp-color, var(--rhp-series-1))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h][data-rhp-back]{border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v][data-rhp-back]{border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h]{top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:0 -50%}.rhp-bar[data-rhp-o=v]{left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:-50% 0}.rhp-dot{width:var(--rhp-size, 10px);height:var(--rhp-size, 10px);border-radius:50%;background:var(--rhp-color, var(--rhp-series-1))}.rhp-dot[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%);translate:-50% -50%}.rhp-dot[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%);translate:-50% 50%}.rhp-place{width:0;height:0}.rhp-place[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%)}.rhp-place[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%)}.rhp-tick{background:var(--rhp-color, var(--rhp-ink))}.rhp-tick[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));width:var(--rhp-tick-width, 2px);translate:-50% -50%}.rhp-tick[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));height:var(--rhp-tick-width, 2px);translate:-50% 50%}.rhp-label{font-size:var(--rhp-label-size, 12px);line-height:1.15;white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-label[data-rhp-at][data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;translate:0 -50%;padding-left:var(--rhp-label-gap, 5px)}.rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% -50%;padding:0 var(--rhp-label-gap, 5px) 0 0}.rhp-label[data-rhp-at][data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;translate:-50% 0;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-label[data-rhp-at][data-rhp-o=v][data-rhp-side=before]{translate:-50% 100%;padding:var(--rhp-label-gap, 3px) 0 0}.rhp-label[data-rhp-edge][data-rhp-o=h]{top:50%;translate:0 -50%;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=h]{right:100%;width:var(--rhp-room-start, 104px);text-align:right;padding-right:var(--rhp-label-gap, 8px)}.rhp-label[data-rhp-edge=end][data-rhp-o=h]{left:100%;width:var(--rhp-room-end, 44px);padding-left:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge][data-rhp-o=v]{left:0;right:0;text-align:center;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=v]{top:100%;padding-top:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge=end][data-rhp-o=v]{bottom:100%;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-cell{inset:var(--rhp-cell-gap, 1px);background:var(--rhp-color, color-mix(in oklab, var(--rhp-high) calc(clamp(0, (var(--rhp-value) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)*100%) , var(--rhp-low)));border-radius:var(--rhp-radius, 2px)}.rhp-area{overflow:visible;fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 35%,transparent);stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:1.5px;filter:none;pointer-events:inherit;stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:miter;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;fill-rule:nonzero;paint-order:normal;shape-rendering:auto}.rhp-area path{fill:inherit;stroke:inherit;stroke-width:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;fill-rule:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit;d:var(--rhp-d, none)}:is(.rhp-area,.rhp-line)[data-rhp-o=h]{top:calc(var(--rhp-inset) / 2);height:calc(100% - var(--rhp-inset))}:is(.rhp-area,.rhp-line)[data-rhp-o=v]{left:calc(var(--rhp-inset) / 2);width:calc(100% - var(--rhp-inset))}.rhp-line{overflow:visible;fill:none;stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:2px;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;paint-order:normal;shape-rendering:auto;filter:none;pointer-events:inherit;--rhp-d-under: none}.rhp-line path{stroke-width:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit}.rhp-line .rhp-stroke{fill:none;stroke:inherit;d:var(--rhp-d, none)}.rhp-line .rhp-under{fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 22%,transparent);stroke:none;d:var(--rhp-d-under, none)}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label[data-rhp-at],.rhp-place,.rhp-area,.rhp-line,.rhp-gridline){transition-property:left,width,bottom,height,background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out)}.rhp-cell{transition:background-color var(--rhp-length-time, .15s) var(--rhp-length-ease, ease-out)}}@layer rhp.place{.rhp-plot>*{position:absolute;box-sizing:border-box}.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap])>*{left:0;right:0;top:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));bottom:auto;height:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap])>*{top:0;bottom:0;left:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));right:auto;width:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-reorder=slide]:not([data-rhp-overlap])>*{transition:top var(--rhp-slide-time, .3s) var(--rhp-slide-ease, ease-in-out),left var(--rhp-slide-time, .3s) var(--rhp-slide-ease, ease-in-out)}.rhp-chart[data-rhp-turning] .rhp-plot[data-rhp-reorder]>*{transition:none}.rhp-chart[data-rhp-turning],.rhp-chart[data-rhp-turning] *{transition:none}[data-rhp-animate=js] :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-place,.rhp-area,.rhp-line,.rhp-gridline,.rhp-cell){transition:none}.rhp-plot>[hidden]{display:none}.rhp-plot[data-rhp-overlap]>:not(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){inset:0}@media(prefers-reduced-motion:reduce){.rhp-plot[data-rhp-reorder]:not([data-rhp-overlap])>*{transition:none}.rhp-chart :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-place,.rhp-area,.rhp-line,.rhp-gridline,.rhp-cell){transition:none}}}";
+var rhp_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-area path,.rhp-line,.rhp-line path){display:revert;box-sizing:border-box;margin:0;padding:0;border:0 solid transparent;border-radius:0;box-shadow:none;outline:revert;outline-offset:revert;background:none;overflow:visible;float:none;min-width:0;min-height:0;max-width:none;max-height:none;vertical-align:baseline;transition:none;animation:none;text-decoration:none;user-select:auto;touch-action:auto;font:inherit;font-synthesis:inherit;letter-spacing:inherit;word-spacing:inherit;text-transform:inherit;text-indent:inherit;text-align:inherit;text-shadow:inherit;color:inherit;white-space:inherit;text-rendering:inherit;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-text-stroke:inherit;-webkit-tap-highlight-color:inherit;word-break:inherit;overflow-wrap:inherit;hyphens:inherit;line-break:inherit;print-color-adjust:inherit}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object),.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){width:auto;height:auto}:where(:root:active-view-transition .rhp-plot>*){view-transition-name:none}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line)[hidden]{display:none}:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):before,:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):after{display:none}:is(.rhp-label,.rhp-gridline>span)::selection,:is(.rhp-label,.rhp-gridline>span,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell) ::selection{color:HighlightText;background-color:Highlight;text-shadow:none}.rhp-chart{--rhp-min: 0;--rhp-max: 100;--rhp-inset: 18%;padding:var(--rhp-pad-top, 2px) var(--rhp-pad-right, 2px) var(--rhp-pad-bottom, 2px) var(--rhp-pad-left, 2px)}.rhp-body{all:initial}.rhp-body{position:relative;display:grid;width:100%;direction:ltr;container-type:inline-size;visibility:inherit;pointer-events:inherit;font:400 12px/1.15 var(--rhp-font);color:var(--rhp-ink);print-color-adjust:exact}.rhp-chart[data-rhp-o=h]>.rhp-body{height:auto}.rhp-chart[data-rhp-o=v]>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-o=h][data-rhp-sized]>.rhp-body{height:var(--rhp-height)}.rhp-body>*{grid-area:1 / 1;min-width:0;min-height:0}.rhp-axis{position:relative;pointer-events:none}.rhp-gridline{position:absolute;--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-gridline[data-rhp-o=h]{top:0;bottom:0;left:calc(var(--rhp-p) * 100%);border-left:1px solid var(--rhp-grid)}.rhp-gridline[data-rhp-o=v]{left:0;right:0;bottom:calc(var(--rhp-p) * 100%);border-bottom:1px solid var(--rhp-grid)}.rhp-gridline>span{position:absolute;font-size:11px;line-height:1;color:var(--rhp-muted);white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-gridline[data-rhp-o=h]>span{top:calc(100% + 5px);left:0;translate:-50% 0}.rhp-gridline[data-rhp-o=v]>span{right:calc(100% + 6px);bottom:0;translate:0 50%}.rhp-plot{position:relative;z-index:1}.rhp-plot[data-rhp-o=h],.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){--rhp-toward-end: to right}.rhp-plot[data-rhp-o=v],.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){--rhp-toward-end: to top}.rhp-bar[data-rhp-o=h][data-rhp-back]{--rhp-toward-end: to left}.rhp-bar[data-rhp-o=v][data-rhp-back]{--rhp-toward-end: to bottom}.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 32px))}.rhp-chart[data-rhp-sized]>.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap]){width:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-overlap][data-rhp-o=h]{min-height:var(--rhp-pitch, 32px)}.rhp-plot>*>.rhp-plot,.rhp-plot>.rhp-plot{--rhp-pitch: initial}.rhp-plot>*>.rhp-plot{position:absolute}.rhp-plot[data-rhp-o=h]>*>.rhp-plot{inset:calc((100% - var(--rhp-plot-thick, 100%)) / 2) 0}.rhp-plot[data-rhp-o=v]>*>.rhp-plot{inset:0 calc((100% - var(--rhp-plot-thick, 100%)) / 2)}:is(.rhp-bar,.rhp-area,.rhp-line){--rhp-lo: clamp(0, (min(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1);--rhp-hi: clamp(0, (max(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)}:is(.rhp-dot,.rhp-tick,.rhp-label,.rhp-place){--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){position:absolute}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){clip-path:var(--rhp-clip, none)}:is(.rhp-area,.rhp-line)[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}:is(.rhp-area,.rhp-line)[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-bar[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){left:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){bottom:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar{background:var(--rhp-color, var(--rhp-series-1))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h][data-rhp-back]{border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v][data-rhp-back]{border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h]{top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:0 -50%}.rhp-bar[data-rhp-o=v]{left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:-50% 0}.rhp-dot{width:var(--rhp-size, 10px);height:var(--rhp-size, 10px);border-radius:50%;background:var(--rhp-color, var(--rhp-series-1))}.rhp-dot[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%);translate:-50% -50%}.rhp-dot[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%);translate:-50% 50%}.rhp-place{width:0;height:0}.rhp-place[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%)}.rhp-place[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%)}.rhp-tick{background:var(--rhp-color, var(--rhp-ink))}.rhp-tick[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));width:var(--rhp-tick-width, 2px);translate:-50% -50%}.rhp-tick[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));height:var(--rhp-tick-width, 2px);translate:-50% 50%}.rhp-label{font-size:var(--rhp-label-size, 12px);line-height:1.15;white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-label[data-rhp-at][data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;translate:0 -50%;padding-left:var(--rhp-label-gap, 5px)}.rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% -50%;padding:0 var(--rhp-label-gap, 5px) 0 0}.rhp-label[data-rhp-at][data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;translate:-50% 0;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-label[data-rhp-at][data-rhp-o=v][data-rhp-side=before]{translate:-50% 100%;padding:var(--rhp-label-gap, 3px) 0 0}.rhp-label[data-rhp-edge][data-rhp-o=h]{top:50%;translate:0 -50%;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=h]{right:100%;width:var(--rhp-room-start, 104px);text-align:right;padding-right:var(--rhp-label-gap, 8px)}.rhp-label[data-rhp-edge=end][data-rhp-o=h]{left:100%;width:var(--rhp-room-end, 44px);padding-left:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge][data-rhp-o=v]{left:0;right:0;text-align:center;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=v]{top:100%;padding-top:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge=end][data-rhp-o=v]{bottom:100%;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-cell{inset:var(--rhp-cell-gap, 1px);background:var(--rhp-color, color-mix(in oklab, var(--rhp-high) calc(clamp(0, (var(--rhp-value) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)*100%) , var(--rhp-low)));border-radius:var(--rhp-radius, 2px)}.rhp-area{overflow:visible;fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 35%,transparent);stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:1.5px;filter:none;pointer-events:inherit;stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:miter;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;fill-rule:nonzero;paint-order:normal;shape-rendering:auto}.rhp-area path{fill:inherit;stroke:inherit;stroke-width:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;fill-rule:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit;d:var(--rhp-d, none)}:is(.rhp-area,.rhp-line)[data-rhp-o=h]{top:calc(var(--rhp-inset) / 2);height:calc(100% - var(--rhp-inset))}:is(.rhp-area,.rhp-line)[data-rhp-o=v]{left:calc(var(--rhp-inset) / 2);width:calc(100% - var(--rhp-inset))}.rhp-line{overflow:visible;fill:none;stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:2px;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;paint-order:normal;shape-rendering:auto;filter:none;pointer-events:inherit;--rhp-d-under: none}.rhp-line path{stroke-width:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit}.rhp-line .rhp-stroke{fill:none;stroke:inherit;d:var(--rhp-d, none)}.rhp-line .rhp-under{fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 22%,transparent);stroke:none;d:var(--rhp-d-under, none)}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label[data-rhp-at],.rhp-place,.rhp-area,.rhp-line,.rhp-gridline){transition-property:left,width,bottom,height,background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out)}.rhp-cell{transition:background-color var(--rhp-length-time, .15s) var(--rhp-length-ease, ease-out)}}@layer rhp.place{.rhp-plot>*{position:absolute;box-sizing:border-box}.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap])>*{left:0;right:0;top:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));bottom:auto;height:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap])>*{top:0;bottom:0;left:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));right:auto;width:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-reorder=slide]:not([data-rhp-overlap])>*{transition:top var(--rhp-slide-time, .3s) var(--rhp-slide-ease, ease-in-out),left var(--rhp-slide-time, .3s) var(--rhp-slide-ease, ease-in-out)}.rhp-chart[data-rhp-turning] .rhp-plot[data-rhp-reorder]>*{transition:none}.rhp-chart[data-rhp-turning],.rhp-chart[data-rhp-turning] *{transition:none}[data-rhp-animate=js] :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-place,.rhp-area,.rhp-line,.rhp-gridline,.rhp-cell){transition:none}.rhp-plot>[hidden]{display:none}.rhp-plot[data-rhp-overlap]>:not(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){inset:0}@media(prefers-reduced-motion:reduce){.rhp-plot[data-rhp-reorder]:not([data-rhp-overlap])>*{transition:none}.rhp-chart :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-place,.rhp-area,.rhp-line,.rhp-gridline,.rhp-cell){transition:none}}}";
 
 // src/gutters.css
 var gutters_default = "@layer rhp.core{[data-rhp-gutters=h]>.rhp-body{grid-template-columns:[start-start] var(--rhp-gutter-start) [start-end track-start] minmax(0,1fr) [track-end end-start] var(--rhp-gutter-end) [end-end]}.rhp-chart[data-rhp-gutters=v]>.rhp-body{height:auto;grid-template-rows:[end-start] var(--rhp-gutter-end) [end-end track-start] var(--rhp-height, 240px) [track-end start-start] var(--rhp-gutter-start) [start-end]}[data-rhp-gutters=h]>.rhp-body>*{grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>*{grid-area:track / 1}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{inset:auto;translate:none;width:auto;min-width:0;min-height:0}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{align-self:center;max-width:var(--rhp-gutter-max, 40cqw)}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{justify-self:end}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{justify-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{justify-self:stretch}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{align-self:end}}@layer rhp.place{[data-rhp-gutters=h]>.rhp-body>.rhp-plot{grid-column:1 / -1;display:grid;grid-template-columns:subgrid;grid-template-rows:100%}[data-rhp-gutters=v]>.rhp-body>.rhp-plot{grid-row:1 / -1;display:grid;grid-template-rows:subgrid;grid-template-columns:100%}[data-rhp-gutters]>.rhp-body>.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){position:relative;display:grid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / auto / -1;grid-template-columns:subgrid}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / -1;grid-template-rows:subgrid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{justify-self:start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){grid-area:track / 1}[data-rhp-gutters=h] .rhp-plot .rhp-bar,[data-rhp-gutters=h] .rhp-plot .rhp-dot,[data-rhp-gutters=h] .rhp-plot .rhp-tick,[data-rhp-gutters=h] .rhp-plot .rhp-label,[data-rhp-gutters=h] .rhp-plot .rhp-cell,[data-rhp-gutters=h] .rhp-plot .rhp-area,[data-rhp-gutters=h] .rhp-plot .rhp-line,[data-rhp-gutters=h] .rhp-plot .rhp-plot{grid-column:track}[data-rhp-gutters=v] .rhp-plot .rhp-bar,[data-rhp-gutters=v] .rhp-plot .rhp-dot,[data-rhp-gutters=v] .rhp-plot .rhp-tick,[data-rhp-gutters=v] .rhp-plot .rhp-label,[data-rhp-gutters=v] .rhp-plot .rhp-cell,[data-rhp-gutters=v] .rhp-plot .rhp-area,[data-rhp-gutters=v] .rhp-plot .rhp-line,[data-rhp-gutters=v] .rhp-plot .rhp-plot{grid-row:track}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{position:relative}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:1 / start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:1 / end}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:start / 1}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:end / 1}}";
@@ -23,16 +23,16 @@ var cross_default = "@layer rhp.core{.rhp-chart[data-rhp-cross]{--rhp-cross: ini
 
 // src/style.js
 var LAYERS = "@layer rhp.place, rhp.slat, rhp.core;", DESCRIPTORS = /^@(-webkit-)?keyframes\b|^@(font-face|property|counter-style|font-palette-values|font-feature-values|view-transition|position-try)\b/i;
-function important(css) {
-  css = uncomment(css);
+function important(css2) {
+  css2 = uncomment(css2);
   let out = "", seg = "", depth = 0, quote = null, paren = 0, frames = -1, flush2 = (end) => {
     let t = seg.trim(), declaration = t && t[0] !== "@" && !t.startsWith("--") && frames < 0 && /^[a-z-]+\s*:/i.test(t) && !/!important\s*$/i.test(t);
     out += (declaration ? seg.replace(/\s*$/, " !important") : seg) + end, seg = "";
   };
-  for (let i = 0; i < css.length; i++) {
-    let ch = css[i];
+  for (let i = 0; i < css2.length; i++) {
+    let ch = css2[i];
     if (ch === "\\") {
-      seg += ch + (css[++i] ?? "");
+      seg += ch + (css2[++i] ?? "");
       continue;
     }
     if (quote) {
@@ -52,12 +52,12 @@ function important(css) {
   }
   return out + seg;
 }
-function uncomment(css) {
+function uncomment(css2) {
   let out = "", quote = null;
-  for (let i = 0; i < css.length; i++) {
-    let ch = css[i];
+  for (let i = 0; i < css2.length; i++) {
+    let ch = css2[i];
     if (ch === "\\") {
-      out += ch + (css[++i] ?? "");
+      out += ch + (css2[++i] ?? "");
       continue;
     }
     if (quote) {
@@ -69,9 +69,9 @@ function uncomment(css) {
       quote = ch, out += ch;
       continue;
     }
-    if (ch === "/" && css[i + 1] === "*") {
-      let end = css.indexOf("*/", i + 2);
-      i = end < 0 ? css.length : end + 1;
+    if (ch === "/" && css2[i + 1] === "*") {
+      let end = css2.indexOf("*/", i + 2);
+      i = end < 0 ? css2.length : end + 1;
       continue;
     }
     out += ch;
@@ -125,11 +125,11 @@ function pseudoAt(sel) {
   }
   return -1;
 }
-function scoped(css, scope) {
-  css = uncomment(css);
-  for (let [, name] of css.matchAll(/@(?:-webkit-)?keyframes\s+([-\w]+)/g)) {
+function scoped(css2, scope) {
+  css2 = uncomment(css2);
+  for (let [, name] of css2.matchAll(/@(?:-webkit-)?keyframes\s+([-\w]+)/g)) {
     let own = scope + "-" + name, word = "(?<![-\\w])" + name + "(?![-\\w])";
-    css = css.replace(new RegExp("(@(?:-webkit-)?keyframes\\s+)" + word, "g"), "$1" + own).replace(/(animation(?:-name)?\s*:)([^;{}]*)/g, (_, prop, value) => prop + value.replace(new RegExp(word, "g"), own));
+    css2 = css2.replace(new RegExp("(@(?:-webkit-)?keyframes\\s+)" + word, "g"), "$1" + own).replace(/(animation(?:-name)?\s*:)([^;{}]*)/g, (_, prop, value) => prop + value.replace(new RegExp(word, "g"), own));
   }
   let S = `[data-rhp-slat="${scope}"]`, other = `:not(:where(${S} [data-rhp-slat]:not(${S}), ${S} [data-rhp-slat]:not(${S}) *))`, one = (sel) => {
     let at2 = pseudoAt(sel), base = oriented((at2 < 0 ? sel : sel.slice(0, at2)).trim()), pe = at2 < 0 ? "" : sel.slice(at2), x = base ? /^[^\s>+~]*\.rhp-chart(?![-\w])/.test(base) ? `:is(${base})` : `:is(.rhp-chart ${base})` : "";
@@ -138,10 +138,10 @@ function scoped(css, scope) {
     let at2 = pseudoAt(sel);
     return at2 < 0 ? oriented(sel) + other : oriented(sel.slice(0, at2)) + other + sel.slice(at2);
   }, out = "", seg = "", quote = null, paren = 0, kinds = [];
-  for (let i = 0; i < css.length; i++) {
-    let ch = css[i];
+  for (let i = 0; i < css2.length; i++) {
+    let ch = css2[i];
     if (ch === "\\") {
-      seg += ch + (css[++i] ?? "");
+      seg += ch + (css2[++i] ?? "");
       continue;
     }
     if (quote) {
@@ -248,19 +248,19 @@ function addRoot(root) {
       adoptInto(root, entry);
   }
 }
-function add(css, core2 = !1) {
+function add(css2, core2 = !1) {
   roots.size || addRoot(document);
-  let entry = { css, core: core2 };
+  let entry = { css: css2, core: core2 };
   entries.push(entry);
   for (let root of roots.keys())
     adoptInto(root, entry);
   return entry;
 }
-function update(entry, css) {
-  entry.css = css;
+function update(entry, css2) {
+  entry.css = css2;
   for (let own of roots.values()) {
     let sheet = own.get(entry);
-    sheet && (sheet.replaceSync ? sheet.replaceSync(css) : sheet.textContent = css);
+    sheet && (sheet.replaceSync ? sheet.replaceSync(css2) : sheet.textContent = css2);
   }
 }
 var coreText, guttersText, crossText, coreSheet = () => coreText ?? (coreText = LAYERS + `
@@ -313,12 +313,12 @@ var sheets = /* @__PURE__ */ new Map();
 function useSlatCss(fn) {
   !fn?.scope || typeof document > "u" || sheets.has(fn.scope) || (useCore(), sheets.set(fn.scope, add(slatSheet(fn))));
 }
-var manyRadii = (css) => [...css.matchAll(/--rhp-radius\s*:([^;{}]*)/g)].some(([, value]) => {
+var manyRadii = (css2) => [...css2.matchAll(/--rhp-radius\s*:([^;{}]*)/g)].some(([, value]) => {
   let text = value, inner;
   for (; (inner = text.replace(/\([^()]*\)/g, "")) !== text; )
     text = inner;
   return text.trim().split(/\s+/).filter((x) => x && x !== "!important").length > 1;
-}), checkRadii = (css) => manyRadii(css) && console.warn("rhp: --rhp-radius takes one length. For different corners, use --rhp-start-radius and --rhp-end-radius, or border-radius.");
+}), checkRadii = (css2) => manyRadii(css2) && console.warn("rhp: --rhp-radius takes one length. For different corners, use --rhp-start-radius and --rhp-end-radius, or border-radius.");
 function slatSheet(fn) {
   let S = `[data-rhp-slat="${fn.scope}"]`, own = /:(before|after)\b/i.test(fn.css) ? `:where(${S}, ${S} :where(.rhp-plot, .rhp-plot > *))::before, :where(${S}, ${S} :where(.rhp-plot, .rhp-plot > *))::after { content: none; display: inline; }
 ` : "";
@@ -326,14 +326,14 @@ function slatSheet(fn) {
 ${important(own + scoped(fn.css, fn.scope))}
 }`;
 }
-function restyle(fn, css) {
+function restyle(fn, css2) {
   if (!fn?.scope) throw new Error("rhp: restyle takes a slat type made by slat() with css");
-  css = joinCss(css), checkRadii(css), fn.css = css;
+  css2 = joinCss(css2), checkRadii(css2), fn.css = css2;
   let entry = sheets.get(fn.scope);
   entry && update(entry, slatSheet(fn));
 }
-var joinCss = (css) => Array.isArray(css) ? css.filter((c) => c != null).join(`
-`) : css, made = /* @__PURE__ */ new Map();
+var joinCss = (css2) => Array.isArray(css2) ? css2.filter((c) => c != null).join(`
+`) : css2, made = /* @__PURE__ */ new Map();
 function slat(def, fn) {
   if (typeof def == "function") return def;
   if (fn.layout = def, fn.css = joinCss(def.css), fn.css != null) {
@@ -539,10 +539,10 @@ function bins(samples, { domain = extent(samples), count = 10 } = {}) {
     v < lo || v > hi || tally[Math.min(count - 1, Math.floor((v - lo) / width))]++;
   return { x0, x1, tally };
 }
-function density(samples, { domain = extent(samples), points = 40, bandwidth } = {}) {
+function density(samples, { domain = extent(samples), points: points2 = 40, bandwidth } = {}) {
   let n = samples.length, mean = samples.reduce((a, b) => a + b, 0) / n, sd = Math.sqrt(samples.reduce((a, v) => a + (v - mean) ** 2, 0) / Math.max(1, n - 1)) || 1, h = bandwidth ?? 1.06 * sd * n ** -0.2, [lo, hi] = domain, out = [];
-  for (let k = 0; k < points; k++) {
-    let x = lo + (hi - lo) * k / (points - 1), y = 0;
+  for (let k = 0; k < points2; k++) {
+    let x = lo + (hi - lo) * k / (points2 - 1), y = 0;
     for (let v of samples)
       y += Math.exp(-0.5 * ((x - v) / h) ** 2);
     out.push([x, y / (n * h * Math.sqrt(2 * Math.PI))]);
@@ -563,13 +563,21 @@ import { spread as _$spread } from "solid-js/web";
 import { mergeProps as _$mergeProps } from "solid-js/web";
 import { createMemo, createRenderEffect, splitProps } from "solid-js";
 import { insert, style } from "solid-js/web";
-var _tmpl$ = /* @__PURE__ */ _$template("<div>"), _tmpl$2 = /* @__PURE__ */ _$template("<svg><path vector-effect=non-scaling-stroke>"), _tmpl$3 = /* @__PURE__ */ _$template("<svg><path class=rhp-under></path><path class=rhp-stroke vector-effect=non-scaling-stroke>"), cls = (base, c) => c ? base + " " + c : base, KEY = /^(series-\d+|positive|negative|ink|muted|grid|surface|low|high)$/, tok = (c) => typeof c != "string" ? c : KEY.test(c) ? "var(--rhp-" + c + ")" : (/var\(--(?!rhp-)/.test(c) && console.warn("rhp: " + c + " reads a page variable; use a theme key"), c), length = (v) => typeof v == "number" ? v * 100 + "%" : v;
-function writeVars(el, vars, back) {
+var _tmpl$ = /* @__PURE__ */ _$template("<div>"), _tmpl$2 = /* @__PURE__ */ _$template("<svg><path vector-effect=non-scaling-stroke>"), _tmpl$3 = /* @__PURE__ */ _$template("<svg><path class=rhp-under></path><path class=rhp-stroke vector-effect=non-scaling-stroke>"), cls = (base, c) => c ? base + " " + c : base, KEY = /^(series-\d+|positive|negative|ink|muted|grid|surface|low|high)$/, tok = (c) => typeof c != "string" ? c : KEY.test(c) ? "var(--rhp-" + c + ")" : (/var\(--(?!rhp-)/.test(c) && console.warn("rhp: " + c + " reads a page variable; use a theme key"), c), length = (v) => typeof v == "number" ? v * 100 + "%" : v, fmt = ([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`, trace = (pts, smooth) => {
+  if (!smooth || pts.length < 3) return pts.map(fmt).join("L");
+  let d = fmt(pts[0]);
+  for (let i = 0; i < pts.length - 1; i++) {
+    let a = pts[i], b = pts[i + 1], before = pts[i - 1] ?? a, after = pts[i + 2] ?? b;
+    d += "C" + fmt([a[0] + (b[0] - before[0]) / 6, a[1] + (b[1] - before[1]) / 6]) + " " + fmt([b[0] - (after[0] - a[0]) / 6, b[1] - (after[1] - a[1]) / 6]) + " " + fmt(b);
+  }
+  return d;
+};
+function writeVars(el, vars, back2) {
   createRenderEffect((prev) => {
     let v = vars();
     for (let key in v)
       v[key] !== prev?.[key] && (prev ? write(el, key, v[key]) : v[key] != null && el.style.setProperty(key, v[key]));
-    return back && el.toggleAttribute("data-rhp-back", back(v)), v;
+    return back2 && el.toggleAttribute("data-rhp-back", back2(v)), v;
   });
 }
 var others = (props, mine) => {
@@ -577,7 +585,7 @@ var others = (props, mine) => {
     if (!mine.has(key)) return !0;
   return !1;
 }, MINE = ["class", "style", "ref", "children"];
-function browserBlock(props, mine, base, vars, attrs, back) {
+function browserBlock(props, mine, base, vars, attrs, back2) {
   let orientation = useOrientation();
   if (others(props, mine)) {
     let el2 = (() => {
@@ -595,18 +603,18 @@ function browserBlock(props, mine, base, vars, attrs, back) {
         }
       }), !1, !0), _$insert(_el$, () => props.children), _$runHydrationEvents(), _el$;
     })();
-    return writeVars(el2, vars, back), el2;
+    return writeVars(el2, (v) => vars(v ?? orientation() === "vertical"), back2), el2;
   }
   let el = _$getNextElement(_tmpl$);
   return "children" in props && insert(el, () => props.children), createRenderEffect((prev) => {
-    let c = cls(base, props.class), dir = short(orientation()), st = props.style, a = attrs?.(), v = vars();
+    let c = cls(base, props.class), dir = short(orientation()), st = props.style, a = attrs?.(), v = vars(orientation() === "vertical");
     c !== prev?.c && el.setAttribute("class", c), dir !== prev?.dir && el.setAttribute("data-rhp-o", dir);
     for (let key in a)
       a[key] !== prev?.a[key] && (a[key] == null ? el.removeAttribute(key) : el.setAttribute(key, a[key]));
     st !== prev?.st && style(el, st, prev?.st);
     for (let key in v)
       v[key] !== prev?.v[key] && (prev ? write(el, key, v[key]) : v[key] != null && el.style.setProperty(key, v[key]));
-    return back && el.toggleAttribute("data-rhp-back", back(v)), {
+    return back2 && el.toggleAttribute("data-rhp-back", back2(v)), {
       c,
       dir,
       a,
@@ -616,49 +624,54 @@ function browserBlock(props, mine, base, vars, attrs, back) {
   }), props.ref?.(el), el;
 }
 var blockElement = browserBlock;
-function block(base, own, vars, back) {
+function block(base, own, vars, back2) {
   let mine = /* @__PURE__ */ new Set([...MINE, ...own]);
-  return (props) => blockElement(props, mine, base, () => vars(props), null, back);
+  return (props) => blockElement(props, mine, base, (vertical) => vars(props, vertical), null, back2);
 }
-var Bar = block("rhp-bar", ["from", "to", "thick", "color"], (p) => ({
+var Bar = block("rhp-bar", ["from", "to", "thick", "color", "shape"], (p, vertical) => ({
   "--rhp-from": p.from ?? 0,
   "--rhp-to": p.to ?? 0,
   "--rhp-thick": length(p.thick),
-  "--rhp-color": tok(p.color)
-}), (v) => v["--rhp-to"] < v["--rhp-from"]), Dot = block("rhp-dot", ["at", "size", "across", "cross", "color"], (p) => ({
+  "--rhp-color": tok(p.color),
+  "--rhp-clip": p.shape?.clip(vertical, (p.to ?? 0) < (p.from ?? 0))
+}), (v) => v["--rhp-to"] < v["--rhp-from"]), Dot = block("rhp-dot", ["at", "size", "across", "cross", "color", "shape"], (p, vertical) => ({
   "--rhp-at": p.at,
   "--rhp-size": length(p.size),
   "--rhp-across": p.across,
   "--rhp-cross": p.cross,
-  "--rhp-color": tok(p.color)
+  "--rhp-color": tok(p.color),
+  "--rhp-clip": p.shape?.clip(vertical, !1)
 })), Place = block("rhp-place", ["at", "across", "cross"], (p) => ({
   "--rhp-at": p.at,
   "--rhp-across": p.across,
   "--rhp-cross": p.cross
-})), Tick = block("rhp-tick", ["at", "thick", "color"], (p) => ({
+})), Tick = block("rhp-tick", ["at", "thick", "color", "shape"], (p, vertical) => ({
   "--rhp-at": p.at,
   "--rhp-thick": length(p.thick),
-  "--rhp-color": tok(p.color)
-})), Cell = block("rhp-cell", ["value", "color"], (p) => ({
+  "--rhp-color": tok(p.color),
+  "--rhp-clip": p.shape?.clip(vertical, !1)
+})), Cell = block("rhp-cell", ["value", "color", "shape"], (p, vertical) => ({
   "--rhp-value": p.value,
-  "--rhp-color": tok(p.color)
-})), LABEL = /* @__PURE__ */ new Set([...MINE, "at", "side", "edge", "cross"]), Label = (props) => blockElement(props, LABEL, "rhp-label", () => ({
+  "--rhp-color": tok(p.color),
+  "--rhp-clip": p.shape?.clip(vertical, !1)
+})), LABEL = /* @__PURE__ */ new Set([...MINE, "at", "side", "edge", "cross", "shape"]), Label = (props) => blockElement(props, LABEL, "rhp-label", (vertical) => ({
   "--rhp-at": props.at,
-  "--rhp-cross": props.cross
+  "--rhp-cross": props.cross,
+  "--rhp-clip": props.shape?.clip(vertical, !1)
 }), () => ({
   "data-rhp-edge": props.edge,
   "data-rhp-side": props.side,
   "data-rhp-at": props.edge == null ? "" : void 0
 }));
 function Area(props) {
-  let orientation = useOrientation(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "mirror", "color"]), span = createMemo(() => {
+  let orientation = useOrientation(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "mirror", "color", "smooth"]), span = createMemo(() => {
     let pts = p.points ?? [];
     return pts.length ? [pts[0][0], pts[pts.length - 1][0]] : [0, 0];
   }), path = createMemo(() => {
     let pts = p.points ?? [];
     if (pts.length < 2) return "";
-    let [x0, x1] = span(), w = x1 - x0 || 1, peak = p.peak ?? Math.max(...pts.map((q) => q[1])), vertical = orientation() === "vertical", xy = (u, t) => vertical ? `${(1e3 - t).toFixed(1)},${(1e3 - u).toFixed(1)}` : `${u.toFixed(1)},${t.toFixed(1)}`, ut = pts.map(([x, y]) => [(x - x0) / w * 1e3, Math.min(1, y / (peak || 1))]);
-    return "M" + (p.mirror ? [...ut.map(([u, y]) => xy(u, 500 - y * 500)), ...ut.slice().reverse().map(([u, y]) => xy(u, 500 + y * 500))] : [xy(ut[0][0], 1e3), ...ut.map(([u, y]) => xy(u, 1e3 - y * 1e3)), xy(ut[ut.length - 1][0], 1e3)]).join("L") + "Z";
+    let [x0, x1] = span(), w = x1 - x0 || 1, peak = p.peak ?? Math.max(...pts.map((q) => q[1])), vertical = orientation() === "vertical", xy = (u, t) => vertical ? [1e3 - t, 1e3 - u] : [u, t], ut = pts.map(([x, y]) => [(x - x0) / w * 1e3, Math.min(1, y / (peak || 1))]);
+    return p.mirror ? "M" + trace(ut.map(([u, y]) => xy(u, 500 - y * 500)), p.smooth) + "L" + trace(ut.slice().reverse().map(([u, y]) => xy(u, 500 + y * 500)), p.smooth) + "Z" : "M" + fmt(xy(ut[0][0], 1e3)) + "L" + trace(ut.map(([u, y]) => xy(u, 1e3 - y * 1e3)), p.smooth) + "L" + fmt(xy(ut[ut.length - 1][0], 1e3)) + "Z";
   }), vars = () => ({
     "--rhp-from": span()[0],
     "--rhp-to": span()[1],
@@ -685,7 +698,7 @@ function Area(props) {
   return writeVars(el, vars), node;
 }
 function Line(props) {
-  let orientation = useOrientation(), crossed = useCrossed(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "fill", "base", "color"]), box = createMemo(() => {
+  let orientation = useOrientation(), crossed = useCrossed(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "fill", "base", "color", "smooth"]), box = createMemo(() => {
     let pts = p.points ?? [];
     if (!pts.length) return [0, 0, 0, 1];
     let xs = pts.map((q) => q[0]), ys = pts.map((q) => q[1]);
@@ -695,9 +708,9 @@ function Line(props) {
   }), paths = createMemo(() => {
     let pts = p.points ?? [];
     if (pts.length < 2) return ["", ""];
-    let [x0, x1, y0, y1] = box(), w = x1 - x0 || 1, peak = p.peak ?? Math.max(...pts.map((q) => q[1])), vertical = orientation() === "vertical", up = crossed() ? (y) => (y - y0) / (y1 - y0) : (y) => Math.min(1, y / (peak || 1)), xy = (u, t) => vertical ? `${(1e3 - t).toFixed(1)},${(1e3 - u).toFixed(1)}` : `${u.toFixed(1)},${t.toFixed(1)}`, ut = pts.map(([x, y]) => [(x - x0) / w * 1e3, 1e3 - up(y) * 1e3]), line = "M" + ut.map(([u, t]) => xy(u, t)).join("L");
+    let [x0, x1, y0, y1] = box(), w = x1 - x0 || 1, peak = p.peak ?? Math.max(...pts.map((q) => q[1])), vertical = orientation() === "vertical", up = crossed() ? (y) => (y - y0) / (y1 - y0) : (y) => Math.min(1, y / (peak || 1)), xy = (u, t) => vertical ? [1e3 - t, 1e3 - u] : [u, t], ut = pts.map(([x, y]) => [(x - x0) / w * 1e3, 1e3 - up(y) * 1e3]), line = "M" + trace(ut.map(([u, t]) => xy(u, t)), p.smooth);
     if (!p.fill) return [line, ""];
-    let floor = crossed() ? 1e3 - up(p.base ?? 0) * 1e3 : 1e3, under = line + "L" + xy(ut[ut.length - 1][0], floor) + "L" + xy(ut[0][0], floor) + "Z";
+    let floor = crossed() ? 1e3 - up(p.base ?? 0) * 1e3 : 1e3, under = line + "L" + fmt(xy(ut[ut.length - 1][0], floor)) + "L" + fmt(xy(ut[0][0], floor)) + "Z";
     return [line, under];
   }), vars = () => ({
     "--rhp-from": box()[0],
@@ -1353,6 +1366,70 @@ function Axis(props) {
     })), _$effect2(() => _$setAttribute2(_el$11, "data-rhp-cross", props.cross ? "" : void 0)), _el$11;
   })();
 }
+
+// src/shape.js
+var PAIRS = { M: 1, L: 1, Q: 2, C: 3, Z: 0 }, pct = (v) => +(v * 100).toFixed(3) + "%", back = (v) => typeof v == "string" && v.trim().startsWith("-"), css = (v) => typeof v == "number" ? pct(v) : back(v) ? `calc(100% - ${v.trim().slice(1)})` : String(v), flip = (v) => typeof v == "number" ? pct(1 - v) : back(v) ? v.trim().slice(1) : `calc(100% - (${v}))`, place = (along, across, vertical, backward) => vertical ? [css(across), backward ? css(along) : flip(along)] : [backward ? flip(along) : css(along), css(across)], takesShape, supportsShape = () => takesShape ?? (takesShape = typeof CSS < "u" && CSS.supports?.("clip-path", "shape(from 0 0, line to 1px 1px, close)")), FLAT = 12;
+var straighten = (from, cmd) => {
+  let out = [], [x0, y0] = from;
+  if (cmd[0] === "C") {
+    let [, x1, y1, x2, y2, x3, y3] = cmd;
+    for (let i = 1; i <= FLAT; i++) {
+      let t = i / FLAT, u = 1 - t;
+      out.push([
+        u * u * u * x0 + 3 * u * u * t * x1 + 3 * u * t * t * x2 + t * t * t * x3,
+        u * u * u * y0 + 3 * u * u * t * y1 + 3 * u * t * t * y2 + t * t * t * y3
+      ]);
+    }
+  } else {
+    let [, x1, y1, x2, y2] = cmd;
+    for (let i = 1; i <= FLAT; i++) {
+      let t = i / FLAT, u = 1 - t;
+      out.push([u * u * x0 + 2 * u * t * x1 + t * t * x2, u * u * y0 + 2 * u * t * y1 + t * t * y2]);
+    }
+  }
+  return out;
+}, points = (cmds) => {
+  let out = [], at2 = [0, 0];
+  for (let c of cmds)
+    if (c[0] !== "Z") {
+      if (c[0] === "M" || c[0] === "L") at2 = [c[1], c[2]];
+      else {
+        if (c.slice(1).every((v) => typeof v == "number") && at2.every((v) => typeof v == "number")) {
+          for (let p of straighten(at2, c)) out.push(p);
+          at2 = c.slice(-2);
+          continue;
+        }
+        at2 = c.slice(-2);
+      }
+      out.push(at2);
+    }
+  return out;
+}, polygon = (cmds, vertical, back2) => "polygon(" + points(cmds).map(([a, c]) => place(a, c, vertical, back2).join(" ")).join(", ") + ")", shapeFn = (cmds, vertical, back2) => {
+  let parts = [];
+  for (let c of cmds) {
+    let pt = (i) => place(c[i], c[i + 1], vertical, back2).join(" ");
+    c[0] === "M" ? parts.unshift("from " + pt(1)) : c[0] === "L" ? parts.push("line to " + pt(1)) : c[0] === "Q" ? parts.push("curve to " + pt(3) + " with " + pt(1)) : c[0] === "C" ? parts.push("curve to " + pt(5) + " with " + pt(1) + " / " + pt(3)) : c[0] === "Z" && parts.push("close");
+  }
+  return "shape(" + parts.join(", ") + ")";
+};
+function shape(...cmds) {
+  let list = (Array.isArray(cmds[0]) && Array.isArray(cmds[0][0]) ? cmds[0] : cmds).map((c) => typeof c == "string" ? [c] : c);
+  for (let c of list) {
+    let n = PAIRS[c[0]];
+    if (n === void 0) throw new Error(`rhp: ${c[0]} is not a shape command (M, L, Q, C or Z)`);
+    if (c.length !== n * 2 + 1) throw new Error(`rhp: ${c[0]} in a shape takes ${n * 2} numbers, not ${c.length - 1}`);
+  }
+  let curved = list.some((c) => c[0] === "Q" || c[0] === "C"), made2 = /* @__PURE__ */ new Map();
+  return {
+    curved,
+    // The clip for a block drawn this way. Both forms are made once and kept, so a hundred slats of one type
+    // compile one string between them.
+    clip(vertical, back2) {
+      let key = (vertical ? 2 : 0) + (back2 ? 1 : 0), out = made2.get(key);
+      return out === void 0 && (out = curved && supportsShape() ? shapeFn(list, vertical, back2) : polygon(list, vertical, back2), made2.set(key, out)), out;
+    }
+  };
+}
 export {
   Area,
   Axis,
@@ -1381,6 +1458,7 @@ export {
   restyle,
   running,
   series,
+  shape,
   shares,
   slat,
   sortBy,
