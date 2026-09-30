@@ -7,14 +7,14 @@ const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 const CUPS = [3, 5, 2, 6, 4]; // cups of coffee
 
 // A cup: a Bar one unit long, at its place in the slat.
-export const UnitSlat = slat({ css: styles.unit }, (u) => <Bar from={u.index} to={u.index + 1} class="unit" />);
+export const UnitSlat = slat({ css: styles.unit }, (u) => <Bar from={u.index} to={u.index + 1} part="mark" class="unit" />);
 
 // A day: its name, as many units as its count (an overlap Plot with that many slats), and the count.
 export const DaySlat = slat({ css: styles.day }, (d) => (
   <div>
-    <Label edge="start">{d.day}</Label>
+    <Label edge="start" part="name">{d.day}</Label>
     <Plot overlap slats={Math.round(d.cups)}>{UnitSlat}</Plot>
-    <Label at={d.cups} class="count">{Math.round(d.cups)}</Label>
+    <Label at={d.cups} part="value" class="count">{Math.round(d.cups)}</Label>
   </div>
 ));
 

@@ -9,11 +9,11 @@ const DONE = [86, 104, 58, 115]; // % of each day's goal
 // A goal: the track to 120%, the progress along it, the target at 100%, and the percentage at the end.
 export const GoalSlat = slat({ css: styles.goal, thickness: { horizontal: 44 } }, (d) => (
   <div>
-    <Label edge="start">{d.goal}</Label>
-    <Bar to={120} thick="14px" class="track" />
-    <Bar to={Math.min(120, d.done)} thick="14px" class="progress" />
-    <Tick at={100} thick="26px" class="target" />
-    <Label edge="end" class="pct">{Math.round(d.done)}%</Label>
+    <Label edge="start" part="name">{d.goal}</Label>
+    <Bar to={120} thick="14px" part="track" class="track" />
+    <Bar to={Math.min(120, d.done)} thick="14px" part="mark" class="progress" />
+    <Tick at={100} thick="26px" part="note" class="target" />
+    <Label edge="end" part="value" class="pct">{Math.round(d.done)}%</Label>
   </div>
 ));
 

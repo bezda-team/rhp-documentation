@@ -1,6 +1,6 @@
 ---
 title: Blocks
-description: The seven building blocks of a slat, Bar, Dot, Tick, Label, Cell, Area and Line, each with an example.
+description: The eight building blocks of a slat, Bar, Dot, Tick, Label, Cell, Place, Area and Line, each with an example.
 ---
 
 import Demo from '../../../customizations/components/Demo.astro';
@@ -48,6 +48,18 @@ Cells make heatmaps.
 Here each day's slat holds a small Plot of its own, one cell per hour (more about this in [charts inside slats](/guides/nesting/)).
 
 <Demo name="block-cell" height={140} />
+
+## Place
+
+A Place draws nothing at all: no size, no colour, nothing on the screen.
+It only marks a spot, so whatever you put inside it sits at `at` on the scale.
+Use it for the pieces that are yours to draw, a badge, a bubble, a photo, a needle, where rhp only has to say where they go.
+
+<Demo name="blocks-place" height={230} />
+
+- `across` puts it across the band, from 0 to 1, and `cross` puts it on a [second axis](/guides/scales/#a-second-axis) instead.
+- Everything inside it is yours: rhp adds no padding, no background and no text rules to undo.
+- Without it you would borrow another block and switch its appearance off, which is CSS you would have to keep in step with rhp.
 
 ## Area
 

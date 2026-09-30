@@ -10,10 +10,10 @@ export const BoxSlat = slat({ css: styles.box, thickness: { horizontal: 44 } }, 
   const s = createMemo(() => summary(d.samples)); // { low, q1, median, q3, high, … }
   return (
     <div>
-      <Label edge="start">{d.name}</Label>
+      <Label edge="start" part="name">{d.name}</Label>
       <Bar from={s().low} to={s().high} thick="2px" class="whisker" />
-      <Bar from={s().q1} to={s().q3} class="box" />
-      <Tick at={s().median} class="median" />
+      <Bar from={s().q1} to={s().q3} part="mark" class="box" />
+      <Tick at={s().median} part="note" class="median" />
     </div>
   );
 });

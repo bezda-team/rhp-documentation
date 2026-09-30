@@ -9,9 +9,9 @@ const CHANGE = [4, -2, 6, 3, -5, 7, 2, -3, 5, 1, -4, 8]; // % change on the mont
 // A month: a Bar from 0 to its change, up or down, and the change past its end (before it when negative).
 export const MonthSlat = slat({ css: styles.month }, (d) => (
   <div class={d.change < 0 ? "down" : "up"}>
-    <Label edge="start">{d.month}</Label>
-    <Bar to={d.change} class="bar" />
-    <Label at={d.change} side={d.change < 0 ? "before" : undefined} class="value">{Math.round(d.change)}</Label>
+    <Label edge="start" part="name">{d.month}</Label>
+    <Bar to={d.change} part="mark" class="bar" />
+    <Label at={d.change} side={d.change < 0 ? "before" : undefined} part="value" class="value">{Math.round(d.change)}</Label>
   </div>
 ));
 

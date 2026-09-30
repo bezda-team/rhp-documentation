@@ -10,10 +10,10 @@ const HIGH = [0, 12, 19, 10, 26];
 // A city: a Bar from its low to its high, and a Dot at each end.
 export const CitySlat = slat({ css: styles.city }, (d) => (
   <div>
-    <Label edge="start">{d.city}</Label>
-    <Bar from={d.low} to={d.high} thick="4px" class="line" />
-    <Dot at={d.low} size="12px" class="low" />
-    <Dot at={d.high} size="12px" class="high" />
+    <Label edge="start" part="name">{d.city}</Label>
+    <Bar from={d.low} to={d.high} thick="4px" part="track" class="line" />
+    <Dot at={d.low} size="12px" part="mark" class="low" />
+    <Dot at={d.high} size="12px" part="mark" class="high" />
   </div>
 ));
 

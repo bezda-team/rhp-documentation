@@ -27,7 +27,7 @@ export const TradeSlat = slat({
   room: { horizontal: { start: 116, end: 16 }, vertical: { start: 40, end: 10 } },
   css: styles.trade,
 }, (d) => (
-  <div class="row">
+  <div class="slat">
     <Label edge="start" class="trade">{d.trade}<small>wk {Math.round(d.start)}-{Math.round(d.end)}</small></Label>
     <Bar from={d.start} to={d.end} thick="10px" class="job" />
     <Show when={d.start < TODAY}><Bar from={d.start} to={Math.min(TODAY, d.end)} thick="10px" class="done" /></Show>

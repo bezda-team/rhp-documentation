@@ -30,7 +30,7 @@ export const GoalSlat = slat({
   room: { horizontal: { start: 134, end: 58 }, vertical: { start: 70, end: 30 } },
   css: styles.goal,
 }, (d) => (
-  <div class="row" style={{ "--rhp-color": d.color }}>
+  <div class="slat" style={{ "--rhp-color": d.color }}>
     <Label edge="start" class="habit">
       <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d={GLYPH[d.habit]} /></svg>
       <span>{d.habit}<small>{d.goal}</small></span>

@@ -24,10 +24,10 @@ export const trade = `
 .trade:vertical small { display: none; }
 .job { background: #d8d5cf; --rhp-radius: 99px; }
 .done { background: #ff5a1f; --rhp-radius: 99px; }
-.row:hover .job { background: #c4c0b8; }
-.row:hover .trade { color: #ff5a1f; }
+.slat:hover .job { background: #c4c0b8; }
+.slat:hover .trade { color: #ff5a1f; }
 .dim, .weeks { visibility: hidden; }
-.row:hover :is(.dim, .weeks) { visibility: visible; }
+.slat:hover :is(.dim, .weeks) { visibility: visible; }
 .dim { background: var(--rhp-ink); --rhp-radius: 0px; }
 .dim:horizontal { translate: 0 -13px; }
 .dim:vertical { translate: 13px 0; }
