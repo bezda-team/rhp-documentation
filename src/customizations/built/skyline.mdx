@@ -1,14 +1,18 @@
-A skyline is two bars per tower.
-The first runs from 0 to `d.roof`, which is the building.
-The second runs from `d.roof` to `d.tip`, which is the spire, and it is thin, so the silhouette narrows where the floors stop.
-Because a Bar can start anywhere, the spire needs no stacking helper: it simply begins where the roof ends.
+A tower is several bars stacked on top of each other.
+The first runs from 0 to the mass of the building.
+Each setback above it is another `Bar`, starting where the last one ended and narrower than it, which is what gives the tower its crown.
+Then a thin `Bar` from the top of the crown to `d.tip` is the spire.
+
+Because a Bar can start at any value, none of this needs a stacking helper: each block simply begins where the one below it stopped.
 
 The gallery version adds:
 
-- **Towers of different widths.**
-  `thick` is a share of the slat's band, and it comes from the data (`thick={d.wide}`), so each tower has its own footprint while the slats stay evenly spaced.
-  `inset: "1px"` closes the gaps, which is what makes a row of bars read as a skyline.
-- **Windows in CSS.**
-  Two repeating gradients on the roof Bar, one for floors and one for columns, and the grid turns with the chart, so the windows still run the right way when the skyline is laid on its side.
-- **A note that hangs off the roof line.**
-  A `Place` at `d.roof` marks where the building stops, and the text inside it appears on hover to say how much of the tower is spire.
+- **Towers that overlap, so the skyline has no gaps.**
+  `thick` is a share of the slat's band, and here it comes from the data and goes **above 1**, so each tower spills into its neighbours' bands.
+  With `inset: 0` as well, the thirteen towers meet edge to edge and read as one silhouette instead of thirteen bars.
+- **Crowns that keep their proportions.**
+  A setback is a share of its own tower's width, not a fixed number of pixels, so a wide tower gets a wide crown and the shapes survive new data.
+- **The name turned on its side.**
+  `writing-mode: vertical-rl` in the slat's CSS, under `:vertical`, so thirteen names fit under thirteen towers, and the chart laid on its side goes back to ordinary labels.
+- **A note hung at the top of the spire.**
+  A `Place` at `d.tip` holds the text that says how much of the tower is spire, and the slat's CSS fades it in on hover.
