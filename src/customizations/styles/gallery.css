@@ -156,9 +156,25 @@
   .poster.trials .hub span { display: none; }
 }
 
+/* Four hours to yourself: dotted paper after dark. The wedges are the light in it, and their labels are punched out
+   of them in the paper's own color. */
+.poster.day {
+  container-type: inline-size;
+  color: #eef1f8;
+  background:
+    radial-gradient(58% 52% at 50% 54%, rgb(120 134 214 / .22), transparent 72%),
+    radial-gradient(rgb(226 233 255 / .085) 1px, transparent 1.4px) 0 0 / 15px 15px,
+    linear-gradient(168deg, #171b2c, #0b0e18);
+}
+/* The chart's box follows the pie in it, so no empty band is left above and below. */
+.poster.day .rhp-chart { --rhp-height: clamp(280px, calc(100cqw - 20px), 560px) !important; }
+.poster.day .kicker { color: #ff7a8c; opacity: 1; }
+.poster.day .headline { font: 800 40px/1 var(--poster-display); letter-spacing: -0.03em; }
+.poster.day .dek { opacity: .74; }
+.poster.day .note { opacity: .5; }
 
-/* The v1 replicas' page boxes. v1's box plot sat on a white card; the animated dots sit in a window exactly
-   11 dots wide, which zooms down to fit a narrow page. */
+
+/* The animated dots sit in a window exactly 11 dots wide, which zooms down to fit a narrow page. */
 /* The heatmap's readout: the hour under the pointer, above the chart. */
 .playground .heat-readout { margin: 0 0 10px; min-height: 1.5em; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--sl-color-white); }
 .playground .buttons { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
@@ -168,8 +184,6 @@
 .playground .slider { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 8px 8px; font-size: 13px; color: var(--sl-color-text); }
 .playground .slider input { width: 160px; margin: 0; accent-color: var(--gallery-accent); }
 .playground .slider output { min-width: 2.5ch; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--sl-color-white); }
-.playground .v1-card { background: #2e2f43; border-radius: 16px; padding-bottom: 24px; box-shadow: inset 0 0 0 1px var(--sl-color-gray-5); }
-:root[data-theme="light"] .playground .v1-card { background: #ffffff; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; }
 /* The dots zoom to the room they have; the room must not grow with them (a turn could leave it too wide for good). */
 .playground .dots-fit { contain: inline-size; }
 .playground .dots-window { width: fit-content; margin: 0 auto; }
