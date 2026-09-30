@@ -31,11 +31,13 @@ export const part = `
   transform: rotate(calc(var(--rhp-p) * 1turn)) translateY(-31cqmin) rotate(calc(var(--rhp-p) * -1turn)); }
 
 /* Point at a wedge and it slides out along its own middle. CSS works the direction out itself, from the two numbers
-   rhp already wrote: sin and cos of the angle halfway along the span. */
+   rhp already wrote: sin and cos of the angle halfway along the span. This is interaction rather than data, so it is a
+   CSS transition, and it sits on the svg and on a box inside the label because rhp turns transitions off on its own
+   blocks while the JS animation is running. */
 .slat:vertical .slice { --mid: calc((var(--rhp-lo) + var(--rhp-hi)) / 2); }
-.slat:vertical :is(.slice, .tag) { transition: translate .25s ease-out; }
-.slat:vertical:is(:hover, :focus-within) .slice { translate: calc(sin(var(--mid) * 1turn) * 13px) calc(cos(var(--mid) * 1turn) * -13px); }
-.slat:vertical:is(:hover, :focus-within) .tag { translate: calc(-50% + sin(var(--rhp-p) * 1turn) * 13px) calc(-50% + cos(var(--rhp-p) * 1turn) * -13px); }
+.slat:vertical :is(.slice svg, .tag .move) { transition: translate .25s ease-out; }
+.slat:vertical:is(:hover, :focus-within) .slice svg { translate: calc(sin(var(--mid) * 1turn) * 13px) calc(cos(var(--mid) * 1turn) * -13px); }
+.slat:vertical:is(:hover, :focus-within) .tag .move { translate: calc(sin(var(--rhp-p) * 1turn) * 13px) calc(cos(var(--rhp-p) * 1turn) * -13px); }
 
 /* --- flat: rhp places the bar and the label itself --- */
 
@@ -47,6 +49,7 @@ export const part = `
 /* --- either way --- */
 
 .tag { z-index: 2; color: var(--rhp-surface); text-align: center; } /* the paper color, punched out of the wedge */
+.move { display: block; }
 .tag b { display: block; font: 800 clamp(20px, 6cqmin, 32px)/1 var(--rhp-font); letter-spacing: -.03em; }
 .said { display: grid; font-size: clamp(9px, 2.2cqmin, 12px); }
 .said i { grid-area: 1 / 1; font-style: normal; transition: opacity .2s; }

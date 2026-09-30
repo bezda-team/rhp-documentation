@@ -1,5 +1,5 @@
 import { createMemo } from "solid-js";
-import { Chart, Plot, Bar, Label, slat, shares, stackUp } from "@bezda/rhp";
+import { Chart, Plot, Bar, Label, slat, shares, stackUp, animated } from "@bezda/rhp";
 import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
@@ -40,14 +40,20 @@ const wedge = (from, to) => {
 };
 
 // A part: its wedge round, and rhp's own bar flat.
-export const PartSlat = slat({ css: styles.part, thickness: { horizontal: 56 } }, (d) => (
-  <div class="slat">
-    <Bar from={d.from} to={d.to} color={d.color} class="slice">
-      <svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet"><path d={wedge(d.from, d.to)} /></svg>
-    </Bar>
-    <Label at={(d.from + d.to) / 2} class="tag">{Math.round(d.to - d.from)}%</Label>
-  </div>
-));
+// The path cannot be transitioned, because CSS would carry every point of it along a straight line and the rim would
+// flatten on the way. `animated` moves the two numbers instead and the wedge is drawn again from them each frame.
+export const PartSlat = slat({ css: styles.part, thickness: { horizontal: 56 } }, (d) => {
+  const span = animated(() => [d.from, d.to], () => ({ duration: 600 }));
+
+  return (
+    <div class="slat">
+      <Bar from={d.from} to={d.to} color={d.color} class="slice">
+        <svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet"><path d={wedge(...span())} /></svg>
+      </Bar>
+      <Label at={(d.from + d.to) / 2} class="tag">{Math.round(d.to - d.from)}%</Label>
+    </div>
+  );
+});
 
 export default function PieChart(p) {
   const hours = createMemo(() => (p.seed() ? PARTS.map(() => rand(3.4, 9)) : HOURS));
