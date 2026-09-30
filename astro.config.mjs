@@ -96,6 +96,7 @@ export default defineConfig({
         { label: "Heatmap", link: '/examples/heatmap/' },
         { label: "Gantt timeline", link: '/examples/gantt/' },
         { label: "Candlestick", link: '/examples/candlestick/' },
+        { label: "Skyline", link: '/examples/skyline/' },
       ],
     }],
     customCss: [

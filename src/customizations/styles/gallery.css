@@ -129,6 +129,11 @@
 .poster.market .ohlc .up { color: #0d7680; }
 .poster.market .ohlc .down { color: #990f3d; }
 
+/* Where the building stops: a city guide's skyline plate. */
+.poster.skyline { background: #ece5d8; color: #2b3a55; }
+.poster.skyline .kicker { color: #e2703a; opacity: 1; }
+.poster.skyline .headline { font: 800 42px/.92 "Barlow Condensed", "Arial Narrow", sans-serif; text-transform: uppercase; letter-spacing: .01em; }
+
 /* The v1 replicas' page boxes. v1's box plot sat on a white card; the animated dots sit in a window exactly
    11 dots wide, which zooms down to fit a narrow page. */
 /* The heatmap's readout: the hour under the pointer, above the chart. */
