@@ -87,6 +87,7 @@ export default defineConfig({
         { label: "Population pyramid", link: '/examples/population-pyramid/' },
         { label: "Diverging bars", link: '/examples/diverging-bars/' },
         { label: "Waterfall", link: '/examples/waterfall/' },
+        { label: "Radial bars", link: '/examples/radial-bars/' },
         { label: "Bullet chart", link: '/examples/bullet-chart/' },
         { label: "Histogram", link: '/examples/histogram/' },
         { label: "Violin plot", link: '/examples/violin-plot/' },
@@ -96,7 +97,6 @@ export default defineConfig({
         { label: "Heatmap", link: '/examples/heatmap/' },
         { label: "Gantt timeline", link: '/examples/gantt/' },
         { label: "Candlestick", link: '/examples/candlestick/' },
-        { label: "Skyline", link: '/examples/skyline/' },
       ],
     }],
     customCss: [

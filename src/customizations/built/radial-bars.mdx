@@ -1,0 +1,72 @@
+A radial stack is a bar chart read round instead of along.
+One slat per row, as always. Each slat draws one ring.
+
+rhp never gives the CSS a length. It gives numbers between 0 and 1:
+
+- `--rhp-hi` is how far along the scale a `Bar` reaches.
+- `--rhp-p` is where a `Dot` or a `Label` sits on the scale.
+- `--rhp-position` is the slat's place in the stack, 0 for the first one, and `--rhp-n` is how many slats there are.
+
+A length is one thing you can spend those on. An angle and a radius are another.
+
+**The radius.**
+Each ring is a disc, and each one inside is `--step` smaller:
+
+```css
+--r: calc(var(--outer) - var(--rhp-position) * var(--step));
+```
+
+A `mask` cuts the middle out of the disc, which leaves a ring.
+
+**The angle.**
+A conic gradient paints the share and then stops:
+
+```css
+--swept: calc(var(--rhp-hi) * 270deg);
+background: conic-gradient(from calc(270deg - var(--swept)), var(--to) 0deg, var(--from) var(--swept), #0000 0deg);
+```
+
+270deg is nine o'clock, so the paint ends there and the arc grows counterclockwise.
+`--swept` is registered with `@property` as an `<angle>`.
+Without that the browser does not know the value is an angle, and the arc jumps from one share to the next instead of moving.
+
+**The middle.**
+rhp gives each slat a column of the plot, so a ring drawn in the middle of its own column would sit beside its neighbours, not inside them.
+One line puts them all on the same centre:
+
+```css
+--mid: calc((var(--rhp-n) / 2 - var(--rhp-position)) * 100%);
+```
+
+`100%` inside a slat is that slat's column, so this counts back from the slat's left edge to the middle of the plot.
+
+**The things on the ring.**
+A cap, a number, a label: turn by the value, then step out to the radius.
+
+```css
+transform: rotate(calc(var(--rhp-p) * -1 * var(--sweep))) translateX(calc(var(--band) / 2 - var(--r)));
+```
+
+The share's label turns back by the same angle afterwards, so the number stays upright.
+
+**The shadow** cannot go on the arc.
+A mask is applied after a filter, so the shadow would be cut away along with the rest of the disc.
+It goes on a box around the arc and its caps, and it shadows the three of them as one ring.
+Its color is the paper's dark, not the arc's: a shadow in the object's own color is a glow.
+
+**Flat, none of this runs.**
+Every rule above is written under `:vertical`.
+Turn the chart and rhp places the bars itself, and the slat is left with a height, a border radius and a gradient.
+The numbers are the same either way. Only what the CSS spends them on changes.
+
+The gallery version adds:
+
+- **One readout for the whole chart.**
+  A single element in the middle says how many of a hundred starters are left after each stage, in that ring's color.
+  Pointing at a ring sets a signal and redraws that one element, rather than a card per ring.
+- **A whole ring to point at.**
+  A slat's box is a column of the plot, nothing to do with the circle drawn in it, so it does not catch the pointer.
+  The ring's own pieces do. A mask hides paint and not the box, so each is still a full disc, and the innermost ring over a point wins.
+  Pointing anywhere in a ring's band, or the gap outside it, picks that ring.
+- **Tab and the arrow keys.**
+  The `Plot` has `keyboard`, so the rings take focus in order and the readout follows the focused ring as well as the pointer.
