@@ -17,7 +17,8 @@ export const part = `
 .slat:horizontal .slice { --rhp-gap: 4px; --rhp-radius: 8px; }
 .slat:horizontal .tag { translate: -50% -50%; padding: 0; }
 
-/* Plain wedges: no stroke and no rounding. The gallery version is the one that rounds its corners. */
-.slice path { fill: var(--rhp-color); transition: d .6s ease-out; }
+/* Plain wedges: no stroke and no rounding. The gallery version is the one that rounds its corners.
+   And no transition: interpolating one wedge's path into the next would flatten the rim while it moved. */
+.slice path { fill: var(--rhp-color); }
 .tag { color: var(--rhp-surface); font-weight: 800; font-size: 15px; }
 `;

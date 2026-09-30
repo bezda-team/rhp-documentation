@@ -20,7 +20,10 @@ export const part = `
 .slat:vertical :is(.slice path, .tag) { pointer-events: auto; }
 
 /* fill and stroke in one color make one solid shape, and stroke-linejoin rounds every corner of it. */
-.slice path { fill: var(--rhp-color); stroke: var(--rhp-color); stroke-width: 3.8; stroke-linejoin: round; transition: d .6s ease-out; }
+/* No transition on the path. Interpolating one wedge's path into the next moves every point in a straight line, and
+   a point crossing a circle in a straight line cuts the corner, so the rim would flatten while it moved. The JS
+   animation moves the numbers instead and the path is drawn again each frame, which keeps the pie round. */
+.slice path { fill: var(--rhp-color); stroke: var(--rhp-color); stroke-width: 3.8; stroke-linejoin: round; }
 
 /* The label swings out to the middle of its own wedge, then turns back so it stays upright to read.
    cqmin is the plot's shorter side, which is the pie's width, so the label keeps its place as the chart resizes. */
