@@ -9,7 +9,7 @@ const still = Array(ROWS).fill(0);
 export const RowSlat = slat({ css: styles.row, thickness: 30, room: {} }, (d) => (
   <div class="slat">
     <Plot overlap slats={DOTS} x={(c) => d.shift + c.index + 0.5}>
-      {(c) => <Dot at={c.x} size="22px" part="mark" color={(c.index + d.index) % 4 ? "series-1" : "series-2"} class="dot" />}
+      {(c) => <Dot at={c.x} size="22px" color={(c.index + d.index) % 4 ? "series-1" : "series-2"} class="dot" />}
     </Plot>
   </div>
 ));

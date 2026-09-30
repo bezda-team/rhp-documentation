@@ -21,55 +21,37 @@ It works in both directions: your page's CSS can't reach into a chart either.
 Anything CSS can do to an element, it can do here, because a block and a slat are ordinary elements.
 A gradient on a bar, a web font on a label, an image behind a cell: all of it behaves the way it does anywhere else on your page.
 
-## Naming the parts of a slat
+## Using someone else's look
 
-CSS written for one chart only lands on another if the class names happen to match.
-`part` fixes that: it names what a piece of a slat **is**, so CSS can find it anywhere.
-
-```jsx
-<Label edge="start" part="name">{d.city}</Label>
-<Bar to={d.rain} part="mark" />
-<Label at={d.rain} part="value">{d.rain} mm</Label>
-```
-
-```css
-[part=name]  { font-weight: 600; }
-[part=mark]  { --rhp-radius: 6px; }
-[part=value] { font-variant-numeric: tabular-nums; }
-```
-
-rhp knows five names, and you can use any other name of your own:
-
-| Part | What it is |
-|---|---|
-| `name` | the label that says which row this is |
-| `mark` | the thing that shows the value: the bar, the dot, the area |
-| `value` | the text of the value |
-| `track` | the background the mark runs along |
-| `note` | anything else worth naming: a badge, a caption |
-
-They are names, not rules.
-A slat can use one, all five or none, and rhp never requires them.
-
-## Taking someone else's look
-
-A slat's `css` can be a list, which is joined in order:
+A slat's CSS can be a list, which is joined in order:
 
 ```jsx
-import { WEATHER } from "./looks.js";
+import { NIGHT } from "./looks.js";
 
-const Row = slat({ ...WEATHER, css: [WEATHER.css, own] }, (d) => …);
+const Row = slat({ ...NIGHT, css: [NIGHT.css, own] }, (d) => …);
 ```
 
 So a look is an ordinary object you can export, import, publish or paste: its CSS, and the layout that goes with it (`thickness`, `inset`, `room`).
-Use it as it comes with `slat(WEATHER, (d) => …)`, or put your own CSS after it, where it wins.
+Use it as it comes with `slat(NIGHT, (d) => …)`, or put your own CSS after it, where it wins.
 
-Here one look is used by two slats that are built from different blocks, a plain bar and a bar with a dot at each end, and neither one needed a line of CSS of its own:
+For a look to land on a chart it wasn't written for, it has to aim at something both charts have.
+Class names are no good for that, because each chart picks its own.
+What every chart does have is what rhp writes on each block:
+
+| Selector | What it reaches |
+|---|---|
+| `.rhp-bar`, `.rhp-dot`, `.rhp-tick`, `.rhp-cell`, `.rhp-area`, `.rhp-line` | every block of that kind |
+| `.rhp-label[data-rhp-edge="start"]` | the name beside a slat, in the gutter |
+| `.rhp-label[data-rhp-edge="end"]` | a label in the gutter after the slat |
+| `.rhp-label[data-rhp-at]` | a label at a value on the scale |
+| `.rhp-plot[data-rhp-overlap]` | a Plot whose slats share one space |
+
+Here one look is used by two slats built from different blocks, a plain bar and a bar with a dot at each end, and neither one needed a line of CSS of its own:
 
 <Demo name="styling-look" height={330} />
 
-A look written against parts fits any slat that names the same parts.
-A look written against class names only fits a slat that uses those class names, which is why parts are worth naming.
+A look aims at what every chart has.
+What is particular to one chart, which of its two bars is the track and which is the progress, stays in that chart's own CSS, where the person who built it can see it.
 
 ## The variables rhp reads
 

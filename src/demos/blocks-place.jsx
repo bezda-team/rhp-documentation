@@ -22,9 +22,9 @@ const Climb = slat(
   },
   (d) => (
     <div>
-      <Label edge="start" part="name">{d.peak}</Label>
-      <Bar to={d.metres} part="mark" />
-      <Place at={d.metres} part="note">
+      <Label edge="start">{d.peak}</Label>
+      <Bar to={d.metres} />
+      <Place at={d.metres}>
         <span class="badge">{d.metres} m</span>
       </Place>
     </div>

@@ -9,9 +9,9 @@ const SOLD = [12, 18, 7, 22, 15, 9];
 // A fruit: its name at the start, its bar, and its value just past the bar's end.
 export const RowSlat = slat({ css: styles.slat }, (d) => (
   <div class="slat">
-    <Label edge="start" part="name">{d.name}</Label>
-    <Bar to={d.sold} part="mark" class="bar" />
-    <Label at={d.sold} part="value" class="value">{Math.round(d.sold)}</Label>
+    <Label edge="start">{d.name}</Label>
+    <Bar to={d.sold} class="bar" />
+    <Label at={d.sold} class="value">{Math.round(d.sold)}</Label>
   </div>
 ));
 

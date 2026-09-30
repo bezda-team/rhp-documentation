@@ -1,15 +1,15 @@
 import { Chart, Plot, Bar, Dot, Label, slat } from "@bezda/rhp";
 
-// One look, written against the parts a slat names rather than against class
+// One look, aimed at what rhp writes on every chart rather than at class
 // names. Both slats below use it as it comes, though one is a bar and the
 // other is a bar with a dot at each end.
 const NIGHT = {
   thickness: 38,
   room: { start: 76, end: 46 },
   css: `
-    [part=name] { font-weight: 600; }
-    [part=mark] { --rhp-radius: 99px; }
-    [part=value] {
+    .rhp-label[data-rhp-edge="start"] { font-weight: 600; }
+    .rhp-bar, .rhp-dot { --rhp-radius: 99px; }
+    .rhp-label[data-rhp-at] {
       font-weight: 700;
       font-variant-numeric: tabular-nums;
       color: var(--rhp-muted);
@@ -19,19 +19,19 @@ const NIGHT = {
 
 const Warm = slat(NIGHT, (d) => (
   <div>
-    <Label edge="start" part="name">{d.city}</Label>
-    <Bar to={d.high} part="mark" />
-    <Label at={d.high} part="value">{d.high}°</Label>
+    <Label edge="start">{d.city}</Label>
+    <Bar to={d.high} />
+    <Label at={d.high}>{d.high}°</Label>
   </div>
 ));
 
 const Range = slat(NIGHT, (d) => (
   <div>
-    <Label edge="start" part="name">{d.city}</Label>
-    <Bar from={d.low} to={d.high} thick="6px" part="mark" />
-    <Dot at={d.low} size="13px" part="mark" />
-    <Dot at={d.high} size="13px" part="mark" />
-    <Label at={d.high} part="value">{d.high}°</Label>
+    <Label edge="start">{d.city}</Label>
+    <Bar from={d.low} to={d.high} thick="6px" />
+    <Dot at={d.low} size="13px" />
+    <Dot at={d.high} size="13px" />
+    <Label at={d.high}>{d.high}°</Label>
   </div>
 ));
 
