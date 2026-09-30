@@ -1,0 +1,28 @@
+---
+title: "Radial bars"
+description: "Four stages of a drug trial as concentric rings, where the share that clears each stage is the angle its arc turns through."
+template: splash
+gallery:
+  poster: "One in ten"
+  simple: "A ring per row, and the share is the angle its arc turns through."
+  order: 21
+  orientation: vertical
+  orientationNames: { horizontal: "Flat", vertical: "Circular" }
+  features: ["rows", "--rhp-hi as an angle", "--rhp-position as a radius", "one readout for the chart", "keyboard"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+import Built from '../../../customizations/built/radial-bars.mdx';
+
+<GalleryExample slug="radial-bars" />
+
+## The simple version
+
+<GalleryExample slug="radial-bars" version="simple" />
+
+## How it's built
+
+<Built />
+
+<GalleryPager slug="radial-bars" />

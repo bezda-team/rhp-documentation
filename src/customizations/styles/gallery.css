@@ -129,10 +129,33 @@
 .poster.market .ohlc .up { color: #0d7680; }
 .poster.market .ohlc .down { color: #990f3d; }
 
-/* Where the building stops: a city guide's skyline plate. */
-.poster.skyline { color: #27354e; background: #ece5d8 radial-gradient(circle at 83% 26%, #e0d4bd 0 104px, transparent 104px) no-repeat; }
-.poster.skyline .kicker { color: #e2703a; opacity: 1; }
-.poster.skyline .headline { font: 800 42px/.92 "Barlow Condensed", "Arial Narrow", sans-serif; text-transform: uppercase; letter-spacing: .01em; }
+/* One in ten: hatched paper. No hue of its own, so the rings keep theirs. A pool of white puts the circle on clean paper. */
+.poster.trials {
+  color: #141a2e;
+  background:
+    radial-gradient(56% 50% at 50% 58%, #ffffff 0 40%, rgb(255 255 255 / 0) 100%),
+    repeating-linear-gradient(-45deg, rgb(19 24 42 / .05) 0 1.2px, transparent 1.2px 9px),
+    linear-gradient(165deg, #f5f6fa, #dcdfe8);
+}
+/* The chart's box follows the circle in it, so no empty band is left above and below. The poster is the container the
+   height is measured against, and the slat's CSS sizes the circle from the same width. */
+.poster.trials { container-type: inline-size; }
+.poster.trials .rhp-chart { --rhp-height: clamp(286px, calc(103cqw - 86px), 542px) !important; }
+.poster.trials .kicker { color: #46506e; opacity: 1; }
+.poster.trials .headline { font: 800 40px/1 var(--poster-display); letter-spacing: -0.03em; }
+.poster.trials .keys { margin: -4px 0 2px; font-weight: 600; }
+/* The readout lives in the chart, so it stays on the middle of the circle whatever the rings do. Text and nothing else.
+   --on is the color of the ring being read, darkened so the words hold up on white. */
+.poster.trials .hub { position: relative; z-index: 2; display: grid; place-items: center; pointer-events: none; }
+.poster.trials .hub > div { width: clamp(84px, calc(28cqw - 36px), 150px); display: grid; gap: 2px; text-align: center;
+  color: color-mix(in oklab, var(--on, #2c3555) 76%, #0b1026); transition: color .2s; }
+.poster.trials .hub b { font: 800 clamp(20px, 6.2cqw, 38px)/1 var(--poster-display); letter-spacing: -.035em; }
+.poster.trials .hub span { font-size: clamp(9px, 1.9cqw, 12px); line-height: 1.25; opacity: .72; text-wrap: balance; }
+.rhp-chart[data-rhp-o="h"] .hub { display: none; }
+@container (max-width: 380px) {
+  .poster.trials .hub span { display: none; }
+}
+
 
 /* The v1 replicas' page boxes. v1's box plot sat on a white card; the animated dots sit in a window exactly
    11 dots wide, which zooms down to fit a narrow page. */
@@ -171,8 +194,12 @@
 .playground :is(.pg-seg button, .pg-button, .pg-tabs button, .pg-actions button):focus-visible { outline: 2px solid var(--gallery-accent); outline-offset: 2px; }
 .pg-body { display: grid; gap: 18px; }
 @container (min-width: 900px) {
-  .pg-body { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); align-items: start; }
-  .pg-code { position: sticky; top: calc(var(--sl-nav-height) + 1rem); }
+  .pg-body { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); align-items: stretch; }
+  .pg-preview { align-self: start; }
+  /* The code panel takes the chart's height. flex-basis: 0 keeps the file's own length out of the row, so the row is
+     the chart's, and the panel stretches to it, down to a readable floor and up to its max-height. */
+  .pg-code { position: sticky; top: calc(var(--sl-nav-height) + 1rem); min-height: 420px; }
+  .playground .pg-file { flex-basis: 0; }
 }
 .pg-preview { min-width: 0; }
 .playground[data-version="simple"] .pg-preview { padding: 18px 16px 12px; border-radius: var(--gallery-radius); background: var(--gallery-card); border: 1px solid var(--sl-color-gray-5); }
