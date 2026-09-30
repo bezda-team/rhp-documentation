@@ -36,4 +36,4 @@ const count = (await getCollection("docs", (e) => !!e.data.gallery)).length;
 	</div>
 )}
 {version === "simple" && <p>{g.simple} The same structure with almost no styling: a good place to start your own.</p>}
-<ExamplePlayground client:only="solid-js" id={slug} version={version} orientation={g.orientation} theme={version === "poster" ? g.theme : "site"} />
+<ExamplePlayground client:only="solid-js" id={slug} version={version} orientation={g.orientation} orientationNames={g.orientationNames} theme={version === "poster" ? g.theme : "site"} />

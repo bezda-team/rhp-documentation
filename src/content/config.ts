@@ -8,6 +8,7 @@ const gallery = z.object({
 	simple: z.string(), // what the simple version shows
 	order: z.number(),
 	orientation: z.enum(['horizontal', 'vertical']), // the one it looks best in: the tile's, and the page's first
+	orientationNames: z.object({ horizontal: z.string(), vertical: z.string() }).optional(), // what the toggle calls them, when "Horizontal" and "Vertical" say nothing (a radial chart's "Flat" and "Circular")
 	theme: z.enum(['site', 'v1']).default('site'), // v1: a replica of v1's demos, drawn with v1's colors and font
 	features: z.array(z.string()).default([]), // the rhp features it shows
 });
