@@ -1,0 +1,28 @@
+---
+title: "Pie chart"
+description: "A day of twenty four hours in four wedges, with rounded corners and a gap of one width between them."
+template: splash
+gallery:
+  poster: "Four hours to yourself"
+  simple: "One wedge per row, and the share is the angle it turns through."
+  order: 22
+  orientation: vertical
+  orientationNames: { horizontal: "Flat", vertical: "Pie" }
+  features: ["overlap", "shares and stackUp", "--rhp-lo and --rhp-hi as angles", "an SVG wedge", "keyboard"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+import Built from '../../../customizations/built/pie-chart.mdx';
+
+<GalleryExample slug="pie-chart" />
+
+## The simple version
+
+<GalleryExample slug="pie-chart" version="simple" />
+
+## How it's built
+
+<Built />
+
+<GalleryPager slug="pie-chart" />
