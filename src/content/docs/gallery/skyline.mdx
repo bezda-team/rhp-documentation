@@ -1,0 +1,27 @@
+---
+title: "Skyline"
+description: "Ten New York towers as a skyline: the solid part is the roof, and the orange above it is spire and antenna."
+template: splash
+gallery:
+  poster: "Where the building stops"
+  simple: "A bar to the roof, a thin bar to the tip."
+  order: 21
+  orientation: vertical
+  features: ["rows", "Place", "thick per slat", "windows in CSS"]
+---
+
+import GalleryExample from '../../../customizations/components/gallery/GalleryExample.astro';
+import GalleryPager from '../../../customizations/components/gallery/GalleryPager.astro';
+import Built from '../../../customizations/built/skyline.mdx';
+
+<GalleryExample slug="skyline" />
+
+## The simple version
+
+<GalleryExample slug="skyline" version="simple" />
+
+## How it's built
+
+<Built />
+
+<GalleryPager slug="skyline" />

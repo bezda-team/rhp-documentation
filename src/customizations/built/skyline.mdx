@@ -1,0 +1,14 @@
+A skyline is two bars per tower.
+The first runs from 0 to `d.roof`, which is the building.
+The second runs from `d.roof` to `d.tip`, which is the spire, and it is thin, so the silhouette narrows where the floors stop.
+Because a Bar can start anywhere, the spire needs no stacking helper: it simply begins where the roof ends.
+
+The gallery version adds:
+
+- **Towers of different widths.**
+  `thick` is a share of the slat's band, and it comes from the data (`thick={d.wide}`), so each tower has its own footprint while the slats stay evenly spaced.
+  `inset: "1px"` closes the gaps, which is what makes a row of bars read as a skyline.
+- **Windows in CSS.**
+  Two repeating gradients on the roof Bar, one for floors and one for columns, and the grid turns with the chart, so the windows still run the right way when the skyline is laid on its side.
+- **A note that hangs off the roof line.**
+  A `Place` at `d.roof` marks where the building stops, and the text inside it appears on hover to say how much of the tower is spire.
