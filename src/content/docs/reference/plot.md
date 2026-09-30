@@ -11,6 +11,8 @@ description: A stack of slats made from your data. Every prop that isn't a setti
 
 A Plot's child is the slat: a function of `d` that returns one element, often made with [`slat()`](/reference/slat/).
 
+A Plot is a stack of slats and a [Chart](/reference/chart/) is the frame around it, which is not the everyday sense of the two words: see [Chart and Plot are two different components](/start/first-chart/#1-bars).
+
 ## Data
 
 Every prop that isn't a setting below is data, read in the slat as `d.<prop>`:

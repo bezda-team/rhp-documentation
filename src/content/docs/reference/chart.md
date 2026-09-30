@@ -30,6 +30,8 @@ description: The frame around one or more Plots. It sets the scale, the directio
 A Chart can hold several Plots (drawn over each other on the same scale), and a [Scale](/reference/scale/).
 It also takes a `<Show>` or any Solid control flow around them.
 
+A Chart is the frame and a [Plot](/reference/plot/) is a stack of slats inside it, which is not the everyday sense of the two words: see [Chart and Plot are two different components](/start/first-chart/#1-bars).
+
 ## Theme
 
 ```jsx
