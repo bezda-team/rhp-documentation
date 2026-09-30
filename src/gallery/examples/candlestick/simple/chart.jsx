@@ -7,7 +7,7 @@ import * as styles from "./styles.js";
 export const CandleSlat = slat({ css: styles.candle, thickness: { horizontal: 16 }, room: { start: 8, end: 8 } }, (d) => (
   <div class={d.close >= d.open ? "up" : "down"}>
     <Bar from={d.low} to={d.high} thick="1.5px" class="wick" />
-    <Bar from={d.open} to={d.close} thick={0.7} part="mark" class="body" />
+    <Bar from={d.open} to={d.close} thick={0.7} class="body" />
   </div>
 ));
 

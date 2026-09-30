@@ -11,9 +11,9 @@ export const ViolinSlat = slat({ css: styles.violin, thickness: { horizontal: 80
   const median = createMemo(() => summary(d.samples).median);
   return (
     <div>
-      <Label edge="start" part="name">{d.name}</Label>
-      <Area points={shape()} mirror part="mark" class="shape" />
-      <Dot at={median()} size="9px" part="note" class="median" />
+      <Label edge="start">{d.name}</Label>
+      <Area points={shape()} mirror class="shape" />
+      <Dot at={median()} size="9px" class="median" />
     </div>
   );
 });
