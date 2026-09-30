@@ -22,6 +22,8 @@ function Seg(p) {
 export function Playground(props) {
   const ex = props.example, Example = ex.chart.default;
   const [o, setO] = createSignal(props.orientation ?? "horizontal");
+  // An example can rename the two orientations to what they look like (a radial chart turns flat, not horizontal).
+  const turn = () => props.orientationNames ?? { horizontal: "Horizontal", vertical: "Vertical" };
   const [motion, setMotion] = createSignal("css");
   const [seed, setSeed] = createSignal(0);
   const js = () => motion() === "js";
@@ -69,7 +71,7 @@ export function Playground(props) {
   return (
     <section class="playground not-content" data-version={props.version}>
       <div class="pg-bar">
-        <Seg label="Orientation" value={o} set={setO} options={[["horizontal", "Horizontal"], ["vertical", "Vertical"]]} />
+        <Seg label="Orientation" value={o} set={setO} options={[["horizontal", turn().horizontal], ["vertical", turn().vertical]]} />
         <Seg label="Animation" value={motion} set={setMotion} options={[["css", "CSS"], ["js", "JS"]]} />
         <button type="button" class="pg-button" onClick={() => setSeed(seed() + 1)}>New data</button>
       </div>
