@@ -5,16 +5,17 @@ description: How a Plot hands your data to its slats, as lists or as row objects
 
 import Demo from '../../../customizations/components/Demo.astro';
 
-Each slat gets the data of the row it shows, as `d`: `d.name`, `d.value`, and so on.
-You can give a Plot that data in three ways, and mix them.
+A slat is a function of one row of your data.
+That row arrives as `d`, so the slat reads `d.name`, `d.value`, and so on.
+You can give a Plot its data in three ways, and mix them.
 
 ## Lists, shared values and functions
 
-Every prop you give a Plot (other than its settings, such as `order`) is a piece of data:
+Every prop you give a Plot is data for its slats, apart from the settings it already knows (`order`, `key`, `reorder` and the rest):
 
 - **Lists** line up by position: the third name, the third number and the third picture belong together, and go to the third slat. The longest list sets how many slats there are.
 - **A single value** is shared by every slat.
-- **A function of `d`** is worked out for each slat, and again only when what it reads changes.
+- **A function of `d`** runs once for each slat, and runs again only when a value it reads changes.
 
 <Demo name="data-groups" height={150} />
 
@@ -23,20 +24,21 @@ Inside the slat, `d.city`, `d.temp`, `d.unit` and `d.warm` all read the same way
 
 ## Row objects
 
-If your data already keeps each thing's values together, as a list of objects, pass it as `rows`.
-Each object becomes one row, and its fields become `d.city`, `d.temp` and so on.
+If your data is already a list of objects, one object per row, pass it as `rows`.
+Each object becomes one row, and its fields are what the slat reads: `d.city`, `d.temp` and so on.
 
 <Demo name="data-rows" height={150} />
 
-You can combine `rows` with lists and functions: a prop wins over a field with the same name.
+You can use `rows` together with lists and functions.
+If a prop and a field have the same name, the slat reads the prop.
 
 ## Adding and removing rows: keys
 
-By default, a slat is its row number: the first slat shows the first row, the second slat the second row.
-If you remove the first city, every slat after it takes the data of the one below, and they all move.
+By default a slat is tied to a place in the list, not to a row: the first slat shows the first row, the second slat the second row.
+So if you remove the first city, every slat after it takes the data of the row below, and the whole chart shuffles.
 
-Give the Plot a `key`, a field that names each row, and a slat follows its city instead.
-Removing a city then removes its slat, and the others stay where they are.
+Give the Plot a `key`, the field that identifies a row, and each slat follows its own city instead.
+Removing a city now removes that city's slat, and the others stay where they are.
 
 <Demo name="data-keys" height={200} />
 
@@ -68,10 +70,11 @@ If a chart's data is fixed (a report, a printed page, a chart in an article), ad
 Each slat is then drawn once and keeps nothing to watch for changes, so a big chart uses a fraction of the memory: about a sixth for 1,000 bars.
 Hover styles, themes, resizing and the scale all still work.
 If the data does change anyway, the chart draws all its slats again, without animation, so it's never out of date.
-Only the data you give the Plot is watched, though: a value worked out per slat that reads some other signal (a hovered item, say) is read once. Charts that react to choices like that should stay live.
+Only the data you give the Plot is watched.
+A function of `d` that reads some other signal, a hovered item for example, runs once and never again, so a chart that reacts to choices like that should not be `static`.
 
-## Helpers for common shapes of data
+## Helpers that turn raw numbers into what a chart needs
 
-rhp comes with small functions that turn raw numbers into what a chart needs.
+Some charts need their numbers prepared first, and rhp comes with small functions that do it.
 For example, `stackUp` turns `[8, 8, 8]` into where each piece of a stacked bar starts and ends.
 They're all in the [helpers reference](/reference/helpers/).

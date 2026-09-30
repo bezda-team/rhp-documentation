@@ -16,14 +16,15 @@ Put classes on the slat's root and its blocks, and style those classes.
 
 That CSS only reaches this chart's slats.
 It can't leak into your page or into other charts, so you can use short class names like `.slat` or `.value` without worrying.
-The other way around holds too: your page's CSS doesn't change a chart.
+It works in both directions: your page's CSS can't reach into a chart either.
 
-Anything CSS can do works: hover states, gradients, shadows, images inside bars, web fonts.
+Anything CSS can do to an element, it can do here, because a block and a slat are ordinary elements.
+A gradient on a bar, a web font on a label, an image behind a cell: all of it behaves the way it does anywhere else on your page.
 
 ## The variables rhp reads
 
-A few CSS variables adjust how rhp draws blocks.
-They're named along the chart's scale instead of left and right, so one rule works for horizontal and vertical charts.
+A few CSS variables change how rhp draws a block.
+Their names follow the chart's scale rather than the screen, saying start and end instead of left and right, so the same rule works whether the chart is horizontal or vertical.
 
 | Variable | What it does |
 |---|---|
@@ -64,6 +65,6 @@ The page sets these colors through the theme, described in [colors and themes](/
 
 ## Things to know
 
-- **Hover a slat, not a block, for big targets.** `.slat:hover .bar { … }` reacts anywhere on the slat.
+- **Hover the slat, not the block.** `.slat:hover .bar { … }` reacts anywhere on the slat, which is a far easier thing to point at than the bar itself.
 - **Put your own transitions on elements inside blocks.** rhp moves blocks with transitions of its own, and a `transition` set on a block replaces them, so the block would jump to new values. Fade a label's text, not the label.
 - **The page can still style the chart's box.** Its width, margin, background and border are yours to set on the Chart, with `class` or `style`.

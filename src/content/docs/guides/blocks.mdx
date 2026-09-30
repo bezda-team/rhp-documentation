@@ -6,14 +6,14 @@ description: The seven building blocks of a slat, Bar, Dot, Tick, Label, Cell, A
 import Demo from '../../../customizations/components/Demo.astro';
 
 A slat is made of blocks.
-Each block takes values on the chart's scale, and rhp works out where they go.
+You give a block numbers from your data, and rhp works out where on the chart those numbers fall.
 You can put as many blocks in a slat as you like, and any elements of your own around or inside them.
 
 ## Bar
 
 A bar from `from` to `to`.
 `from` is 0 if you leave it out.
-`thick` sets how thick it is: a size like `"10px"`, or a share of the slat like `0.5`.
+`thick` sets how thick the bar is: a length like `"10px"`, or a fraction of the slat's thickness, like `0.5` for half of it.
 
 <Demo name="block-bar" height={150} />
 
@@ -43,7 +43,7 @@ Text on the chart.
 
 ## Cell
 
-A cell that fills its spot, colored by `value` on the chart's scale: from the theme's `low` color to its `high` color.
+A cell that fills the space it is given, colored by its `value`: the chart's scale runs from the theme's `low` color to its `high` one.
 Cells make heatmaps.
 Here each day's slat holds a small Plot of its own, one cell per hour (more about this in [charts inside slats](/guides/nesting/)).
 
@@ -52,7 +52,7 @@ Here each day's slat holds a small Plot of its own, one cell per hour (more abou
 ## Area
 
 A smooth shape over the scale, from a list of `points`, each `[value, height]`.
-The tallest point fills the slat.
+The tallest point reaches the full thickness of the slat.
 Add `mirror` to draw it both ways from the middle, for violin plots.
 
 <Demo name="block-area" height={150} />
@@ -62,7 +62,9 @@ For a shape made from raw samples, the `density` helper computes the points for 
 ## Line
 
 A line through a list of `points`, each `[value, y]`.
-In a slat it is a sparkline: the largest y reaches the top of the slat, or set `peak` to the y that does, so that slats compare.
+In a slat it is a sparkline.
+The largest y reaches the top of the slat, so each slat is scaled on its own.
+Set `peak` to the y that should reach the top, and then the slats can be compared with each other.
 Add `fill` to fill under the line.
 
 <Demo name="block-line" height={170} />
