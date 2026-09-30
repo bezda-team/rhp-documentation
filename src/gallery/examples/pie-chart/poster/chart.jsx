@@ -1,5 +1,5 @@
 import { createMemo } from "solid-js";
-import { Plot, Chart, Bar, Label, slat, shares, stackUp } from "@bezda/rhp";
+import { Plot, Chart, Bar, Label, slat, shares, stackUp, animated } from "@bezda/rhp";
 import { Poster } from "@gallery/ui/Poster.jsx";
 import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
@@ -51,25 +51,37 @@ const wedge = (from, to) => {
   return `M${xy(s, HOLE)}L${xy(u, R)}${arc(u, v, R)}L${xy(e, HOLE)}${arc(e, s, HOLE)}Z`;
 };
 
+// How the wedge moves when the shares change. The path itself cannot be transitioned: CSS would carry every point of
+// it along a straight line, and a point crossing a circle in a straight line cuts the corner, so the rim would flatten
+// on the way. `animated` moves the two numbers instead, on rhp's own clock, and the wedge is drawn again from them
+// each frame. Every frame is a whole wedge, so the pie stays round the whole way.
+const SWEEP = () => ({ duration: 600 });
+
 // A part of the day: its wedge, with the share and the name inside. `from` and `to` are where the part starts and ends
 // out of 100, which is an angle round the pie and a length along the flat bar. rhp places the label either way.
 export const PartSlat = slat({
   thickness: { horizontal: 82 },
   room: { horizontal: { start: 4, end: 4 }, vertical: { start: 4, end: 4 } },
   css: styles.part,
-}, (d) => (
+}, (d) => {
+  const span = animated(() => [d.from, d.to], SWEEP);
+
+  return (
   <div class="slat" data-row={d.index}>
     <Bar from={d.from} to={d.to} color={d.color} class="slice">
       <svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-        <path d={wedge(d.from, d.to)} />
+        <path d={wedge(...span())} />
       </svg>
     </Bar>
     <Label at={(d.from + d.to) / 2} class="tag">
-      <b>{Math.round(d.to - d.from)}%</b>
-      <span class="said"><i>{d.name}</i><i>{d.hours.toFixed(1)} hours</i></span>
+      <span class="move">
+        <b>{Math.round(d.to - d.from)}%</b>
+        <span class="said"><i>{d.name}</i><i>{d.hours.toFixed(1)} hours</i></span>
+      </span>
     </Label>
   </div>
-));
+  );
+});
 
 export default function PieChart(p) {
   const hours = createMemo(() => (!p.seed() ? HOURS : PARTS.map(() => rand(3.4, 9))));
