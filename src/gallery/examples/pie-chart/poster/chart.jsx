@@ -1,0 +1,89 @@
+import { createMemo } from "solid-js";
+import { Plot, Chart, Bar, Label, slat, shares, stackUp } from "@bezda/rhp";
+import { Poster } from "@gallery/ui/Poster.jsx";
+import { rand } from "@gallery/random.js";
+import * as styles from "./styles.js";
+
+// A day of 24 hours, in four parts.
+const PARTS = ["Sleep", "Chores and errands", "Work and study", "Free time"];
+const HOURS = [8.8, 5.8, 5.0, 4.4];
+const COLORS = ["#8d93ff", "#9aa7c7", "#ffb547", "#ff5d73"];
+
+// The one thing rhp cannot draw for a pie is the outline of a wedge. An outline with rounded corners is a path, which
+// is why rhp's own Area and Line are paths too. Angles below are turns from twelve o'clock, clockwise, and the box is
+// 100 x 100 around the middle.
+const TAU = Math.PI * 2;
+const CORNER = 1.9;             // how round a corner is, and half the stroke that rounds it
+const GAP = 1.9;                // the paper left between two wedges
+const HOLE = 9;                 // where a wedge starts, so the tips do not pile up in the middle
+const OFF = CORNER + GAP / 2;   // how far a wedge's edge is pushed off the true one
+const R = 50 - CORNER;          // the stroke grows the wedge back to 50
+const SEG = 6;                  // cubics per arc, always the same number, so one path can move into the next
+
+// Where a wedge's straight edge crosses the circle of radius r. The edge runs parallel to the radius at turn t, pushed
+// `off` aside, which keeps the gap between two wedges one width the whole way out.
+const cross = (t, r, off) => t + Math.asin(Math.max(-1, Math.min(1, off / r))) / TAU;
+
+// A point on the circle at turn t and radius r, nudged k along the tangent (k is how far a cubic leans into its arc).
+const xy = (t, r, k = 0) => {
+  const a = t * TAU;
+  return `${(r * Math.sin(a) + k * Math.cos(a)).toFixed(2)},${(-r * Math.cos(a) + k * Math.sin(a)).toFixed(2)}`;
+};
+
+const arc = (a, b, r) => {
+  const step = (b - a) / SEG;
+  const k = (4 / 3) * Math.tan((step * TAU) / 4) * r;
+  let d = "";
+
+  for (let i = 0; i < SEG; i++) {
+    d += `C${xy(a + i * step, r, k)} ${xy(a + (i + 1) * step, r, -k)} ${xy(a + (i + 1) * step, r)}`;
+  }
+
+  return d;
+};
+
+// The wedge for a span of the scale. A narrow wedge's inner end closes up to a point.
+const wedge = (from, to) => {
+  const a = from / 100, b = to / 100, mid = (a + b) / 2;
+  const [s, e] = cross(a, HOLE, OFF) < cross(b, HOLE, -OFF) ? [cross(a, HOLE, OFF), cross(b, HOLE, -OFF)] : [mid, mid];
+  const [u, v] = [cross(a, R, OFF), cross(b, R, -OFF)];
+
+  return `M${xy(s, HOLE)}L${xy(u, R)}${arc(u, v, R)}L${xy(e, HOLE)}${arc(e, s, HOLE)}Z`;
+};
+
+// A part of the day: its wedge, with the share and the name inside. `from` and `to` are where the part starts and ends
+// out of 100, which is an angle round the pie and a length along the flat bar. rhp places the label either way.
+export const PartSlat = slat({
+  thickness: { horizontal: 82 },
+  room: { horizontal: { start: 4, end: 4 }, vertical: { start: 4, end: 4 } },
+  css: styles.part,
+}, (d) => (
+  <div class="slat" data-row={d.index}>
+    <Bar from={d.from} to={d.to} color={d.color} class="slice">
+      <svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <path d={wedge(d.from, d.to)} />
+      </svg>
+    </Bar>
+    <Label at={(d.from + d.to) / 2} class="tag">
+      <b>{Math.round(d.to - d.from)}%</b>
+      <span class="said"><i>{d.name}</i><i>{d.hours.toFixed(1)} hours</i></span>
+    </Label>
+  </div>
+));
+
+export default function PieChart(p) {
+  const hours = createMemo(() => (!p.seed() ? HOURS : PARTS.map(() => rand(3.4, 9))));
+  const stack = createMemo(() => stackUp(shares(hours())));
+
+  return (
+    <Poster look="day" kicker="A day · 25 to 34 year olds" title="Four hours to yourself"
+      dek="Sleep takes the largest share of a day, and once work and the running of a life are counted, about four hours of it are yours."
+      note="Illustrative, after the American Time Use Survey, averaged over every day of the week. Point at a slice, or tab into the chart, for the hours behind its share.">
+      <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={470} animate={p.js()} theme={styles.theme}>
+        <Plot keyboard overlap key="name" name={PARTS} color={COLORS} hours={hours()} from={stack().from} to={stack().to}>
+          {PartSlat}
+        </Plot>
+      </Chart>
+    </Poster>
+  );
+}

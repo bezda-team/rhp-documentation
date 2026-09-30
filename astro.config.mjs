@@ -88,6 +88,7 @@ export default defineConfig({
         { label: "Diverging bars", link: '/examples/diverging-bars/' },
         { label: "Waterfall", link: '/examples/waterfall/' },
         { label: "Radial bars", link: '/examples/radial-bars/' },
+        { label: "Pie chart", link: '/examples/pie-chart/' },
         { label: "Bullet chart", link: '/examples/bullet-chart/' },
         { label: "Histogram", link: '/examples/histogram/' },
         { label: "Violin plot", link: '/examples/violin-plot/' },
