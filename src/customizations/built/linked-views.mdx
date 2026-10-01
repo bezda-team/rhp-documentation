@@ -1,0 +1,61 @@
+Two plots in one chart, where picking in one changes the other.
+
+**One `Chart`, two `Plot`s.**
+A Chart draws its Plots over each other, so the two share its box and each decides what to do with it:
+
+```jsx
+<Chart scale={[0, 100]} ticks={false} style={{ "--pitch": "10.5cqw", "--bars": "calc(var(--pitch) * 4)" }}>
+  <Plot overlap …>{PartSlat}</Plot>
+  <Plot keyboard style={{ "justify-self": "end" }} …>{GenSlat}</Plot>
+</Chart>
+```
+
+rhp pins a Plot's own width and height, so the tubes are sized by their slats instead.
+`thickness` is the room one slat gets, and given as a CSS length in `cqw` it is a share of the chart's width, so the tubes and the pie keep their proportions at any size.
+The pie's CSS draws in what the tubes leave.
+On a narrow poster a container query puts the tubes under the pie instead, at the whole width.
+
+**The pie says more than the tubes.**
+A tube is how many of a generation use AI to write.
+The pie splits those by how often, and keeps the rest:
+
+```js
+const split = (using, daily) => [daily, using - daily, 100 - using];
+```
+
+With nothing picked, the pie is everyone: each generation's split, weighed by how many people are in it.
+
+**Picking lives in the example.**
+rhp keeps no selection, so a signal holds the picked generation and both Plots read it.
+A Plot's props are its data, so a click handler can't be passed in as one.
+Instead the slat marks itself with `data-gen`, and the poster listens and finds it with `closest()`.
+`keyboard` on the `Plot` adds Tab and the arrow keys, and Enter or Space picks.
+A click anywhere else on the poster, or Escape, goes back to everyone.
+
+**The pie is the gallery's pie**: edges pushed aside so the gap is one width, a stroke in the wedge's own color for the round corners, and `animated` moving the two ends of each span so the rim stays round as it changes.
+Each wedge's svg casts a short drop shadow, so the wedges sit just off the page.
+A wedge too narrow for its edges to reach the hole comes to a point where they cross, rather than bending them in to the hole, so the gap stays even beside the smallest wedge.
+
+**A small part's label goes to a corner.**
+The pie is drawn at .86 of a square, so the square's corners have room for a label.
+Under a sixth of the pie a label has no room inside, so it goes to a corner, and the corners are shared out so the labels are as near their wedges as they can all be.
+A dotted line runs from the label straight across or straight down to the nearest part of its wedge it can reach that way.
+Failing that, it runs out to the square's edge and along it, so it never crosses the pie.
+Each label measures itself, so its line stops at its edge, and it moves to its place on the same clock as its wedge.
+The line fades in once the label has arrived, and then follows the wedge.
+
+**The tubes take the height the paragraph leaves.**
+The paragraph over them wraps to more lines on a narrow poster, so its height is measured and given to the Chart as `--side`.
+The slat's CSS gives the fill and the outline a track of their own, from under the paragraph down to the labels, in place of rhp's whole height:
+
+```css
+.slat:vertical :is(.fill, .tube) {
+  bottom: calc(var(--low) + var(--rhp-lo) * var(--tall));
+  height: calc((var(--rhp-hi) - var(--rhp-lo)) * var(--tall));
+}
+```
+
+Each tube is filled in a color of its own, checked to stay apart from its neighbours for colorblind readers too, and named under it so the color is never the only way to tell.
+The fill and the outline are drawn by an `<i>` inside each `Bar`, because rhp turns transitions off on its own blocks in the JS version and picking is not a change of data.
+
+**Flat**, the pie is one stacked bar at the top and the tubes lie down under it.
