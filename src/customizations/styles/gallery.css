@@ -191,7 +191,7 @@
     linear-gradient(168deg, #171b2c, #0b0e18);
 }
 /* The chart's box follows the pie in it, so no empty band is left above and below. */
-.poster.day .rhp-chart { --rhp-height: clamp(280px, calc(100cqw - 20px), 560px) !important; }
+.poster.day .rhp-chart { --rhp-height: clamp(260px, calc(100cqw - 40px), 540px) !important; }
 .poster.day .kicker { color: #ff7a8c; opacity: 1; }
 .poster.day .headline { font: 800 40px/1 var(--poster-display); letter-spacing: -0.03em; }
 .poster.day .dek { opacity: .74; }

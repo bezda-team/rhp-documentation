@@ -54,7 +54,7 @@ const SWEEP = () => ({ duration: 600 });
 // out of 100, which is an angle round the pie and a length along the flat bar. rhp places the label either way.
 export const PartSlat = slat({
   thickness: { horizontal: 82 },
-  room: { horizontal: { start: 4, end: 4 }, vertical: { start: 4, end: 4 } },
+  room: { horizontal: { start: 4, end: 4 }, vertical: { start: 24, end: 24 } },
   css: styles.part,
 }, (d) => {
   const span = animated(() => [d.from, d.to], SWEEP);
@@ -84,7 +84,7 @@ export default function PieChart(p) {
     <Poster look="day" kicker="A day · 25 to 34 year olds" title="Four hours to yourself"
       dek="Sleep takes the largest share of a day, and once work and the running of a life are counted, about four hours of it are yours."
       note="Illustrative, after the American Time Use Survey, averaged over every day of the week. Point at a slice, or tab into the chart, for the hours behind its share.">
-      <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={470} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={450} animate={p.js()} theme={styles.theme}>
         <Plot keyboard overlap key="name" name={PARTS} color={COLORS} hours={hours()} from={stack().from} to={stack().to}>
           {PartSlat}
         </Plot>
