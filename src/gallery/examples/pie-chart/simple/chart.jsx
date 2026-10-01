@@ -9,34 +9,19 @@ const HOURS = [8.8, 5.8, 5.0, 4.4];
 // A wedge, in a 100 x 100 box around the middle. Angles are turns from twelve o'clock, clockwise.
 // Each straight edge is pushed OFF aside rather than turned, so the gap between two wedges is one width all the way
 // in, and the two pushed edges of a wedge cross at a point near the middle: that point is the tip.
-const TAU = Math.PI * 2, OFF = 1.6, R = 50, SEG = 6;
+const TAU = Math.PI * 2, OFF = 1.6, R = 50;
+const PAD = Math.asin(OFF / R) / TAU; // how far round pushing an edge aside moves the end of the rim
 
-const xy = (t, r, k = 0) => {
-  const a = t * TAU;
-  return `${(r * Math.sin(a) + k * Math.cos(a)).toFixed(2)},${(-r * Math.cos(a) + k * Math.sin(a)).toFixed(2)}`;
-};
+// Not rounded. An A command fits a circle of the given radius through the two ends, and near half a turn that fit
+// is very sensitive to them: rounding an end a few thousandths off the circle moved the arc by a quarter unit.
+const xy = (t, r) => `${r * Math.sin(t * TAU)},${-r * Math.cos(t * TAU)}`;
 
-// Where a pushed edge meets the rim.
-const cross = (t, r, off) => t + Math.asin(Math.max(-1, Math.min(1, off / r))) / TAU;
+export const wedge = (from, to) => {
+  const a = from / 100, b = to / 100, mid = (a + b) / 2;
+  const u = Math.min(a + PAD, mid), v = Math.max(b - PAD, mid); // a slice thinner than the gap closes up
+  const tip = Math.min(OFF / Math.sin((b - a) * Math.PI), R);   // where the two pushed edges cross
 
-// The rim, always as SEG cubics rather than one A command, so one wedge's path can move into the next.
-const arc = (a, b) => {
-  const step = (b - a) / SEG;
-  const k = (4 / 3) * Math.tan((step * TAU) / 4) * R;
-  let d = "";
-
-  for (let i = 0; i < SEG; i++) {
-    d += `C${xy(a + i * step, R, k)} ${xy(a + (i + 1) * step, R, -k)} ${xy(a + (i + 1) * step, R)}`;
-  }
-
-  return d;
-};
-
-const wedge = (from, to) => {
-  const a = from / 100, b = to / 100;
-  const tip = OFF / Math.sin((b - a) * Math.PI); // where the two pushed edges cross
-
-  return `M${xy((a + b) / 2, tip)}L${xy(cross(a, R, OFF), R)}${arc(cross(a, R, OFF), cross(b, R, -OFF))}Z`;
+  return `M${xy(mid, tip)}L${xy(u, R)}A${R},${R} 0 ${v - u > 0.5 ? 1 : 0} 1 ${xy(v, R)}Z`;
 };
 
 // A part: its wedge round, and rhp's own bar flat.
