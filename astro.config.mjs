@@ -89,6 +89,7 @@ export default defineConfig({
         { label: "Waterfall", link: '/examples/waterfall/' },
         { label: "Radial bars", link: '/examples/radial-bars/' },
         { label: "Pie", link: '/examples/pie-chart/' },
+        { label: "Multiple", link: '/examples/linked-views/' },
         { label: "Bullet", link: '/examples/bullet-chart/' },
         { label: "Histogram", link: '/examples/histogram/' },
         { label: "Violin", link: '/examples/violin-plot/' },
