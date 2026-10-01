@@ -3,16 +3,16 @@ import { Chart, Plot, Bar, Label, slat, shares, stackUp, animated } from "@bezda
 import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
-// People, by generation: how many use AI to help write their emails and messages, and how often.
+// People by generation: how many use AI to write their emails and messages, and how often.
 const GENS = ["Gen Z", "Millennials", "Gen X", "Boomers"];
 const USING = [58, 49, 36, 21];     // of each generation, how many use AI to write
-const DAILY = [31, 24, 14, 6];      // and how many of them do on most days
-const PEOPLE = [20, 30, 27, 23];    // of all adults, how many are in each generation
+const DAILY = [31, 24, 14, 6];      // and how many of those do on most days
+const PEOPLE = [20, 30, 27, 23];    // how many of all adults are in each generation
 const PARTS = ["Most days", "Now and then", "Not using AI"];
 
-// The bar is how many use AI; the pie splits those by how often and keeps the rest.
+// A bar is how many use AI; the pie splits those by how often, and keeps the rest.
 const split = (using, daily) => [daily, using - daily, 100 - using];
-// No generation picked: everyone, each generation weighed by how many people are in it.
+// With no generation picked, the pie is everyone: each generation's split, weighed by its size.
 const whole = (rows) => PARTS.map((_, k) => rows.reduce((sum, row, g) => sum + row[k] * PEOPLE[g], 0) / 100);
 
 // The simple pie's wedge: out to where the span starts, round the rim, close.
@@ -25,8 +25,8 @@ export const wedge = (from, to) => {
   return `M0,0L${xy(a, R)}A${R},${R} 0 ${b - a > 0.5 ? 1 : 0} 1 ${xy(b, R)}Z`;
 };
 
-const PITCH = 13;    // the width one bar gets, in cqw of the chart
-const ROW = 34;      // flat, the height one bar gets
+const PITCH = 13;    // round, the width of one bar, in cqw of the chart
+const ROW = 34;      // flat, the height of one bar
 const STRIP = 40;    // flat, the height of the stacked bar
 
 // A part of the pie. Its Plot shares the Chart's box with the bars, and its CSS draws in the room they leave.
@@ -40,14 +40,13 @@ export const PartSlat = slat({
   return (
     <div class="slat">
       <Bar from={d.from} to={d.to} color={d.color} class="slice">
-        <svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet"><path d={wedge(...span())} /></svg>
+        <svg viewBox="-50 -50 100 100"><path d={wedge(...span())} /></svg>
       </Bar>
     </div>
   );
 });
 
-// A generation. The slat marks itself and the div around the chart listens: a Plot's props are its data, so a handler
-// can't be passed in as one.
+// A generation, marked with data-gen so the div around the chart can tell which was clicked.
 export const GenSlat = slat({
   css: styles.gen,
   thickness: { vertical: `${PITCH}cqw`, horizontal: ROW },
@@ -59,18 +58,19 @@ export const GenSlat = slat({
   </div>
 ));
 
-// The two Plots share the Chart's box: round, the bars sit at its end; flat, the stacked bar at the top.
-const SIDE = (o, which) => (o === "vertical"
+// The two Plots share the Chart's box. Round, the bars sit at its end; flat, under the stacked bar.
+const seat = (o, which) => (o === "vertical"
   ? (which === "gens" ? { "justify-self": "end" } : undefined)
   : { "align-self": which === "gens" ? "end" : "start" });
 
-export default function LinkedViews(p) {
+export default function Multiple(p) {
   const [picked, setPicked] = createSignal(-1);
   const using = createMemo(() => (!p.seed() ? USING : GENS.map(() => Math.round(rand(24, 66)))));
   const daily = createMemo(() => (!p.seed() ? DAILY : using().map((u) => Math.round(u * rand(0.3, 0.65)))));
   const rows = createMemo(() => using().map((u, g) => split(u, daily()[g])));
   const pie = createMemo(() => stackUp(shares(picked() < 0 ? whole(rows()) : rows()[picked()])));
-  // A click on a bar picks it; on the same bar again, or anywhere else, it goes back to everyone. So does Escape.
+
+  // A click on a bar picks it. A click on it again or anywhere else, or Escape, goes back to everyone.
   const pick = (e) => {
     const gen = e.target.closest("[data-gen]");
     setPicked((was) => (gen && was !== +gen.dataset.gen ? +gen.dataset.gen : -1));
@@ -87,11 +87,12 @@ export default function LinkedViews(p) {
     <div onClick={pick} onKeyDown={keys}>
       <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={280} animate={p.js()}
         style={{ "--bars": `${PITCH * GENS.length}cqw`, "--strip": `${STRIP}px` }}>
-        <Plot overlap style={SIDE(p.o(), "pie")} key="name"
+        <Plot overlap style={seat(p.o(), "pie")} key="name"
           name={PARTS} color={["series-1", "series-2", "series-3"]} from={pie().from} to={pie().to}>
           {PartSlat}
         </Plot>
-        <Plot keyboard style={SIDE(p.o(), "gens")} key="name" name={GENS} value={using()} picked={picked()}>
+        {/* In the JS version only the bars' values move; `picked` has to jump. */}
+        <Plot keyboard style={seat(p.o(), "gens")} key="name" animate={p.js() && ["value"]} name={GENS} value={using()} picked={picked()}>
           {GenSlat}
         </Plot>
       </Chart>

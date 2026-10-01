@@ -44,21 +44,20 @@
 .poster.coffee .keys i.milk { background: #e9dac4; box-shadow: inset 0 0 0 1px #d8c6ac; }
 .poster.coffee .keys i.foam { background: #fff; box-shadow: inset 0 0 0 1px #d8c6ac; }
 /* Where the battery goes: a phone's settings screen. */
-/* Linked views: a cream page and a navy ink, after a printed infographic. Its chart grows with the poster, so the pie
-   (which takes what the tubes leave of the width) is about as tall as it is wide. */
+/* Multiple: a cream page and navy ink, after a printed infographic. The chart grows with the poster, so the pie's
+   square stays about as tall as it is wide. */
 .poster.ai { background: #f4f1e9; color: #273149; container-type: inline-size; padding: 26px 24px 16px; }
-.poster.ai .kicker { display: none; }
+.poster.ai :is(.kicker, .dek) { display: none; }
 .poster.ai .headline { font: 650 clamp(24px, 5.6cqw, 48px)/1.08 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing: -0.03em; }
-.poster.ai .dek { display: none; }
 .poster.ai .note { color: #69718a; opacity: 1; }
 .poster.ai .rhp-chart[data-rhp-o="v"] { --rhp-height: clamp(230px, 55cqw, 520px) !important; }
-/* The paragraph and the heading over the tubes: a plain element in the Chart, as wide as the tubes. */
-.poster.ai .side { position: absolute; top: 0; right: 0; width: var(--bars); pointer-events: none; color: #273149; }
-.poster.ai .side p { margin: 0; font-size: clamp(11px, 2.3cqw, 15px); line-height: 1.4; color: #69718a; }
-.poster.ai .side b { display: block; margin-top: .9em; font: 600 clamp(12px, 2.2cqw, 19px)/1.2 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing: -0.01em; text-align: center; }
+/* The paragraph and heading over the tubes, a plain element in the Chart, as wide as the tubes. */
+.poster.ai .side { position: absolute; top: 0; right: 0; width: var(--bars); pointer-events: none; }
+.poster.ai .side p { margin: 0; font-size: clamp(11px, 2.3cqw, 15px); line-height: 1.4; color: var(--rhp-muted); }
+.poster.ai .side b { display: block; margin-top: .9em; font-size: clamp(12px, 2.2cqw, 19px); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; text-align: center; }
 .poster.ai .rhp-chart[data-rhp-o="h"] .side { display: none; }
-/* A narrow poster stacks them: the pie at the top, then the paragraph and the tubes across the whole width. The
-   chart is the poster less its 2px padding each side, so 444px here is the slats' 440px. */
+/* A narrow poster stacks them: the pie, then the paragraph and the tubes across the whole width. The chart is the
+   poster less 4px of padding, so 444px here is the slats' 440px. */
 @container (max-width: 444px) {
   .poster.ai .rhp-chart { --pitch: 25cqw !important; }
   .poster.ai .rhp-chart[data-rhp-o="v"] { --rhp-height: calc(100cqw + var(--side) + 40cqw + 110px) !important; }
