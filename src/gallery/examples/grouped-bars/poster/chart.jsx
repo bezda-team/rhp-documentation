@@ -1,6 +1,5 @@
 import { createMemo } from "solid-js";
-import { Plot, Chart, Bar, Dot, Label, slat, sortBy, nice } from "@bezda/rhp";
-import { Poster } from "@gallery/ui/Poster.jsx";
+import { Plot, Chart, Bar, Dot, Label, Poster, slat, sortBy, nice } from "@bezda/rhp";
 import { rand, sum } from "@gallery/random.js";
 import * as styles from "./styles.js";
 

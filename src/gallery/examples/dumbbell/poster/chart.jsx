@@ -1,6 +1,5 @@
 import { createSignal } from "solid-js";
-import { Plot, Chart, Bar, Dot, Label, slat, sortBy } from "@bezda/rhp";
-import { Poster } from "@gallery/ui/Poster.jsx";
+import { Plot, Chart, Bar, Dot, Label, Poster, slat, sortBy } from "@bezda/rhp";
 import * as styles from "./styles.js";
 
 const PEAKS = ["Everest", "K2", "Aconcagua", "Denali", "Kilimanjaro", "Elbrus", "Mont Blanc"];

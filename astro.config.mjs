@@ -71,6 +71,7 @@ export default defineConfig({
         { label: 'Blocks', link: '/reference/blocks/' },
         { label: 'slat()', link: '/reference/slat/' },
         { label: 'Helpers', link: '/reference/helpers/' },
+        { label: 'Poster', link: '/reference/poster/' },
         { label: 'CSS', link: '/reference/css/' },
       ],
     }, {
@@ -124,7 +125,7 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        "@gallery": fileURLToPath(new URL("./src/gallery", import.meta.url)), // so the examples' code reads "@gallery/ui/Poster.jsx"
+        "@gallery": fileURLToPath(new URL("./src/gallery", import.meta.url)), // so the examples' code reads "@gallery/random.js"
       },
     },
   },

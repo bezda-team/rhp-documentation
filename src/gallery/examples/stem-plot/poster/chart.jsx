@@ -1,6 +1,5 @@
 import { createSignal, createMemo } from "solid-js";
-import { Plot, Scale, Chart, Bar, Dot, Tick, slat } from "@bezda/rhp";
-import { Poster } from "@gallery/ui/Poster.jsx";
+import { Plot, Scale, Chart, Bar, Dot, Tick, Poster, slat } from "@bezda/rhp";
 import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
 

@@ -1,6 +1,5 @@
 import { createMemo, createSignal, onCleanup, Show } from "solid-js";
-import { Plot, Chart, Bar, Label, slat, shares, stackUp, animated } from "@bezda/rhp";
-import { Poster } from "@gallery/ui/Poster.jsx";
+import { Plot, Chart, Bar, Label, Poster, slat, shares, stackUp, animated } from "@bezda/rhp";
 import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
