@@ -1,11 +1,13 @@
-// Checks the pie's geometry: that a wedge's rim sits on one circle whatever the slices are, and that a wedge takes its
-// own share of the 360 degrees. It calls the example's own wedge(), served by the dev server, so it tests the code the
-// page runs rather than a copy of it. Paths are measured in the browser, which is what can walk one.
+// Checks every pie's geometry: that a wedge's rim sits on one circle whatever the slices are, and that a wedge takes
+// its own share of the 360 degrees. It calls each example's own wedge(), served by the dev server, so it tests the code
+// the page runs rather than a copy of it. Paths are measured in the browser, which is what can walk one.
 //   npm run dev, then: node scripts/check-pie.mjs [http://localhost:4321]
 import { chromium } from "playwright";
 
 const base = process.argv[2] ?? "http://localhost:4321";
-const here = new URL("../src/gallery/examples/pie-chart/", import.meta.url).pathname;
+const examples = new URL("../src/gallery/examples/", import.meta.url).pathname;
+// The examples that draw a pie, each in both versions.
+const PIES = ["pie-chart", "linked-views"].flatMap((slug) => ["poster", "simple"].map((version) => `${slug}/${version}`));
 
 // The slices to try: 2 to 10 even ones, then uneven splits that push a wedge to either extreme.
 const splits = [];
@@ -58,13 +60,41 @@ window.measure = (d, middle) => {
   }
   return { max, dip, span: hi - lo, gaps };
 };
+
+// How near a wedge's outline comes to the two edges of its span, the rays out from the middle at \`from\` and \`to\`. A gap
+// that is one width all the way along keeps every wedge the same distance off them, however narrow it is. A path of no
+// length draws nothing, so it can't narrow anything.
+window.nearest = (d, from, to) => {
+  const svg = document.querySelector("svg");
+  const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  p.setAttribute("d", d);
+  svg.appendChild(p);
+  const len = p.getTotalLength();
+  const rays = [from, to].map((t) => [Math.sin((t / 100) * 2 * Math.PI), -Math.cos((t / 100) * 2 * Math.PI)]);
+  let best = Infinity;
+  if (len > 1e-6) {
+    for (let i = 0; i <= 4000; i++) {
+      const q = p.getPointAtLength((i / 4000) * len);
+      for (const [x, y] of rays) {
+        const along = q.x * x + q.y * y;
+        best = Math.min(best, along > 0 ? Math.abs(q.x * y - q.y * x) : Math.hypot(q.x, q.y));
+      }
+    }
+  }
+  p.remove();
+  return best;
+};
 ` });
 
 let failed = 0, checked = 0;
 const fail = (msg) => { failed++; console.log("FAIL " + msg); };
 
-for (const version of ["poster", "simple"]) {
-  const mod = `/@fs${here}${version}/chart.jsx`;
+for (const version of PIES) {
+  const mod = `/@fs${examples}${version}/chart.jsx`;
+  const even = await page.evaluate(async (mod) => {
+    const { wedge } = await import(mod);
+    return window.nearest(wedge(0, 50), 0, 50);
+  }, mod);
   for (const { name, shares } of splits) {
     let at = 0;
     const spans = [];
@@ -74,7 +104,7 @@ for (const version of ["poster", "simple"]) {
       return wedges.map(([from, to]) => {
         const d = wedge(from, to);
         if (!/^[-\d.,A-Za-z ]+$/.test(d) || /NaN|Infinity/.test(d)) return { d, bad: true };
-        return { ...window.measure(d, ((from + to) / 2) * 3.6), bad: false };
+        return { ...window.measure(d, ((from + to) / 2) * 3.6), near: window.nearest(d, from, to), bad: false };
       });
     }, [mod, wedges]);
 
@@ -89,6 +119,13 @@ for (const version of ["poster", "simple"]) {
     if (spread > 0.05) fail(`${version} ${name}: wedges sit on different circles, ${spread.toFixed(3)} apart`);
     else if (worstDip > 0.05) fail(`${version} ${name}: a rim dips ${worstDip.toFixed(3)} off its circle part way along`);
 
+    // the gap is as wide beside a narrow wedge as beside a wide one, all the way in
+    const squeezed = got.map((g, i) => [g.near, shares[i]]).filter(([near]) => near < even - 0.02);
+    if (squeezed.length) {
+      const [near, share] = squeezed.sort((x, y) => x[0] - y[0])[0];
+      fail(`${version} ${name}: the gap narrows to ${near.toFixed(2)} beside a wedge of ${share.toFixed(1)}%, where it is ${even.toFixed(2)} beside a wide one`);
+    }
+
     // each wedge takes its own share of the 360: the gap is the same at every boundary, so it cancels in a difference
     const deg = shares.map((s) => (s / 100) * 360);
     const off = got.map((g, i) => deg[i] - g.span);
@@ -101,6 +138,6 @@ for (const version of ["poster", "simple"]) {
 }
 
 console.log(errors.length ? `page errors: ${errors.join(" | ")}` : "");
-console.log(failed ? `${failed} of ${checked} failed` : `${checked} of ${checked} checks passed: the pie is one circle from 2 to 10 slices, and every wedge is its share of it`);
+console.log(failed ? `${failed} of ${checked} failed` : `${checked} of ${checked} checks passed: every pie is one circle from 2 to 10 slices, every wedge is its share of it, and every gap is one width`);
 await browser.close();
 process.exit(failed || errors.length ? 1 : 0);

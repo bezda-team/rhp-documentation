@@ -29,14 +29,19 @@ const INNER = Math.asin(Math.min(1, OFF / HOLE)) / TAU;
 const xy = (t, r) => `${r * Math.sin(t * TAU)},${-r * Math.cos(t * TAU)}`;
 const big = (turns) => (turns > 0.5 ? 1 : 0);
 
-// The wedge for a span of the scale. A span too narrow for the gap closes up at that radius instead of turning inside out.
+// The wedge for a span of the scale.
 export const wedge = (from, to) => {
   const a = from / 100, b = to / 100, mid = (a + b) / 2;
   const u = Math.min(a + RIM, mid), v = Math.max(b - RIM, mid);
-  const s = Math.min(a + INNER, mid), e = Math.max(b - INNER, mid);
+  const rim = `L${xy(u, R)}A${R},${R} 0 ${big(v - u)} 1 ${xy(v, R)}`;
 
-  return `M${xy(s, HOLE)}L${xy(u, R)}A${R},${R} 0 ${big(v - u)} 1 ${xy(v, R)}`
-    + `L${xy(e, HOLE)}A${HOLE},${HOLE} 0 ${big(e - s)} 0 ${xy(s, HOLE)}Z`;
+  // Too narrow for its edges to reach the hole: they cross first, and the crossing is the tip. Ending them at the hole
+  // anyway would bend them in toward the gap and squeeze it. Narrower still, the gap takes the whole wedge.
+  if (b - a <= 2 * INNER) {
+    return `M${xy(mid, Math.min(OFF / Math.sin((b - a) * Math.PI), R))}${rim}Z`;
+  }
+  const s = a + INNER, e = b - INNER;
+  return `M${xy(s, HOLE)}${rim}L${xy(e, HOLE)}A${HOLE},${HOLE} 0 ${big(e - s)} 0 ${xy(s, HOLE)}Z`;
 };
 
 // How the wedge moves when the shares change. The path itself cannot be transitioned: CSS would carry every point of
