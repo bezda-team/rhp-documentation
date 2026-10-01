@@ -5,8 +5,8 @@ export const part = `
 /* Round: the Bar keeps the numbers and gives up its box, and the wedge is drawn in the whole plot. */
 .slat:vertical .slice { inset: 0; left: 0; top: 0; width: 100%; height: 100%; translate: none; background: none; }
 .slat:vertical .slice svg { display: block; width: 100%; height: 100%; }
-/* Every wedge fills the plot, slat box and svg box alike, so whichever is last would catch the pointer everywhere.
-   The slat is taken out of the pointer's way and only the painted wedge and its label are put back in it. */
+
+/* Every wedge fills the plot, so the slat is taken out of the pointer's way and the wedge and label are put back. */
 .slat:vertical { pointer-events: none; }
 .slat:vertical :is(.slice path, .tag) { pointer-events: auto; }
 .slat:vertical .tag { left: 50%; top: 50%; bottom: auto; translate: -50% -50%; padding: 0;
@@ -17,8 +17,7 @@ export const part = `
 .slat:horizontal .slice { --rhp-gap: 4px; --rhp-radius: 8px; }
 .slat:horizontal .tag { translate: -50% -50%; padding: 0; }
 
-/* Plain wedges: no stroke and no rounding. The gallery version is the one that rounds its corners.
-   And no transition: interpolating one wedge's path into the next would flatten the rim while it moved. */
+/* Plain wedges. The gallery version is the one that rounds its corners and leaves gaps. */
 .slice path { fill: var(--rhp-color); }
 .tag { color: var(--rhp-surface); font-weight: 800; font-size: 15px; }
 `;

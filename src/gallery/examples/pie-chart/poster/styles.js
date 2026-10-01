@@ -3,37 +3,31 @@
 // The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "'Bricolage Grotesque Variable', system-ui, sans-serif", ink: "#eef1f8", muted: "#8b93ab", grid: "#242a3e", surface: "#0f1220" };
 
-// A part of the day. Its Bar spans `from` to `to` out of 100, which rhp turns into --rhp-lo and --rhp-hi, and its
-// Label sits at the middle of that span, which rhp turns into --rhp-p. Round, those are angles. Flat, they are lengths
-// and rhp draws the bar itself.
+// A part of the day. The Bar's span becomes --rhp-lo and --rhp-hi, the Label's middle becomes --rhp-p. Round, those
+// are angles. Flat, they are lengths.
 export const part = `
 .slat { container-type: size; }
 
 /* --- round --- */
 
-/* The Bar keeps the numbers and gives up its box: the wedge is drawn in the whole plot, on the same middle as the rest. */
+/* The Bar keeps the numbers and gives up its box, so every wedge is drawn in the plot, on one middle. */
 .slat:vertical .slice { inset: 0; left: 0; top: 0; width: 100%; height: 100%; translate: none; background: none; }
 .slat:vertical .slice svg { display: block; width: 100%; height: 100%; }
-/* Every wedge fills the plot, slat box and svg box alike, so whichever is last would catch the pointer everywhere.
-   The slat is taken out of the pointer's way and only the painted wedge and its label are put back in it. */
+/* Every wedge fills the plot, so the slat is taken out of the pointer's way and the wedge and label are put back. */
 .slat:vertical { pointer-events: none; }
 .slat:vertical :is(.slice path, .tag) { pointer-events: auto; }
 
-/* fill and stroke in one color make one solid shape, and stroke-linejoin rounds every corner of it. */
-/* No transition on the path. Interpolating one wedge's path into the next moves every point in a straight line, and
-   a point crossing a circle in a straight line cuts the corner, so the rim would flatten while it moved. The JS
-   animation moves the numbers instead and the path is drawn again each frame, which keeps the pie round. */
+/* One color for fill and stroke makes one solid shape, and stroke-linejoin rounds its corners. No transition on the
+   path: interpolating it would carry every point along a straight line and flatten the rim on the way. */
 .slice path { fill: var(--rhp-color); stroke: var(--rhp-color); stroke-width: 3.8; stroke-linejoin: round; }
 
-/* The label swings out to the middle of its own wedge, then turns back so it stays upright to read.
-   cqmin is the plot's shorter side, which is the pie's width, so the label keeps its place as the chart resizes. */
+/* The label swings out to the middle of its wedge, then turns back to stay upright. cqmin is the pie's width. */
 .slat:vertical .tag { left: 50%; top: 50%; bottom: auto; translate: -50% -50%; padding: 0;
   transform: rotate(calc(var(--rhp-p) * 1turn)) translateY(-31cqmin) rotate(calc(var(--rhp-p) * -1turn)); }
 
-/* Point at a wedge and it slides out along its own middle. CSS works the direction out itself, from the two numbers
-   rhp already wrote: sin and cos of the angle halfway along the span. This is interaction rather than data, so it is a
-   CSS transition, and it sits on the svg and on a box inside the label because rhp turns transitions off on its own
-   blocks while the JS animation is running. */
+/* Point at a wedge and it slides out along its middle, which CSS works out from the angle rhp already wrote. This is
+   interaction, not data, so it transitions in CSS, on the svg and on a box inside the label: rhp turns transitions off
+   on its own blocks while the JS animation runs. */
 .slat:vertical .slice { --mid: calc((var(--rhp-lo) + var(--rhp-hi)) / 2); }
 .slat:vertical :is(.slice svg, .tag .move) { transition: translate .25s ease-out; }
 .slat:vertical:is(:hover, :focus-within) .slice svg { translate: calc(sin(var(--mid) * 1turn) * 13px) calc(cos(var(--mid) * 1turn) * -13px); }
