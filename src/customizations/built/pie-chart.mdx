@@ -1,65 +1,54 @@
-A pie is a 100% stacked bar bent into a circle.
-That is the whole idea, and it is worth starting from, because it means rhp does most of the work.
+A pie is a 100% stacked bar bent into a circle, so rhp does most of the work.
 
 **The spans.**
-`shares` turns the raw numbers into percentages and `stackUp` turns those into a `from` and a `to` for each part:
+`shares` turns the hours into percentages and `stackUp` turns those into a `from` and a `to`:
 
 ```js
 const stack = createMemo(() => stackUp(shares(hours())));
 ```
 
-So part one runs 0 to 37, part two 37 to 61, and so on to 100.
+Part one runs 0 to 37, part two 37 to 61, and so on to 100.
 
 **One box for all of them.**
-The `Plot` has `overlap`, which puts every slat in the same box rather than in a band of its own.
-Flat that is a stacked bar, one segment after another. Round it is a pie.
-Each slat holds a `Bar` from its `from` to its `to`, and rhp writes those two ends as `--rhp-lo` and `--rhp-hi`, both 0 to 1.
-A `Label` at the middle of the span gets `--rhp-p`, which is where its wedge points.
+The `Plot` has `overlap`, so every slat sits in the same box instead of a band of its own.
+Flat, that is a stacked bar. Round, it is a pie.
+Each slat's `Bar` spans `from` to `to`, which rhp writes as `--rhp-lo` and `--rhp-hi`, and its `Label` sits at the middle of that span, which rhp writes as `--rhp-p`.
 
-**The one thing rhp cannot draw** is the outline of a wedge.
-An outline with rounded corners is a path, which is why rhp's own `Area` and `Line` are paths too.
+**The wedge is the one thing rhp cannot draw**, because an outline is a path, which is why rhp's own `Area` and `Line` are paths too.
 The `Bar` keeps the numbers and gives up its box, and an `<svg>` inside it draws the wedge in a 100 by 100 box around the middle.
-
-**The gap has to be a distance, not an angle.**
-This is the part that is easy to get wrong.
-Pad the angles instead, and the gap is wide at the rim and closes to nothing at the middle, where every wedge meets.
-So each straight edge is not rotated, it is pushed sideways by a fixed amount:
+The simple version is three commands: out to where the span starts, round the rim, close.
 
 ```js
-const cross = (t, r, off) => t + Math.asin(Math.max(-1, Math.min(1, off / r))) / TAU;
+`M0,0L${xy(a, R)}A${R},${R} 0 ${b - a > 0.5 ? 1 : 0} 1 ${xy(b, R)}Z`
 ```
 
-That gives the turn at which a pushed edge crosses the circle of radius `r`.
-The edge then runs parallel to the true one, so the paper between two wedges is one width the whole way out.
+**A gap has to be a distance, not an angle.**
+Pad the angles and the gap is wide at the rim and closes to nothing in the middle, where every wedge meets.
+So the gallery version pushes each straight edge sideways instead of turning it, and `Math.asin(off / r)` gives the turn where a pushed edge crosses the circle of radius `r`.
+The edge stays parallel to the true one, so the paper between two wedges is one width the whole way out.
 
-**The corners are rounded by a stroke**, not by the path.
-`fill` and `stroke` in the same color make one solid shape, and `stroke-linejoin: round` rounds every corner of it:
+**A stroke rounds the corners**, not the path:
 
 ```css
 .slice path { fill: var(--rhp-color); stroke: var(--rhp-color); stroke-width: 3.8; stroke-linejoin: round; }
 ```
 
-The stroke also grows the wedge by half its width in every direction.
-So the path is drawn that much smaller at the rim, and the edges are pushed that much further apart to pay for what the stroke eats back.
+One color for both makes one solid shape, and `stroke-linejoin: round` rounds every corner of it.
+It also grows the wedge by half its width, so the path is drawn that much smaller and the edges pushed that much further apart.
+And each wedge starts at a small inner radius rather than a tip, so all four of its corners sit on a circle and one stroke can round them all.
 
-Two smaller things follow from drawing the shape yourself:
+**The path is never transitioned.**
+CSS would carry every point along a straight line, and a point crossing a circle in a straight line cuts the corner, so the rim would flatten on the way.
+`animated` moves the two numbers instead, and the wedge is drawn again from them each frame:
 
-- Each arc is always the same number of cubics rather than an `A` command, so one wedge's path has the same shape as the next and `transition: d` can move between them.
-- The two versions end a wedge differently, and it is worth comparing them.
-  The simple version is a plain pie: its two pushed edges are carried until they cross, that crossing is the tip, and no corner is rounded.
-  The gallery version starts each wedge at a small inner radius instead, so all four ends of every wedge sit on one circle and one stroke can round all four corners at once.
-  The inner radius is what makes that possible: with a tip there is nothing for a stroke to round without pulling the tip back off the middle.
+```js
+const span = animated(() => [d.from, d.to], SWEEP);
+```
 
 **Flat, none of this runs.**
-The `<svg>` is hidden and rhp draws the bar itself, with `--rhp-gap` for the space between segments and `--rhp-radius` for their corners.
+The `<svg>` is hidden and rhp draws the bar itself, with `--rhp-gap` between segments and `--rhp-radius` on their corners.
 The same two numbers, spent on a length instead of an angle.
 
-The gallery version adds:
-
-- **A wedge that slides out.**
-  CSS works the direction out itself, from the numbers rhp already wrote: `sin()` and `cos()` of the angle halfway along the span.
-- **Only the wedge catches the pointer.**
-  Under `overlap` every slat fills the plot, slat box and `<svg>` box alike, so whichever is last would catch the pointer everywhere.
-  The slat is given `pointer-events: none` and the painted path and its label are given it back.
-- **Tab and the arrow keys.**
-  The `Plot` has `keyboard`, and the label's second line swaps from the name to the hours on hover or focus.
+The gallery version also has a wedge that slides out on hover, in the direction CSS works out from `sin()` and `cos()` of the angle halfway along its span.
+Under `overlap` every slat fills the plot, so the slat is given `pointer-events: none` and the painted path and its label are given it back.
+`keyboard` on the `Plot` adds tab and the arrow keys.

@@ -6,22 +6,17 @@ import * as styles from "./styles.js";
 const PARTS = ["Sleep", "Chores and errands", "Work and study", "Free time"];
 const HOURS = [8.8, 5.8, 5.0, 4.4];
 
-// A wedge, in a 100 x 100 box around the middle. Angles are turns from twelve o'clock, clockwise.
-// Each straight edge is pushed OFF aside rather than turned, so the gap between two wedges is one width all the way
-// in, and the two pushed edges of a wedge cross at a point near the middle: that point is the tip.
-const TAU = Math.PI * 2, OFF = 1.6, R = 50;
-const PAD = Math.asin(OFF / R) / TAU; // how far round pushing an edge aside moves the end of the rim
-
-// Not rounded. An A command fits a circle of the given radius through the two ends, and near half a turn that fit
-// is very sensitive to them: rounding an end a few thousandths off the circle moved the arc by a quarter unit.
+// A wedge, in a 100 x 100 box around the middle. Angles are turns from twelve o'clock, clockwise: out to where the
+// span starts, round the rim, and back to the middle. The ends are not rounded, so they are left exactly on the
+// circle. An A command fits a circle of the given radius through the two ends, and near half a turn that fit is very
+// sensitive to them.
+const TAU = Math.PI * 2, R = 50;
 const xy = (t, r) => `${r * Math.sin(t * TAU)},${-r * Math.cos(t * TAU)}`;
 
 export const wedge = (from, to) => {
-  const a = from / 100, b = to / 100, mid = (a + b) / 2;
-  const u = Math.min(a + PAD, mid), v = Math.max(b - PAD, mid); // a slice thinner than the gap closes up
-  const tip = Math.min(OFF / Math.sin((b - a) * Math.PI), R);   // where the two pushed edges cross
+  const a = from / 100, b = to / 100;
 
-  return `M${xy(mid, tip)}L${xy(u, R)}A${R},${R} 0 ${v - u > 0.5 ? 1 : 0} 1 ${xy(v, R)}Z`;
+  return `M0,0L${xy(a, R)}A${R},${R} 0 ${b - a > 0.5 ? 1 : 0} 1 ${xy(b, R)}Z`;
 };
 
 // A part: its wedge round, and rhp's own bar flat.

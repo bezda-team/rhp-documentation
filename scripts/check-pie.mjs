@@ -25,27 +25,33 @@ await page.addScriptTag({ content: `
 // Walks a path and reports its rim: for each degree it reaches, the furthest it gets. The rim is the run of degrees
 // sitting on the full radius; a degree that only holds a straight edge falls short and is not part of it. A degree
 // inside that run which falls short is the thing worth failing on, because it means the rim is not a circle.
-window.measure = (d, from) => {
+window.measure = (d, middle) => {
   const svg = document.querySelector("svg");
   const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
   p.setAttribute("d", d);
   svg.appendChild(p);
   const len = p.getTotalLength();
+  const seen = [];
   const far = new Map();
   let max = 0;
   for (let i = 0; i <= 6000; i++) {
     const q = p.getPointAtLength((i / 6000) * len);
     const r = Math.hypot(q.x, q.y);
-    let deg = (Math.atan2(q.x, -q.y) * 180) / Math.PI;
-    if (deg < 0) deg += 360;
-    const key = Math.round((deg - from * 3.6 + 360) % 360);
+    const deg = (Math.atan2(q.x, -q.y) * 180) / Math.PI;
+    // measured from the middle of the wedge and wrapped to half a turn either side, so a rim that starts exactly on
+    // its own boundary is not split between 0 and 359
+    const rel = (deg - middle + 540) % 360 - 180;
+    seen.push([rel, r]);
+    const key = Math.round(rel);
     if (r > (far.get(key) ?? 0)) far.set(key, r);
     if (r > max) max = r;
   }
   p.remove();
-  const on = [...far.entries()].filter(([, r]) => r > max - 0.05).map(([k]) => k).sort((x, y) => x - y);
+  // the span comes from the angles themselves, not from the whole degrees the dip scan is bucketed by: rounding each
+  // end would cost up to half a degree there and a degree in the span
+  const on = seen.filter(([, r]) => r > max - 0.05).map(([rel]) => rel);
   if (!on.length) return { max, dip: 0, span: 0, gaps: 0 };
-  const lo = on[0], hi = on[on.length - 1];
+  const lo = Math.min(...on), hi = Math.max(...on);
   let dip = 0, gaps = 0;
   for (const [k, r] of far) {
     if (k > lo && k < hi && r < max - 0.05) { dip = Math.max(dip, max - r); gaps++; }
@@ -68,7 +74,7 @@ for (const version of ["poster", "simple"]) {
       return wedges.map(([from, to]) => {
         const d = wedge(from, to);
         if (!/^[-\d.,A-Za-z ]+$/.test(d) || /NaN|Infinity/.test(d)) return { d, bad: true };
-        return { ...window.measure(d, from), bad: false };
+        return { ...window.measure(d, ((from + to) / 2) * 3.6), bad: false };
       });
     }, [mod, wedges]);
 
