@@ -232,7 +232,9 @@
 .pg-actions button { font: 500 13px/1 var(--__sl-font); padding: 7px 12px; border: 1px solid var(--sl-color-gray-5); border-radius: 6px; background: none; color: var(--sl-color-text); cursor: pointer; }
 .pg-actions button:hover:not(:disabled) { background: var(--gallery-card); color: var(--sl-color-white); }
 .pg-actions button:disabled { opacity: .4; cursor: default; }
-.pg-file { flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; }
+/* No overscroll-behavior here: at the end of the code the scroll has to carry on to the page, which is the only
+   way out of a panel that fills a phone's screen. */
+.pg-file { flex: 1 1 auto; min-height: 0; overflow: auto; }
 .pg-file[hidden] { display: none; }
 .pg-file .cm-scroller { overflow-x: auto; }
 .pg-hint { margin: 0; padding: 10px 16px 11px; border-top: 1px solid var(--sl-color-gray-5); font-size: 13.5px; color: var(--sl-color-gray-3); }
