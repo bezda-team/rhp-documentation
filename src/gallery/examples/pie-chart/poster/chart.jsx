@@ -18,37 +18,25 @@ const GAP = 1.9;                // the paper left between two wedges
 const HOLE = 9;                 // where a wedge starts, so the tips do not pile up in the middle
 const OFF = CORNER + GAP / 2;   // how far a wedge's edge is pushed off the true one
 const R = 50 - CORNER;          // the stroke grows the wedge back to 50
-const SEG = 6;                  // cubics per arc, always the same number, so one path can move into the next
 
-// Where a wedge's straight edge crosses the circle of radius r. The edge runs parallel to the radius at turn t, pushed
-// `off` aside, which keeps the gap between two wedges one width the whole way out.
-const cross = (t, r, off) => t + Math.asin(Math.max(-1, Math.min(1, off / r))) / TAU;
+// How far round pushing an edge aside moves the end of an arc. It is wider at the hole than at the rim, because the
+// same distance is a larger angle on a smaller circle.
+const RIM = Math.asin(OFF / R) / TAU;
+const INNER = Math.asin(Math.min(1, OFF / HOLE)) / TAU;
 
-// A point on the circle at turn t and radius r, nudged k along the tangent (k is how far a cubic leans into its arc).
-const xy = (t, r, k = 0) => {
-  const a = t * TAU;
-  return `${(r * Math.sin(a) + k * Math.cos(a)).toFixed(2)},${(-r * Math.cos(a) + k * Math.sin(a)).toFixed(2)}`;
-};
+// Not rounded. An A command fits a circle of the given radius through the two ends, and near half a turn that fit
+// is very sensitive to them: rounding an end a few thousandths off the circle moved the arc by a quarter unit.
+const xy = (t, r) => `${r * Math.sin(t * TAU)},${-r * Math.cos(t * TAU)}`;
+const big = (turns) => (turns > 0.5 ? 1 : 0);
 
-const arc = (a, b, r) => {
-  const step = (b - a) / SEG;
-  const k = (4 / 3) * Math.tan((step * TAU) / 4) * r;
-  let d = "";
-
-  for (let i = 0; i < SEG; i++) {
-    d += `C${xy(a + i * step, r, k)} ${xy(a + (i + 1) * step, r, -k)} ${xy(a + (i + 1) * step, r)}`;
-  }
-
-  return d;
-};
-
-// The wedge for a span of the scale. A narrow wedge's inner end closes up to a point.
-const wedge = (from, to) => {
+// The wedge for a span of the scale. A span too narrow for the gap closes up at that radius instead of turning inside out.
+export const wedge = (from, to) => {
   const a = from / 100, b = to / 100, mid = (a + b) / 2;
-  const [s, e] = cross(a, HOLE, OFF) < cross(b, HOLE, -OFF) ? [cross(a, HOLE, OFF), cross(b, HOLE, -OFF)] : [mid, mid];
-  const [u, v] = [cross(a, R, OFF), cross(b, R, -OFF)];
+  const u = Math.min(a + RIM, mid), v = Math.max(b - RIM, mid);
+  const s = Math.min(a + INNER, mid), e = Math.max(b - INNER, mid);
 
-  return `M${xy(s, HOLE)}L${xy(u, R)}${arc(u, v, R)}L${xy(e, HOLE)}${arc(e, s, HOLE)}Z`;
+  return `M${xy(s, HOLE)}L${xy(u, R)}A${R},${R} 0 ${big(v - u)} 1 ${xy(v, R)}`
+    + `L${xy(e, HOLE)}A${HOLE},${HOLE} 0 ${big(e - s)} 0 ${xy(s, HOLE)}Z`;
 };
 
 // How the wedge moves when the shares change. The path itself cannot be transitioned: CSS would carry every point of
