@@ -1,6 +1,6 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Cell, Label, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -18,8 +18,11 @@ export const DaySlat = slat({ thickness: { horizontal: 28 } }, (d) => (
 ));
 
 export default function Heatmap(p) {
-  const hours = createMemo(() => (p.seed(), DAYS.map((_, day) => Array.from({ length: HOURS }, (_, h) =>
-    Math.round(Math.max(0, 80 * Math.exp(-((h - 5 - (day > 4 ? 1 : 0)) ** 2) / 8) + rand(0, 20) - (day > 4 ? 20 : 0)))))));
+  const hours = createMemo(() => {
+    const { rand } = random(p.seed());
+    return DAYS.map((_, day) => Array.from({ length: HOURS }, (_, h) =>
+      Math.round(Math.max(0, 80 * Math.exp(-((h - 5 - (day > 4 ? 1 : 0)) ** 2) / 8) + rand(0, 20) - (day > 4 ? 20 : 0)))));
+  });
   return (
     <Chart orientation={p.o()} scale={[0, 100]} ticks={false} animate={p.js()}>
       <Plot day={DAYS} hours={hours()}>{DaySlat}</Plot>

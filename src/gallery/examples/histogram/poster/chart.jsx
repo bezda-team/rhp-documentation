@@ -1,6 +1,6 @@
 import { createMemo, Show } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat, nice, bins } from "@bezda/rhp";
-import { normal } from "@gallery/random.js";
+import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 // A bin's own temperature as its color: cool blue through sand to hot red (a heat scale, shown in the key).
@@ -11,7 +11,7 @@ const warmth = (t) => {
   return `rgb(${c0.map((c, i) => Math.round(c + (c1[i] - c) * f)).join(" ")})`;
 };
 // A mild coastal city: 365 daily highs around a seasonal swing.
-const year = () => Array.from({ length: 365 }, (_, day) => 17.5 + 7 * Math.sin((2 * Math.PI * (day - 110)) / 365) + normal(0, 2.2));
+const year = ({ normal }) => Array.from({ length: 365 }, (_, day) => 17.5 + 7 * Math.sin((2 * Math.PI * (day - 110)) / 365) + normal(0, 2.2));
 
 export const BinSlat = slat({
   thickness: { horizontal: 20 },
@@ -27,7 +27,7 @@ export const BinSlat = slat({
 ));
 
 export default function Histogram(p) {
-  const b = createMemo(() => (p.seed(), bins(year(), { domain: [4, 34], count: 15 }))); // 2 °C bins: { x0, x1, tally }
+  const b = createMemo(() => bins(year(random(p.seed())), { domain: [4, 34], count: 15 })); // 2 °C bins: { x0, x1, tally }
   const hottestFirst = b().x0.map((_, i) => b().x0.length - 1 - i);
   return (
     <Poster look="weather" kicker="A year of daily highs · °C" title="365 afternoons"

@@ -1,6 +1,6 @@
 import { createMemo } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 const GENRES = ["Mystery", "Sci-fi", "History", "Poetry"];
@@ -28,7 +28,7 @@ export const ShelfSlat = slat({
 ));
 
 export default function Units(p) {
-  const books = createMemo(() => (p.seed(), GENRES.map(() => Math.round(rand(6, 48)))));
+  const books = createMemo(() => { const { rand } = random(p.seed()); return GENRES.map(() => Math.round(rand(6, 48))); });
   return (
     <Poster look="books" kicker="Book club · the year's reading" title="A year in books" dek="Each spine is five books; a thin one is what's left over.">
       <Chart orientation={p.o()} scale={[0, 50]} ticks={false} height={300} animate={p.js()} theme={styles.theme}>

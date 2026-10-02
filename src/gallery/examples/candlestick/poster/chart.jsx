@@ -1,6 +1,6 @@
 import { createSignal, createMemo, Show } from "solid-js";
 import { Plot, Chart, Bar, Tick, Label, Poster, slat, nice } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 const dollars = (v) => "$" + v.toFixed(v < 100 ? 2 : 0);
@@ -36,7 +36,7 @@ export const CrossSlat = slat({
 
 export default function Candles(p) {
   const days = createMemo(() => {
-    p.seed();
+    const { rand } = random(p.seed());
     let price = 48;
     return Array.from({ length: 22 }, (_, i) => {
       const open = price, close = Math.max(20, open + rand(-3.2, 3.6));

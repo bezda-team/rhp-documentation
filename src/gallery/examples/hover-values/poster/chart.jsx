@@ -1,6 +1,6 @@
 import { createMemo } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 const QUARTERS = ["North", "East", "South", "West"];
@@ -22,7 +22,7 @@ export const WindSlat = slat({
 ));
 
 export default function Tutorial(p) {
-  const knots = createMemo(() => (p.seed(), [12, 5, 7, 9].map((v) => Math.max(2, Math.round(v + rand(-3, 3))))));
+  const knots = createMemo(() => { const { rand } = random(p.seed()); return [12, 5, 7, 9].map((v) => Math.max(2, Math.round(v + rand(-3, 3)))); });
   return (
     <Poster look="wind" kicker="Harbour log · this week" title="Where the wind blows from" dek="Average wind speed from each quarter. Hover a row to read it in knots.">
       <Chart orientation={p.o()} scale={[0, 15]} ticks={[0, 5, 10, 15]} format={(v) => v + " kn"} height={300} animate={p.js()} theme={styles.theme}>

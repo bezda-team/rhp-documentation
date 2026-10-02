@@ -1,6 +1,6 @@
 import { createMemo, createSignal, Show } from "solid-js";
 import { Plot, Chart, Label, Cell, Poster, slat, useOrientation } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -34,8 +34,11 @@ export const DayRow = slat({
 ));
 
 export default function Heatmap(p) {
-  const hours = createMemo(() => (p.seed(), DAYS.map((_, day) => Array.from({ length: 24 }, (_, h) =>
-    Math.max(0, 70 * Math.exp(-((h - 13 - (day > 4 ? 2 : 0)) ** 2) / 18) + rand(0, 30) - (day > 4 ? 15 : 0))))));
+  const hours = createMemo(() => {
+    const { rand } = random(p.seed());
+    return DAYS.map((_, day) => Array.from({ length: 24 }, (_, h) =>
+      Math.max(0, 70 * Math.exp(-((h - 13 - (day > 4 ? 2 : 0)) ** 2) / 18) + rand(0, 30) - (day > 4 ? 15 : 0))));
+  });
   // The hour under the pointer, read out in the dek on one line, so the chart never moves.
   const [picked, setPicked] = createSignal(null);
   const point = (e) => { const c = e.target.closest("[data-hour]"); setPicked(c ? [+c.dataset.day, +c.dataset.hour] : null); };

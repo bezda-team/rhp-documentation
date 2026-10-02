@@ -1,6 +1,6 @@
 import { createMemo, createSignal } from "solid-js";
 import { Plot, Chart, Dot, Tick, Label, Poster, slat } from "@bezda/rhp";
-import { normalsIn, sum } from "@gallery/random.js";
+import { random, sum } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 const ARMS = ["Placebo", "Dose A", "Dose B"];
@@ -34,7 +34,7 @@ export const ArmSlat = slat({
 });
 
 export default function Strip(p) {
-  const days = createMemo(() => (p.seed(), TRIAL.map(([m, s]) => normalsIn(30, 1, 23, m, s))));
+  const days = createMemo(() => { const { normalsIn } = random(p.seed()); return TRIAL.map(([m, s]) => normalsIn(30, 1, 23, m, s)); });
   // The arm under the pointer and the patient in it: [arm, patient], with -1 between capsules.
   // The patient is read out in the dek, on one line, so the chart never moves.
   const [picked, setPicked] = createSignal(null);

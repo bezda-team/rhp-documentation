@@ -1,6 +1,6 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, slat, nice } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 // A day: its wick from the low to the high, and its body from the open to the close.
@@ -13,7 +13,7 @@ export const CandleSlat = slat({ css: styles.candle, thickness: { horizontal: 16
 
 export default function Candlestick(p) {
   const days = createMemo(() => {
-    p.seed();
+    const { rand } = random(p.seed());
     let price = 50;
     return Array.from({ length: 16 }, () => {
       const open = price, close = open + rand(-3, 3.2);

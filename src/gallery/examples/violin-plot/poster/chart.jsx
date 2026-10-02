@@ -1,6 +1,6 @@
 import { createSignal, createMemo, Show } from "solid-js";
 import { Plot, Scale, Chart, Bar, Dot, Label, Area, Poster, slat, every, summary, density } from "@bezda/rhp";
-import { normalsIn } from "@gallery/random.js";
+import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 const STRINGS = ["Violin", "Viola", "Cello", "Double bass"];
@@ -45,7 +45,7 @@ export const InstrumentSlat = slat({
 });
 
 export default function Violin(p) {
-  const notes = createMemo(() => (p.seed(), TESSITURA.map(([lo, hi, mid, sd]) => normalsIn(80, lo, hi, mid, sd))));
+  const notes = createMemo(() => { const { normalsIn } = random(p.seed()); return TESSITURA.map(([lo, hi, mid, sd]) => normalsIn(80, lo, hi, mid, sd)); });
   // One peak for every instrument, so their widths compare: a value shared by all slats, not a list.
   const peak = createMemo(() => Math.max(...notes().flatMap((s) => density(s, { points: 48 }).map((q) => q[1]))));
   // The instrument under the pointer (when it moves), and the keys it reaches (a note is on the key it falls in).

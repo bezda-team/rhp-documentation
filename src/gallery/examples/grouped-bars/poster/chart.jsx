@@ -1,6 +1,6 @@
 import { createMemo } from "solid-js";
 import { Plot, Chart, Bar, Dot, Label, Poster, slat, sortBy, nice } from "@bezda/rhp";
-import { rand, sum } from "@gallery/random.js";
+import { random, sum } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 const TEAMS = ["North", "East", "South", "West"];
@@ -28,7 +28,7 @@ export const TeamSlat = slat({
 ));
 
 export default function Grouped(p) {
-  const medals = createMemo(() => (p.seed(), TEAMS.map(() => METALS.map(() => Math.round(rand(3, 24))))));
+  const medals = createMemo(() => { const { rand } = random(p.seed()); return TEAMS.map(() => METALS.map(() => Math.round(rand(3, 24)))); });
   return (
     <Poster look="medals" kicker="Regional Games · final table" title="Gold rush"
       dek={<span class="keys"><span><i class="gold" />Gold</span><span><i class="silver" />Silver</span><span><i class="bronze" />Bronze</span></span>}>

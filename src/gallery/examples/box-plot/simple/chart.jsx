@@ -1,6 +1,6 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, Tick, Label, slat, summary } from "@bezda/rhp";
-import { normalsIn } from "@gallery/random.js";
+import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 const GROUPS = ["A", "B", "C", "D", "E"];
@@ -19,7 +19,7 @@ export const BoxSlat = slat({ css: styles.box, thickness: { horizontal: 44 } }, 
 });
 
 export default function BoxPlot(p) {
-  const samples = createMemo(() => (p.seed(), GROUPS.map((_, i) => normalsIn(40, 0, 70, 22 + i * 6, 4 + i))));
+  const samples = createMemo(() => { const { normalsIn } = random(p.seed()); return GROUPS.map((_, i) => normalsIn(40, 0, 70, 22 + i * 6, 4 + i)); });
   return (
     <Chart orientation={p.o()} scale={[0, 70]} animate={p.js()}>
       <Plot name={GROUPS} samples={samples()}>{BoxSlat}</Plot>

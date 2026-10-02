@@ -1,6 +1,6 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Dot, Tick, Label, slat } from "@bezda/rhp";
-import { normalsIn, sum } from "@gallery/random.js";
+import { random, sum } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 const GROUPS = ["Control", "Treated"];
@@ -18,7 +18,7 @@ export const GroupSlat = slat({ css: styles.group, thickness: { horizontal: 80 }
 ));
 
 export default function StripPlot(p) {
-  const values = createMemo(() => (p.seed(), [normalsIn(30, 0, 20, 11, 3), normalsIn(30, 0, 20, 7, 2.5)]));
+  const values = createMemo(() => { const { normalsIn } = random(p.seed()); return [normalsIn(30, 0, 20, 11, 3), normalsIn(30, 0, 20, 7, 2.5)]; });
   return (
     <Chart orientation={p.o()} scale={[0, 20]} format={(v) => v + " d"} animate={p.js()}>
       <Plot name={GROUPS} values={values()}>{GroupSlat}</Plot>

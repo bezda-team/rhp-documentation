@@ -1,6 +1,6 @@
 import { createSignal, createMemo } from "solid-js";
 import { Plot, Scale, Chart, Bar, Dot, Tick, Poster, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 // One sample: a stem from rest, glowing at its tip, fading as the ring dies away (--fade).
@@ -23,7 +23,7 @@ export const RestSlat = slat({ css: styles.rest }, () => <div><Tick at={0} thick
 export default function Stem(p) {
   const [strikes, setStrikes] = createSignal(0); // each strike rings with a new pitch and decay
   const y = createMemo(() => {
-    p.seed(), strikes();
+    const { rand } = random(p.seed() + strikes());
     const w = rand(0.45, 0.8), decay = rand(9, 18);
     return Array.from({ length: 36 }, (_, k) => Math.cos(k * w) * Math.exp(-k / decay));
   });

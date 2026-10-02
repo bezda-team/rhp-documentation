@@ -1,6 +1,6 @@
 import { createMemo, createSignal } from "solid-js";
 import { Plot, Scale, Chart, Bar, Tick, Label, Poster, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -41,7 +41,7 @@ export const NormalSlat = slat({
 ));
 
 export default function Diverging(p) {
-  const anomaly = createMemo(() => (p.seed(), MONTHS.map(() => Math.round(rand(-1.4, 2.4) * 10) / 10)));
+  const anomaly = createMemo(() => { const { rand } = random(p.seed()); return MONTHS.map(() => Math.round(rand(-1.4, 2.4) * 10) / 10); });
   // The month under the pointer, read out in the dek.
   const [month, setMonth] = createSignal(null);
   const point = (e) => { const i = e.target.closest("[data-month]")?.dataset.month; setMonth(i == null ? null : +i); };
