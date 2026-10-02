@@ -1,4 +1,4 @@
-import { createMemo, createSignal, onCleanup, Show } from "solid-js";
+import { createMemo, createSignal, onCleanup, onMount, Show } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat, shares, stackUp, animated } from "@bezda/rhp";
 import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
@@ -194,8 +194,13 @@ export default function Multiple(p) {
   };
 
   // The paragraph over the tubes wraps to more lines on a narrow poster, so the tubes take the height it leaves.
+  // It is measured once mounted, and after a resize in the next frame: on a narrow poster its height is part of the
+  // Chart's, and resizing the Chart while the browser hands out size changes is an error in WebKit.
   const [side, setSide] = createSignal(0);
-  const measure = (el) => onResize([el], () => setSide(el.offsetHeight));
+  const measure = (el) => {
+    onMount(() => setSide(el.offsetHeight));
+    onResize([el], () => requestAnimationFrame(() => setSide(el.offsetHeight)));
+  };
 
   return (
     <Poster onClick={pick} onKeyDown={keys} look="ai" title="How many people use AI to write their emails and messages?"
