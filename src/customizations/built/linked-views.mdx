@@ -65,6 +65,7 @@ The Chart's height is the pie's, which is too tall for a tube, so the slat's CSS
 ```
 
 It runs from just over the share and name to just under the paragraph, whose height is measured and given to the Chart as `--side`.
+The tubes are drawn only once the paragraph is measured, so they start at their height instead of shrinking into it.
 Each tube has its own color, checked to stay apart from its neighbours for colorblind readers too, and named under it.
 
 **In the JS version** rhp moves every number a Plot is given, so each Plot names the ones rhp draws:

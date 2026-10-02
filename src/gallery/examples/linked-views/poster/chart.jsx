@@ -1,4 +1,4 @@
-import { createMemo, createSignal, onCleanup, onMount, Show } from "solid-js";
+import { createEffect, createMemo, createSignal, on, onCleanup, Show } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat, shares, stackUp, animated } from "@bezda/rhp";
 import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
@@ -194,11 +194,12 @@ export default function Multiple(p) {
   };
 
   // The paragraph over the tubes wraps to more lines on a narrow poster, so the tubes take the height it leaves.
-  // It is measured once mounted, and after a resize in the next frame: on a narrow poster its height is part of the
-  // Chart's, and resizing the Chart while the browser hands out size changes is an error in WebKit.
-  const [side, setSide] = createSignal(0);
+  // It is measured when the poster mounts or turns, before anything is drawn. The tubes are drawn only after that, so
+  // they never shrink into place. After a resize it is measured in the next frame, because WebKit reports an error when
+  // the Chart changes size while the browser hands out size changes.
+  const [side, setSide] = createSignal();
   const measure = (el) => {
-    onMount(() => setSide(el.offsetHeight));
+    createEffect(on(p.o, () => setSide(el.offsetHeight)));
     onResize([el], () => requestAnimationFrame(() => setSide(el.offsetHeight)));
   };
 
@@ -208,7 +209,7 @@ export default function Multiple(p) {
       <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={300} animate={p.js()} theme={styles.theme}
         style={{
           "--pitch": "10.5cqw", "--bars": `calc(var(--pitch) * ${GENS.length})`, "--between": "3cqw",
-          "--side": `${side()}px`, "--strip": `${STRIP}px`,
+          "--side": `${side() ?? 0}px`, "--strip": `${STRIP}px`,
         }}>
         <div class="side" ref={measure}>
           <p>Everyone, by how often AI helps them write. Pick a generation for only its people, and click anywhere else for everyone.</p>
@@ -220,10 +221,12 @@ export default function Multiple(p) {
           name={PARTS} color={COLORS} from={pie().from} to={pie().to} spot={spots()}>
           {PartSlat}
         </Plot>
-        <Plot keyboard class="gens" style={seat(p.o(), "gens")} key="name" animate={p.js() && ["value"]}
-          name={GENS} value={using()} tint={TINTS} picked={picked()}>
-          {GenSlat}
-        </Plot>
+        <Show when={side() != null}>
+          <Plot keyboard class="gens" style={seat(p.o(), "gens")} key="name" animate={p.js() && ["value"]}
+            name={GENS} value={using()} tint={TINTS} picked={picked()}>
+            {GenSlat}
+          </Plot>
+        </Show>
       </Chart>
     </Poster>
   );
