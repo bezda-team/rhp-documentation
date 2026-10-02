@@ -67,6 +67,18 @@ In the JS version, pass `duration` (ms), `ease` and `slide` (ms) to `animate`:
 Any duration works.
 Set it to 0 (`--rhp-length-time: 0s` in the CSS version, `duration: 0` in the JS version) and values jump straight to their new places with no motion at all.
 
+## Changing data in your own animation frame
+
+rhp writes each change to the chart in the next animation frame, the one that shows it.
+A change you make inside your own `requestAnimationFrame` callback can come after rhp's in that frame, and then shows a frame late.
+Make it inside `drawing()` and it reaches the chart in the same frame:
+
+```jsx
+import { drawing } from "@bezda/rhp";
+
+requestAnimationFrame(() => drawing(() => setValue(next)));
+```
+
 ## Reduced motion
 
 If someone has asked their system for less motion, rhp jumps to new values instead of animating them.

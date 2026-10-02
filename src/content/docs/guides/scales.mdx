@@ -18,7 +18,9 @@ Every block in every Plot of the chart uses it.
 
 When the scale changes, everything on it moves together.
 A Bar that runs past the end of the scale is cut off there.
-A Dot or a Label keeps the place its value gives it, even when that is outside the chart.
+A value Label stays at the end of the scale, still showing its value, so a number past the end can't widen the page.
+A Dot, a Tick or a Place keeps the place its value gives it, even when that is outside the chart.
+To keep those inside, give the slat's own element `overflow: clip` in its CSS.
 
 ## The axis
 

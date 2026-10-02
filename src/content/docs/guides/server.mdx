@@ -23,6 +23,7 @@ In Astro, if you tell the Solid integration which files are Solid (`solid({ incl
 - **Every chart, drawn.** Slats, bars and labels are in their places, sorted, with the right room for names.
 - **The CSS.** Each chart writes the CSS it needs into the page: rhp's own CSS once, and each slat type's CSS.
   When the browser takes the page over, it swaps those for its own stylesheets.
+- **Values from users stay values.** A value, a color or a theme entry that would add CSS of its own (a `;` outside quotes and brackets, say) is left out of the HTML, as a browser leaves it out, and text in a slat's CSS can't end the `<style>` it is written into.
 
 ## Many charts, or islands
 

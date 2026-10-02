@@ -66,6 +66,7 @@ Use it for the pieces that are yours to draw, a badge, a bubble, a photo, a need
 A smooth shape over the scale, from a list of `points`, each `[value, height]`.
 The tallest point reaches the full thickness of the slat.
 Add `mirror` to draw it both ways from the middle, for violin plots.
+Add `smooth` to join the points with curves instead of straight lines.
 
 <Demo name="block-area" height={150} />
 
@@ -77,7 +78,7 @@ A line through a list of `points`, each `[value, y]`.
 In a slat it is a sparkline.
 The largest y reaches the top of the slat, so each slat is scaled on its own.
 Set `peak` to the y that should reach the top, and then the slats can be compared with each other.
-Add `fill` to fill under the line.
+Add `fill` to fill under the line, and `smooth` to join the points with curves.
 
 <Demo name="block-line" height={170} />
 
@@ -91,5 +92,21 @@ Every block also takes what an HTML element takes:
 - `color`: a theme color (`"series-2"`, `"positive"`) or any CSS color,
 - event handlers such as `onClick`, and attributes such as `title`, `data-*` and `aria-*`,
 - children: text, an image, or any other element, drawn inside the block.
+
+Bar, Dot, Tick, Label and Cell also take `shape`, an outline to draw instead of their rectangle.
+`shape()` makes one from SVG's path commands, in the block's own box:
+
+```jsx
+import { shape } from "@bezda/rhp";
+
+// a bar with a pointed end: 26px back from its end, it narrows to a point at the end's middle
+const arrow = shape(["M", 0, 0], ["L", "-26px", 0], ["L", 1, 0.5], ["L", "-26px", 1], ["L", 0, 1], ["Z"]);
+
+<Bar to={d.value} shape={arrow} />
+```
+
+The first number of each point runs along the scale, from the block's start (0) to its end (1), and the second across the band, from 0 to 1.
+A length such as `"26px"` is measured from the start, and `"-26px"` from the end.
+rhp turns the shape for a vertical chart and for a bar that runs backward, so you write it once.
 
 The full list of props is in the [blocks reference](/reference/blocks/).

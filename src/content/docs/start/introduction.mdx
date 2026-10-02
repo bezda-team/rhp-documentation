@@ -37,7 +37,9 @@ You build a slat from a few blocks, and rhp puts each block in its correct place
 | `Tick` | a short line across the slat, at a value |
 | `Label` | text at a value, or beside the chart |
 | `Cell` | a colored cell, for heatmaps |
+| `Place` | nothing: a spot at a value, for an element of your own |
 | `Area` | a smooth shape, for how values spread |
+| `Line` | a line through points: a sparkline, or a line chart |
 
 When your numbers change, the chart follows by itself.
 Only what changed moves: the bar that grew, and the slats that swap places.
@@ -54,7 +56,7 @@ Look at the code under the chart above: it has two parts, and each has one job.
   There are no loops to write, no code for each bar, and no copies to keep in step.
   A fix to the slat reaches every slat drawn from it, in every chart that uses it.
 - **Blocks, not chart types.**
-  Instead of a catalog of chart types, each with its own options, rhp has six blocks you combine.
+  Instead of a catalog of chart types, each with its own options, rhp has eight blocks you combine.
   A bar chart, a box plot and a timeline are the same few blocks arranged differently, so a chart nobody planned for needs nothing new.
 - **Data goes in as columns.**
   Each prop of a Plot is one column of your table (`fruit`, `sold`), and each slat gets its row's values as `d.fruit` and `d.sold`.
@@ -71,7 +73,7 @@ Look at the code under the chart above: it has two parts, and each has one job.
   You style it the way you style the rest of your page: classes, hover states, gradients, images and fonts.
   A bar is an element you can inspect in the browser, not a shape inside an SVG or a canvas.
 - **It's small.**
-  15 kB gzipped, or 29 kB together with Solid, the library it's built on.
+  A bar chart adds 16 kB gzipped, or 26 kB together with Solid, the library it's built on.
 - **It's quick.**
   Changing a number changes one CSS variable on one element, so charts stay smooth while you drag, type, or stream in data.
 - **Charts don't break each other.**

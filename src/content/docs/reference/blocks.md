@@ -1,6 +1,6 @@
 ---
 title: Blocks
-description: Bar, Dot, Tick, Label, Cell, Area and Line, and the props each one takes.
+description: Bar, Dot, Tick, Label, Cell, Place, Area and Line, and the props each one takes.
 ---
 
 Blocks are the pieces of a slat.
@@ -8,6 +8,8 @@ Values are on the chart's scale.
 Every block also takes `class`, `style` (an object), `ref`, `color`, children, event handlers (`onClick`…) and HTML attributes (`title`, `data-*`, `aria-*`).
 
 `color` is a theme name (`"series-1"` to `"series-6"`, `"positive"`, `"negative"`, `"ink"`, `"muted"`, `"grid"`, `"surface"`, `"low"`, `"high"`) or any CSS color.
+
+Bar, Dot, Tick, Label and Cell also take `shape`: an outline from [`shape()`](/reference/helpers/#shapes) to draw instead of their rectangle (a Dot's circle).
 
 ## Bar
 
@@ -73,6 +75,21 @@ Every block also takes `class`, `style` (an object), `ref`, `color`, children, e
 | `value` | | colored from the theme's `low` (at the scale's min) to `high` (at its max) |
 | `color` | | a fixed color instead |
 
+## Place
+
+```jsx
+<Place at={d.value}><span class="badge">{d.value} kg</span></Place>
+```
+
+Draws nothing: no size, no color.
+What you put inside it sits at its value.
+
+| Prop | Default | |
+|---|---|---|
+| `at` | | its value |
+| `across` | `0.5` | where it sits across the band, from 0 to 1 |
+| `cross` | | its value on the chart's [second axis](/guides/scales/#a-second-axis), instead of `across` |
+
 ## Area
 
 ```jsx
@@ -84,6 +101,7 @@ Every block also takes `class`, `style` (an object), `ref`, `color`, children, e
 | `points` | | `[value, height]` pairs, sorted by value |
 | `peak` | the largest height | the height that fills the band |
 | `mirror` | `false` | draw both ways from the band's middle (violins) |
+| `smooth` | `false` | join the points with curves instead of straight lines |
 | `color` | `series-1` | |
 
 ## Line
@@ -98,6 +116,7 @@ Every block also takes `class`, `style` (an object), `ref`, `color`, children, e
 | `peak` | the largest y | in a slat: the y that reaches the top of the band |
 | `fill` | `false` | fill under the line: to the band's edge, or on a second axis down to `base` |
 | `base` | `0` | on a second axis: where the fill ends |
+| `smooth` | `false` | join the points with curves instead of straight lines |
 | `color` | `series-1` | |
 
 In a slat, a Line is a sparkline across the band.
