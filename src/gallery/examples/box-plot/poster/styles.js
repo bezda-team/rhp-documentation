@@ -4,7 +4,7 @@
 export const scale = `
 .mark { --rhp-tick-width: 4px; background: var(--rhp-muted); translate: none; }
 .mark:horizontal { top: -16px; bottom: -12.8px; height: auto; }
-.mark:vertical { left: -16px; right: -12.8px; width: auto; }
+.mark:vertical { left: -28px; right: -12.8px; width: auto; }
 .zero > .mark:horizontal { translate: -100% 0; }
 .zero > .mark:vertical { translate: 0 100%; }
 .line > .mark { background: none; }
@@ -16,16 +16,17 @@ export const scale = `
 .num { font-size: 13px; font-weight: 700; line-height: 19.5px; font-variant-numeric: normal; color: var(--rhp-muted); translate: none; --rhp-label-gap: 8px; }
 .zero > .num { --rhp-label-gap: 4px; }
 .num:horizontal { top: -20px; }
-.num:vertical { left: -20px; }
+.num:vertical { left: -32px; }
 .num.crowded { visibility: hidden; }
 `;
 
 // A cloud: its name, the whiskers and their caps, the box filled with its photo, and the top value. Hover a slat to zoom the photo out.
 export const box = `
-.name { font-size: 15px; font-weight: 600; line-height: 1.2; color: var(--rhp-muted); }
+.name { font-size: 15px; font-weight: 600; line-height: 1.2; color: var(--rhp-muted); --rhp-label-gap: 16px; }
 /* Standing up, a column is too narrow for a name, so the name is turned 60 degrees and reads up to its own column.
-   Its right end is pinned to the middle of the column and it swings down and to the left from there. */
-.name:vertical { left: auto; right: 50%; width: max-content; padding-inline: 0; font-size: 13px; white-space: nowrap;
+   Its right end is pinned to the middle of the column and it swings down and to the left from there.
+   Its text ends 10px before that point. */
+.name:vertical { left: auto; right: 50%; width: max-content; padding-inline: 0 10px; font-size: 13px; white-space: nowrap;
   text-align: right; overflow: visible; transform-origin: 100% 0; transform: rotate(-60deg); }
 .whisker, .box { --rhp-radius: 0px; }
 .cap { --rhp-tick-width: 4px; }

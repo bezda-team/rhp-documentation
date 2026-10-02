@@ -13,10 +13,11 @@ import cirrocumulus from "./assets/cirrocumulus.jpg?url";
 
 // v1's scale: a Scale in the Chart draws it, one slat per tick, a mark and its number.
 // The marks start 16px above the first slat, and the numbers sit over them, in the room this slat asks for.
+// Standing up, they start 28px left of the first column, to leave space between the numbers and the columns.
 // A mark is "zero" (solid, just before 0), "end" (solid, at the max), or between them `marks`:
 // "line" (dashed, as long as the plot) or "tick" (13px long).
 export const V1Scale = slat({
-  room: { horizontal: { before: 40, after: 13 }, vertical: { before: 24, end: 30, after: 13 } },
+  room: { horizontal: { before: 40, after: 13 }, vertical: { before: 36, end: 30, after: 13 } },
   css: styles.scale,
 }, (t) => {
   // A number just before the end would run into the end mark, so it's left out, and only then: horizontal, when its
@@ -37,11 +38,12 @@ const PHOTOS = [stratocumulus, cumulonimbus, altocumulus, cirrus, nimbostratus, 
 const GREYS = ["#9fa2a4", "#cbdddf", "#a5aeb5", "#dbe7eb", "#dae6ec", "#c2d6e0", "#c9ced3"];
 // v1's data: [low whisker, box start, box end, high whisker] per cloud
 const WHISKERS = [[1, 3, 9, 10], [2, 3, 15, 20], [5, 9, 16, 18], [3, 4, 7, 9], [10, 18, 22, 25], [13, 15, 18, 22], [15, 20, 26, 27]];
+const SLID = CLOUDS.indexOf("cirrus"); // the cloud whose box the slider stretches
 
 export const BoxSlat = slat({
   thickness: { horizontal: 79 },
   inset: "8px",
-  room: { horizontal: { start: 124, end: 37 }, vertical: { start: 96, end: 30 } }, // for the names and values
+  room: { horizontal: { start: 132, end: 37 }, vertical: { start: 104, end: 30 } }, // for the names and values
   css: styles.box,
 }, (d) => (
   <div class={d.dim ? "slat dim" : "slat"} style={{ "--rhp-color": d.color }}>
@@ -62,11 +64,11 @@ const whiskers = () => {
 
 export default function Clouds(p) {
   const data = createMemo(() => (p.seed() ? CLOUDS.map(whiskers) : WHISKERS));
-  // The slider moves stratocumulus' box end (its 3rd value); the high whisker is pushed along past it, and
-  // comes back when the box shrinks again. New data resets it.
+  // The slider moves cirrus' box end (its 3rd value); the high whisker is pushed along past it, and comes back when
+  // the box shrinks again. New data resets it.
   const [end, setEnd] = createSignal();
   createComputed(on(data, () => setEnd(undefined)));
-  const boxes = createMemo(() => data().map((b, i) => (i === 0 && end() != null ? [b[0], b[1], Math.max(b[1], end()), Math.max(b[3], end())] : b)));
+  const boxes = createMemo(() => data().map((b, i) => (i === SLID && end() != null ? [b[0], b[1], Math.max(b[1], end()), Math.max(b[3], end())] : b)));
   const max = createMemo(() => Math.max(...boxes().map((b) => b[3]))); // "Fit"
   const [ranked, setRanked] = createSignal(true);
   const [dim, setDim] = createSignal(false);
@@ -75,9 +77,9 @@ export default function Clouds(p) {
       <div class="buttons">
         <button class="mini" onClick={() => setRanked(!ranked())}>{ranked() ? "Initial" : "Rank"}</button>
         <button class="mini" onClick={() => setDim(!dim())}>{dim() ? "Saturate" : "Desaturate"}</button>
-        <label class="slider">stratocumulus box end
-          <input type="range" min={boxes()[0][1]} max="40" value={boxes()[0][2]} onInput={(e) => setEnd(+e.currentTarget.value)} />
-          <output>{boxes()[0][2]}</output>
+        <label class="slider">cirrus box end
+          <input type="range" min={boxes()[SLID][1]} max="40" value={boxes()[SLID][2]} onInput={(e) => setEnd(+e.currentTarget.value)} />
+          <output>{boxes()[SLID][2]}</output>
         </label>
       </div>
       <Chart orientation={p.o()} scale={[0, max()]} height={480} animate={p.js()}>
