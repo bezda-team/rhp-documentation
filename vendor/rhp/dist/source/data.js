@@ -46,9 +46,14 @@ export const extent = (values) => {
 // With ends, min and max are ticks too (a scale that ends at the largest value: 0, 5, ..., 25, 27).
 export const every = (step, { ends = false } = {}) => ([min, max]) => {
 
-  const out = [];
+  if (!(step > 0)) throw new Error("rhp: every() takes a step above 0");
 
-  for (let v = Math.ceil(min / step - 1e-9) * step; v <= max + 1e-9; v += step) {
+  const out = [];
+  const first = Math.ceil(min / step - 1e-9);
+
+  for (let k = 0; k <= 10000; k++) {
+    const v = (first + k) * step;
+    if (!(v <= max + 1e-9) || (k > 0 && v === (first + k - 1) * step)) break;
     out.push(+v.toFixed(10));
   }
 
@@ -70,7 +75,9 @@ export function nice(lo, hi, count = 5) {
   const max = Math.ceil(hi / step - 1e-9) * step;
   const ticks = [];
 
-  for (let v = min; v <= max + step / 2; v += step) {
+  for (let k = 0; k <= 1000; k++) {
+    const v = min + k * step;
+    if (!(v <= max + step / 2) || (k > 0 && v === min + (k - 1) * step)) break;
     ticks.push(+v.toFixed(10));
   }
 
@@ -162,7 +169,10 @@ export function summary(samples) {
 // Returns { x0, x1, tally }: bin k covers x0[k]..x1[k] and holds tally[k] samples.
 export function bins(samples, { domain = extent(samples), count = 10 } = {}) {
 
-  const [lo, hi] = domain;
+  let [lo, hi] = domain;
+  // No samples: an empty scale from 0 to 1. Samples all alike: a scale one wide around them, so they land in a bin.
+  if (!Number.isFinite(lo) || !Number.isFinite(hi)) [lo, hi] = [0, 1];
+  if (lo === hi) [lo, hi] = [lo - 0.5, hi + 0.5];
   const width = (hi - lo) / count;
   const x0 = [];
   const x1 = [];

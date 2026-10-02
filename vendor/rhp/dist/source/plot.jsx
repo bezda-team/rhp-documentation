@@ -245,7 +245,7 @@ function makePlot(props, role) {
 
   if (typeof props.children !== "function") throw new Error(`rhp: a ${role}'s child must be a slat function, (d) => <div>…</div>`);
 
-  useSlatCss(props.children);
+  onCleanup(useSlatCss(props.children));
   const layout = props.children.layout ?? {}; // the slat type's thickness, inset and room
   const { nested, frame, orientation: inherited, motion: inheritedMotion, still: stillAround } = useContext(Around);
   if (isServer) frame?.sheet(props.children); // on a server, the slat's CSS goes into the page with its Chart
@@ -310,7 +310,7 @@ function makePlot(props, role) {
       if (key === "index") return t.row();
       if (key === "position") return pos[t.row()];
       const g = isGroup.has(key) ? group[key]() : undefined;
-      if (typeof g === "function") return ((t.memos ??= {})[key] ??= runWithOwner(t.owner, () => createMemo(() => g(t.self))))();
+      if (typeof g === "function") return ((t.memos ??= {})[key] ??= runWithOwner(t.owner, () => createMemo(() => { const f = group[key](); return typeof f === "function" ? f(t.self) : undefined; })))();
       if (t.id && js() && isMoving(key)) return moving(key, t.id())(t.ahead);
       return raw(key, t.row());
     },
@@ -772,8 +772,12 @@ function tickValues(t, [a, b], [a0, b0] = [a, b]) {
 
   const { step } = nice(a0, b0, t ?? 5);
   const out = [];
+  const first = Math.ceil(a / step - 1e-9);
 
-  for (let v = Math.ceil(a / step - 1e-9) * step; v <= b + 1e-9 * step; v += step) {
+  // Each tick from its index, so the ticks can't stall where a number is too big for the step to change it
+  for (let k = 0; k <= 1000; k++) {
+    const v = (first + k) * step;
+    if (!(v <= b + 1e-9 * step) || (k > 0 && v === (first + k - 1) * step)) break;
     out.push(+v.toFixed(10));
   }
 

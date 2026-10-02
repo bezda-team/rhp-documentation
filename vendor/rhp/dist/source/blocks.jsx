@@ -9,6 +9,22 @@ import { write } from "./frame.js";
 
 const cls = (base, c) => (c ? base + " " + c : base);
 
+// The smallest and largest of a list, in a loop: spreading 150,000 numbers into Math.min overflows V8's stack
+const extentOf = (list) => {
+
+  let lo = Infinity;
+  let hi = -Infinity;
+
+  for (const v of list) {
+    if (v < lo) lo = v;
+    if (v > hi) hi = v;
+  }
+
+  return [lo, hi];
+};
+
+const warnedColors = new Set(); // each page-variable color is warned about once
+
 // A color is a theme key ("series-2", "positive", "muted"...) or a CSS color.
 // A slat that reads a page's CSS variable would look different in every app, so that gets a warning.
 const KEY = /^(series-\d+|positive|negative|ink|muted|grid|surface|low|high)$/;
@@ -16,7 +32,10 @@ export const tok = (c) => {
 
   if (typeof c !== "string") return c;
   if (KEY.test(c)) return "var(--rhp-" + c + ")";
-  if (/var\(--(?!rhp-)/.test(c)) console.warn("rhp: " + c + " reads a page variable; use a theme key");
+  if (/var\(--(?!rhp-)/.test(c) && !warnedColors.has(c)) {
+    warnedColors.add(c);
+    console.warn("rhp: " + c + " reads a page variable; use a theme key");
+  }
 
   return c;
 };
@@ -65,6 +84,35 @@ export function writeVars(el, vars, back) {
   });
 }
 
+// Whether a CSS value has a ; or ! outside its strings and brackets, or brackets that don't close: in a style attribute
+// that would start a declaration of its own. A browser setting the same value with setProperty rejects it, so a server
+// leaves it out too. (Balanced braces are kept, as a browser keeps them in a custom property.)
+const loose = (v) => {
+
+  let quote = null;
+  let depth = 0;
+
+  for (let i = 0; i < v.length; i++) {
+    const ch = v[i];
+    if (ch === "\\") {
+      i++;
+      continue;
+    }
+    if (quote) {
+      if (ch === quote) quote = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") quote = ch;
+    else if (ch === "(" || ch === "[" || ch === "{") depth++;
+    else if (ch === ")" || ch === "]" || ch === "}") {
+      if (--depth < 0) return true;
+    } else if (depth === 0 && (ch === ";" || ch === "!")) return true;
+  }
+
+  return quote !== null || depth !== 0;
+};
+const safe = (v) => v != null && !(typeof v === "string" && /[;!{}]/.test(v) && loose(v));
+
 // On a server, the style attribute of an element: its style prop (an object or a string) and its CSS variables
 export function withVars(st, vars) {
 
@@ -72,12 +120,12 @@ export function withVars(st, vars) {
 
   if (st && typeof st === "object") {
     for (const key in st) {
-      if (st[key] != null) css += (css && !css.endsWith(";") ? ";" : "") + key + ":" + st[key];
+      if (safe(st[key])) css += (css && !css.endsWith(";") ? ";" : "") + key + ":" + st[key];
     }
   }
 
   for (const key in vars) {
-    if (vars[key] != null) css += (css && !css.endsWith(";") ? ";" : "") + key + ":" + vars[key];
+    if (safe(vars[key])) css += (css && !css.endsWith(";") ? ";" : "") + key + ":" + vars[key];
   }
 
   return css || undefined;
@@ -254,7 +302,7 @@ export function Area(props) {
 
     const [x0, x1] = span();
     const w = x1 - x0 || 1;
-    const peak = p.peak ?? Math.max(...pts.map((q) => q[1]));
+    const peak = p.peak ?? extentOf(pts.map((q) => q[1]))[1];
     const vertical = orientation() === "vertical";
     // u runs along the value axis and t across the band, both from 0 to 1000 in the shape's box
     const xy = (u, t) => (vertical ? [1000 - t, 1000 - u] : [u, t]);
@@ -309,14 +357,13 @@ export function Line(props) {
     const xs = pts.map((q) => q[0]);
     const ys = pts.map((q) => q[1]);
     if (p.fill) ys.push(p.base ?? 0);
-    let y0 = Math.min(...ys);
-    let y1 = Math.max(...ys);
+    let [y0, y1] = extentOf(ys);
     if (y0 === y1) {
       y0 -= 0.5;
       y1 += 0.5;
     }
 
-    return [Math.min(...xs), Math.max(...xs), y0, y1];
+    return [...extentOf(xs), y0, y1];
   });
 
   // The line, and the shape under it when filled
@@ -326,7 +373,7 @@ export function Line(props) {
 
     const [x0, x1, y0, y1] = box();
     const w = x1 - x0 || 1;
-    const peak = p.peak ?? Math.max(...pts.map((q) => q[1]));
+    const peak = p.peak ?? extentOf(pts.map((q) => q[1]))[1];
     const vertical = orientation() === "vertical";
     // up is y's place across, 0 to 1: on the cross scale within the box, or in the band
     const up = crossed() ? (y) => (y - y0) / (y1 - y0) : (y) => Math.min(1, y / (peak || 1));

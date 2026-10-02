@@ -71,7 +71,7 @@ export interface SlatLayout {
   css?: string | readonly (string | null | undefined)[];
   /** px per slat along the stack: a row's height, or a column's width. Without one, slats share what the chart has: a
    * vertical chart's width, a horizontal chart's height (one with no height gives its slats 32px each and grows with them). */
-  thickness?: PerOrientation<number>;
+  thickness?: PerOrientation<number | string>;
   /** The empty share of the band on each side of a Bar, Tick or Area (0.18 by default), or a CSS length. */
   inset?: PerOrientation<number | string>;
   /** Room for what the slat draws outside the plot. "auto" sizes start or end to the widest edge label. */
@@ -336,6 +336,7 @@ export function shape(commands: readonly ShapeCommand[]): Shape;
 
 /** A slat type: the slat function with its own CSS and layout, so it looks and lays out the same in any app. */
 export function slat<T extends object = Record<string, any>>(fn: (d: Row<T>) => JSX.Element): Slat<T>;
+/** A slat type with these settings: a new function that calls fn, so fn stays as it was and can make other slat types too. */
 export function slat<T extends object = Record<string, any>>(layout: SlatLayout, fn: (d: Row<T>) => JSX.Element): Slat<T>;
 /** New CSS for a slat type (made with css): its slats restyle in place. For style editors and live previews. */
 export function restyle(type: { scope?: string; css?: unknown }, css: string | readonly (string | null | undefined)[]): void;
@@ -357,7 +358,7 @@ export function sortBy(key: string | ((d: Row) => unknown), direction?: "asc" | 
 export function cycle<T>(list: readonly T[]): (d: Row) => T;
 /** [smallest, largest]. */
 export function extent(values: Iterable<number>): [number, number];
-/** Ticks at every multiple of step in the scale; with ends, its min and max too. */
+/** Ticks at every multiple of step in the scale; with ends, its min and max too. A step that is not above 0 throws. */
 export function every(step: number, options?: { ends?: boolean }): (range: [number, number]) => number[];
 /** A round scale covering lo..hi with about count ticks. */
 export function nice(lo: number, hi: number, count?: number): { min: number; max: number; step: number; ticks: number[] };
@@ -379,11 +380,15 @@ export function summary(samples: readonly number[]): {
   mean: number;
   outliers: number[];
 };
-/** Histogram bins: bin k covers x0[k]..x1[k] and holds tally[k] samples. */
+/** Histogram bins: bin k covers x0[k]..x1[k] and holds tally[k] samples. Samples all alike get a scale one wide around
+ * them, and no samples a scale from 0 to 1. */
 export function bins(samples: readonly number[], options?: { domain?: [number, number]; count?: number }): { x0: number[]; x1: number[]; tally: number[] };
 /** A Gaussian kernel density estimate: points pairs of [x, density] (for Area). */
 export function density(samples: readonly number[], options?: { domain?: [number, number]; points?: number; bandwidth?: number }): [number, number][];
 
+/** Runs f with rhp's style writes going to the page at once instead of in the next frame: for an app that changes
+ * chart data inside its own requestAnimationFrame callback, so the change shows in that frame. */
+export function drawing<T>(f: () => T): T;
 /** A value that moves to each new value over time: the reader gives the value to draw now, or ms ahead. */
 export function animated<T>(read: () => T, settings?: () => { duration?: number; ease?: Ease }): (ahead?: number) => T;
 /** A timing curve as a function of 0..1. */

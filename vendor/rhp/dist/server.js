@@ -7,13 +7,13 @@ import { ssrHydrationKey as _$ssrHydrationKey2 } from "solid-js/web";
 import { createComponent as _$createComponent } from "solid-js/web";
 
 // src/rhp.css
-var rhp_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-area path,.rhp-line,.rhp-line path){display:revert;box-sizing:border-box;margin:0;padding:0;border:0 solid transparent;border-radius:0;box-shadow:none;outline:revert;outline-offset:revert;background:none;overflow:visible;float:none;min-width:0;min-height:0;max-width:none;max-height:none;vertical-align:baseline;transition:none;animation:none;text-decoration:none;user-select:auto;touch-action:auto;font:inherit;font-synthesis:inherit;letter-spacing:inherit;word-spacing:inherit;text-transform:inherit;text-indent:inherit;text-align:inherit;text-shadow:inherit;color:inherit;white-space:inherit;text-rendering:inherit;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-text-stroke:inherit;-webkit-tap-highlight-color:inherit;word-break:inherit;overflow-wrap:inherit;hyphens:inherit;line-break:inherit;print-color-adjust:inherit}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object),.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){width:auto;height:auto}:where(:root:active-view-transition .rhp-plot>*){view-transition-name:none}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line)[hidden]{display:none}:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):before,:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):after{display:none}:is(.rhp-label,.rhp-gridline>span)::selection,:is(.rhp-label,.rhp-gridline>span,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell) ::selection{color:HighlightText;background-color:Highlight;text-shadow:none}.rhp-chart{--rhp-min: 0;--rhp-max: 100;--rhp-inset: 18%;padding:var(--rhp-pad-top, 2px) var(--rhp-pad-right, 2px) var(--rhp-pad-bottom, 2px) var(--rhp-pad-left, 2px)}.rhp-body{all:initial}.rhp-body{position:relative;display:grid;width:100%;direction:ltr;container-type:inline-size;visibility:inherit;pointer-events:inherit;font:400 12px/1.15 var(--rhp-font);color:var(--rhp-ink);print-color-adjust:exact}.rhp-chart[data-rhp-o=h]:not([data-rhp-aspect])>.rhp-body{height:auto}.rhp-chart[data-rhp-o=v]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-o=h][data-rhp-sized]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height)}.rhp-chart[data-rhp-aspect]{box-sizing:border-box;aspect-ratio:var(--rhp-aspect);min-height:0}.rhp-chart[data-rhp-aspect]>.rhp-body{height:100%}.rhp-body>*{grid-area:1 / 1;min-width:0;min-height:0}.rhp-axis{position:relative;pointer-events:none}.rhp-gridline{position:absolute;--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-gridline[data-rhp-o=h]{top:0;bottom:0;left:calc(var(--rhp-p) * 100%);border-left:1px solid var(--rhp-grid)}.rhp-gridline[data-rhp-o=v]{left:0;right:0;bottom:calc(var(--rhp-p) * 100%);border-bottom:1px solid var(--rhp-grid)}.rhp-gridline>span{position:absolute;font-size:11px;line-height:1;color:var(--rhp-muted);white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-gridline[data-rhp-o=h]>span{top:calc(100% + 5px);left:0;translate:-50% 0}.rhp-gridline[data-rhp-o=v]>span{right:calc(100% + 6px);bottom:0;translate:0 50%}.rhp-plot{position:relative;z-index:1}.rhp-plot[data-rhp-o=h],.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){--rhp-toward-end: to right}.rhp-plot[data-rhp-o=v],.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){--rhp-toward-end: to top}.rhp-bar[data-rhp-o=h][data-rhp-back]{--rhp-toward-end: to left}.rhp-bar[data-rhp-o=v][data-rhp-back]{--rhp-toward-end: to bottom}.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 32px))}.rhp-chart[data-rhp-sized]>.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap]){width:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-overlap][data-rhp-o=h]{min-height:var(--rhp-pitch, 32px)}.rhp-plot>*>.rhp-plot,.rhp-plot>.rhp-plot{--rhp-pitch: initial}.rhp-plot>*>.rhp-plot{position:absolute}.rhp-plot[data-rhp-o=h]>*>.rhp-plot{inset:calc((100% - var(--rhp-plot-thick, 100%)) / 2) 0}.rhp-plot[data-rhp-o=v]>*>.rhp-plot{inset:0 calc((100% - var(--rhp-plot-thick, 100%)) / 2)}:is(.rhp-bar,.rhp-area,.rhp-line){--rhp-lo: clamp(0, (min(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1);--rhp-hi: clamp(0, (max(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)}:is(.rhp-dot,.rhp-tick,.rhp-label,.rhp-place){--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){position:absolute}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){clip-path:var(--rhp-clip, none)}:is(.rhp-area,.rhp-line)[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}:is(.rhp-area,.rhp-line)[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-bar[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){left:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){bottom:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar{background:var(--rhp-color, var(--rhp-series-1))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h][data-rhp-back]{border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v][data-rhp-back]{border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h]{top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:0 -50%}.rhp-bar[data-rhp-o=v]{left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:-50% 0}.rhp-dot{width:var(--rhp-size, 10px);height:var(--rhp-size, 10px);border-radius:50%;background:var(--rhp-color, var(--rhp-series-1))}.rhp-dot[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%);translate:-50% -50%}.rhp-dot[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%);translate:-50% 50%}.rhp-place{width:0;height:0}.rhp-place[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%)}.rhp-place[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%)}.rhp-tick{background:var(--rhp-color, var(--rhp-ink))}.rhp-tick[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));width:var(--rhp-tick-width, 2px);translate:-50% -50%}.rhp-tick[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));height:var(--rhp-tick-width, 2px);translate:-50% 50%}.rhp-label{font-size:var(--rhp-label-size, 12px);line-height:1.15;white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-label[data-rhp-at][data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;translate:0 -50%;padding-left:var(--rhp-label-gap, 5px)}.rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% -50%;padding:0 var(--rhp-label-gap, 5px) 0 0}.rhp-label[data-rhp-at][data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;translate:-50% 0;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-label[data-rhp-at][data-rhp-o=v][data-rhp-side=before]{translate:-50% 100%;padding:var(--rhp-label-gap, 3px) 0 0}.rhp-label[data-rhp-edge][data-rhp-o=h]{top:50%;translate:0 -50%;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=h]{right:100%;width:var(--rhp-room-start, 104px);text-align:right;padding-right:var(--rhp-label-gap, 8px)}.rhp-label[data-rhp-edge=end][data-rhp-o=h]{left:100%;width:var(--rhp-room-end, 44px);padding-left:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge][data-rhp-o=v]{left:0;right:0;text-align:center;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=v]{top:100%;padding-top:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge=end][data-rhp-o=v]{bottom:100%;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-cell{inset:var(--rhp-cell-gap, 1px);background:var(--rhp-color, color-mix(in oklab, var(--rhp-high) calc(clamp(0, (var(--rhp-value) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)*100%) , var(--rhp-low)));border-radius:var(--rhp-radius, 2px)}.rhp-area{overflow:visible;fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 35%,transparent);stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:1.5px;filter:none;pointer-events:inherit;stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:miter;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;fill-rule:nonzero;paint-order:normal;shape-rendering:auto}.rhp-area path{fill:inherit;stroke:inherit;stroke-width:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;fill-rule:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit;d:var(--rhp-d, none)}:is(.rhp-area,.rhp-line)[data-rhp-o=h]{top:calc(var(--rhp-inset) / 2);height:calc(100% - var(--rhp-inset))}:is(.rhp-area,.rhp-line)[data-rhp-o=v]{left:calc(var(--rhp-inset) / 2);width:calc(100% - var(--rhp-inset))}.rhp-line{overflow:visible;fill:none;stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:2px;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;paint-order:normal;shape-rendering:auto;filter:none;pointer-events:inherit;--rhp-d-under: none}.rhp-line path{stroke-width:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit}.rhp-line .rhp-stroke{fill:none;stroke:inherit;d:var(--rhp-d, none)}.rhp-line .rhp-under{fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 22%,transparent);stroke:none;d:var(--rhp-d-under, none)}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label[data-rhp-at],.rhp-place,.rhp-area,.rhp-line,.rhp-gridline){transition-property:left,width,bottom,height,background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out)}.rhp-cell{transition:background-color var(--rhp-length-time, .15s) var(--rhp-length-ease, ease-out)}}@layer rhp.place{.rhp-plot>*{position:absolute;box-sizing:border-box}.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap])>*{left:0;right:0;top:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));bottom:auto;height:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap])>*{top:0;bottom:0;left:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));right:auto;width:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-reorder=slide]:not([data-rhp-overlap])>*{transition:top var(--rhp-slide-time, .3s) var(--rhp-slide-ease, ease-in-out),left var(--rhp-slide-time, .3s) var(--rhp-slide-ease, ease-in-out)}.rhp-chart[data-rhp-turning] .rhp-plot[data-rhp-reorder]>*{transition:none}.rhp-chart[data-rhp-turning],.rhp-chart[data-rhp-turning] *{transition:none}[data-rhp-animate=js] :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-place,.rhp-area,.rhp-line,.rhp-gridline,.rhp-cell){transition:none}.rhp-plot>[hidden]{display:none}.rhp-plot[data-rhp-overlap]>:not(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){inset:0}@media(prefers-reduced-motion:reduce){.rhp-plot[data-rhp-reorder]:not([data-rhp-overlap])>*{transition:none}.rhp-chart :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-place,.rhp-area,.rhp-line,.rhp-gridline,.rhp-cell){transition:none}}}";
+var rhp_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-area path,.rhp-line,.rhp-line path){display:revert;box-sizing:border-box;margin:0;padding:0;border:0 solid transparent;border-radius:0;box-shadow:none;outline:revert;outline-offset:revert;background:none;overflow:visible;float:none;min-width:0;min-height:0;max-width:none;max-height:none;vertical-align:baseline;transition:none;animation:none;text-decoration:none;user-select:auto;touch-action:auto;font:inherit;font-synthesis:inherit;letter-spacing:inherit;word-spacing:inherit;text-transform:inherit;text-indent:inherit;text-align:inherit;text-shadow:inherit;color:inherit;white-space:inherit;text-rendering:inherit;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-text-stroke:inherit;-webkit-tap-highlight-color:inherit;word-break:inherit;overflow-wrap:inherit;hyphens:inherit;line-break:inherit;print-color-adjust:inherit}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object),.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){width:auto;height:auto}:where(:root:active-view-transition .rhp-plot>*){view-transition-name:none}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line)[hidden]{display:none}:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):before,:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):after{display:none}:is(.rhp-label,.rhp-gridline>span)::selection,:is(.rhp-label,.rhp-gridline>span,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell) ::selection{color:HighlightText;background-color:Highlight;text-shadow:none}.rhp-chart{--rhp-min: 0;--rhp-max: 100;--rhp-inset: 18%;padding:var(--rhp-pad-top, 2px) var(--rhp-pad-right, 2px) var(--rhp-pad-bottom, 2px) var(--rhp-pad-left, 2px)}.rhp-body{all:initial}.rhp-body{position:relative;display:grid;width:100%;direction:ltr;container-type:inline-size;visibility:inherit;pointer-events:inherit;font:400 12px/1.15 var(--rhp-font);color:var(--rhp-ink);print-color-adjust:exact}.rhp-chart[data-rhp-o=h]:not([data-rhp-aspect])>.rhp-body{height:auto}.rhp-chart[data-rhp-o=v]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-o=h][data-rhp-sized]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height)}.rhp-chart[data-rhp-aspect]{box-sizing:border-box;aspect-ratio:var(--rhp-aspect);min-height:0}.rhp-chart[data-rhp-aspect]>.rhp-body{height:100%}.rhp-body>*{grid-area:1 / 1;min-width:0;min-height:0}.rhp-axis{position:relative;pointer-events:none}.rhp-gridline{position:absolute;--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-gridline[data-rhp-o=h]{top:0;bottom:0;left:calc(var(--rhp-p) * 100%);border-left:1px solid var(--rhp-grid)}.rhp-gridline[data-rhp-o=v]{left:0;right:0;bottom:calc(var(--rhp-p) * 100%);border-bottom:1px solid var(--rhp-grid)}.rhp-gridline>span{position:absolute;font-size:11px;line-height:1;color:var(--rhp-muted);white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-gridline[data-rhp-o=h]>span{top:calc(100% + 5px);left:0;translate:-50% 0}.rhp-gridline[data-rhp-o=v]>span{right:calc(100% + 6px);bottom:0;translate:0 50%}.rhp-plot{position:relative;z-index:1}.rhp-plot[data-rhp-o=h],.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){--rhp-toward-end: to right}.rhp-plot[data-rhp-o=v],.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){--rhp-toward-end: to top}.rhp-bar[data-rhp-o=h][data-rhp-back]{--rhp-toward-end: to left}.rhp-bar[data-rhp-o=v][data-rhp-back]{--rhp-toward-end: to bottom}.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 32px))}.rhp-chart[data-rhp-sized]>.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap]){width:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-overlap][data-rhp-o=h]{min-height:var(--rhp-pitch, 32px)}.rhp-plot>*>.rhp-plot,.rhp-plot>.rhp-plot{--rhp-pitch: initial}.rhp-plot>*>.rhp-plot{position:absolute}.rhp-plot[data-rhp-o=h]>*>.rhp-plot{inset:calc((100% - var(--rhp-plot-thick, 100%)) / 2) 0}.rhp-plot[data-rhp-o=v]>*>.rhp-plot{inset:0 calc((100% - var(--rhp-plot-thick, 100%)) / 2)}:is(.rhp-bar,.rhp-area,.rhp-line){--rhp-lo: clamp(0, (min(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1);--rhp-hi: clamp(0, (max(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)}:is(.rhp-dot,.rhp-tick,.rhp-label,.rhp-place){--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){position:absolute}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){clip-path:var(--rhp-clip, none)}:is(.rhp-area,.rhp-line)[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}:is(.rhp-area,.rhp-line)[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-bar[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){left:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){bottom:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar{background:var(--rhp-color, var(--rhp-series-1))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h][data-rhp-back]{border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){border-radius:var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v][data-rhp-back]{border-radius:var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-start-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px)) var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h]{top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:0 -50%}.rhp-bar[data-rhp-o=v]{left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:-50% 0}.rhp-dot{width:var(--rhp-size, 10px);height:var(--rhp-size, 10px);border-radius:50%;background:var(--rhp-color, var(--rhp-series-1))}.rhp-dot[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%);translate:-50% -50%}.rhp-dot[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%);translate:-50% 50%}.rhp-place{width:0;height:0}.rhp-place[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%)}.rhp-place[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%)}.rhp-tick{background:var(--rhp-color, var(--rhp-ink))}.rhp-tick[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));width:var(--rhp-tick-width, 2px);translate:-50% -50%}.rhp-tick[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));height:var(--rhp-tick-width, 2px);translate:-50% 50%}.rhp-label{font-size:var(--rhp-label-size, 12px);line-height:1.15;white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-label[data-rhp-at][data-rhp-o=h]{left:calc(min(var(--rhp-p),1)*100%);top:50%;translate:0 -50%;padding-left:var(--rhp-label-gap, 5px)}.rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% -50%;padding:0 var(--rhp-label-gap, 5px) 0 0}.rhp-label[data-rhp-at][data-rhp-o=v]{bottom:calc(max(var(--rhp-p),0)*100%);left:50%;translate:-50% 0;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-label[data-rhp-at][data-rhp-o=v][data-rhp-side=before]{translate:-50% 100%;padding:var(--rhp-label-gap, 3px) 0 0}.rhp-label[data-rhp-edge][data-rhp-o=h]{top:50%;translate:0 -50%;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=h]{right:100%;width:var(--rhp-room-start, 104px);text-align:right;padding-right:var(--rhp-label-gap, 8px)}.rhp-label[data-rhp-edge=end][data-rhp-o=h]{left:100%;width:var(--rhp-room-end, 44px);padding-left:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge][data-rhp-o=v]{left:0;right:0;text-align:center;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=v]{top:100%;padding-top:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge=end][data-rhp-o=v]{bottom:100%;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-cell{inset:var(--rhp-cell-gap, 1px);background:var(--rhp-color, color-mix(in oklab, var(--rhp-high) calc(clamp(0, (var(--rhp-value) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)*100%) , var(--rhp-low)));border-radius:var(--rhp-radius, 2px)}.rhp-area{overflow:visible;fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 35%,transparent);stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:1.5px;filter:none;pointer-events:inherit;stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:miter;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;fill-rule:nonzero;paint-order:normal;shape-rendering:auto}.rhp-area path{fill:inherit;stroke:inherit;stroke-width:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;fill-rule:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit;d:var(--rhp-d, none)}:is(.rhp-area,.rhp-line)[data-rhp-o=h]{top:calc(var(--rhp-inset) / 2);height:calc(100% - var(--rhp-inset))}:is(.rhp-area,.rhp-line)[data-rhp-o=v]{left:calc(var(--rhp-inset) / 2);width:calc(100% - var(--rhp-inset))}.rhp-line{overflow:visible;fill:none;stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:2px;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;paint-order:normal;shape-rendering:auto;filter:none;pointer-events:inherit;--rhp-d-under: none}.rhp-line path{stroke-width:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit}.rhp-line .rhp-stroke{fill:none;stroke:inherit;d:var(--rhp-d, none)}.rhp-line .rhp-under{fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 22%,transparent);stroke:none;d:var(--rhp-d-under, none)}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label[data-rhp-at],.rhp-place,.rhp-area,.rhp-line,.rhp-gridline){transition-property:left,width,bottom,height,background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out)}.rhp-cell{transition:background-color var(--rhp-length-time, .15s) var(--rhp-length-ease, ease-out)}}@layer rhp.core{@media(forced-colors:active){:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell,.rhp-area,.rhp-line){forced-color-adjust:none}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell){outline:1px solid CanvasText;outline-offset:-1px}}}@layer rhp.place{.rhp-plot>*{position:absolute;box-sizing:border-box}.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap])>*{left:0;right:0;top:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));bottom:auto;height:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap])>*{top:0;bottom:0;left:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));right:auto;width:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-reorder=slide]:not([data-rhp-overlap])>*{transition:top var(--rhp-slide-time, .3s) var(--rhp-slide-ease, ease-in-out),left var(--rhp-slide-time, .3s) var(--rhp-slide-ease, ease-in-out)}.rhp-chart[data-rhp-turning] .rhp-plot[data-rhp-reorder]>*{transition:none}.rhp-chart[data-rhp-turning],.rhp-chart[data-rhp-turning] *{transition:none}[data-rhp-animate=js] :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-place,.rhp-area,.rhp-line,.rhp-gridline,.rhp-cell){transition:none}.rhp-plot>[hidden]{display:none}.rhp-plot[data-rhp-overlap]>:not(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){inset:0}@media(prefers-reduced-motion:reduce){.rhp-plot[data-rhp-reorder]:not([data-rhp-overlap])>*{transition:none}.rhp-chart :is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-place,.rhp-area,.rhp-line,.rhp-gridline,.rhp-cell){transition:none}}}";
 
 // src/gutters.css
 var gutters_default = "@layer rhp.core{[data-rhp-gutters=h]>.rhp-body{grid-template-columns:[start-start] var(--rhp-gutter-start) [start-end track-start] minmax(0,1fr) [track-end end-start] var(--rhp-gutter-end) [end-end]}.rhp-chart[data-rhp-gutters=v]:not([data-rhp-aspect])>.rhp-body{height:auto;grid-template-rows:[end-start] var(--rhp-gutter-end) [end-end track-start] var(--rhp-height, 240px) [track-end start-start] var(--rhp-gutter-start) [start-end]}.rhp-chart[data-rhp-gutters=v][data-rhp-aspect]>.rhp-body{grid-template-rows:[end-start] var(--rhp-gutter-end) [end-end track-start] minmax(0,1fr) [track-end start-start] var(--rhp-gutter-start) [start-end]}[data-rhp-gutters=h]>.rhp-body>*{grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>*{grid-area:track / 1}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{inset:auto;translate:none;width:auto;min-width:0;min-height:0}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{align-self:center;max-width:var(--rhp-gutter-max, 40cqw)}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{justify-self:end}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{justify-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{justify-self:stretch}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{align-self:end}}@layer rhp.place{[data-rhp-gutters=h]>.rhp-body>.rhp-plot{grid-column:1 / -1;display:grid;grid-template-columns:subgrid;grid-template-rows:100%}[data-rhp-gutters=v]>.rhp-body>.rhp-plot{grid-row:1 / -1;display:grid;grid-template-rows:subgrid;grid-template-columns:100%}[data-rhp-gutters]>.rhp-body>.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){position:relative;display:grid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / auto / -1;grid-template-columns:subgrid}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / -1;grid-template-rows:subgrid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{justify-self:start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){grid-area:track / 1}[data-rhp-gutters=h] .rhp-plot .rhp-bar,[data-rhp-gutters=h] .rhp-plot .rhp-dot,[data-rhp-gutters=h] .rhp-plot .rhp-tick,[data-rhp-gutters=h] .rhp-plot .rhp-label,[data-rhp-gutters=h] .rhp-plot .rhp-cell,[data-rhp-gutters=h] .rhp-plot .rhp-area,[data-rhp-gutters=h] .rhp-plot .rhp-line,[data-rhp-gutters=h] .rhp-plot .rhp-plot{grid-column:track}[data-rhp-gutters=v] .rhp-plot .rhp-bar,[data-rhp-gutters=v] .rhp-plot .rhp-dot,[data-rhp-gutters=v] .rhp-plot .rhp-tick,[data-rhp-gutters=v] .rhp-plot .rhp-label,[data-rhp-gutters=v] .rhp-plot .rhp-cell,[data-rhp-gutters=v] .rhp-plot .rhp-area,[data-rhp-gutters=v] .rhp-plot .rhp-line,[data-rhp-gutters=v] .rhp-plot .rhp-plot{grid-row:track}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{position:relative}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:1 / start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:1 / end}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:start / 1}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:end / 1}}";
 
 // src/cross.css
-var cross_default = "@layer rhp.core{.rhp-chart[data-rhp-cross]{--rhp-cross: initial}.rhp-chart[data-rhp-cross][data-rhp-o=h]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-cross] :is(.rhp-dot,.rhp-label[data-rhp-at],.rhp-place){--rhp-q: calc((var(--rhp-cross) - var(--rhp-cross-min)) / (var(--rhp-cross-max) - var(--rhp-cross-min)))}.rhp-chart[data-rhp-cross] .rhp-dot[data-rhp-o=h]{top:auto;bottom:calc(var(--rhp-q, (1 - var(--rhp-across, .5))) * 100%);translate:-50% 50%}.rhp-chart[data-rhp-cross] .rhp-dot[data-rhp-o=v]{left:calc(var(--rhp-q, var(--rhp-across, .5)) * 100%)}.rhp-chart[data-rhp-cross] .rhp-place[data-rhp-o=h]{top:auto;bottom:calc(var(--rhp-q, (1 - var(--rhp-across, .5))) * 100%)}.rhp-chart[data-rhp-cross] .rhp-place[data-rhp-o=v]{left:calc(var(--rhp-q, var(--rhp-across, .5)) * 100%)}.rhp-chart[data-rhp-cross] .rhp-label[data-rhp-at][data-rhp-o=h]{top:auto;bottom:calc(var(--rhp-q, .5) * 100%);translate:0 50%}.rhp-chart[data-rhp-cross] .rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% 50%}.rhp-chart[data-rhp-cross] .rhp-label[data-rhp-at][data-rhp-o=v]{left:calc(var(--rhp-q, .5) * 100%)}.rhp-chart[data-rhp-cross] .rhp-line{--rhp-q0: calc((var(--rhp-cross-from) - var(--rhp-cross-min)) / (var(--rhp-cross-max) - var(--rhp-cross-min)));--rhp-q1: calc((var(--rhp-cross-to) - var(--rhp-cross-min)) / (var(--rhp-cross-max) - var(--rhp-cross-min)))}.rhp-chart[data-rhp-cross] .rhp-line[data-rhp-o=h]{top:auto;bottom:calc(var(--rhp-q0) * 100%);height:calc((var(--rhp-q1) - var(--rhp-q0)) * 100%)}.rhp-chart[data-rhp-cross] .rhp-line[data-rhp-o=v]{left:calc(var(--rhp-q0) * 100%);width:calc((var(--rhp-q1) - var(--rhp-q0)) * 100%)}.rhp-axis[data-rhp-cross]{--rhp-min: var(--rhp-cross-min);--rhp-max: var(--rhp-cross-max)}}";
+var cross_default = "@layer rhp.core{.rhp-chart[data-rhp-cross]{--rhp-cross: initial}.rhp-chart[data-rhp-cross][data-rhp-o=h]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-cross] :is(.rhp-dot,.rhp-label[data-rhp-at],.rhp-place){--rhp-q: calc((var(--rhp-cross) - var(--rhp-cross-min)) / (var(--rhp-cross-max) - var(--rhp-cross-min)))}.rhp-chart[data-rhp-cross] .rhp-dot[data-rhp-o=h]{top:auto;bottom:calc(var(--rhp-q, (1 - var(--rhp-across, .5))) * 100%);translate:-50% 50%}.rhp-chart[data-rhp-cross] .rhp-dot[data-rhp-o=v]{left:calc(var(--rhp-q, var(--rhp-across, .5)) * 100%)}.rhp-chart[data-rhp-cross] .rhp-place[data-rhp-o=h]{top:auto;bottom:calc(var(--rhp-q, (1 - var(--rhp-across, .5))) * 100%)}.rhp-chart[data-rhp-cross] .rhp-place[data-rhp-o=v]{left:calc(var(--rhp-q, var(--rhp-across, .5)) * 100%)}.rhp-chart[data-rhp-cross] .rhp-label[data-rhp-at][data-rhp-o=h]{top:auto;bottom:calc(max(var(--rhp-q, .5),0)*100%);translate:0 50%}.rhp-chart[data-rhp-cross] .rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% 50%}.rhp-chart[data-rhp-cross] .rhp-label[data-rhp-at][data-rhp-o=v]{left:calc(min(var(--rhp-q, .5),1)*100%)}.rhp-chart[data-rhp-cross] .rhp-line{--rhp-q0: calc((var(--rhp-cross-from) - var(--rhp-cross-min)) / (var(--rhp-cross-max) - var(--rhp-cross-min)));--rhp-q1: calc((var(--rhp-cross-to) - var(--rhp-cross-min)) / (var(--rhp-cross-max) - var(--rhp-cross-min)))}.rhp-chart[data-rhp-cross] .rhp-line[data-rhp-o=h]{top:auto;bottom:calc(var(--rhp-q0) * 100%);height:calc((var(--rhp-q1) - var(--rhp-q0)) * 100%)}.rhp-chart[data-rhp-cross] .rhp-line[data-rhp-o=v]{left:calc(var(--rhp-q0) * 100%);width:calc((var(--rhp-q1) - var(--rhp-q0)) * 100%)}.rhp-axis[data-rhp-cross]{--rhp-min: var(--rhp-cross-min);--rhp-max: var(--rhp-cross-max)}}";
 
 // src/style.js
 var LAYERS = "@layer rhp.place, rhp.slat, rhp.core;", DESCRIPTORS = /^@(-webkit-)?keyframes\b|^@(font-face|property|counter-style|font-palette-values|font-feature-values|view-transition|position-try)\b/i;
@@ -250,6 +250,13 @@ function add(css2, core2 = !1) {
     adoptInto(root, entry);
   return entry;
 }
+function remove(entry) {
+  entries.splice(entries.indexOf(entry), 1);
+  for (let [root, own] of roots) {
+    let sheet = own.get(entry);
+    own.delete(entry), sheet && (sheet.replaceSync ? root.adoptedStyleSheets = root.adoptedStyleSheets.filter((s) => s !== sheet) : sheet.remove());
+  }
+}
 function update(entry, css2) {
   entry.css = css2;
   for (let own of roots.values()) {
@@ -280,7 +287,7 @@ function serverSheets(slats, render, gutters, crossed) {
   for (let fn of slats)
     seen.has(fn.scope) || (seen.add(fn.scope), out += `
 ` + slatSheet(fn));
-  return out;
+  return out.replace(/<\/(style)/gi, "<\\/$1");
 }
 var core = !1;
 function useCore() {
@@ -306,9 +313,22 @@ function watchRoot(el) {
     ro.unobserve(el), body && ro.unobserve(body);
   };
 }
-var sheets = /* @__PURE__ */ new Map();
+var sheets = /* @__PURE__ */ new Map(), users = /* @__PURE__ */ new Map(), idle = /* @__PURE__ */ new Set(), release = (scope) => {
+  if (idle.add(scope), idle.size <= 8) return;
+  let [old] = idle;
+  idle.delete(old);
+  let entry = sheets.get(old);
+  sheets.delete(old), entry && remove(entry);
+};
 function useSlatCss(fn) {
-  !fn?.scope || typeof document > "u" || sheets.has(fn.scope) || (useCore(), sheets.set(fn.scope, add(slatSheet(fn))));
+  if (!fn?.scope || typeof document > "u") return () => {
+  };
+  let scope = fn.scope;
+  return users.set(scope, (users.get(scope) ?? 0) + 1), idle.delete(scope), sheets.has(scope) || (useCore(), sheets.set(scope, add(slatSheet(fn)))), () => {
+    let n = users.get(scope) - 1;
+    if (n > 0) return users.set(scope, n);
+    users.delete(scope), release(scope);
+  };
 }
 var manyRadii = (css2) => [...css2.matchAll(/--rhp-radius\s*:([^;{}]*)/g)].some(([, value]) => {
   let text = value, inner;
@@ -331,8 +351,9 @@ function restyle(fn, css2) {
 }
 var joinCss = (css2) => Array.isArray(css2) ? css2.filter((c) => c != null).join(`
 `) : css2, made = /* @__PURE__ */ new Map();
-function slat(def, fn) {
+function slat(def, row) {
   if (typeof def == "function") return def;
+  let fn = (d) => row(d);
   if (fn.layout = def, fn.css = joinCss(def.css), fn.css != null) {
     checkRadii(fn.css);
     let h = hash(fn.css), n = (made.get(h) ?? 0) + 1;
@@ -460,16 +481,23 @@ var compare = (a, b) => a < b ? -1 : a > b ? 1 : 0, sortBy = (key, direction = "
     v < lo && (lo = v), v > hi && (hi = v);
   return [lo, hi];
 }, every = (step, { ends = !1 } = {}) => ([min, max]) => {
-  let out = [];
-  for (let v = Math.ceil(min / step - 1e-9) * step; v <= max + 1e-9; v += step)
+  if (!(step > 0)) throw new Error("rhp: every() takes a step above 0");
+  let out = [], first = Math.ceil(min / step - 1e-9);
+  for (let k = 0; k <= 1e4; k++) {
+    let v = (first + k) * step;
+    if (!(v <= max + 1e-9) || k > 0 && v === (first + k - 1) * step) break;
     out.push(+v.toFixed(10));
+  }
   return ends && out[0] !== min && out.unshift(min), ends && out.at(-1) !== max && out.push(max), out;
 };
 function nice(lo, hi, count = 5) {
   hi > lo || (hi = lo + 1);
   let raw = (hi - lo) / Math.max(1, count), magnitude = 10 ** Math.floor(Math.log10(raw)), step = [1, 2, 2.5, 5, 10].map((m) => m * magnitude).find((s) => s >= raw), min = Math.floor(lo / step + 1e-9) * step, max = Math.ceil(hi / step - 1e-9) * step, ticks = [];
-  for (let v = min; v <= max + step / 2; v += step)
+  for (let k = 0; k <= 1e3; k++) {
+    let v = min + k * step;
+    if (!(v <= max + step / 2) || k > 0 && v === min + (k - 1) * step) break;
     ticks.push(+v.toFixed(10));
+  }
   return { min, max, step, ticks };
 }
 function stackUp(values) {
@@ -507,7 +535,9 @@ function summary(samples) {
   };
 }
 function bins(samples, { domain = extent(samples), count = 10 } = {}) {
-  let [lo, hi] = domain, width = (hi - lo) / count, x0 = [], x1 = [], tally = Array(count).fill(0);
+  let [lo, hi] = domain;
+  (!Number.isFinite(lo) || !Number.isFinite(hi)) && ([lo, hi] = [0, 1]), lo === hi && ([lo, hi] = [lo - 0.5, hi + 0.5]);
+  let width = (hi - lo) / count, x0 = [], x1 = [], tally = Array(count).fill(0);
   for (let k = 0; k < count; k++)
     x0.push(lo + k * width), x1.push(lo + (k + 1) * width);
   for (let v of samples)
@@ -534,7 +564,12 @@ import { mergeProps as _$mergeProps } from "solid-js/web";
 import { escape as _$escape } from "solid-js/web";
 import { createMemo, createRenderEffect, splitProps } from "solid-js";
 import { insert, style } from "solid-js/web";
-var _tmpl$2 = ["<path", ' vector-effect="non-scaling-stroke"></path>'], _tmpl$3 = ['<path class="rhp-under"', "></path>"], _tmpl$4 = ['<path class="rhp-stroke"', ' vector-effect="non-scaling-stroke"></path>'], cls = (base, c) => c ? base + " " + c : base, KEY = /^(series-\d+|positive|negative|ink|muted|grid|surface|low|high)$/, tok = (c) => typeof c != "string" ? c : KEY.test(c) ? "var(--rhp-" + c + ")" : (/var\(--(?!rhp-)/.test(c) && console.warn("rhp: " + c + " reads a page variable; use a theme key"), c), length = (v) => typeof v == "number" ? v * 100 + "%" : v, fmt = ([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`, trace = (pts, smooth) => {
+var _tmpl$2 = ["<path", ' vector-effect="non-scaling-stroke"></path>'], _tmpl$3 = ['<path class="rhp-under"', "></path>"], _tmpl$4 = ['<path class="rhp-stroke"', ' vector-effect="non-scaling-stroke"></path>'], cls = (base, c) => c ? base + " " + c : base, extentOf = (list) => {
+  let lo = 1 / 0, hi = -1 / 0;
+  for (let v of list)
+    v < lo && (lo = v), v > hi && (hi = v);
+  return [lo, hi];
+}, warnedColors = /* @__PURE__ */ new Set(), KEY = /^(series-\d+|positive|negative|ink|muted|grid|surface|low|high)$/, tok = (c) => typeof c != "string" ? c : KEY.test(c) ? "var(--rhp-" + c + ")" : (/var\(--(?!rhp-)/.test(c) && !warnedColors.has(c) && (warnedColors.add(c), console.warn("rhp: " + c + " reads a page variable; use a theme key")), c), length = (v) => typeof v == "number" ? v * 100 + "%" : v, fmt = ([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`, trace = (pts, smooth) => {
   if (!smooth || pts.length < 3) return pts.map(fmt).join("L");
   let d = fmt(pts[0]);
   for (let i = 0; i < pts.length - 1; i++) {
@@ -543,13 +578,33 @@ var _tmpl$2 = ["<path", ' vector-effect="non-scaling-stroke"></path>'], _tmpl$3 
   }
   return d;
 };
+var loose = (v) => {
+  let quote2 = null, depth = 0;
+  for (let i = 0; i < v.length; i++) {
+    let ch = v[i];
+    if (ch === "\\") {
+      i++;
+      continue;
+    }
+    if (quote2) {
+      ch === quote2 && (quote2 = null);
+      continue;
+    }
+    if (ch === '"' || ch === "'") quote2 = ch;
+    else if (ch === "(" || ch === "[" || ch === "{") depth++;
+    else if (ch === ")" || ch === "]" || ch === "}") {
+      if (--depth < 0) return !0;
+    } else if (depth === 0 && (ch === ";" || ch === "!")) return !0;
+  }
+  return quote2 !== null || depth !== 0;
+}, safe = (v) => v != null && !(typeof v == "string" && /[;!{}]/.test(v) && loose(v));
 function withVars(st, vars) {
   let css2 = typeof st == "string" ? st : "";
   if (st && typeof st == "object")
     for (let key in st)
-      st[key] != null && (css2 += (css2 && !css2.endsWith(";") ? ";" : "") + key + ":" + st[key]);
+      safe(st[key]) && (css2 += (css2 && !css2.endsWith(";") ? ";" : "") + key + ":" + st[key]);
   for (let key in vars)
-    vars[key] != null && (css2 += (css2 && !css2.endsWith(";") ? ";" : "") + key + ":" + vars[key]);
+    safe(vars[key]) && (css2 += (css2 && !css2.endsWith(";") ? ";" : "") + key + ":" + vars[key]);
   return css2 || void 0;
 }
 var others = (props, mine) => {
@@ -621,7 +676,7 @@ function Area(props) {
   }), path = createMemo(() => {
     let pts = p.points ?? [];
     if (pts.length < 2) return "";
-    let [x0, x1] = span(), w = x1 - x0 || 1, peak = p.peak ?? Math.max(...pts.map((q) => q[1])), vertical = orientation() === "vertical", xy = (u, t) => vertical ? [1e3 - t, 1e3 - u] : [u, t], ut = pts.map(([x, y]) => [(x - x0) / w * 1e3, Math.min(1, y / (peak || 1))]);
+    let [x0, x1] = span(), w = x1 - x0 || 1, peak = p.peak ?? extentOf(pts.map((q) => q[1]))[1], vertical = orientation() === "vertical", xy = (u, t) => vertical ? [1e3 - t, 1e3 - u] : [u, t], ut = pts.map(([x, y]) => [(x - x0) / w * 1e3, Math.min(1, y / (peak || 1))]);
     return p.mirror ? "M" + trace(ut.map(([u, y]) => xy(u, 500 - y * 500)), p.smooth) + "L" + trace(ut.slice().reverse().map(([u, y]) => xy(u, 500 + y * 500)), p.smooth) + "Z" : "M" + fmt(xy(ut[0][0], 1e3)) + "L" + trace(ut.map(([u, y]) => xy(u, 1e3 - y * 1e3)), p.smooth) + "L" + fmt(xy(ut[ut.length - 1][0], 1e3)) + "Z";
   }), vars = () => ({
     "--rhp-from": span()[0],
@@ -649,12 +704,12 @@ function Line(props) {
     if (!pts.length) return [0, 0, 0, 1];
     let xs = pts.map((q) => q[0]), ys = pts.map((q) => q[1]);
     p.fill && ys.push(p.base ?? 0);
-    let y0 = Math.min(...ys), y1 = Math.max(...ys);
-    return y0 === y1 && (y0 -= 0.5, y1 += 0.5), [Math.min(...xs), Math.max(...xs), y0, y1];
+    let [y0, y1] = extentOf(ys);
+    return y0 === y1 && (y0 -= 0.5, y1 += 0.5), [...extentOf(xs), y0, y1];
   }), paths = createMemo(() => {
     let pts = p.points ?? [];
     if (pts.length < 2) return ["", ""];
-    let [x0, x1, y0, y1] = box(), w = x1 - x0 || 1, peak = p.peak ?? Math.max(...pts.map((q) => q[1])), vertical = orientation() === "vertical", up = crossed() ? (y) => (y - y0) / (y1 - y0) : (y) => Math.min(1, y / (peak || 1)), xy = (u, t) => vertical ? [1e3 - t, 1e3 - u] : [u, t], ut = pts.map(([x, y]) => [(x - x0) / w * 1e3, 1e3 - up(y) * 1e3]), line = "M" + trace(ut.map(([u, t]) => xy(u, t)), p.smooth);
+    let [x0, x1, y0, y1] = box(), w = x1 - x0 || 1, peak = p.peak ?? extentOf(pts.map((q) => q[1]))[1], vertical = orientation() === "vertical", up = crossed() ? (y) => (y - y0) / (y1 - y0) : (y) => Math.min(1, y / (peak || 1)), xy = (u, t) => vertical ? [1e3 - t, 1e3 - u] : [u, t], ut = pts.map(([x, y]) => [(x - x0) / w * 1e3, 1e3 - up(y) * 1e3]), line = "M" + trace(ut.map(([u, t]) => xy(u, t)), p.smooth);
     if (!p.fill) return [line, ""];
     let floor = crossed() ? 1e3 - up(p.base ?? 0) * 1e3 : 1e3, under = line + "L" + fmt(xy(ut[ut.length - 1][0], floor)) + "L" + fmt(xy(ut[0][0], floor)) + "Z";
     return [line, under];
@@ -811,7 +866,7 @@ function Plot(props) {
 }
 function makePlot(props, role) {
   if (typeof props.children != "function") throw new Error(`rhp: a ${role}'s child must be a slat function, (d) => <div>\u2026</div>`);
-  useSlatCss(props.children);
+  onCleanup(useSlatCss(props.children));
   let layout = props.children.layout ?? {}, {
     nested,
     frame,
@@ -841,10 +896,10 @@ function makePlot(props, role) {
   }), raw = (key, i) => isGroup.has(key) ? at(group[key](), i) : at(rowsList(), i)?.[key], P = {
     read(t, key) {
       var _a;
-      if (key === "index") return t.row();
-      if (key === "position") return pos[t.row()];
-      let g = isGroup.has(key) ? group[key]() : void 0;
-      return typeof g == "function" ? ((_a = t.memos ?? (t.memos = {}))[key] ?? (_a[key] = runWithOwner(t.owner, () => createMemo2(() => g(t.self)))))() : t.id && js() && isMoving(key) ? moving(key, t.id())(t.ahead) : raw(key, t.row());
+      return key === "index" ? t.row() : key === "position" ? pos[t.row()] : typeof (isGroup.has(key) ? group[key]() : void 0) == "function" ? ((_a = t.memos ?? (t.memos = {}))[key] ?? (_a[key] = runWithOwner(t.owner, () => createMemo2(() => {
+        let f = group[key]();
+        return typeof f == "function" ? f(t.self) : void 0;
+      }))))() : t.id && js() && isMoving(key) ? moving(key, t.id())(t.ahead) : raw(key, t.row());
     },
     has: (t, key) => key === "index" || key === "position" || isGroup.has(key) || rowsList() != null && key in (at(rowsList(), t.row()) ?? {}),
     keys: (t) => [.../* @__PURE__ */ new Set(["index", "position", ...groups, ...Object.keys(at(rowsList(), t.row()) ?? {})])]
@@ -1065,9 +1120,12 @@ function tickValues(t, [a, b], [a0, b0] = [a, b]) {
   if (typeof t == "function") return t([a, b]);
   let {
     step
-  } = nice(a0, b0, t ?? 5), out = [];
-  for (let v = Math.ceil(a / step - 1e-9) * step; v <= b + 1e-9 * step; v += step)
+  } = nice(a0, b0, t ?? 5), out = [], first = Math.ceil(a / step - 1e-9);
+  for (let k = 0; k <= 1e3; k++) {
+    let v = (first + k) * step;
+    if (!(v <= b + 1e-9 * step) || k > 0 && v === (first + k - 1) * step) break;
     out.push(+v.toFixed(10));
+  }
   return out;
 }
 var THEME = {
@@ -1444,6 +1502,7 @@ export {
   curve,
   cycle,
   density,
+  drawing,
   every,
   extent,
   linkedCss,
