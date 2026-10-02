@@ -1,7 +1,8 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, Label, slat, shares, stackUp, animated } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const PARTS = ["Sleep", "Chores and errands", "Work and study", "Free time"];
 const HOURS = [8.8, 5.8, 5.0, 4.4];
@@ -36,10 +37,10 @@ export const PartSlat = slat({ css: styles.part, thickness: { horizontal: 56 } }
 });
 
 export default function PieChart(p) {
-  const hours = createMemo(() => (p.seed() ? PARTS.map(() => rand(3.4, 9)) : HOURS));
+  const hours = createMemo(() => (p.seed ? PARTS.map(() => rand(3.4, 9)) : HOURS));
   const stack = createMemo(() => stackUp(shares(hours())));
   return (
-    <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={330} animate={p.js()}>
+    <Chart orientation={p.o} scale={[0, 100]} ticks={false} height={330} animate={p.js}>
       <Plot overlap name={PARTS} color={["series-1", "series-2", "series-3", "series-4"]} from={stack().from} to={stack().to}>
         {PartSlat}
       </Plot>

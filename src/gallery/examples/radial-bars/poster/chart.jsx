@@ -1,7 +1,9 @@
 import { createMemo, createSignal, For } from "solid-js";
 import { Plot, Chart, Bar, Dot, Label, Poster, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 // The four stages a new drug has to clear. `mark` is the number a ring has room for, `from` and `to` the arc's
 // colors at its two ends.
@@ -42,7 +44,7 @@ export const StageSlat = slat({
 ));
 
 export default function RadialBars(p) {
-  const stages = createMemo(() => withLeft(!p.seed() ? STAGES : STAGES.map((s) => ({ ...s, share: Math.round(rand(24, 94) * 10) / 10 }))));
+  const stages = createMemo(() => withLeft(!p.seed ? STAGES : STAGES.map((s) => ({ ...s, share: Math.round(rand(24, 94) * 10) / 10 }))));
 
   // The stage the reader is on. One readout in the middle serves the whole chart, in that ring's color, so pointing
   // at a ring redraws one line of text, not a card per ring.
@@ -68,7 +70,7 @@ export default function RadialBars(p) {
         <For each={stages()}>{(s) => <span><i style={{ background: `linear-gradient(90deg, ${s.from}, ${s.to})` }} />{s.name}</span>}</For>
       </span>
       {/* 560 is the widest. The poster's CSS shrinks the box with the circle, so no empty band is left around it. */}
-      <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={560} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, 100]} ticks={false} height={560} animate={p.js} theme={styles.theme}>
         <div class="hub">
           <div style={{ "--on": here()?.to }}>
             <b>{(here() ?? overall()).left.toFixed(1)}%</b>

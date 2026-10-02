@@ -1,7 +1,10 @@
 import { createMemo, createSignal, Show } from "solid-js";
 import { Plot, Chart, Label, Cell, Poster, slat, useOrientation } from "@bezda/rhp";
-import { random } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+// New random numbers after New data; before it, the same ones on every load.
+const numbers = (seed) => { let s = 12345; return seed ? Math.random : () => (s = (s * 48271) % 2147483647) / 2147483647; };
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -35,7 +38,7 @@ export const DayRow = slat({
 
 export default function Heatmap(p) {
   const hours = createMemo(() => {
-    const { rand } = random(p.seed());
+    const next = numbers(p.seed), rand = (a, b) => a + next() * (b - a);
     return DAYS.map((_, day) => Array.from({ length: 24 }, (_, h) =>
       Math.max(0, 70 * Math.exp(-((h - 13 - (day > 4 ? 2 : 0)) ** 2) / 18) + rand(0, 30) - (day > 4 ? 15 : 0))));
   });
@@ -44,7 +47,7 @@ export default function Heatmap(p) {
   const point = (e) => { const c = e.target.closest("[data-hour]"); setPicked(c ? [+c.dataset.day, +c.dataset.hour] : null); };
   const dek = () => {
     const at = picked();
-    if (!at) return "Weekdays peak at 1 pm, weekends at 3 pm.";
+    if (!at) return "Weekdays peak at lunchtime, weekends at 3 pm.";
     const [day, hour] = at;
     return `${DAYS[day]} ${String(hour).padStart(2, "0")}:00 · ${Math.round(hours()[day][hour])} visitors`;
   };
@@ -52,7 +55,7 @@ export default function Heatmap(p) {
     <Poster look="heat" kicker="An online shop · visitors per hour" title="Lunch break is rush hour" dek={dek()}
       note="Point at an hour to read it. Illustrative data."
       onPointerMove={point} onPointerDown={point} onPointerLeave={(e) => e.pointerType !== "touch" && setPicked(null)}>
-      <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={320} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, 100]} ticks={false} height={320} animate={p.js} theme={styles.theme}>
         <Plot day={DAYS} hours={hours()} pickedDay={picked()?.[0] ?? -1} pickedHour={picked()?.[1] ?? -1}>{DayRow}</Plot>
       </Chart>
     </Poster>

@@ -1,7 +1,13 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Dot, Tick, Label, slat } from "@bezda/rhp";
-import { random, sum } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const sum = (list) => list.reduce((a, b) => a + b, 0);
+// New random numbers after New data; before it, the same ones on every load.
+const numbers = (seed) => { let s = 12345; return seed ? Math.random : () => (s = (s * 48271) % 2147483647) / 2147483647; };
+const normal = (next, m, s) => m + s * Math.sqrt(-2 * Math.log(1 - next())) * Math.cos(2 * Math.PI * next());
+// n samples of a normal, kept between lo and hi
+const normalsIn = (next, n, lo, hi, m, s) => Array.from({ length: n }, () => { for (;;) { const v = normal(next, m, s); if (v >= lo && v <= hi) return v; } });
 
 const GROUPS = ["Control", "Treated"];
 
@@ -18,9 +24,9 @@ export const GroupSlat = slat({ css: styles.group, thickness: { horizontal: 80 }
 ));
 
 export default function StripPlot(p) {
-  const values = createMemo(() => { const { normalsIn } = random(p.seed()); return [normalsIn(30, 0, 20, 11, 3), normalsIn(30, 0, 20, 7, 2.5)]; });
+  const values = createMemo(() => { const next = numbers(p.seed); return [normalsIn(next, 30, 0, 20, 11, 3), normalsIn(next, 30, 0, 20, 7, 2.5)]; });
   return (
-    <Chart orientation={p.o()} scale={[0, 20]} format={(v) => v + " d"} animate={p.js()}>
+    <Chart orientation={p.o} scale={[0, 20]} format={(v) => v + " d"} animate={p.js}>
       <Plot name={GROUPS} values={values()}>{GroupSlat}</Plot>
     </Chart>
   );

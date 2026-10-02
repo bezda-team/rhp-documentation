@@ -1,7 +1,14 @@
 import { createMemo, createSignal } from "solid-js";
 import { Plot, Chart, Dot, Tick, Label, Poster, slat } from "@bezda/rhp";
-import { random, sum } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+const sum = (list) => list.reduce((a, b) => a + b, 0);
+// New random numbers after New data; before it, the same ones on every load.
+const numbers = (seed) => { let s = 12345; return seed ? Math.random : () => (s = (s * 48271) % 2147483647) / 2147483647; };
+const normal = (next, m, s) => m + s * Math.sqrt(-2 * Math.log(1 - next())) * Math.cos(2 * Math.PI * next());
+// n samples of a normal, kept between lo and hi
+const normalsIn = (next, n, lo, hi, m, s) => Array.from({ length: n }, () => { for (;;) { const v = normal(next, m, s); if (v >= lo && v <= hi) return v; } });
 
 const ARMS = ["Placebo", "Dose A", "Dose B"];
 const TRIAL = [[12, 3.2], [9, 2.6], [6.8, 2.2]]; // days to recover: mean and spread
@@ -34,7 +41,7 @@ export const ArmSlat = slat({
 });
 
 export default function Strip(p) {
-  const days = createMemo(() => { const { normalsIn } = random(p.seed()); return TRIAL.map(([m, s]) => normalsIn(30, 1, 23, m, s)); });
+  const days = createMemo(() => { const next = numbers(p.seed); return TRIAL.map(([m, s]) => normalsIn(next, 30, 1, 23, m, s)); });
   // The arm under the pointer and the patient in it: [arm, patient], with -1 between capsules.
   // The patient is read out in the dek, on one line, so the chart never moves.
   const [picked, setPicked] = createSignal(null);
@@ -51,7 +58,7 @@ export default function Strip(p) {
   return (
     <Poster look="clinic" kicker="Trial results · days to recover" title="Back on your feet sooner" dek={dek()} note="Point at a capsule to read that patient's recovery. Illustrative data."
       onPointerMove={point} onPointerDown={point} onPointerLeave={(e) => e.pointerType !== "touch" && setPicked(null)}>
-      <Chart orientation={p.o()} scale={[0, 24]} ticks={[0, 8, 16, 24]} format={(v) => v + " d"} height={320} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, 24]} ticks={[0, 8, 16, 24]} format={(v) => v + " d"} height={320} animate={p.js} theme={styles.theme}>
         <Plot arm={ARMS} days={days()} color={CAPSULE} pickedArm={picked()?.[0] ?? -1} pickedPatient={picked()?.[1] ?? -1}>{ArmSlat}</Plot>
       </Chart>
     </Poster>

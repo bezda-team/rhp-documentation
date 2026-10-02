@@ -1,8 +1,7 @@
 import { createSignal, createMemo, createComputed, on } from "solid-js";
 import { Plot, Scale, Chart, Bar, Tick, Label, slat, useOrientation, sortBy, every } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
-// v1's cloud photos, re-encoded at the size they are shown.
+// v1's cloud photos, from https://github.com/bezda-team/rhp-documentation/tree/master/src/gallery/examples/box-plot/poster/assets
 import stratocumulus from "./assets/stratocumulus.jpg?url";
 import cumulonimbus from "./assets/cumulonimbus.jpg?url";
 import altocumulus from "./assets/altocumulus.jpg?url";
@@ -10,6 +9,8 @@ import cirrus from "./assets/cirrus.jpg?url";
 import nimbostratus from "./assets/nimbostratus.jpg?url";
 import cumulus from "./assets/cumulus.jpg?url";
 import cirrocumulus from "./assets/cirrocumulus.jpg?url";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 // v1's scale: a Scale in the Chart draws it, one slat per tick, a mark and its number.
 // The marks start 16px above the first slat, and the numbers sit over them, in the room this slat asks for.
@@ -63,7 +64,7 @@ const whiskers = () => {
 };
 
 export default function Clouds(p) {
-  const data = createMemo(() => (p.seed() ? CLOUDS.map(whiskers) : WHISKERS));
+  const data = createMemo(() => (p.seed ? CLOUDS.map(whiskers) : WHISKERS));
   // The slider moves cirrus' box end (its 3rd value); the high whisker is pushed along past it, and comes back when
   // the box shrinks again. New data resets it.
   const [end, setEnd] = createSignal();
@@ -82,7 +83,7 @@ export default function Clouds(p) {
           <output>{boxes()[SLID][2]}</output>
         </label>
       </div>
-      <Chart orientation={p.o()} scale={[0, max()]} height={480} animate={p.js()}>
+      <Chart orientation={p.o} scale={[0, max()]} height={480} animate={p.js}>
         <Scale ticks={every(5, { ends: true })} marks="tick">{V1Scale}</Scale>
         <Plot name={CLOUDS} photo={PHOTOS} color={GREYS} box={boxes()} dim={dim()}
           order={ranked() ? sortBy((d) => d.box[2], "desc") : undefined}>{BoxSlat}</Plot>

@@ -1,7 +1,10 @@
 import { createSignal, createMemo, Show } from "solid-js";
 import { Plot, Chart, Bar, Tick, Label, Poster, slat, nice } from "@bezda/rhp";
-import { random } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+// New random numbers after New data; before it, the same ones on every load.
+const numbers = (seed) => { let s = 12345; return seed ? Math.random : () => (s = (s * 48271) % 2147483647) / 2147483647; };
 
 const dollars = (v) => "$" + v.toFixed(v < 100 ? 2 : 0);
 
@@ -36,7 +39,7 @@ export const CrossSlat = slat({
 
 export default function Candles(p) {
   const days = createMemo(() => {
-    const { rand } = random(p.seed());
+    const next = numbers(p.seed), rand = (a, b) => a + next() * (b - a);
     let price = 48;
     return Array.from({ length: 22 }, (_, i) => {
       const open = price, close = Math.max(20, open + rand(-3.2, 3.6));
@@ -60,7 +63,7 @@ export default function Candles(p) {
         <b>Day {read().day}</b><span>Open {dollars(read().open)}</span><span>High {dollars(read().high)}</span><span>Low {dollars(read().low)}</span>
         <span>Close <b class={read().change >= 0 ? "up" : "down"}>{dollars(read().close)} {read().change >= 0 ? "▲" : "▼"} {Math.abs(read().change).toFixed(1)}%</b></span>
       </p>
-      <Chart orientation={p.o()} scale={[range().min, range().max]} ticks={range().ticks} format={(v) => "$" + v} height={300} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[range().min, range().max]} ticks={range().ticks} format={(v) => "$" + v} height={300} animate={p.js} theme={styles.theme}>
         <Plot rows={days()}>{DaySlat}</Plot>
         <Plot overlap slats={day() == null ? 0 : 1} close={days()[day()]?.close} style={{ "pointer-events": "none" }}>{CrossSlat}</Plot>
       </Chart>

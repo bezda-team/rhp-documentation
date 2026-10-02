@@ -1,9 +1,12 @@
 import { createMemo } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat } from "@bezda/rhp";
-import { random } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
 
+const rand = (a, b) => a + Math.random() * (b - a);
+
 const GENRES = ["Mystery", "Sci-fi", "History", "Poetry"];
+const BOOKS = [25, 19, 34, 32];
 const CLOTH = ["#1f3a5f", "#7a2e3b", "#2f5d50", "#b0772b"]; // one binding per genre
 const PER_SPINE = 5;
 const tall = (i) => 0.7 + ((i * 0.618034) % 1) * 0.24; // each spine's height, a fixed pseudo-random share of the shelf
@@ -28,10 +31,10 @@ export const ShelfSlat = slat({
 ));
 
 export default function Units(p) {
-  const books = createMemo(() => { const { rand } = random(p.seed()); return GENRES.map(() => Math.round(rand(6, 48))); });
+  const books = createMemo(() => (p.seed ? GENRES.map(() => Math.round(rand(6, 48))) : BOOKS));
   return (
     <Poster look="books" kicker="Book club · the year's reading" title="A year in books" dek="Each spine is five books; a thin one is what's left over.">
-      <Chart orientation={p.o()} scale={[0, 50]} ticks={false} height={300} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, 50]} ticks={false} height={300} animate={p.js} theme={styles.theme}>
         <Plot genre={GENRES} cloth={CLOTH} books={books()}>{ShelfSlat}</Plot>
       </Chart>
     </Poster>

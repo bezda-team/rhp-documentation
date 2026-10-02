@@ -1,7 +1,8 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const STAGES = ["Phase I", "Phase II", "Phase III", "Review"];
 const SHARE = [63.2, 30.7, 58.1, 85.3]; // % of drugs that clear each stage
@@ -18,9 +19,9 @@ export const StageSlat = slat({ css: styles.stage, thickness: { horizontal: 40 }
 ));
 
 export default function RadialBars(p) {
-  const share = createMemo(() => (p.seed() ? STAGES.map(() => rand(20, 95)) : SHARE));
+  const share = createMemo(() => (p.seed ? STAGES.map(() => rand(20, 95)) : SHARE));
   return (
-    <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={330} animate={p.js()}>
+    <Chart orientation={p.o} scale={[0, 100]} ticks={false} height={330} animate={p.js}>
       <Plot stage={STAGES} share={share()}>{StageSlat}</Plot>
     </Chart>
   );

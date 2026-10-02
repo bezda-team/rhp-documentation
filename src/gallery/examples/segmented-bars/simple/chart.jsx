@@ -1,7 +1,8 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, Label, slat, stackUp, shares } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const PEOPLE = ["Ana", "Ben", "Cai", "Dee"];
 const APPS = ["Video", "Social", "Games", "Maps"];
@@ -23,11 +24,11 @@ export const PersonSlat = slat({ css: styles.person }, (d) => {
 });
 
 export default function SegmentedBars(p) {
-  const hours = createMemo(() => (p.seed() ? PEOPLE.map(() => APPS.map(() => rand(0.3, 5))) : HOURS));
+  const hours = createMemo(() => (p.seed ? PEOPLE.map(() => APPS.map(() => rand(0.3, 5))) : HOURS));
   return (
     <>
       <p class="legend">{APPS.map((app, i) => <span><i style={{ background: COLORS[i] }} />{app}</span>)}</p>
-      <Chart orientation={p.o()} scale={[0, 100]} ticks={[0, 50, 100]} format={(v) => v + "%"} animate={p.js()}>
+      <Chart orientation={p.o} scale={[0, 100]} ticks={[0, 50, 100]} format={(v) => v + "%"} animate={p.js}>
         <Plot name={PEOPLE} hours={hours()}>{PersonSlat}</Plot>
       </Chart>
     </>

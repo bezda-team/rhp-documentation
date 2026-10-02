@@ -1,7 +1,8 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, Tick, Label, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const GOALS = ["Steps", "Sleep", "Water", "Reading"];
 const DONE = [86, 104, 58, 115]; // % of each day's goal
@@ -18,9 +19,9 @@ export const GoalSlat = slat({ css: styles.goal, thickness: { horizontal: 44 } }
 ));
 
 export default function BulletChart(p) {
-  const done = createMemo(() => (p.seed() ? GOALS.map(() => rand(40, 125)) : DONE));
+  const done = createMemo(() => (p.seed ? GOALS.map(() => rand(40, 125)) : DONE));
   return (
-    <Chart orientation={p.o()} scale={[0, 120]} ticks={[0, 50, 100]} format={(v) => v + "%"} animate={p.js()}>
+    <Chart orientation={p.o} scale={[0, 120]} ticks={[0, 50, 100]} format={(v) => v + "%"} animate={p.js}>
       <Plot goal={GOALS} done={done()}>{GoalSlat}</Plot>
     </Chart>
   );

@@ -1,7 +1,9 @@
 import { createEffect, createMemo, createSignal, on, onCleanup, Show } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat, shares, stackUp, animated } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 // People by generation: how many use AI to write their emails and messages, and how often.
 const GENS = ["Gen Z", "Millennials", "Gen X", "Boomers"];
@@ -173,8 +175,8 @@ const seat = (o, which) => (o === "vertical"
 
 export default function Multiple(p) {
   const [picked, setPicked] = createSignal(-1);
-  const using = createMemo(() => (!p.seed() ? USING : GENS.map(() => Math.round(rand(24, 66)))));
-  const daily = createMemo(() => (!p.seed() ? DAILY : using().map((u) => Math.round(u * rand(0.3, 0.65)))));
+  const using = createMemo(() => (!p.seed ? USING : GENS.map(() => Math.round(rand(24, 66)))));
+  const daily = createMemo(() => (!p.seed ? DAILY : using().map((u) => Math.round(u * rand(0.3, 0.65)))));
   const rows = createMemo(() => using().map((u, g) => split(u, daily()[g])));
   const pie = createMemo(() => stackUp(shares(picked() < 0 ? whole(rows()) : rows()[picked()])));
   const spots = createMemo(() => place(pie().from, pie().to));
@@ -199,14 +201,14 @@ export default function Multiple(p) {
   // the Chart changes size while the browser hands out size changes.
   const [side, setSide] = createSignal();
   const measure = (el) => {
-    createEffect(on(p.o, () => setSide(el.offsetHeight)));
+    createEffect(on(() => p.o, () => setSide(el.offsetHeight)));
     onResize([el], () => requestAnimationFrame(() => setSide(el.offsetHeight)));
   };
 
   return (
     <Poster onClick={pick} onKeyDown={keys} look="ai" title="How many people use AI to write their emails and messages?"
       note="Illustrative figures.">
-      <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={300} animate={p.js()} theme={styles.theme}
+      <Chart orientation={p.o} scale={[0, 100]} ticks={false} height={300} animate={p.js} theme={styles.theme}
         style={{
           "--pitch": "10.5cqw", "--bars": `calc(var(--pitch) * ${GENS.length})`, "--between": "3cqw",
           "--side": `${side() ?? 0}px`, "--strip": `${STRIP}px`,
@@ -217,12 +219,12 @@ export default function Multiple(p) {
         </div>
         {/* In the JS version rhp moves only the numbers it draws: the slats move the pie and its labels on their
             own clock, and `picked` has to jump. */}
-        <Plot overlap class="pie" style={seat(p.o(), "pie")} key="name" animate={p.js() && ["from", "to"]}
+        <Plot overlap class="pie" style={seat(p.o, "pie")} key="name" animate={p.js && ["from", "to"]}
           name={PARTS} color={COLORS} from={pie().from} to={pie().to} spot={spots()}>
           {PartSlat}
         </Plot>
         <Show when={side() != null}>
-          <Plot keyboard class="gens" style={seat(p.o(), "gens")} key="name" animate={p.js() && ["value"]}
+          <Plot keyboard class="gens" style={seat(p.o, "gens")} key="name" animate={p.js && ["value"]}
             name={GENS} value={using()} tint={TINTS} picked={picked()}>
             {GenSlat}
           </Plot>

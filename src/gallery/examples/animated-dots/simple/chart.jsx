@@ -20,9 +20,9 @@ export default function Dots(p) {
   const step = () => setShift((s) => (s.some((v) => v) ? still : s.map(() => Math.floor(Math.random() * 5) - 2)));
   const timer = setInterval(step, 3000);
   onCleanup(() => clearInterval(timer));
-  createComputed(on(p.seed, step, { defer: true })); // New data moves them now
+  createComputed(on(() => p.seed, step, { defer: true })); // New data moves them now
   return (
-    <Chart orientation={p.o()} scale={[2, 12]} ticks={false} height={300} animate={p.js()}>
+    <Chart orientation={p.o} scale={[2, 12]} ticks={false} height={300} animate={p.js}>
       <Plot slats={ROWS} shift={shift()}>{RowSlat}</Plot>
     </Chart>
   );

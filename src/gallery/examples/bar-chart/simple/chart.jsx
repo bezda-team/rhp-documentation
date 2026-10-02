@@ -1,7 +1,8 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, Label, slat, sortBy } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const FRUITS = ["Apple", "Banana", "Cherry", "Kiwi", "Lemon", "Mango"];
 const SOLD = [12, 18, 7, 22, 15, 9];
@@ -16,9 +17,9 @@ export const RowSlat = slat({ css: styles.slat }, (d) => (
 ));
 
 export default function BarChart(p) {
-  const sold = createMemo(() => (p.seed() ? FRUITS.map(() => Math.round(rand(2, 30))) : SOLD));
+  const sold = createMemo(() => (p.seed ? FRUITS.map(() => Math.round(rand(2, 30))) : SOLD));
   return (
-    <Chart orientation={p.o()} scale={[0, 30]} animate={p.js()}>
+    <Chart orientation={p.o} scale={[0, 30]} animate={p.js}>
       <Plot name={FRUITS} sold={sold()} order={sortBy("sold", "desc")}>{RowSlat}</Plot>
     </Chart>
   );

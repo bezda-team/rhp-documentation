@@ -1,7 +1,13 @@
 import { createSignal, createMemo, Show } from "solid-js";
 import { Plot, Scale, Chart, Bar, Dot, Label, Area, Poster, slat, every, summary, density } from "@bezda/rhp";
-import { random } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+// New random numbers after New data; before it, the same ones on every load.
+const numbers = (seed) => { let s = 12345; return seed ? Math.random : () => (s = (s * 48271) % 2147483647) / 2147483647; };
+const normal = (next, m, s) => m + s * Math.sqrt(-2 * Math.log(1 - next())) * Math.cos(2 * Math.PI * next());
+// n samples of a normal, kept between lo and hi
+const normalsIn = (next, n, lo, hi, m, s) => Array.from({ length: n }, () => { for (;;) { const v = normal(next, m, s); if (v >= lo && v <= hi) return v; } });
 
 const STRINGS = ["Violin", "Viola", "Cello", "Double bass"];
 const TESSITURA = [[55, 100, 76, 6.5], [48, 88, 66, 6], [36, 81, 54, 6.5], [28, 67, 42, 5.5]]; // lowest, highest (MIDI note), centre, spread
@@ -45,7 +51,7 @@ export const InstrumentSlat = slat({
 });
 
 export default function Violin(p) {
-  const notes = createMemo(() => { const { normalsIn } = random(p.seed()); return TESSITURA.map(([lo, hi, mid, sd]) => normalsIn(80, lo, hi, mid, sd)); });
+  const notes = createMemo(() => { const next = numbers(p.seed); return TESSITURA.map(([lo, hi, mid, sd]) => normalsIn(next, 80, lo, hi, mid, sd)); });
   // One peak for every instrument, so their widths compare: a value shared by all slats, not a list.
   const peak = createMemo(() => Math.max(...notes().flatMap((s) => density(s, { points: 48 }).map((q) => q[1]))));
   // The instrument under the pointer (when it moves), and the keys it reaches (a note is on the key it falls in).
@@ -58,7 +64,7 @@ export default function Violin(p) {
     <Poster look="strings" kicker="Where the strings play" title="The string section" dek="Every note each instrument plays in one movement, by pitch, over a piano keyboard."
       note="Illustrative data. Point at an instrument to find its range on the keyboard."
       onPointerMove={point} onPointerDown={point} onPointerLeave={(e) => e.pointerType !== "touch" && setPick(null)}>
-      <Chart orientation={p.o()} scale={[26, 102]} height={360} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[26, 102]} height={360} animate={p.js} theme={styles.theme}>
         <Scale ticks={every(1)} low={reach().low} high={reach().high} tint={reach().tint}>{KeySlat}</Scale>
         <Plot name={STRINGS} notes={notes()} peak={peak()} varnish={VARNISH} pick={pick()}>{InstrumentSlat}</Plot>
       </Chart>

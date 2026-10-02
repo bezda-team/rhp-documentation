@@ -1,8 +1,7 @@
 import { createSignal, createMemo, createComputed, on } from "solid-js";
 import { Plot, Scale, Chart, Bar, Tick, Label, slat, useOrientation, sortBy, every } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
-// v1's fruit art (FreeVector.com).
+// v1's fruit art (FreeVector.com), from https://github.com/bezda-team/rhp-documentation/tree/master/src/gallery/examples/bar-chart/poster/assets
 import grape from "./assets/grape.svg?url";
 import watermelon from "./assets/watermelon.svg?url";
 import pear from "./assets/pear.svg?url";
@@ -10,6 +9,8 @@ import banana from "./assets/banana.svg?url";
 import orange from "./assets/orange.svg?url";
 import peach from "./assets/peach.svg?url";
 import strawberry from "./assets/strawberry.svg?url";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 // v1's scale: a Scale in the Chart draws it, one slat per tick, a mark and its number.
 // The marks start 16px above the first slat, and the numbers sit over them, in the room this slat asks for.
@@ -51,7 +52,7 @@ export const FruitSlat = slat({
 ));
 
 export default function Fruit(p) {
-  const data = createMemo(() => (p.seed() ? FRUITS.map(() => Math.round(rand(1, 30))) : [1, 2, 18, 3, 25, 13, 20]));
+  const data = createMemo(() => (p.seed ? FRUITS.map(() => Math.round(rand(1, 30))) : [1, 2, 18, 3, 25, 13, 20]));
   const [a, setA] = createSignal(); // Fruit A from the slider; new data resets it
   createComputed(on(data, () => setA(undefined)));
   const values = createMemo(() => (a() == null ? data() : [a(), ...data().slice(1)]));
@@ -68,7 +69,7 @@ export default function Fruit(p) {
           <output>{values()[0]}</output>
         </label>
       </div>
-      <Chart orientation={p.o()} scale={[0, max()]} height={480} animate={p.js()}>
+      <Chart orientation={p.o} scale={[0, max()]} height={480} animate={p.js}>
         <Scale ticks={every(5, { ends: true })} marks="line">{V1Scale}</Scale>
         <Plot name={NAMES} fruit={FRUITS} art={ART} value={values()} color={COLORS} dim={dim()}
           order={ranked() ? sortBy("value", "desc") : undefined}>{FruitSlat}</Plot>

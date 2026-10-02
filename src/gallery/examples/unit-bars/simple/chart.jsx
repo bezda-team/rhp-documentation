@@ -1,7 +1,8 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 const CUPS = [3, 5, 2, 6, 4]; // cups of coffee
@@ -19,9 +20,9 @@ export const DaySlat = slat({ css: styles.day }, (d) => (
 ));
 
 export default function UnitBars(p) {
-  const cups = createMemo(() => (p.seed() ? DAYS.map(() => Math.round(rand(1, 8))) : CUPS));
+  const cups = createMemo(() => (p.seed ? DAYS.map(() => Math.round(rand(1, 8))) : CUPS));
   return (
-    <Chart orientation={p.o()} scale={[0, 8]} animate={p.js()}>
+    <Chart orientation={p.o} scale={[0, 8]} animate={p.js}>
       <Plot day={DAYS} cups={cups()}>{DaySlat}</Plot>
     </Chart>
   );

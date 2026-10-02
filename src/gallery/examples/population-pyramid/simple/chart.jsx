@@ -1,7 +1,8 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const AGES = ["80+", "60-79", "40-59", "20-39", "0-19"];
 const MEN = [2, 9, 13, 13, 12]; // % of the population
@@ -18,13 +19,13 @@ export const BandSlat = slat({ css: styles.band, thickness: { horizontal: 36 } }
 ));
 
 export default function Pyramid(p) {
-  const people = createMemo(() => (p.seed()
+  const people = createMemo(() => (p.seed
     ? { men: MEN.map((v) => Math.round(v * rand(0.7, 1.3))), women: WOMEN.map((v) => Math.round(v * rand(0.7, 1.3))) }
     : { men: MEN, women: WOMEN }));
   return (
     <>
       <p class="legend"><span><i style={{ background: COLORS[0] }} />Men</span><span><i style={{ background: COLORS[1] }} />Women</span></p>
-      <Chart orientation={p.o()} scale={[-18, 18]} ticks={[-15, -10, -5, 0, 5, 10, 15]} format={(v) => Math.abs(v) + "%"} animate={p.js()}>
+      <Chart orientation={p.o} scale={[-18, 18]} ticks={[-15, -10, -5, 0, 5, 10, 15]} format={(v) => Math.abs(v) + "%"} animate={p.js}>
         <Plot age={AGES} men={people().men} women={people().women}>{BandSlat}</Plot>
       </Chart>
     </>

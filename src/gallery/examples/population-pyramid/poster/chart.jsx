@@ -1,7 +1,9 @@
 import { createMemo, createSignal, For } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const AGES = ["0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80+"];
 // % of the population in each band: a young country in 1990, an ageing one in 2024
@@ -29,7 +31,7 @@ export default function Pyramid(p) {
   // Both years' men, then women; a year's button in the key picks the year the bars show, and they move to it.
   const [year, setYear] = createSignal(2024);
   const shares = createMemo(() => {
-    const vary = p.seed() ? () => rand(0.88, 1.12) : () => 1;
+    const vary = p.seed ? () => rand(0.88, 1.12) : () => 1;
     return Object.fromEntries(Object.entries(MEN).map(([y, men]) => {
       const m = men.map((v) => v * vary());
       return [y, { men: m, women: m.map((v, i) => v * (0.97 + i * 0.045)) }];
@@ -48,8 +50,8 @@ export default function Pyramid(p) {
         <span><i style={{ background: "#1d6fa5" }} />Men</span><span><i style={{ background: "#d9694c" }} />Women</span><span>% in each age band</span>
       </span>}
       note="Click 1990 or 2024 to see the country in that census. Illustrative figures.">
-      <Chart orientation={p.o()} scale={[-(widest() + SPINE), widest() + SPINE]} ticks={false} height={320} animate={p.js()} theme={styles.theme}>
-        <Plot age={AGES} men={men()} women={women()} order={p.o() === "horizontal" ? oldestFirst : undefined}>{AgeSlat}</Plot>
+      <Chart orientation={p.o} scale={[-(widest() + SPINE), widest() + SPINE]} ticks={false} height={320} animate={p.js} theme={styles.theme}>
+        <Plot age={AGES} men={men()} women={women()} order={p.o === "horizontal" ? oldestFirst : undefined}>{AgeSlat}</Plot>
       </Chart>
     </Poster>
   );

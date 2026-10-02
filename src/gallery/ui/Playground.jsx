@@ -78,8 +78,8 @@ export function Playground(props) {
       <div class="pg-body">
         <div class="pg-preview">
           <Theme value={theme()}>
-            <Show when={props.theme === "v1"} fallback={<Example o={o} js={js} seed={seed} />}>
-              <Theme value={v1()}><Example o={o} js={js} seed={seed} /></Theme>
+            <Show when={props.theme === "v1"} fallback={<Example o={o()} js={js()} seed={seed()} />}>
+              <Theme value={v1()}><Example o={o()} js={js()} seed={seed()} /></Theme>
             </Show>
           </Theme>
         </div>
@@ -104,7 +104,7 @@ export function Playground(props) {
           <div class="pg-file" ref={stylesEl} hidden={tab() !== "styles"} role="tabpanel" aria-label="styles.js" />
           <div class="pg-file" ref={chartEl} hidden={tab() !== "chart"} role="tabpanel" aria-label="chart.jsx" />
           <p class="pg-hint">
-            <Show when={tab() === "styles"} fallback={<>The structure: data, slats and the chart. <code>p.o()</code>, <code>p.js()</code> and <code>p.seed()</code> are the controls above.</>}>
+            <Show when={tab() === "styles"} fallback={<>The structure: data, slats and the chart. <code>p.o</code>, <code>p.js</code> and <code>p.seed</code> are the controls above.</>}>
               The highlighted CSS is live: edit it and the chart restyles as you type.
             </Show>
           </p>

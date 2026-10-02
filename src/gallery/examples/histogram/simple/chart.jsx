@@ -1,10 +1,13 @@
 import { createMemo, Show } from "solid-js";
 import { Chart, Plot, Bar, Label, slat, bins, nice } from "@bezda/rhp";
-import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
 
+// New random numbers after New data; before it, the same ones on every load.
+const numbers = (seed) => { let s = 12345; return seed ? Math.random : () => (s = (s * 48271) % 2147483647) / 2147483647; };
+const normal = (next, m, s) => m + s * Math.sqrt(-2 * Math.log(1 - next())) * Math.cos(2 * Math.PI * next());
+
 // 500 samples around 50, counted in bins 5 wide from 0 to 100.
-const samples = ({ normal }) => Array.from({ length: 500 }, () => normal(50, 14));
+const samples = (next) => Array.from({ length: 500 }, () => normal(next, 50, 14));
 
 // A bin: a Bar as tall as its count, and every other bin's lower edge at the start.
 export const BinSlat = slat({ css: styles.bin, inset: "1px" }, (d) => (
@@ -15,9 +18,9 @@ export const BinSlat = slat({ css: styles.bin, inset: "1px" }, (d) => (
 ));
 
 export default function Histogram(p) {
-  const b = createMemo(() => bins(samples(random(p.seed())), { domain: [0, 100], count: 20 })); // { x0, x1, tally }
+  const b = createMemo(() => bins(samples(numbers(p.seed)), { domain: [0, 100], count: 20 })); // { x0, x1, tally }
   return (
-    <Chart orientation={p.o()} scale={[0, nice(0, Math.max(...b().tally)).max]} animate={p.js()}>
+    <Chart orientation={p.o} scale={[0, nice(0, Math.max(...b().tally)).max]} animate={p.js}>
       <Plot x0={b().x0} x1={b().x1} tally={b().tally}>{BinSlat}</Plot>
     </Chart>
   );

@@ -71,8 +71,8 @@ Each tube has its own color, checked to stay apart from its neighbours for color
 **In the JS version** rhp moves every number a Plot is given, so each Plot names the ones rhp draws:
 
 ```jsx
-<Plot overlap animate={p.js() && ["from", "to"]} …>
-<Plot keyboard animate={p.js() && ["value"]} …>
+<Plot overlap animate={p.js && ["from", "to"]} …>
+<Plot keyboard animate={p.js && ["value"]} …>
 ```
 
 The pie and its labels move on their own clock, and `picked` has to jump to the new tube rather than pass through the others.

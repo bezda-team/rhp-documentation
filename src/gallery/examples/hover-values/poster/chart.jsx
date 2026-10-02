@@ -1,7 +1,10 @@
 import { createMemo } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat } from "@bezda/rhp";
-import { random } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
+const KNOTS = [12, 4, 8, 10];
 
 const QUARTERS = ["North", "East", "South", "West"];
 const BEARING = { North: 0, East: 90, South: 180, West: 270 };
@@ -22,10 +25,10 @@ export const WindSlat = slat({
 ));
 
 export default function Tutorial(p) {
-  const knots = createMemo(() => { const { rand } = random(p.seed()); return [12, 5, 7, 9].map((v) => Math.max(2, Math.round(v + rand(-3, 3)))); });
+  const knots = createMemo(() => (p.seed ? KNOTS.map((v) => Math.max(2, Math.round(v + rand(-3, 3)))) : KNOTS));
   return (
     <Poster look="wind" kicker="Harbour log · this week" title="Where the wind blows from" dek="Average wind speed from each quarter. Hover a row to read it in knots.">
-      <Chart orientation={p.o()} scale={[0, 15]} ticks={[0, 5, 10, 15]} format={(v) => v + " kn"} height={300} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, 15]} ticks={[0, 5, 10, 15]} format={(v) => v + " kn"} height={300} animate={p.js} theme={styles.theme}>
         <Plot quarter={QUARTERS} knots={knots()}>{WindSlat}</Plot>
       </Chart>
     </Poster>

@@ -1,7 +1,8 @@
 import { createMemo, createSignal } from "solid-js";
 import { Chart, Plot, Bar, Label, slat, shares, stackUp, animated } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 // People by generation: how many use AI to write their emails and messages, and how often.
 const GENS = ["Gen Z", "Millennials", "Gen X", "Boomers"];
@@ -65,8 +66,8 @@ const seat = (o, which) => (o === "vertical"
 
 export default function Multiple(p) {
   const [picked, setPicked] = createSignal(-1);
-  const using = createMemo(() => (!p.seed() ? USING : GENS.map(() => Math.round(rand(24, 66)))));
-  const daily = createMemo(() => (!p.seed() ? DAILY : using().map((u) => Math.round(u * rand(0.3, 0.65)))));
+  const using = createMemo(() => (!p.seed ? USING : GENS.map(() => Math.round(rand(24, 66)))));
+  const daily = createMemo(() => (!p.seed ? DAILY : using().map((u) => Math.round(u * rand(0.3, 0.65)))));
   const rows = createMemo(() => using().map((u, g) => split(u, daily()[g])));
   const pie = createMemo(() => stackUp(shares(picked() < 0 ? whole(rows()) : rows()[picked()])));
 
@@ -85,14 +86,14 @@ export default function Multiple(p) {
 
   return (
     <div onClick={pick} onKeyDown={keys}>
-      <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={280} animate={p.js()}
+      <Chart orientation={p.o} scale={[0, 100]} ticks={false} height={280} animate={p.js}
         style={{ "--bars": `${PITCH * GENS.length}cqw`, "--strip": `${STRIP}px` }}>
-        <Plot overlap style={seat(p.o(), "pie")} key="name"
+        <Plot overlap style={seat(p.o, "pie")} key="name"
           name={PARTS} color={["series-1", "series-2", "series-3"]} from={pie().from} to={pie().to}>
           {PartSlat}
         </Plot>
         {/* In the JS version only the bars' values move; `picked` has to jump. */}
-        <Plot keyboard style={seat(p.o(), "gens")} key="name" animate={p.js() && ["value"]} name={GENS} value={using()} picked={picked()}>
+        <Plot keyboard style={seat(p.o, "gens")} key="name" animate={p.js && ["value"]} name={GENS} value={using()} picked={picked()}>
           {GenSlat}
         </Plot>
       </Chart>

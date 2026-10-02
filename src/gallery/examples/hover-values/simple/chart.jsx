@@ -1,7 +1,8 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const VISITS = [42, 38, 51, 47, 63, 88, 71];
@@ -16,9 +17,9 @@ export const RowSlat = slat({ css: styles.slat }, (d) => (
 ));
 
 export default function HoverValues(p) {
-  const visits = createMemo(() => (p.seed() ? DAYS.map(() => Math.round(rand(20, 95))) : VISITS));
+  const visits = createMemo(() => (p.seed ? DAYS.map(() => Math.round(rand(20, 95))) : VISITS));
   return (
-    <Chart orientation={p.o()} scale={[0, 100]} animate={p.js()}>
+    <Chart orientation={p.o} scale={[0, 100]} animate={p.js}>
       <Plot day={DAYS} visits={visits()}>{RowSlat}</Plot>
     </Chart>
   );

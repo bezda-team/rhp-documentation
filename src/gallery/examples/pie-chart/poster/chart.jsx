@@ -1,7 +1,9 @@
 import { createMemo } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat, shares, stackUp, animated } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 // A day of 24 hours, in four parts.
 const PARTS = ["Sleep", "Chores and errands", "Work and study", "Free time"];
@@ -76,14 +78,14 @@ export const PartSlat = slat({
 });
 
 export default function PieChart(p) {
-  const hours = createMemo(() => (!p.seed() ? HOURS : PARTS.map(() => rand(3.4, 9))));
+  const hours = createMemo(() => (!p.seed ? HOURS : PARTS.map(() => rand(3.4, 9))));
   const stack = createMemo(() => stackUp(shares(hours())));
 
   return (
     <Poster look="day" kicker="A day · 25 to 34 year olds" title="Four hours to yourself"
       dek="Sleep takes the largest share of a day, and once work and the running of a life are counted, about four hours of it are yours."
       note="Illustrative, after the American Time Use Survey, averaged over every day of the week. Point at a slice, or tab into the chart, for the hours behind its share.">
-      <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={450} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, 100]} ticks={false} height={450} animate={p.js} theme={styles.theme}>
         <Plot keyboard overlap key="name" name={PARTS} color={COLORS} hours={hours()} from={stack().from} to={stack().to}>
           {PartSlat}
         </Plot>

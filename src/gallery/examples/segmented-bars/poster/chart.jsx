@@ -1,7 +1,9 @@
 import { createSignal, createMemo, onMount, onCleanup } from "solid-js";
 import { Plot, Chart, Bar, Tick, Label, Poster, slat, stackUp, shares } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const PEOPLE = ["Student", "Commuter", "Gamer", "Traveller"];
 const APPS = ["Video", "Social", "Games", "Music", "Maps"];
@@ -40,7 +42,7 @@ export const BatterySlat = slat({
 });
 
 export default function Segmented(p) {
-  const use = createMemo(() => (p.seed() ? PEOPLE.map(() => APPS.map(() => rand(4, 40))) : USE));
+  const use = createMemo(() => (p.seed ? PEOPLE.map(() => APPS.map(() => rand(4, 40))) : USE));
   // The app in focus: the one the pointer is on, in the key or in a battery, else the one clicked. The key buttons and
   // the segments carry data-app, and the poster listens for both. A click on an app, or Enter on a key, keeps it; a
   // click anywhere else, in the poster or on the page, or Escape, lets it go.
@@ -65,7 +67,7 @@ export default function Segmented(p) {
         </button>
       ))}</span>}
       note="Point at an app, in the key or in a battery, to follow it through everyone's day. Click it to keep it; click anywhere else to let it go.">
-      <Chart orientation={p.o()} scale={[0, 100]} ticks={false} height={300} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, 100]} ticks={false} height={300} animate={p.js} theme={styles.theme}>
         <Plot name={PEOPLE} use={use()} focus={app()}>{BatterySlat}</Plot>
       </Chart>
     </Poster>

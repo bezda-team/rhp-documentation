@@ -1,9 +1,12 @@
 import { createMemo, createSignal } from "solid-js";
 import { Plot, Scale, Chart, Bar, Tick, Label, Poster, slat } from "@bezda/rhp";
-import { random } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
 
+const rand = (a, b) => a + Math.random() * (b - a);
+
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const ANOMALY = [0.3, -0.2, 1.1, 1, -0.8, -0.6, 1.2, 1.6, -0.3, -1.2, -1.1, 1];
 const NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const degrees = (v) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1) + "°";
 // °C from normal on a diverging ramp: blue below, a neutral gray at 0, red above.
@@ -41,7 +44,7 @@ export const NormalSlat = slat({
 ));
 
 export default function Diverging(p) {
-  const anomaly = createMemo(() => { const { rand } = random(p.seed()); return MONTHS.map(() => Math.round(rand(-1.4, 2.4) * 10) / 10); });
+  const anomaly = createMemo(() => (p.seed ? MONTHS.map(() => Math.round(rand(-1.4, 2.4) * 10) / 10) : ANOMALY));
   // The month under the pointer, read out in the dek.
   const [month, setMonth] = createSignal(null);
   const point = (e) => { const i = e.target.closest("[data-month]")?.dataset.month; setMonth(i == null ? null : +i); };
@@ -54,7 +57,7 @@ export default function Diverging(p) {
   return (
     <Poster look="climate" kicker="A year of monthly temperatures" title="Hotter than normal" dek={dek()} note="Illustrative figures."
       onPointerMove={point} onPointerDown={point} onPointerLeave={(e) => e.pointerType !== "touch" && setMonth(null)}>
-      <Chart orientation={p.o()} scale={[-3, 3]} height={300} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[-3, 3]} height={300} animate={p.js} theme={styles.theme}>
         <Scale ticks={[-2, -1, 0, 1, 2]}>{NormalSlat}</Scale>
         <Plot month={MONTHS} anomaly={anomaly()} faded={(d) => month() != null && d.index !== month()}>{MonthSlat}</Plot>
       </Chart>

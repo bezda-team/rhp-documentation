@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import { fileURLToPath } from 'node:url';
 import starlight from '@astrojs/starlight';
 import solid from "@astrojs/solid-js";
 
@@ -122,11 +121,4 @@ export default defineConfig({
     // Disable the default base styles:
     applyBaseStyles: false,
   })],
-  vite: {
-    resolve: {
-      alias: {
-        "@gallery": fileURLToPath(new URL("./src/gallery", import.meta.url)), // so the examples' code reads "@gallery/random.js"
-      },
-    },
-  },
 });

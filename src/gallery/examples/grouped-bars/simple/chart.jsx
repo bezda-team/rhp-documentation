@@ -1,7 +1,8 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const TEAMS = ["North", "East", "South", "West"];
 const METALS = ["Gold", "Silver", "Bronze"];
@@ -20,11 +21,11 @@ export const TeamSlat = slat({ css: styles.team, thickness: { horizontal: 72 } }
 ));
 
 export default function GroupedBars(p) {
-  const medals = createMemo(() => (p.seed() ? TEAMS.map(() => METALS.map(() => Math.round(rand(2, 20)))) : MEDALS));
+  const medals = createMemo(() => (p.seed ? TEAMS.map(() => METALS.map(() => Math.round(rand(2, 20)))) : MEDALS));
   return (
     <>
       <p class="legend">{METALS.map((m, i) => <span><i style={{ background: METAL_COLORS[i] }} />{m}</span>)}</p>
-      <Chart orientation={p.o()} scale={[0, 20]} animate={p.js()}>
+      <Chart orientation={p.o} scale={[0, 20]} animate={p.js}>
         <Plot name={TEAMS} medals={medals()}>{TeamSlat}</Plot>
       </Chart>
     </>

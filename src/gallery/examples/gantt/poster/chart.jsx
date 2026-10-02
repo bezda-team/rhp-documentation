@@ -1,7 +1,9 @@
 import { createMemo, Show } from "solid-js";
 import { Plot, Scale, Chart, Bar, Tick, Label, Poster, slat, sortBy, every } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const TRADES = ["Groundworks", "Frame", "Roof", "Services", "Interiors", "Garden"];
 const PLAN = [[0, 6], [5, 13], [12, 17], [14, 23], [20, 30], [27, 32]]; // weeks from the start of March
@@ -42,10 +44,10 @@ export const TodaySlat = slat({
 }, () => <div><Tick at={TODAY} thick={1} class="now" /><Label at={TODAY} class="now-label">TODAY</Label></div>);
 
 export default function Gantt(p) {
-  const plan = createMemo(() => (p.seed() ? PLAN.map(([a, b]) => { const s = Math.max(0, a + Math.round(rand(-2, 2))); return [s, Math.min(32, Math.max(s + 2, b + Math.round(rand(-2, 2))))]; }) : PLAN));
+  const plan = createMemo(() => (p.seed ? PLAN.map(([a, b]) => { const s = Math.max(0, a + Math.round(rand(-2, 2))); return [s, Math.min(32, Math.max(s + 2, b + Math.round(rand(-2, 2))))]; }) : PLAN));
   return (
     <Poster look="drawing" kicker={`Building a house · week ${TODAY} of 32`} title="From plot to keys" dek="Each bar is a trade on site; the orange part is done. Point at one to measure it.">
-      <Chart orientation={p.o()} scale={[0, 32]} height={340} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, 32]} height={340} animate={p.js} theme={styles.theme}>
         <Scale ticks={every(4)}>{MonthBandSlat}</Scale>
         <Plot trade={TRADES} start={plan().map((w) => w[0])} end={plan().map((w) => w[1])} key="trade" order={sortBy("start")}>{TradeSlat}</Plot>
         {/* today, over the trades; the pointer passes through it to them */}

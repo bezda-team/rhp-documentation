@@ -1,7 +1,9 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Cell, Label, slat } from "@bezda/rhp";
-import { random } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+// New random numbers after New data; before it, the same ones on every load.
+const numbers = (seed) => { let s = 12345; return seed ? Math.random : () => (s = (s * 48271) % 2147483647) / 2147483647; };
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const HOURS = 12; // 8:00 to 19:00
@@ -19,12 +21,12 @@ export const DaySlat = slat({ thickness: { horizontal: 28 } }, (d) => (
 
 export default function Heatmap(p) {
   const hours = createMemo(() => {
-    const { rand } = random(p.seed());
+    const next = numbers(p.seed), rand = (a, b) => a + next() * (b - a);
     return DAYS.map((_, day) => Array.from({ length: HOURS }, (_, h) =>
       Math.round(Math.max(0, 80 * Math.exp(-((h - 5 - (day > 4 ? 1 : 0)) ** 2) / 8) + rand(0, 20) - (day > 4 ? 20 : 0)))));
   });
   return (
-    <Chart orientation={p.o()} scale={[0, 100]} ticks={false} animate={p.js()}>
+    <Chart orientation={p.o} scale={[0, 100]} ticks={false} animate={p.js}>
       <Plot day={DAYS} hours={hours()}>{DaySlat}</Plot>
     </Chart>
   );

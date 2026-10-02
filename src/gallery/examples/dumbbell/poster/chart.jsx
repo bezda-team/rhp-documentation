@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
 import { Plot, Chart, Bar, Dot, Label, Poster, slat, sortBy } from "@bezda/rhp";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
 
 const PEAKS = ["Everest", "K2", "Aconcagua", "Denali", "Kilimanjaro", "Elbrus", "Mont Blanc"];
@@ -35,7 +36,7 @@ export default function Range(p) {
           <button type="button" aria-pressed={by() === "climb"} onClick={() => setBy("climb")}>Biggest climb</button>
         </span></>}
       note="Click Highest summit or Biggest climb to reorder the peaks. Base camps vary by route; summit heights from recent surveys.">
-      <Chart orientation={p.o()} scale={[0, 9000]} ticks={[0, 4000, 8000]} format={(v) => v / 1000 + " km"} height={340} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, 9000]} ticks={[0, 4000, 8000]} format={(v) => v / 1000 + " km"} height={340} animate={p.js} theme={styles.theme}>
         <Plot peak={PEAKS} where={WHERE} camp={CAMP} summit={SUMMIT} by={by()} key="peak"
           order={sortBy((d) => (by() === "summit" ? d.summit : d.summit - d.camp), "desc")}>{ClimbSlat}</Plot>
       </Chart>

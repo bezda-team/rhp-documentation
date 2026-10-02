@@ -1,7 +1,10 @@
 import { createMemo } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat, sortBy, nice, stackUp } from "@bezda/rhp";
-import { rand, sum } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
+const sum = (list) => list.reduce((a, b) => a + b, 0);
 
 const DRINKS = ["Espresso", "Macchiato", "Cortado", "Flat white", "Cappuccino", "Latte"];
 const RECIPES = [[30, 0, 0], [30, 0, 15], [30, 30, 0], [60, 100, 10], [60, 60, 60], [60, 150, 20]]; // ml of espresso, milk, foam
@@ -35,12 +38,12 @@ export const DrinkSlat = slat({
 });
 
 export default function Stacked(p) {
-  const ml = createMemo(() => (p.seed() ? RECIPES.map(([e, m, f]) => [e, Math.round(m * rand(0.75, 1.25)), Math.round(f * rand(0.75, 1.25))]) : RECIPES));
+  const ml = createMemo(() => (p.seed ? RECIPES.map(([e, m, f]) => [e, Math.round(m * rand(0.75, 1.25)), Math.round(f * rand(0.75, 1.25))]) : RECIPES));
   return (
     <Poster look="coffee" kicker="The coffee bar, explained" title="Anatomy of a coffee"
       dek={<span class="keys"><span><i class="espresso" />Espresso</span><span><i class="milk" />Steamed milk</span><span><i class="foam" />Foam</span></span>}
       note="Typical pours in ml; every café pours its own.">
-      <Chart orientation={p.o()} scale={[0, nice(0, Math.max(...ml().map(sum))).max]} ticks={3} height={320} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, nice(0, Math.max(...ml().map(sum))).max]} ticks={3} height={320} animate={p.js} theme={styles.theme}>
         <Plot name={DRINKS} ml={ml()} key="name" order={sortBy((d) => sum(d.ml), "desc")}>{DrinkSlat}</Plot>
       </Chart>
     </Poster>

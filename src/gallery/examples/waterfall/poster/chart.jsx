@@ -1,7 +1,9 @@
 import { createSignal, createMemo, createComputed, on, Show } from "solid-js";
 import { Plot, Chart, Bar, Tick, Label, Poster, slat, running } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const LINES = ["Salary", "Rent", "Groceries", "Transport", "Bills", "Going out", "Saved"];
 const MONTH = [4200, -1450, -520, -180, -230, -300]; // £ in, then out; what is left is saved
@@ -31,7 +33,7 @@ export const StepSlat = slat({
 });
 
 export default function Waterfall(p) {
-  const month = createMemo(() => (p.seed() ? [rand(3800, 4600), -rand(1300, 1600), -rand(400, 650), -rand(100, 260), -rand(180, 300), -rand(150, 500)] : MONTH));
+  const month = createMemo(() => (p.seed ? [rand(3800, 4600), -rand(1300, 1600), -rand(400, 650), -rand(100, 260), -rand(180, 300), -rand(150, 500)] : MONTH));
   const [cut, setCut] = createSignal([]); // the rows of the expenses cut; new data brings them all back
   createComputed(on(month, () => setCut([])));
   const toggle = (e) => {
@@ -45,7 +47,7 @@ export default function Waterfall(p) {
   return (
     <Poster look="budget" kicker="Monthly budget" title="Where the salary goes" onClick={toggle}
       dek={<><b>{pounds(steps().to.at(-1))}</b> left to save this month.</>} note="Click an expense to cut it from the month; click it again to bring it back.">
-      <Chart orientation={p.o()} scale={[0, 5000]} ticks={[0, 1000, 2000, 3000, 4000, 5000]} format={(v) => (v ? "£" + v / 1000 + "k" : "0")} height={320} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, 5000]} ticks={[0, 1000, 2000, 3000, 4000, 5000]} format={(v) => (v ? "£" + v / 1000 + "k" : "0")} height={320} animate={p.js} theme={styles.theme}>
         <Plot item={LINES} from={steps().from} to={steps().to} amount={[...month(), null]} cut={LINES.map((_, i) => cut().includes(i))}
           total={LINES.map((_, i) => i === LINES.length - 1)}>{StepSlat}</Plot>
       </Chart>

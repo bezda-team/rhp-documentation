@@ -1,7 +1,8 @@
 import { createSignal, onMount, onCleanup } from "solid-js";
 import { Plot, Chart, Dot, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 // v1's logo: 9 slats of 30 dots; # is lit. The scale shows dots 10 to 20 of each slat.
 const LOGO = [
@@ -49,11 +50,11 @@ export default function Dots(p) {
     ro.observe(fit);
     onCleanup(() => ro.disconnect());
   });
-  const zoom = () => Math.min(1, room() / (p.o() === "vertical" ? 544 : 664));
+  const zoom = () => Math.min(1, room() / (p.o === "vertical" ? 544 : 664));
   return (
     <div class="dots-fit" ref={fit}>
       <div class="dots-window" style={{ zoom: zoom() }} onMouseEnter={hold} onMouseLeave={resume}>
-        <Chart orientation={p.o()} scale={[10, 21]} ticks={false} height={660} animate={p.js()} class="dots">
+        <Chart orientation={p.o} scale={[10, 21]} ticks={false} height={660} animate={p.js} class="dots">
           <Plot art={LOGO} shift={shift()}>{DotRow}</Plot>
         </Chart>
       </div>

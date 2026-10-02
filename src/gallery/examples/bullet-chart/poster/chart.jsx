@@ -1,7 +1,9 @@
 import { createMemo } from "solid-js";
 import { Plot, Chart, Bar, Tick, Label, Poster, slat } from "@bezda/rhp";
-import { rand } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+const rand = (a, b) => a + Math.random() * (b - a);
 
 const HABITS = ["Move", "Sleep", "Steps", "Water", "Mindful"];
 const GOALS = ["600 kcal", "8 hours", "10,000", "2 litres", "10 minutes"];
@@ -43,10 +45,10 @@ export const GoalSlat = slat({
 ));
 
 export default function Bullet(p) {
-  const pct = createMemo(() => (p.seed() ? HABITS.map(() => rand(45, 125)) : [86, 104, 71, 58, 115]));
+  const pct = createMemo(() => (p.seed ? HABITS.map(() => rand(45, 125)) : [86, 104, 71, 58, 115]));
   return (
     <Poster look="watch" kicker="Health · today" title="Today's goals" dek="How far each daily goal got. The white line is the goal.">
-      <Chart orientation={p.o()} scale={[0, 120]} ticks={false} height={300} animate={p.js()} theme={styles.theme}>
+      <Chart orientation={p.o} scale={[0, 120]} ticks={false} height={300} animate={p.js} theme={styles.theme}>
         <Plot habit={HABITS} goal={GOALS} color={NEON} pct={pct()}>{GoalSlat}</Plot>
       </Chart>
     </Poster>

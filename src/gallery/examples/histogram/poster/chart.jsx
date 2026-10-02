@@ -1,7 +1,11 @@
 import { createMemo, Show } from "solid-js";
 import { Plot, Chart, Bar, Label, Poster, slat, nice, bins } from "@bezda/rhp";
-import { random } from "@gallery/random.js";
+import "@bezda/rhp/posters.css"; // the posters' looks
 import * as styles from "./styles.js";
+
+// New random numbers after New data; before it, the same ones on every load.
+const numbers = (seed) => { let s = 12345; return seed ? Math.random : () => (s = (s * 48271) % 2147483647) / 2147483647; };
+const normal = (next, m, s) => m + s * Math.sqrt(-2 * Math.log(1 - next())) * Math.cos(2 * Math.PI * next());
 
 // A bin's own temperature as its color: cool blue through sand to hot red (a heat scale, shown in the key).
 const WARMTH = [[4, [59, 130, 196]], [14, [120, 181, 196]], [20, [233, 196, 106]], [27, [238, 129, 72]], [34, [196, 52, 44]]];
@@ -11,7 +15,7 @@ const warmth = (t) => {
   return `rgb(${c0.map((c, i) => Math.round(c + (c1[i] - c) * f)).join(" ")})`;
 };
 // A mild coastal city: 365 daily highs around a seasonal swing.
-const year = ({ normal }) => Array.from({ length: 365 }, (_, day) => 17.5 + 7 * Math.sin((2 * Math.PI * (day - 110)) / 365) + normal(0, 2.2));
+const year = (next) => Array.from({ length: 365 }, (_, day) => 17.5 + 7 * Math.sin((2 * Math.PI * (day - 110)) / 365) + normal(next, 0, 2.2));
 
 export const BinSlat = slat({
   thickness: { horizontal: 20 },
@@ -27,13 +31,13 @@ export const BinSlat = slat({
 ));
 
 export default function Histogram(p) {
-  const b = createMemo(() => bins(year(random(p.seed())), { domain: [4, 34], count: 15 })); // 2 °C bins: { x0, x1, tally }
+  const b = createMemo(() => bins(year(numbers(p.seed)), { domain: [4, 34], count: 15 })); // 2 °C bins: { x0, x1, tally }
   const hottestFirst = b().x0.map((_, i) => b().x0.length - 1 - i);
   return (
     <Poster look="weather" kicker="A year of daily highs · °C" title="365 afternoons"
       dek={<>How many days reached each temperature. <span class="heat-key">cool<i />hot</span></>} note="Illustrative data; hover a bar for its count of days.">
-      <Chart orientation={p.o()} scale={[0, nice(0, Math.max(...b().tally)).max]} format={(v) => v + " d"} height={300} animate={p.js()} theme={styles.theme}>
-        <Plot x0={b().x0} x1={b().x1} tally={b().tally} order={p.o() === "horizontal" ? hottestFirst : undefined}>{BinSlat}</Plot>
+      <Chart orientation={p.o} scale={[0, nice(0, Math.max(...b().tally)).max]} format={(v) => v + " d"} height={300} animate={p.js} theme={styles.theme}>
+        <Plot x0={b().x0} x1={b().x1} tally={b().tally} order={p.o === "horizontal" ? hottestFirst : undefined}>{BinSlat}</Plot>
       </Chart>
     </Poster>
   );
