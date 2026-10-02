@@ -11,7 +11,7 @@ export const patient = `
 .picked { z-index: 1; box-shadow: 0 0 0 2px var(--rhp-surface), 0 0 0 4px var(--rhp-ink); }
 `;
 
-// An arm of the trial: its name, the average's line and its number. While a patient in another arm is pointed at, it fades.
+// An arm of the trial: its name, the average's line and its number. While another arm is pointed at, it fades.
 export const arm = `
 .arm { font-size: 15px; font-weight: 700; }
 .arm:horizontal { --rhp-label-gap: 14px; }

@@ -6,5 +6,8 @@ A `Tick` at the mean and a start `Label` finish the group.
 The gallery version adds:
 
 - **Capsules instead of dots**, which is only CSS on the `Dot`: a border radius and a tilt.
+- **Pointing at a group fades the others.**
+  Each group's slat carries `data-arm`, and each Dot carries `data-patient`.
+  One handler on the poster reads both with `closest`: the group under the pointer keeps its color and the others fade, and a capsule under the pointer gets a ring.
 - **A readout that never moves the chart.**
-  Each Dot carries `data-arm` and `data-patient`, and the line above the chart is kept to one line, so pointing at a capsule changes the text without the chart jumping.
+  The line above the chart reads out the capsule under the pointer, and it is kept to one line, so the chart doesn't jump.
