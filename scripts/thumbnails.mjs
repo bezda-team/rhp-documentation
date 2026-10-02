@@ -8,7 +8,7 @@ import { spawn } from "node:child_process";
 import { chromium } from "playwright";
 
 const ENTRIES = "src/content/docs/gallery", OUT = "src/assets/gallery", PORT = 4390;
-const DARK = new Set(["animated-dots", "bar-chart", "box-plot", "heatmap"]); // drawn on the page, not on a poster of their own
+const DARK = new Set(["animated-dots", "bar-chart", "box-plot"]); // drawn on the page, not on a poster of their own
 const only = process.argv.slice(2);
 const slugs = fs.readdirSync(ENTRIES).filter((f) => f.endsWith(".mdx") && f !== "index.mdx").map((f) => f.slice(0, -4)).filter((s) => !only.length || only.includes(s));
 

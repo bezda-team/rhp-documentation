@@ -15,8 +15,6 @@
 /* The posters' looks are rhp's now: @bezda/rhp/posters.css, imported by the pages that draw posters. */
 
 /* The animated dots sit in a window exactly 11 dots wide, which zooms down to fit a narrow page. */
-/* The heatmap's readout: the hour under the pointer, above the chart. */
-.playground .heat-readout { margin: 0 0 10px; min-height: 1.5em; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--sl-color-white); }
 .playground .buttons { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .playground button.mini { font: inherit; font-size: 13px; padding: 4px 11px; margin-bottom: 8px; border-radius: var(--gallery-radius); cursor: pointer;
   border: 1px solid var(--sl-color-gray-5); background: transparent; color: var(--sl-color-text); }

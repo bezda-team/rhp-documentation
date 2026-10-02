@@ -5,10 +5,13 @@ Inside each day's slat sits another Plot, `<Plot orientation="across" v={d.hours
 
 - **A Cell colors itself.**
   It reads its `value` on the Chart's scale and mixes the theme's `low` and `high` colors by it, so there is no color scale to write.
+  The gallery version's theme sets `low` to a dark brown and `high` to amber, so hours with few visitors are close to the dark poster and busy hours are bright.
   `ticks={false}` on the Chart leaves the axis out.
 - **One slat draws the hour numbers.**
   Only the first day draws them, as edge Labels of its inner Plot, so the numbers are part of the chart rather than a separate axis.
 - **The pointer's choice goes back in as data.**
-  Each Cell carries `data-day` and `data-hour`.
-  One handler above the chart reads them with `closest`, and the picked day and hour are passed to the Plot, so every cell decides for itself whether to stay lit.
+  Each hour's slat carries `data-day` and `data-hour`.
+  The slat also covers the 1px gap around its Cell, so moving from one cell to the next never passes over a spot that belongs to no hour.
+  One handler on the poster reads them with `closest`, and the picked day and hour are passed to the Plot, so every cell decides for itself whether to stay lit.
+  The hour under the pointer is read out in the poster's dek, on one line, so the chart never moves.
   See [interaction](/guides/interaction/) for when to pass a choice back like this and when to draw a single element instead.
