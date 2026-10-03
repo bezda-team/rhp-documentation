@@ -1,9 +1,6 @@
-// Climate stripes at night. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#e8ecf2", muted: "#8b93a1", grid: "#262d39", surface: "#0d1117" };
 
-// A month: its band tinted with its own color, its name, its bar and its value. While another month is pointed at, it fades.
+// A month: its tinted band, its name, its bar and its value.
 export const month = `
 .month { background: color-mix(in srgb, var(--heat) 16%, transparent); }
 .mon { font-size: 12px; font-weight: 700; color: var(--rhp-muted); text-transform: uppercase; letter-spacing: .06em; }

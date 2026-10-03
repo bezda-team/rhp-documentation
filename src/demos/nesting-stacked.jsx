@@ -1,9 +1,7 @@
 import { createMemo } from "solid-js";
 import { Chart, Plot, Bar, Label, stackUp } from "@bezda/rhp";
 
-// Where each day's hours go. A day's bar is a Plot of its own: one Bar
-// per
-// activity, stacked in one band.
+// Where each day's hours go: one Bar per activity, stacked in one band.
 const COLORS = ["#2a78d6", "#1baf7a", "#eb6834"];
 
 export default function Hours() {

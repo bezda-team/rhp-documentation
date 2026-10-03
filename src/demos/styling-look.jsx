@@ -1,8 +1,6 @@
 import { Chart, Plot, Bar, Dot, Label, slat } from "@bezda/rhp";
 
-// One look, aimed at what rhp writes on every chart rather than at class
-// names. Both slats below use it as it comes, though one is a bar and the
-// other is a bar with a dot at each end.
+// One look for both slats, aimed at what rhp writes rather than at class names.
 const NIGHT = {
   thickness: 38,
   room: { start: 76, end: 46 },

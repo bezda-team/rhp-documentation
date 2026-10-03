@@ -12,8 +12,6 @@ const LAYERS = ["espresso", "milk", "foam"];
 const POURS = { espresso: "espresso", milk: "steamed milk", foam: "foam" };
 
 // One layer of a drink. `end` is the last layer with anything in it, which gets the cup's rounded end.
-// Hover a layer and it lifts out of the cup, with a tag over it naming the pour. The tag is an element inside the
-// Bar: rhp guards its blocks from the page's CSS, not what a slat puts in them, so its class is one a page won't use.
 export const LayerSlat = slat({ css: styles.layer }, (l) => (
   <Bar from={l.from} to={l.to} class={"layer " + l.part + (l.index === l.end ? " end" : "") + (l.to - l.from < 0.5 ? " empty" : "")}>
     <span class="pour"><b>{Math.round(l.to - l.from)} ml</b>{POURS[l.part]}</span>

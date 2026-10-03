@@ -1,18 +1,15 @@
-// A pie of how often people use AI to write, and a tube for each generation.
-
 export const theme = { font: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif", ink: "#273149", muted: "#69718a", grid: "#e3ded2", surface: "#f4f1e9" };
 
 // A part of the pie: a wedge round, a segment of one stacked bar flat.
 export const part = `
-/* No size container here: one would make each slat a layer of its own, and the last wedge would cover the labels of
-   the parts before it as they move to a corner. Without, every label can sit over every wedge. */
+/* No size container: it would put each slat in a layer of its own, and later wedges would cover earlier labels. */
 .slat { pointer-events: none; }
 .tag { z-index: 1; }
 
 /* --- round --- */
 
-/* The Bar keeps the numbers and gives up its box to the pie's square: --s is its side, --cx, --cy its middle, centred
-   in what the tubes leave of the Chart's width and height. On a narrow poster it takes the whole width, at the top. */
+/* The Bar gives up its box to the pie's square: --s its side, --cx, --cy its middle, in the room the tubes leave.
+   On a narrow poster it takes the whole width, at the top. */
 .slat:vertical { --w: calc(100cqw - var(--bars) - var(--between)); --s: min(var(--w), var(--rhp-height)); --cx: calc(var(--w) / 2); --cy: 50%; }
 @container (max-width: 440px) {
   .slat:vertical { --w: 100cqw; --cy: calc(var(--s) / 2); }
@@ -21,8 +18,7 @@ export const part = `
   width: var(--s); height: var(--s); translate: none; background: none; }
 .slat:vertical .slice svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 
-/* Fill and stroke in one color make one shape, with round corners. The shadow falls evenly all round: a downward one
-   would darken the gaps that run across more than those that run down. It is on the svg, as Safari won't filter a path. */
+/* The stroke rounds the corners. The shadow is even all round, and on the svg, as Safari won't filter a path. */
 .slice path { fill: var(--rhp-color); stroke: var(--rhp-color); stroke-width: 4.4; stroke-linejoin: round; }
 .slice .wedge { filter: drop-shadow(0 0 1.6px rgb(39 49 73 / .26)); }
 
@@ -30,8 +26,7 @@ export const part = `
   animation: lead-in .3s ease-out; }
 @keyframes lead-in { from { opacity: 0; } }
 
-/* A label sits at --fx, --fy of the square from its middle, hanging back by --ax, --ay of its own size. --fit shrinks
-   it below a fifth of the pie. */
+/* A label sits at --fx, --fy from the square's middle, hanging back --ax, --ay of its size; --fit shrinks it. */
 .slat:vertical .tag { left: calc(var(--cx) + var(--s) * var(--fx)); top: calc(var(--cy) + var(--s) * var(--fy)); bottom: auto;
   translate: calc(var(--ax) * 100%) calc(var(--ay) * 100%); padding: 0; --fit: clamp(.72, .45 + var(--share) * 2.75, 1); }
 .slat:vertical .tag b { font-size: calc(var(--s) * .12 * var(--fit)); }
@@ -57,7 +52,7 @@ export const part = `
 
 // A generation: an outlined tube filled in its own color, with its share and name under it.
 export const gen = `
-/* The slat runs the chart's whole height, so only the tube and its share and name take the pointer. */
+/* Only the tube and its share and name take the pointer. */
 .slat { pointer-events: none; }
 :is(.fill, .tube, .name) { pointer-events: auto; cursor: pointer; }
 .slat:focus-visible { outline: none; }
@@ -77,8 +72,8 @@ export const gen = `
 
 /* --- round --- */
 
-/* A tube's track runs from --low, over its share and name, to 18px under the paragraph, whose height is --side. On a
-   narrow poster the pie's square is above that too. */
+/* A tube runs from --low, above its name, up to 18px under the paragraph (--side), and on a narrow poster under the
+   pie too. */
 .slat:vertical { --big: clamp(17px, 3.4cqw, 30px); --small: clamp(9.5px, 1.45cqw, 14px);
   --low: calc(var(--big) + var(--small) * 1.2 + 19px); --tall: max(0px, calc(100% - var(--low) - var(--side) - 18px)); }
 @container (max-width: 440px) {

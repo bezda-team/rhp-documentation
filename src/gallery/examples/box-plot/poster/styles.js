@@ -1,6 +1,4 @@
-// v1's cloud box plot: its scale, and a slat per cloud. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// v1's scale: a mark and a number per tick. The first and last marks are solid; the ones between are dashed lines (marks="line") or short ticks ("tick").
+// v1's scale: a mark and a number per tick.
 export const scale = `
 .mark { --rhp-tick-width: 4px; background: var(--rhp-muted); translate: none; }
 .mark:horizontal { top: -16px; bottom: -12.8px; height: auto; }
@@ -20,12 +18,10 @@ export const scale = `
 .num.crowded { visibility: hidden; }
 `;
 
-// A cloud: its name, the whiskers and their caps, the box filled with its photo, and the top value. Hover a slat to zoom the photo out.
+// A cloud: its name, the whiskers, the box filled with its photo, and the top value.
 export const box = `
 .name { font-size: 15px; font-weight: 600; line-height: 1.2; color: var(--rhp-muted); --rhp-label-gap: 16px; }
-/* Standing up, a column is too narrow for a name, so the name is turned 60 degrees and reads up to its own column.
-   Its right end is pinned to the middle of the column and it swings down and to the left from there.
-   Its text ends 10px before that point. */
+/* Upright, a name is turned 60 degrees, its end 10px from the middle of its column. */
 .name:vertical { left: auto; right: 50%; width: max-content; padding-inline: 0 10px; font-size: 13px; white-space: nowrap;
   text-align: right; overflow: visible; transform-origin: 100% 0; transform: rotate(-60deg); }
 .whisker, .box { --rhp-radius: 0px; }

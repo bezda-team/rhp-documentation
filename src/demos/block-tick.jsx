@@ -1,8 +1,6 @@
 import { Chart, Plot, Bar, Tick, Label } from "@bezda/rhp";
 
-// Steps walked against a daily goal: the bar is the steps, the tick is
-// the
-// goal.
+// Steps against a daily goal: the bar is the steps, the tick the goal.
 export default function Steps() {
   return (
     <Chart scale={[0, 12]} format={(k) => k + "k"}>

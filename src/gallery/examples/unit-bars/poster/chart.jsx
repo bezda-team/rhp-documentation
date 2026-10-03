@@ -9,12 +9,11 @@ const GENRES = ["Mystery", "Sci-fi", "History", "Poetry"];
 const BOOKS = [25, 19, 34, 32];
 const CLOTH = ["#1f3a5f", "#7a2e3b", "#2f5d50", "#b0772b"]; // one binding per genre
 const PER_SPINE = 5;
-const tall = (i) => 0.7 + ((i * 0.618034) % 1) * 0.24; // each spine's height, a fixed pseudo-random share of the shelf
+const tall = (i) => 0.7 + ((i * 0.618034) % 1) * 0.24; // each spine's height, a fixed share of the shelf
 const binding = (c, i) => { const t = [0, 10, -8, 5, -12, 8, -4][i % 7]; return `color-mix(in oklab, ${c}, ${t > 0 ? "white" : "black"} ${Math.abs(t)}%)`; };
 
-// Five books: a spine standing on the shelf (horizontal) or lying on the pile (vertical). The last one is thinner.
-// Hover a book and it slides half out. The Bar holds the book's place; the book is an element inside it, so it
-// can move and cast its shadow on its own time.
+// Five books: spines standing on the shelf (horizontal) or lying on the pile (vertical). The book is an element
+// inside the Bar, so it slides out on hover in either version.
 export const SpineSlat = slat({ css: styles.spine }, (u) => <Bar from={u.from} to={u.to} thick={tall(u.index)} color={binding(u.cloth, u.index)} class="spine"><i class="book" /></Bar>);
 
 export const ShelfSlat = slat({

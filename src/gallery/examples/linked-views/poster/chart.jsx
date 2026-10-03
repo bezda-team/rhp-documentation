@@ -15,17 +15,16 @@ const TINTS = ["#7fd6b1", "#c5b4fb", "#cabc6a", "#f3aad3"];
 const PARTS = ["Most days", "Now and then", "Not currently using AI"];
 const COLORS = ["#7ec5ec", "#b4ddf3", "#eeac4c"];
 
-// A tube is how many of a generation use AI; the pie splits those by how often, and keeps the rest.
+// A generation's pie: most days, now and then, and not using AI.
 const split = (using, daily) => [daily, using - daily, 100 - using];
-// With no generation picked, the pie is everyone: each generation's split, weighed by its size.
+// Everyone: each generation's split, weighed by its size.
 const whole = (rows) => PARTS.map((_, k) => rows.reduce((sum, row, g) => sum + row[k] * PEOPLE[g], 0) / 100);
 
-// The wedge, as in the gallery's pie: turns from twelve o'clock, in units where the rim is at 50. Each edge is pushed
-// aside so a gap is one width all the way in, and a stroke in the wedge's own color rounds its corners.
+// The wedge, as in the Pie example: angles in turns from twelve o'clock, the rim at 50.
 const TAU = Math.PI * 2;
 const CORNER = 2.2;             // how round a corner is, and half the stroke that rounds it
-const GAP = 2.2;                // the paper between two wedges, the shadow's soft edge included
-const HOLE = 5.5;               // where a wedge starts, so the tips don't pile up in the middle
+const GAP = 2.2;                // the paper between two wedges
+const HOLE = 5.5;               // where a wedge starts, so the tips don't pile up
 const OFF = CORNER + GAP / 2;   // how far a wedge's edge is pushed off the true one
 const R = 50 - CORNER;          // the stroke grows the wedge back to 50
 const RIM = Math.asin(OFF / R) / TAU;                     // how far round the push moves an end at the rim
@@ -39,20 +38,18 @@ export const wedge = (from, to) => {
   const u = Math.min(a + RIM, mid), v = Math.max(b - RIM, mid);
   const rim = `L${xy(u, R)}A${R},${R} 0 ${big(v - u)} 1 ${xy(v, R)}`;
 
-  // Too narrow to reach the hole, the edges end where they cross, so the gap isn't squeezed.
+  // Too narrow to reach the hole, the edges end where they cross.
   if (b - a <= 2 * INNER) return `M${xy(mid, Math.min(OFF / Math.sin((b - a) * Math.PI), R))}${rim}Z`;
   const s = a + INNER, e = b - INNER;
   return `M${xy(s, HOLE)}${rim}L${xy(e, HOLE)}A${HOLE},${HOLE} 0 ${big(e - s)} 0 ${xy(s, HOLE)}Z`;
 };
 
-// The pie is .86 of a square, whose corners take the labels of parts too small for theirs. Q is half the square.
+// The pie is .86 of a square whose corners hold the labels of small parts. Q is half the square.
 const Q = 50 / 0.86;
 const VIEW = `${-Q} ${-Q} ${2 * Q} ${2 * Q}`;
 
-// Where each label goes, worked out for all of them from the shares the parts are moving to. A part of a sixth or
-// more keeps its label inside, out along its middle. A smaller one sends it to a corner, one each, shared out for the
-// least total turn from wedge to corner. fx, fy is the spot as a share of the square, and ax, ay how much of its own
-// size the label hangs back from it.
+// Where each label goes: inside its wedge for a part of a sixth or more, else in a corner, one each, chosen for the
+// least total turn. fx, fy is the spot as a share of the square; ax, ay how far the label hangs back from it.
 const ROOM = 16;
 const CORNERS = [[1, -1], [1, 1], [-1, 1], [-1, -1]];   // [sx, sy], clockwise from the top right
 const turn = (m, k) => Math.abs((((m - (k + 0.5) * (TAU / 4)) % TAU) + TAU * 1.5) % TAU - TAU / 2);
@@ -75,9 +72,8 @@ const place = (from, to) => {
   return spots;
 };
 
-// The dotted line from a corner label to the nearest part of its wedge's rim straight across or straight down from
-// it. Failing that, it goes out to the square's edge and along it, so it never crosses the pie; a line that turns
-// counts TURNED longer, so a straight one wins. [w, h] is the label's measured size, in the same units.
+// The dotted line from a corner label to its wedge's rim: straight across or down if it can, else round the edge of
+// the square, never across the pie. [w, h] is the label's size in the same units.
 const AIR = 1.5, EDGE = Q - 1.5, TURNED = 20;
 
 export const leader = (from, to, sx, sy, [w, h]) => {
@@ -113,11 +109,11 @@ const onResize = (els, fn) => {
 const ROW = 40;     // flat, the height of one tube
 const STRIP = 54;   // flat, the height of the stacked bar
 
-// A part of the pie. Its Plot shares the Chart's box with the tubes, and its CSS draws in the square they leave.
+// A part of the pie, drawn in the square the tubes leave.
 export const PartSlat = slat({
   css: styles.part,
   room: { vertical: { start: 0, end: 0 }, horizontal: { start: 0, end: 0 } },
-  thickness: { horizontal: GENS.length * ROW + STRIP },   // flat, as tall as both, so the Chart has room for both
+  thickness: { horizontal: GENS.length * ROW + STRIP },   // flat, as tall as the tubes and the strip
 }, (d) => {
   const span = animated(() => [d.from, d.to], SWEEP);
   const at = animated(() => [d.spot.fx, d.spot.fy, d.spot.ax, d.spot.ay], SWEEP);
@@ -134,7 +130,7 @@ export const PartSlat = slat({
   const arrived = () => Math.abs(at()[0] - d.spot.fx) < 1e-4 && Math.abs(at()[1] - d.spot.fy) < 1e-4;
   const line = () => (d.spot.out && arrived() ? leader(...span(), d.spot.sx, d.spot.sy, box()) : null);
 
-  // The wedge casts a short shadow; the line, in a layer of its own, doesn't.
+  // Two svgs, so the wedge casts a shadow and the line doesn't.
   return (
     <div class="slat">
       <Bar from={d.from} to={d.to} color={d.color} class="slice">
@@ -152,8 +148,8 @@ export const PartSlat = slat({
   );
 });
 
-// A generation: a tube filled to how many of it use AI. The fill and the outline are an <i> in each Bar, because rhp
-// turns transitions off on its own blocks in the JS version and picking isn't a change of data.
+// A generation: a tube filled to how many of it use AI. The fill and outline are an <i> in each Bar, so picking
+// transitions in the JS version too, where rhp turns off its blocks' transitions.
 export const GenSlat = slat({
   css: styles.gen,
   thickness: { vertical: "var(--pitch)", horizontal: ROW },   // round, the width one tube gets, set on the Chart
@@ -181,8 +177,7 @@ export default function Multiple(p) {
   const pie = createMemo(() => stackUp(shares(picked() < 0 ? whole(rows()) : rows()[picked()])));
   const spots = createMemo(() => place(pie().from, pie().to));
 
-  // A click on a tube picks it. A click on it again or anywhere else, or Escape, goes back to everyone. The slat marks
-  // itself with data-gen and the poster listens, since a Plot's props are its data and a handler can't be one.
+  // A click on a tube picks it; another click or Escape goes back to everyone. Slats carry data-gen for this.
   const pick = (e) => {
     const gen = e.target.closest("[data-gen]");
     setPicked((was) => (gen && was !== +gen.dataset.gen ? +gen.dataset.gen : -1));
@@ -195,10 +190,8 @@ export default function Multiple(p) {
     }
   };
 
-  // The paragraph over the tubes wraps to more lines on a narrow poster, so the tubes take the height it leaves.
-  // It is measured when the poster mounts or turns, before anything is drawn. The tubes are drawn only after that, so
-  // they never shrink into place. After a resize it is measured in the next frame, because WebKit reports an error when
-  // the Chart changes size while the browser hands out size changes.
+  // The tubes take the height the paragraph above them leaves. It is measured before they are drawn, so they never
+  // shrink into place, and after a resize in the next frame, since WebKit reports an error otherwise.
   const [side, setSide] = createSignal();
   const measure = (el) => {
     createEffect(on(() => p.o, () => setSide(el.offsetHeight)));
@@ -217,8 +210,7 @@ export default function Multiple(p) {
           <p>Everyone, by how often AI helps them write. Pick a generation for only its people, and click anywhere else for everyone.</p>
           <b>The generations using AI:</b>
         </div>
-        {/* In the JS version rhp moves only the numbers it draws: the slats move the pie and its labels on their
-            own clock, and `picked` has to jump. */}
+        {/* JS version: rhp moves only from and to; the slats move the labels, and picked jumps. */}
         <Plot overlap class="pie" style={seat(p.o, "pie")} key="name" animate={p.js && ["from", "to"]}
           name={PARTS} color={COLORS} from={pie().from} to={pie().to} spot={spots()}>
           {PartSlat}

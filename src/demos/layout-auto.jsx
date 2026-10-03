@@ -1,8 +1,7 @@
 import { createSignal } from "solid-js";
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
-// room: "auto": the start is as wide as the widest name, and the end as
-// wide as the widest share. Change the names, and the room follows.
+// room: "auto": each side is as wide as its widest label.
 const Team = slat({ room: "auto" }, (d) => (
   <div>
     <Label edge="start">{d.team}</Label>

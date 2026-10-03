@@ -1,9 +1,6 @@
-// The phone's battery screen. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#1d1d1f", muted: "#6e6e73", grid: "#dcdce1", surface: "#f5f5f7" };
 
-// An app's share of the charge, with its number where it fits. In focus: lit, with a badge on a thin segment; out of focus: faded.
+// An app's share of the charge, with its number where it fits.
 export const charge = `
 .charge { display: grid; place-items: center; overflow: hidden; --rhp-radius: 4px; color: #fff; font-size: 11px; font-weight: 700; }
 .charge:horizontal { height: 26px; clip-path: inset(0 1px); }

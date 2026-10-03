@@ -10,9 +10,7 @@ import {
   every,
 } from "@bezda/rhp";
 
-// The scale is drawn by a slat too: one per tick, a dashed line and a
-// number
-// under the plot.
+// The scale is a slat too: a dashed line and a number per tick.
 const Mark = slat(
   {
     room: { after: 22 },

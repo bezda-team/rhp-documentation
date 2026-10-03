@@ -1,7 +1,6 @@
 import { Chart, Plot, Dot, Line } from "@bezda/rhp";
 
-// Lisbon's average high by month: a Line on the second axis, filled down to
-// its base, and a dot at each month.
+// Lisbon's average high by month: a Line on the second axis, and a dot each month.
 const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const high = [15, 16, 19, 20, 23, 26, 28, 29, 27, 23, 18, 15];
 

@@ -17,10 +17,9 @@ const heat = (t) => {
   return `rgb(${c0.map((c, i) => Math.round(c + (c1[i] - c) * f)).join(" ")})`;
 };
 
-// The month's band is tinted with its own color, like a warming stripe. Its root carries data-month, so the poster knows
-// which month is under the pointer; the others fade.
+// A month: its band tinted with its own color, like a warming stripe. data-month tells the poster which is pointed at.
 export const MonthSlat = slat({
-  thickness: { horizontal: 32 }, // the Chart's height is for its vertical form; horizontal rows keep their size
+  thickness: { horizontal: 32 }, // flat, a slat keeps its size
   inset: 0.22,
   room: { horizontal: { start: 40, end: 44 }, vertical: { start: 26, end: 12, after: 14 } },
   css: styles.month,

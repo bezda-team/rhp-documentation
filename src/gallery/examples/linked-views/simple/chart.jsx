@@ -11,12 +11,12 @@ const DAILY = [31, 24, 14, 6];      // and how many of those do on most days
 const PEOPLE = [20, 30, 27, 23];    // how many of all adults are in each generation
 const PARTS = ["Most days", "Now and then", "Not using AI"];
 
-// A bar is how many use AI; the pie splits those by how often, and keeps the rest.
+// A generation's pie: most days, now and then, and not using AI.
 const split = (using, daily) => [daily, using - daily, 100 - using];
-// With no generation picked, the pie is everyone: each generation's split, weighed by its size.
+// Everyone: each generation's split, weighed by its size.
 const whole = (rows) => PARTS.map((_, k) => rows.reduce((sum, row, g) => sum + row[k] * PEOPLE[g], 0) / 100);
 
-// The simple pie's wedge: out to where the span starts, round the rim, close.
+// A wedge: out to where the span starts, round the rim, close.
 const TAU = Math.PI * 2, R = 50;
 const xy = (t, r) => `${r * Math.sin(t * TAU)},${-r * Math.cos(t * TAU)}`;
 
@@ -30,7 +30,7 @@ const PITCH = 13;    // round, the width of one bar, in cqw of the chart
 const ROW = 34;      // flat, the height of one bar
 const STRIP = 40;    // flat, the height of the stacked bar
 
-// A part of the pie. Its Plot shares the Chart's box with the bars, and its CSS draws in the room they leave.
+// A part of the pie, drawn in the room the bars leave.
 export const PartSlat = slat({
   css: styles.part,
   room: { vertical: { start: 0, end: 0 }, horizontal: { start: 0, end: 0 } },
@@ -71,7 +71,7 @@ export default function Multiple(p) {
   const rows = createMemo(() => using().map((u, g) => split(u, daily()[g])));
   const pie = createMemo(() => stackUp(shares(picked() < 0 ? whole(rows()) : rows()[picked()])));
 
-  // A click on a bar picks it. A click on it again or anywhere else, or Escape, goes back to everyone.
+  // A click on a bar picks it; another click or Escape goes back to everyone.
   const pick = (e) => {
     const gen = e.target.closest("[data-gen]");
     setPicked((was) => (gen && was !== +gen.dataset.gen ? +gen.dataset.gen : -1));

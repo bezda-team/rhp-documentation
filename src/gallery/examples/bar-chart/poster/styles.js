@@ -1,6 +1,4 @@
-// v1's fruit bars: its scale, and a slat per fruit. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// v1's scale: a mark and a number per tick. The first and last marks are solid; the ones between are dashed lines (marks="line") or short ticks ("tick").
+// v1's scale: a mark and a number per tick.
 export const scale = `
 .mark { --rhp-tick-width: 4px; background: var(--rhp-muted); translate: none; }
 .mark:horizontal { top: -16px; bottom: -12.8px; height: auto; }
@@ -20,7 +18,7 @@ export const scale = `
 .num.crowded { visibility: hidden; }
 `;
 
-// A fruit: its name, its bar with the art cropped inside, and its value in the fruit's color. Hover a bar to outline it.
+// A fruit: its name, its bar with the art cropped inside, and its value.
 export const fruit = `
 .name { font-size: 16px; font-weight: 600; line-height: 24px; color: var(--rhp-muted); }
 .name:horizontal { text-align: start; --rhp-label-gap: 0px; }

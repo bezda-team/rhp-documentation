@@ -1,11 +1,6 @@
-// The alpine poster. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#13293d", muted: "#5d7285", grid: "#cad8e4", surface: "#e6eef5" };
 
-// A climb: the peak's name and country, the route from the tent to the snow-capped summit, and its height. Ordered by
-// the climb, the height fades out and the climb fades in halfway up the route: under it, or on it and turned along it
-// when vertical.
+// A climb: the peak's name and country, the route from the tent to the summit, and its height (or its climb).
 export const climb = `
 .peak-name { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
 .peak-name small { display: block; margin-top: 2px; font-size: 11px; font-weight: 500; color: var(--rhp-muted); }

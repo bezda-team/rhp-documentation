@@ -28,7 +28,7 @@ export const AgeSlat = slat({
 ));
 
 export default function Pyramid(p) {
-  // Both years' men, then women; a year's button in the key picks the year the bars show, and they move to it.
+  // Both years' men, then women; the key's buttons pick the year.
   const [year, setYear] = createSignal(2024);
   const shares = createMemo(() => {
     const vary = p.seed ? () => rand(0.88, 1.12) : () => 1;
@@ -40,7 +40,7 @@ export default function Pyramid(p) {
   const men = () => shares()[year()].men, women = () => shares()[year()].women;
   // one scale for both years, so the bands compare: it fits the widest band of either
   const widest = createMemo(() => Math.max(9, Math.ceil(Math.max(...Object.values(shares()).flatMap((s) => [...s.men, ...s.women])))));
-  const oldestFirst = AGES.map((_, i) => AGES.length - 1 - i); // position of each row: order is data
+  const oldestFirst = AGES.map((_, i) => AGES.length - 1 - i); // each band's position: order is data
   return (
     <Poster look="census" kicker={`Census ${year()} · share of the population`} title={year() === 2024 ? "An ageing country" : "A young country"}
       dek={<span class="keys">

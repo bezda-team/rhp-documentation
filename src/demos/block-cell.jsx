@@ -1,7 +1,6 @@
 import { Chart, Plot, Cell, Label } from "@bezda/rhp";
 
-// Visitors per hour: a slat per day, and a cell per hour colored by its
-// count.
+// Visitors per hour: a slat per day, a cell per hour.
 const visitors = [
   [2, 8, 21, 35, 30, 12],
   [4, 11, 26, 40, 34, 15],

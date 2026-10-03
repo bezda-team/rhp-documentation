@@ -1,8 +1,6 @@
 import { Chart, Plot, Bar, Label } from "@bezda/rhp";
 
-// Profit and loss: the number sits just past the bar's end, on
-// whichever side
-// that is.
+// Profit and loss: the number sits just past the bar's end.
 export default function Profit() {
   return (
     <Chart scale={[-40, 40]} ticks={[-40, -20, 0, 20, 40]}>

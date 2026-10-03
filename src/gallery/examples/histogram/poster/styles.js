@@ -1,6 +1,3 @@
-// The weather feature. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#1f2a37", muted: "#6b7686", grid: "#e1e7ee", surface: "#f7f9fb" };
 
 // A bin: its bar in its own temperature's color, a degree label every other bin, and its count of days on hover.

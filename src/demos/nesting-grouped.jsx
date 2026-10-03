@@ -1,7 +1,6 @@
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
-// Medals per team: a team's slat holds a Plot of three bars, one per
-// medal.
+// Medals per team: each team's slat holds a Plot of three bars.
 const COLORS = ["#d4a72c", "#98a1ab", "#b8733b"];
 const Team = slat({ thickness: 60 }, (d) => (
   <div>

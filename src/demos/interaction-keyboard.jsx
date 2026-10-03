@@ -1,7 +1,6 @@
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
-// Tab to the chart, then use the arrow keys: the slat with focus shows
-// its number, like the slat under the pointer.
+// Tab to the chart, then use the arrow keys: the slat with focus shows its number.
 const City = slat(
   {
     css: `

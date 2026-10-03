@@ -1,7 +1,6 @@
 import { Chart, Plot, Bar, Label, Place, slat } from "@bezda/rhp";
 
-// A Place draws nothing. The badge inside it is an element of your own, and
-// it sits at the value without any CSS to work out where that is.
+// A Place draws nothing: the badge inside it sits at the value.
 const Climb = slat(
   {
     thickness: 44,

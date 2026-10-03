@@ -1,8 +1,7 @@
 import { createSelector, createSignal, Show } from "solid-js";
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
-// Point at a slat, or Tab in and use the arrow keys: the card is drawn in
-// that slat alone, so the page holds one card rather than one per slat.
+// Point at a slat, or Tab in and use the arrow keys: one card, drawn in that slat only.
 const City = slat(
   {
     room: { start: 88, end: 124 },
@@ -38,8 +37,7 @@ const City = slat(
 );
 
 export default function Rain() {
-  // The row the reader is on. The selector draws the two slats that change,
-  // not every slat, however many there are.
+  // The row the reader is on. Only the two slats that change redraw.
   const [on, setOn] = createSignal(null);
   const isOn = createSelector(on);
   const rowAt = (e) => {

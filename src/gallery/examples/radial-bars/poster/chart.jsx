@@ -46,8 +46,7 @@ export const StageSlat = slat({
 export default function RadialBars(p) {
   const stages = createMemo(() => withLeft(!p.seed ? STAGES : STAGES.map((s) => ({ ...s, share: Math.round(rand(24, 94) * 10) / 10 }))));
 
-  // The stage the reader is on. One readout in the middle serves the whole chart, in that ring's color, so pointing
-  // at a ring redraws one line of text, not a card per ring.
+  // The stage the reader is on, read out in the middle in that ring's color.
   const [on, setOn] = createSignal(null);
   const here = () => (on() == null ? null : stages()[on()]);
   const overall = () => stages()[stages().length - 1];

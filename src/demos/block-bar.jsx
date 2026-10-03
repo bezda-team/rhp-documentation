@@ -1,7 +1,6 @@
 import { Chart, Plot, Bar, Label } from "@bezda/rhp";
 
-// Opening hours: each bar runs from the opening time to the closing
-// time.
+// Opening hours: each bar runs from opening to closing time.
 export default function Hours() {
   return (
     <Chart

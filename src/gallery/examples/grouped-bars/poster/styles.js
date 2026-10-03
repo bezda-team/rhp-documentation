@@ -1,9 +1,6 @@
-// The medal table. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#111214", muted: "#6d6a63", grid: "#e4ddd0", surface: "#f7f3ec" };
 
-// A count: a ribbon fading up to its medal. The medal's face lifts on hover, with a springy ease.
+// A count: a ribbon fading up to its medal, whose face lifts on hover.
 export const medal = `
 .ribbon { --rhp-radius: 2px; }
 .ribbon { background: linear-gradient(var(--rhp-toward-end), transparent, var(--metal)); }

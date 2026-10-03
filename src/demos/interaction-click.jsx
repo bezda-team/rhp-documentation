@@ -1,9 +1,7 @@
 import { createSignal } from "solid-js";
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
-// Click a bar to pick its city; the others fade. The pick goes back
-// into the
-// Plot as data.
+// Click a bar to pick its city; the others fade.
 const City = slat(
   {
     css: `

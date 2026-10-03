@@ -12,18 +12,13 @@ import cirrocumulus from "./assets/cirrocumulus.jpg?url";
 
 const rand = (a, b) => a + Math.random() * (b - a);
 
-// v1's scale: a Scale in the Chart draws it, one slat per tick, a mark and its number.
-// The marks start 16px above the first slat, and the numbers sit over them, in the room this slat asks for.
-// Standing up, they start 28px left of the first column, to leave space between the numbers and the columns.
-// A mark is "zero" (solid, just before 0), "end" (solid, at the max), or between them `marks`:
-// "line" (dashed, as long as the plot) or "tick" (13px long).
+// v1's scale: one slat per tick, a mark and its number; upright, it starts 28px left of the first column.
+// A mark is "zero" or "end" (solid), or between them `marks`: "line" (dashed) or "tick" (short).
 export const V1Scale = slat({
   room: { horizontal: { before: 40, after: 13 }, vertical: { before: 36, end: 30, after: 13 } },
   css: styles.scale,
 }, (t) => {
-  // A number just before the end would run into the end mark, so it's left out, and only then: horizontal, when its
-  // text (8px past its mark, about 8px a digit) would come within 3px of the end mark; vertical, when its line
-  // (19.5px tall, 8px above its mark) would. t.toEnd is the tick's distance to the end, in px.
+  // A number that would run into the end mark is left out. t.toEnd is the tick's distance to the end, in px.
   const o = useOrientation();
   const crowded = () => !t.first && !t.last && t.toEnd < (o() === "vertical" ? 31 : 11 + 8 * String(Math.round(t.at)).length);
   return (
@@ -65,8 +60,7 @@ const whiskers = () => {
 
 export default function Clouds(p) {
   const data = createMemo(() => (p.seed ? CLOUDS.map(whiskers) : WHISKERS));
-  // The slider moves cirrus' box end (its 3rd value); the high whisker is pushed along past it, and comes back when
-  // the box shrinks again. New data resets it.
+  // The slider moves cirrus' box end, pushing the high whisker along. New data resets it.
   const [end, setEnd] = createSignal();
   createComputed(on(data, () => setEnd(undefined)));
   const boxes = createMemo(() => data().map((b, i) => (i === SLID && end() != null ? [b[0], b[1], Math.max(b[1], end()), Math.max(b[3], end())] : b)));

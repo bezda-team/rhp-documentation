@@ -16,8 +16,7 @@ const CAPSULE = ["#7b8794", "#0e9f8a", "#6d4bd8"]; // the placebo gray, so the d
 const across = (i) => 0.16 + ((i * 0.618034) % 1) * 0.68; // a fixed place across the band per patient
 const tilt = (i) => Math.round((((i * 0.381966) % 1) - 0.5) * 140); // and a fixed tilt, in degrees
 
-// One patient: a two-tone capsule at their number of days. It carries its place in its arm, so the poster knows which
-// one is under the pointer; that one is ringed.
+// One patient: a two-tone capsule at their number of days. data-patient tells the poster which is pointed at.
 export const PatientSlat = slat({ css: styles.patient }, (s) => (
   <Dot at={s.at} across={across(s.index)} color={s.color} data-patient={s.index}
     class={s.index === s.picked ? "pill picked" : "pill"} style={{ rotate: tilt(s.index) + "deg" }} />
@@ -28,7 +27,7 @@ export const ArmSlat = slat({
   room: { horizontal: { start: 84, end: 76 }, vertical: { start: 30, end: 30 } },
   css: styles.arm,
 }, (d) => {
-  // The arm's slat carries its index, so the poster can tell which arm is under the pointer. The other arms fade.
+  // data-arm tells the poster which arm is pointed at.
   const mean = createMemo(() => sum(d.days) / d.days.length);
   return (
     <div class={d.pickedArm < 0 || d.pickedArm === d.index ? "" : "faded"} data-arm={d.index}>
@@ -42,8 +41,7 @@ export const ArmSlat = slat({
 
 export default function Strip(p) {
   const days = createMemo(() => { const next = numbers(p.seed); return TRIAL.map(([m, s]) => normalsIn(next, 30, 1, 23, m, s)); });
-  // The arm under the pointer and the patient in it: [arm, patient], with -1 between capsules.
-  // The patient is read out in the dek, on one line, so the chart never moves.
+  // The arm and patient under the pointer, [arm, patient] (-1 between capsules), read out in the dek.
   const [picked, setPicked] = createSignal(null);
   const point = (e) => {
     const arm = e.target.closest("[data-arm]"), patient = e.target.closest("[data-patient]");

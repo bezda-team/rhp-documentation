@@ -1,9 +1,6 @@
-// The bookshop's shelf card. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#2a2118", muted: "#7d6b58", grid: "#e8dcc8", surface: "#f7f1e6" };
 
-// A book: a spine with two bands, standing (horizontal) or lying (vertical). Hover it and it slides half out.
+// A book: a spine with two bands, standing (horizontal) or lying (vertical).
 export const spine = `
 .spine { background: none; }
 .spine:horizontal { top: auto; bottom: 0; translate: none; }

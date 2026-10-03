@@ -1,7 +1,6 @@
 import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp";
 
-// Point at a slat: its band lights up and its exact number appears.
-// Only CSS.
+// Point at a slat: its band lights up and its number appears. Only CSS.
 const City = slat(
   {
     css: `

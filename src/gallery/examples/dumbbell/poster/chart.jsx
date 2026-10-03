@@ -9,8 +9,7 @@ const CAMP = [5364, 5150, 4300, 2200, 1800, 2350, 1035]; // the usual base camp,
 const SUMMIT = [8849, 8611, 6961, 6190, 5895, 5642, 4806];
 const metres = (v) => Math.round(v).toLocaleString("en-GB") + " m";
 
-// A climb: the route from the tent at base camp to the snow-capped peak. Ordered by the climb (d.by), the summit's
-// height gives way to the climb itself, halfway up the route.
+// A climb: the route from the tent at base camp to the snow-capped peak.
 export const ClimbSlat = slat({
   thickness: { horizontal: 50 },
   room: { horizontal: { start: 124, end: 70 }, vertical: { start: 38, end: 34, after: 18 } },

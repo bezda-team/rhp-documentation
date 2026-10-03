@@ -12,7 +12,7 @@ export const part = `
 .slat:horizontal .slice { top: 0; bottom: auto; height: var(--strip); translate: none; }
 `;
 
-// A generation. The slat runs the chart's whole height, so only the bar and its name take the pointer.
+// A generation. Only the bar and its name take the pointer.
 export const gen = `
 .slat { pointer-events: none; }
 :is(.bar, .name) { pointer-events: auto; cursor: pointer; }

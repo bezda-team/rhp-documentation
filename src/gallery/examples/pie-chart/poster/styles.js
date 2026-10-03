@@ -1,7 +1,6 @@
-// The chart's colors and font.
 export const theme = { font: "'Bricolage Grotesque Variable', system-ui, sans-serif", ink: "#eef1f8", muted: "#8b93ab", grid: "#242a3e", surface: "#0f1220" };
 
-// A part of the day. Round, rhp's numbers become angles: --rhp-lo and --rhp-hi the wedge's ends, --rhp-p the label's.
+// A part of the day: its wedge round, rhp's own bar flat.
 export const part = `
 .slat { container-type: size; }
 

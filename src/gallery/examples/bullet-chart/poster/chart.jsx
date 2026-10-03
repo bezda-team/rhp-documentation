@@ -7,7 +7,7 @@ const rand = (a, b) => a + Math.random() * (b - a);
 
 const HABITS = ["Move", "Sleep", "Steps", "Water", "Mindful"];
 const GOALS = ["600 kcal", "8 hours", "10,000", "2 litres", "10 minutes"];
-const NEON = ["#f43f5e", "#8b5cf6", "#d97706", "#0b9cc9", "#65a30d"]; // in this order, neighbouring rows stay apart for colorblind eyes
+const NEON = ["#f43f5e", "#8b5cf6", "#d97706", "#0b9cc9", "#65a30d"]; // in this order, neighbours stay apart for colorblind eyes
 const GLYPH = { // 24 × 24 icons
   Move: "M13 2 4 14h7l-1 8 9-12h-7z",
   Sleep: "M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5z",
@@ -24,8 +24,7 @@ const AMOUNT = {
   Mindful: (f) => Math.round(10 * f) + " min",
 };
 
-// A goal: the track to 120%, the day's progress glowing along it, and a white line at the goal (100%).
-// Hover a goal and its progress burns brighter, with a bubble at its tip saying what it comes to.
+// A goal: the track to 120%, the progress along it, and a white line at the goal (100%).
 export const GoalSlat = slat({
   thickness: { horizontal: 62 },
   room: { horizontal: { start: 134, end: 58 }, vertical: { start: 70, end: 30 } },

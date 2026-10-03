@@ -8,9 +8,7 @@ const numbers = (seed) => { let s = 2026; return seed ? Math.random : () => { s 
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-// An hour. Its slat carries its day and hour, so the poster can tell which hour is under the pointer.
-// The slat covers the gap around its Cell too, so the pointer is always over some hour.
-// While an hour is pointed at, only its day and its hour keep their color.
+// An hour. data-day and data-hour tell the poster which hour is pointed at; the slat covers the gap around its Cell.
 const HourCell = (day) => (h) => {
   const o = useOrientation(); // the cells' own orientation: across the day's
   const lit = () => day.pickedDay < 0 || day.pickedDay === day.index || day.pickedHour === h.index;

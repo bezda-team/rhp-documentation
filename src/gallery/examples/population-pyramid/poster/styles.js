@@ -1,6 +1,3 @@
-// The census poster. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#1f2933", muted: "#687482", grid: "#e2ddd3", surface: "#f4f1ea" };
 
 // An age band: men and women rounded toward the outside, the age on the spine, and each share at its end.

@@ -15,9 +15,8 @@ const VARNISH = ["#d08a3c", "#b0652a", "#8a4719", "#6a3312"]; // darker wood for
 const black = (m) => [1, 3, 6, 8, 10].includes(((m % 12) + 12) % 12);
 const noteName = (m) => ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"][((m % 12) + 12) % 12] + (Math.floor(m / 12) - 1);
 
-// The pitch scale is a keyboard: a Scale with a key per semitone, each drawn from d.at to d.next, and every C named.
-// d.low, d.high and d.tint come from the instrument under the pointer: the keys it reaches light up in its varnish,
-// and the names mark its lowest and highest notes instead.
+// The pitch scale is a keyboard: a key per semitone, from d.at to d.next, every C named. d.low, d.high and d.tint
+// are the pointed-at instrument's range and varnish.
 export const KeySlat = slat({
   room: { horizontal: { after: 50 }, vertical: { before: 60 } },
   css: styles.key,
@@ -54,7 +53,7 @@ export default function Violin(p) {
   const notes = createMemo(() => { const next = numbers(p.seed); return TESSITURA.map(([lo, hi, mid, sd]) => normalsIn(next, 80, lo, hi, mid, sd)); });
   // One peak for every instrument, so their widths compare: a value shared by all slats, not a list.
   const peak = createMemo(() => Math.max(...notes().flatMap((s) => density(s, { points: 48 }).map((q) => q[1]))));
-  // The instrument under the pointer (when it moves), and the keys it reaches (a note is on the key it falls in).
+  // The instrument under the pointer, read when it moves, and the keys it reaches.
   const [pick, setPick] = createSignal(null);
   const point = (e) => { const i = e.target.closest("[data-instrument]")?.dataset.instrument; setPick(i == null ? null : +i); };
   const reach = createMemo(() => (pick() == null ? {} : {

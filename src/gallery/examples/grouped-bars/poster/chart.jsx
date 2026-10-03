@@ -10,9 +10,8 @@ const TEAMS = ["North", "East", "South", "West"];
 const METALS = ["gold", "silver", "bronze"];
 const MEDALS = [[13, 9, 17], [16, 6, 8], [17, 20, 9], [4, 4, 16]];
 
-// One count: a thin ribbon from 0, and the medal at its end with the count struck on it. Hover a count and its medal
-// lifts off the table. The medal's face is an element inside the Dot: rhp moves the Dot, and the face can grow,
-// rise and cast its shadow on its own time, in either animation version.
+// One count: a ribbon from 0, and the medal at its end with the count on it. The medal's face is an element inside
+// the Dot, so its hover lift transitions in either version.
 export const MedalSlat = slat({ css: styles.medal }, (m) => (
   <div class={"count " + m.metal}>
     <Bar to={m.value} thick="3px" class="ribbon" />

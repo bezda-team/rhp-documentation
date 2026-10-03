@@ -1,6 +1,3 @@
-// The harbour's weather board. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#0b2a3c", muted: "#55707f", grid: "#c3d9e3", surface: "#e3f0f5" };
 
 // A quarter: its compass dial and needle, the gust, and the knots, which fade in when you hover the slat.

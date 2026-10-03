@@ -1,9 +1,6 @@
-// A music app's waveform. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#f4f1ff", muted: "#8f89a8", grid: "#2a2638", surface: "#0e0c14" };
 
-// A sample: a gradient stem and a glowing tip, fading with time. A new strike reaches each sample 8 ms after the one before.
+// A sample: a gradient stem and a glowing tip, fading with time.
 export const sample = `
 .swing, .tip { transition-delay: calc(var(--k) * 8ms); }
 .swing { --rhp-radius: 99px; opacity: var(--fade); }

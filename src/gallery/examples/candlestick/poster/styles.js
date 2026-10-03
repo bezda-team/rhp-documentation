@@ -1,9 +1,6 @@
-// The salmon pages. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#33302e", muted: "#66605c", grid: "#eadbcc", surface: "#fff1e5" };
 
-// A day: the wick, the body and, on the latest day, its closing price. The day under the pointer is shaded.
+// A day: the wick, the body and, on the latest day, its closing price.
 export const day = `
 .day:hover { background: rgb(51 48 46 / .07); }
 .wick { background: #807973; }

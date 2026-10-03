@@ -1,7 +1,6 @@
 import { Chart, Plot, Line, Label } from "@bezda/rhp";
 
-// A week of visits to three pages: a small line in each slat (a
-// sparkline). peak is the same for every slat, so the slats compare.
+// Visits to three pages: a sparkline per slat, with one peak for all so they compare.
 export default function Visits() {
   return (
     <Chart

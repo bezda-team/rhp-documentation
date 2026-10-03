@@ -1,9 +1,6 @@
-// The banking app's month. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#1c2433", muted: "#6b7385", grid: "#edf0f4", surface: "#ffffff" };
 
-// A step: its name (a button for an expense), its bar, the hairline to the next step, and its amount. A cut expense is struck through, with a dashed outline where it was.
+// A step: its name (a button for an expense), its bar, the hairline to the next step, and its amount.
 export const step = `
 .item { font-size: 14px; font-weight: 600; }
 .item:horizontal { --rhp-label-gap: 14px; }

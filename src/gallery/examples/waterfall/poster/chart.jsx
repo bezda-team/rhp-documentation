@@ -10,9 +10,8 @@ const MONTH = [4200, -1450, -520, -180, -230, -300]; // £ in, then out; what is
 const STEP = { in: "#12b886", out: "#f25f5c", total: "#1c2433" }; // money in, money out, what is left
 const pounds = (v) => (v < 0 ? "−" : "") + "£" + Math.abs(Math.round(v)).toLocaleString("en-GB");
 
-// A step from the running total before it to the one after; a hairline links it to the next step.
-// An expense is a button: click it (its name or its bar) to cut it from the month. A cut step has no length, and a
-// dashed outline keeps its place, so the steps after it and the savings move up by what it cost.
+// A step from the running total before it to the one after; a hairline links it to the next step. An expense is a
+// button: click it to cut it from the month.
 export const StepSlat = slat({
   thickness: { horizontal: 46 },
   room: { horizontal: { start: 100, end: 66 }, vertical: { start: 40, end: 26, after: 18 } },
@@ -34,14 +33,14 @@ export const StepSlat = slat({
 
 export default function Waterfall(p) {
   const month = createMemo(() => (p.seed ? [rand(3800, 4600), -rand(1300, 1600), -rand(400, 650), -rand(100, 260), -rand(180, 300), -rand(150, 500)] : MONTH));
-  const [cut, setCut] = createSignal([]); // the rows of the expenses cut; new data brings them all back
+  const [cut, setCut] = createSignal([]); // the expenses cut; New data brings them back
   createComputed(on(month, () => setCut([])));
   const toggle = (e) => {
     const i = e.target.closest("[data-line]")?.dataset.line;
     if (i != null) setCut((c) => (c.includes(+i) ? c.filter((k) => k !== +i) : [...c, +i]));
   };
   const steps = createMemo(() => {
-    const r = running(month().map((v, i) => (cut().includes(i) ? 0 : v))); // step k goes from the total before it to the total after it
+    const r = running(month().map((v, i) => (cut().includes(i) ? 0 : v))); // each step from the total before it to the one after
     return { from: [...r.from, 0], to: [...r.to, r.to.at(-1)] };
   });
   return (

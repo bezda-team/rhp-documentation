@@ -1,9 +1,6 @@
-// A watch face at night. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#f5f5f7", muted: "#8e8e93", grid: "#1f1f24", surface: "#0a0a0c" };
 
-// A goal: its icon and name, the track, the glowing progress, the white goal line and the percentage. Hover it for a bubble with the amount.
+// A goal: its icon and name, the track, the progress, the goal line and the percentage.
 export const goal = `
 .habit { display: flex; align-items: center; gap: 10px; overflow: visible; font-size: 15px; font-weight: 700; }
 .habit:horizontal { justify-content: flex-end; padding-right: 18px; }

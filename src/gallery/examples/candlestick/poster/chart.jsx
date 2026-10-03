@@ -8,11 +8,10 @@ const numbers = (seed) => { let s = 2026; return seed ? Math.random : () => { s 
 
 const dollars = (v) => "$" + v.toFixed(v < 100 ? 2 : 0);
 
-// A day: the wick over the day's range, the body from the open to the close; teal up, claret down.
-// Its root carries data-day, so the poster knows which day is under the pointer; that day's band is shaded.
+// A day: the wick over its range, the body from the open to the close. data-day tells the poster which is pointed at.
 export const DaySlat = slat({
   thickness: { horizontal: 15 },
-  room: { horizontal: { start: 24, end: 64 }, vertical: { start: 10, end: 30 } }, // the axis numbers read "$42.5"; vertical, the last price's badge can stand 28px above the top
+  room: { horizontal: { start: 24, end: 64 }, vertical: { start: 10, end: 30 } }, // room for "$42.5", and upright for the last price's badge
   css: styles.day,
 }, (d) => {
   const color = () => (d.close >= d.open ? "#0d7680" : "#990f3d");
@@ -25,8 +24,7 @@ export const DaySlat = slat({
   );
 });
 
-// The day under the pointer: a dashed line across the chart at its close, and its price over the axis numbers.
-// It draws in the axis gutter, so it asks for no room of its own (a top-level Plot whose slat gives none gets the default gutters).
+// The day under the pointer: a dashed line at its close, and its price over the axis numbers.
 export const CrossSlat = slat({
   room: {},
   css: styles.cross,
@@ -48,8 +46,7 @@ export default function Candles(p) {
     });
   });
   const range = createMemo(() => nice(Math.min(...days().map((d) => d.low)), Math.max(...days().map((d) => d.high)), 4)); // fitted to the month
-  // The day under the pointer (when it moves: the readout's height may change under a still one); the readout shows it,
-  // or the latest day.
+  // The day under the pointer, read when it moves; the readout shows it, or the latest day.
   const [day, setDay] = createSignal(null);
   const point = (e) => { const i = e.target.closest("[data-day]")?.dataset.day; setDay(i == null ? null : +i); };
   const read = createMemo(() => {

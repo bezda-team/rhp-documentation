@@ -22,7 +22,6 @@ export const MonthBandSlat = slat({
 ));
 
 // A trade on site: the whole job as a thin gray bar, the part done by today in site orange.
-// Hover a trade and the drawing dimensions it: a line with end marks alongside the bar, and its length in weeks.
 export const TradeSlat = slat({
   thickness: { horizontal: 44 },
   room: { horizontal: { start: 116, end: 16 }, vertical: { start: 40, end: 10 } },

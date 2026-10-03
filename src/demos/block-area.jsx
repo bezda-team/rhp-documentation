@@ -1,8 +1,6 @@
 import { Chart, Plot, Area, Label } from "@bezda/rhp";
 
-// When people arrive at a café: a smooth shape per day, taller where
-// more
-// people come.
+// When people arrive at a café: one smooth shape per day.
 export default function Arrivals() {
   return (
     <Chart scale={[7, 19]} format={(h) => h + ":00"}>

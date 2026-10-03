@@ -1,8 +1,6 @@
 import { Chart, Plot, Dot, Label } from "@bezda/rhp";
 
-// Six cafés: what a flat white costs, and how people rate the place. The
-// price is on the scale and the rating on a second axis (cross). The labels
-// start 9px past their value, clear of the dots.
+// Six cafés: the price on the scale, the rating on a second axis (cross).
 export default function Cafes() {
   return (
     <Chart

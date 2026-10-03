@@ -1,9 +1,6 @@
-// The concert programme. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#f3e9d2", muted: "#a89a80", grid: "#26221c", surface: "#121110" };
 
-// The keyboard: a key per semitone, the C's named. Keys in the pointed-at instrument's range light up in its varnish.
+// The keyboard: a key per semitone, the C's named.
 export const key = `
 .key { border-radius: 0 0 3px 3px; background: #efe6d2; } /* a key's four corners: border-radius (--rhp-radius takes one length) */
 .black .key { background: #1b1916; box-shadow: inset 0 0 0 1px #3a342b; }
@@ -17,7 +14,7 @@ export const key = `
 .lit .c { color: color-mix(in oklab, var(--tint), white 55%); }
 `;
 
-// An instrument: its name, its body, the string between the quartiles and the median. The one pointed at glows; the others fade.
+// An instrument: its name, its body, the string between the quartiles and the median.
 export const instrument = `
 .name { font: italic 600 17px/1 "Fraunces Variable", Georgia, serif; }
 .name:horizontal { --rhp-label-gap: 16px; }

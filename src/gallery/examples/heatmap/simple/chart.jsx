@@ -8,7 +8,7 @@ const numbers = (seed) => { let s = 2026; return seed ? Math.random : () => { s 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const HOURS = 12; // 8:00 to 19:00
 
-// An hour: a Cell colored on the Chart's scale, from the theme's low color to its high one, in the element that is the slat.
+// An hour: a Cell colored on the Chart's scale, from the theme's low color to its high one.
 export const CellSlat = slat({ css: styles.cell }, (h) => <div><Cell value={h.v} title={`${h.v}`} class="cell" /></div>);
 
 // A day: its name, and a Plot across the day's band, one cell per hour.

@@ -12,17 +12,13 @@ import strawberry from "./assets/strawberry.svg?url";
 
 const rand = (a, b) => a + Math.random() * (b - a);
 
-// v1's scale: a Scale in the Chart draws it, one slat per tick, a mark and its number.
-// The marks start 16px above the first slat, and the numbers sit over them, in the room this slat asks for.
-// A mark is "zero" (solid, just before 0), "end" (solid, at the max), or between them `marks`:
-// "line" (dashed, as long as the plot) or "tick" (13px long).
+// v1's scale: one slat per tick, a mark and its number.
+// A mark is "zero" or "end" (solid), or between them `marks`: "line" (dashed) or "tick" (short).
 export const V1Scale = slat({
   room: { horizontal: { before: 40, after: 13 }, vertical: { before: 24, end: 30, after: 13 } },
   css: styles.scale,
 }, (t) => {
-  // A number just before the end would run into the end mark, so it's left out, and only then: horizontal, when its
-  // text (8px past its mark, about 8px a digit) would come within 3px of the end mark; vertical, when its line
-  // (19.5px tall, 8px above its mark) would. t.toEnd is the tick's distance to the end, in px.
+  // A number that would run into the end mark is left out. t.toEnd is the tick's distance to the end, in px.
   const o = useOrientation();
   const crowded = () => !t.first && !t.last && t.toEnd < (o() === "vertical" ? 31 : 11 + 8 * String(Math.round(t.at)).length);
   return (
@@ -39,7 +35,7 @@ const ART = [grape, watermelon, pear, banana, orange, peach, strawberry];
 const COLORS = ["pink", "#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51", "#ce4257"];
 
 export const FruitSlat = slat({
-  thickness: { horizontal: 79 }, // v1: seven rows in 552px; vertical: the rows share the width
+  thickness: { horizontal: 79 }, // v1: seven slats in 552px
   inset: "8px",
   room: { horizontal: { start: 62, end: 32 }, vertical: { start: 32, end: 30 } }, // for the names and values
   css: styles.fruit,

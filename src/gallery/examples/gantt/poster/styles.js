@@ -1,6 +1,3 @@
-// The architect's drawing sheet. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#141414", muted: "#77736d", grid: "#e7e4de", surface: "#fbfaf7" };
 
 // The months: every other one shaded, each named at its start (every other one on a narrow plot).
@@ -15,7 +12,7 @@ export const monthBand = `
 @container (max-width: 360px) { .odd > .month:horizontal { display: none; } } /* a narrow plot names every other month */
 `;
 
-// A trade: its name and weeks, the job in gray and the part done in site orange. Hover it for a dimension line with its length.
+// A trade: its name and weeks, the job in gray and the part done in orange.
 export const trade = `
 .trade { font-size: 14px; font-weight: 700; }
 .trade small { display: block; font-size: 10.5px; font-weight: 500; color: var(--rhp-muted); }

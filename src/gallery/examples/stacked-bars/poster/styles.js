@@ -1,9 +1,6 @@
-// The café menu. Each CSS string is one slat's look; edit one and its slats restyle as you type.
-
-// The chart's theme: its text and line colors, its surface and its font.
 export const theme = { font: "system-ui, sans-serif", ink: "#2b1b12", muted: "#8a7260", grid: "#e4d8c8", surface: "#f3ebe0" };
 
-// A layer of a drink: espresso, steamed milk or foam, the last one rounded like the cup. Hover a layer to lift it and name its pour.
+// A layer of a drink: espresso, steamed milk or foam, the last one rounded like the cup.
 export const layer = `
 .layer { --rhp-radius: 0px; }
 .espresso { background: linear-gradient(var(--rhp-toward-end), #24150c, #3f2415 65%, #8d5b33); --rhp-start-radius: 12px; }
@@ -18,7 +15,7 @@ export const layer = `
   opacity: 0; translate: -50% 5px; }
 .pour b { font: italic 700 16px/1 "Fraunces Variable", Georgia, serif; letter-spacing: 0; }
 .pour::after { content: ""; position: absolute; top: 100%; left: 50%; translate: -50% 0; border: 5px solid transparent; border-top-color: #2b1b12; }
-/* It fades in, and goes at once: the layer drops back when the pointer leaves, and a fading pour would sink behind the others. */
+/* The tag fades in but goes at once, so it never sinks behind the other layers. */
 .layer:hover > .pour { opacity: 1; translate: -50% 0; transition: opacity .15s, translate .15s; }
 `;
 

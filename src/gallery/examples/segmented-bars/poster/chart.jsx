@@ -7,12 +7,10 @@ const rand = (a, b) => a + Math.random() * (b - a);
 
 const PEOPLE = ["Student", "Commuter", "Gamer", "Traveller"];
 const APPS = ["Video", "Social", "Games", "Music", "Maps"];
-const APP_COLORS = ["#e5484d", "#5b5bd6", "#d98a00", "#c2418f", "#2f9e63"]; // an order whose neighbors stay apart for colorblind readers
+const APP_COLORS = ["#e5484d", "#5b5bd6", "#d98a00", "#c2418f", "#2f9e63"]; // neighbours stay apart for colorblind readers
 const USE = [[26, 34, 8, 20, 12], [18, 22, 4, 26, 30], [20, 12, 48, 12, 8], [10, 14, 4, 14, 58]]; // % of a day's battery
 
-// One app's share of the charge. Its number shows only where it fits: 9% and up, 16% on a narrow battery.
-// d.focus is the app under the pointer, from the poster: it stays lit in every battery and the others fade, so one
-// app reads across people. Its number then shows on every segment, as a badge over one too thin to hold it.
+// One app's share of the charge, its number shown where it fits. d.focus is the app in focus, from the poster.
 export const ChargeSlat = slat({ css: styles.charge }, (c) => {
   const share = () => c.to - c.from;
   const fits = () => (share() < 9 ? " small" : share() < 16 ? " mid" : "");
@@ -43,10 +41,8 @@ export const BatterySlat = slat({
 
 export default function Segmented(p) {
   const use = createMemo(() => (p.seed ? PEOPLE.map(() => APPS.map(() => rand(4, 40))) : USE));
-  // The app in focus: the one the pointer is on, in the key or in a battery, else the one clicked. The key buttons and
-  // the segments carry data-app, and the poster listens for both. A click on an app, or Enter on a key, keeps it; a
-  // click anywhere else, in the poster or on the page, or Escape, lets it go.
-  // The pointer counts when it moves: a still pointer over a badge that comes or goes isn't a new choice.
+  // The app in focus: the one pointed at (key buttons and segments carry data-app), else the one clicked. A click
+  // elsewhere or Escape lets it go. The pointer counts only when it moves.
   const [hovered, setHovered] = createSignal(null), [pinned, setPinned] = createSignal(null);
   const app = () => hovered() ?? pinned();
   const under = (e) => e.target.closest?.("[data-app]")?.dataset.app ?? null;
