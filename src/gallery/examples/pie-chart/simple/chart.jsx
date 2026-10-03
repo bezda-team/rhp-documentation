@@ -7,10 +7,8 @@ const rand = (a, b) => a + Math.random() * (b - a);
 const PARTS = ["Sleep", "Chores and errands", "Work and study", "Free time"];
 const HOURS = [8.8, 5.8, 5.0, 4.4];
 
-// A wedge, in a 100 x 100 box around the middle. Angles are turns from twelve o'clock, clockwise: out to where the
-// span starts, round the rim, and back to the middle. The ends are not rounded, so they are left exactly on the
-// circle. An A command fits a circle of the given radius through the two ends, and near half a turn that fit is very
-// sensitive to them.
+// rhp has no wedge block, so a wedge is an SVG path, in a 100 x 100 box around the middle.
+// Angles are turns from twelve o'clock, clockwise.
 const TAU = Math.PI * 2, R = 50;
 const xy = (t, r) => `${r * Math.sin(t * TAU)},${-r * Math.cos(t * TAU)}`;
 
@@ -20,9 +18,8 @@ export const wedge = (from, to) => {
   return `M0,0L${xy(a, R)}A${R},${R} 0 ${b - a > 0.5 ? 1 : 0} 1 ${xy(b, R)}Z`;
 };
 
-// A part: its wedge round, and rhp's own bar flat.
-// The path cannot be transitioned, because CSS would carry every point of it along a straight line and the rim would
-// flatten on the way. `animated` moves the two numbers instead and the wedge is drawn again from them each frame.
+// A part: its wedge round, and rhp's own bar flat. A path can't be transitioned without flattening its rim, so
+// `animated` moves the two numbers and the wedge is drawn again each frame. The label's --turn is their middle.
 export const PartSlat = slat({ css: styles.part, thickness: { horizontal: 56 } }, (d) => {
   const span = animated(() => [d.from, d.to], () => ({ duration: 600 }));
 
@@ -31,7 +28,7 @@ export const PartSlat = slat({ css: styles.part, thickness: { horizontal: 56 } }
       <Bar from={d.from} to={d.to} color={d.color} class="slice">
         <svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet"><path d={wedge(...span())} /></svg>
       </Bar>
-      <Label at={(d.from + d.to) / 2} class="tag">{Math.round(d.to - d.from)}%</Label>
+      <Label at={(d.from + d.to) / 2} class="tag" style={{ "--turn": (span()[0] + span()[1]) / 200 }}>{Math.round(d.to - d.from)}%</Label>
     </div>
   );
 });

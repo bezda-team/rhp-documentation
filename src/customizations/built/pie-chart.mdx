@@ -45,6 +45,13 @@ CSS would carry every point along a straight line, and a point crossing a circle
 const span = animated(() => [d.from, d.to], SWEEP);
 ```
 
+The label moves on the same two numbers, as the Multiple example's labels do.
+Its `--turn` is their middle, and its CSS turns it out to that angle, so it stays on its wedge the whole way:
+
+```jsx
+<Label at={(d.from + d.to) / 2} class="tag" style={{ "--turn": (span()[0] + span()[1]) / 200 }}>
+```
+
 **Flat, none of this runs.**
 The `<svg>` is hidden and rhp draws the bar itself, with `--rhp-gap` between segments and `--rhp-radius` on their corners.
 The same two numbers, spent on a length instead of an angle.

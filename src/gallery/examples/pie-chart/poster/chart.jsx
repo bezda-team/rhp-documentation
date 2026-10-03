@@ -10,34 +10,29 @@ const PARTS = ["Sleep", "Chores and errands", "Work and study", "Free time"];
 const HOURS = [8.8, 5.8, 5.0, 4.4];
 const COLORS = ["#8d93ff", "#9aa7c7", "#ffb547", "#ff5d73"];
 
-// The one thing rhp cannot draw for a pie is the outline of a wedge. An outline with rounded corners is a path, which
-// is why rhp's own Area and Line are paths too. Angles below are turns from twelve o'clock, clockwise, and the box is
-// 100 x 100 around the middle.
+// rhp has no wedge block, so a wedge is an SVG path, in a 100 x 100 box around the middle.
+// Angles are turns from twelve o'clock, clockwise.
 const TAU = Math.PI * 2;
 const CORNER = 1.9;             // how round a corner is, and half the stroke that rounds it
-const GAP = 1.9;                // the paper left between two wedges
-const HOLE = 9;                 // where a wedge starts, so the tips do not pile up in the middle
+const GAP = 1.9;                // the paper between two wedges
+const HOLE = 9;                 // where a wedge starts, so the tips don't pile up
 const OFF = CORNER + GAP / 2;   // how far a wedge's edge is pushed off the true one
 const R = 50 - CORNER;          // the stroke grows the wedge back to 50
 
-// How far round pushing an edge aside moves the end of an arc. It is wider at the hole than at the rim, because the
-// same distance is a larger angle on a smaller circle.
+// How far round pushing an edge aside moves the end of an arc, at the rim and at the hole.
 const RIM = Math.asin(OFF / R) / TAU;
 const INNER = Math.asin(Math.min(1, OFF / HOLE)) / TAU;
 
-// Not rounded. An A command fits a circle of the given radius through the two ends, and near half a turn that fit
-// is very sensitive to them: rounding an end a few thousandths off the circle moved the arc by a quarter unit.
+// Coordinates are left unrounded: near half a turn, an arc moves visibly when its ends are a few thousandths off.
 const xy = (t, r) => `${r * Math.sin(t * TAU)},${-r * Math.cos(t * TAU)}`;
 const big = (turns) => (turns > 0.5 ? 1 : 0);
 
-// The wedge for a span of the scale.
 export const wedge = (from, to) => {
   const a = from / 100, b = to / 100, mid = (a + b) / 2;
   const u = Math.min(a + RIM, mid), v = Math.max(b - RIM, mid);
   const rim = `L${xy(u, R)}A${R},${R} 0 ${big(v - u)} 1 ${xy(v, R)}`;
 
-  // Too narrow for its edges to reach the hole: they cross first, and the crossing is the tip. Ending them at the hole
-  // anyway would bend them in toward the gap and squeeze it. Narrower still, the gap takes the whole wedge.
+  // Too narrow to reach the hole, the edges end where they cross.
   if (b - a <= 2 * INNER) {
     return `M${xy(mid, Math.min(OFF / Math.sin((b - a) * Math.PI), R))}${rim}Z`;
   }
@@ -45,14 +40,11 @@ export const wedge = (from, to) => {
   return `M${xy(s, HOLE)}${rim}L${xy(e, HOLE)}A${HOLE},${HOLE} 0 ${big(e - s)} 0 ${xy(s, HOLE)}Z`;
 };
 
-// How the wedge moves when the shares change. The path itself cannot be transitioned: CSS would carry every point of
-// it along a straight line, and a point crossing a circle in a straight line cuts the corner, so the rim would flatten
-// on the way. `animated` moves the two numbers instead, on rhp's own clock, and the wedge is drawn again from them
-// each frame. Every frame is a whole wedge, so the pie stays round the whole way.
+// A path can't be transitioned without flattening its rim, so `animated` moves the two numbers and the wedge is drawn
+// again each frame. The label's --turn is their middle, so it moves with its wedge.
 const SWEEP = () => ({ duration: 600 });
 
-// A part of the day: its wedge, with the share and the name inside. `from` and `to` are where the part starts and ends
-// out of 100, which is an angle round the pie and a length along the flat bar. rhp places the label either way.
+// A part of the day: its wedge, with the share and the name inside.
 export const PartSlat = slat({
   thickness: { horizontal: 82 },
   room: { horizontal: { start: 4, end: 4 }, vertical: { start: 24, end: 24 } },
@@ -67,7 +59,7 @@ export const PartSlat = slat({
         <path d={wedge(...span())} />
       </svg>
     </Bar>
-    <Label at={(d.from + d.to) / 2} class="tag">
+    <Label at={(d.from + d.to) / 2} class="tag" style={{ "--turn": (span()[0] + span()[1]) / 200 }}>
       <span class="move">
         <b>{Math.round(d.to - d.from)}%</b>
         <span class="said"><i>{d.name}</i><i>{d.hours.toFixed(1)} hours</i></span>
