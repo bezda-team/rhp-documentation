@@ -20,15 +20,15 @@ function Poster(props) {
   const e = props.entry;
   const [chart] = createResource(() => charts[`./examples/${e.id}/poster/chart.jsx`]().then((m) => m.default));
   // The v1 replicas (fruit bars, clouds) move with the JS version, as v1 did; the rest with CSS transitions.
-  const o = () => e.orientation, js = () => JS.has(e.id), seed = () => 0;
+  const js = JS.has(e.id);
   return (
     <figure class={props.extra ? "showcase-item showcase-extra" : "showcase-item"} data-trial={props.trial || undefined}>
       <div class="playground not-content" data-version="poster">
         <div class="pg-preview">
           <Show when={chart()} fallback={<div class="showcase-loading" aria-busy="true" />}>
             <Theme value={dark() ? DOCS_DARK : DOCS_LIGHT}>
-              <Show when={e.theme === "v1"} fallback={<Dynamic component={chart()} o={o} js={js} seed={seed} />}>
-                <Theme value={dark() ? V1_DARK : V1_LIGHT}><Dynamic component={chart()} o={o} js={js} seed={seed} /></Theme>
+              <Show when={e.theme === "v1"} fallback={<Dynamic component={chart()} o={e.orientation} js={js} seed={0} />}>
+                <Theme value={dark() ? V1_DARK : V1_LIGHT}><Dynamic component={chart()} o={e.orientation} js={js} seed={0} /></Theme>
               </Show>
             </Theme>
           </Show>
