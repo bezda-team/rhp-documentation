@@ -1,7 +1,7 @@
 {
   "name": "@bezda/rhp",
   "version": "2.0.1",
-  "description": "rhp (reactive html plots): plots as stacks of slats, built with SolidJS out of HTML elements and CSS. Built from bezda-team/rhp at 5ce9b1f by npm run sync-rhp: don't edit.",
+  "description": "rhp (reactive html plots): plots as stacks of slats, built with SolidJS out of HTML elements and CSS. Built from bezda-team/rhp at b6e822c by npm run sync-rhp: don't edit.",
   "license": "MIT",
   "homepage": "https://rhp.vercel.app",
   "type": "module",
