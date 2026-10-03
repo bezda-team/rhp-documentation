@@ -31,6 +31,8 @@ rhp has two ways to do this.
 **The CSS version** is the default.
 The browser animates each change with CSS transitions: 0.15 s for values, 0.3 s for slats sliding.
 It costs almost nothing, even with many charts.
+An Area's or a Line's outline moves with a CSS transition too.
+Safari can't transition an outline, so there rhp runs that same CSS transition itself.
 
 **The JS version** counts each number from its old value to its new one, frame by frame, on a single clock shared by the whole page.
 Turn it on with `animate` on the Chart or a Plot.
