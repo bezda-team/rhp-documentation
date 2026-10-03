@@ -25,7 +25,7 @@ export const RestSlat = slat({ css: styles.rest }, () => <div><Tick at={0} thick
 export default function Stem(p) {
   const [strikes, setStrikes] = createSignal(0); // each strike rings with a new pitch and decay
   const y = createMemo(() => {
-    const [w, decay] = p.seed || strikes() ? [rand(0.45, 0.8), rand(9, 18)] : [0.609, 11.78];
+    const [w, decay] = p.seed || strikes() ? [rand(0.45, 0.8), rand(9, 18)] : [0.6094, 11.776];
     return Array.from({ length: 36 }, (_, k) => Math.cos(k * w) * Math.exp(-k / decay));
   });
   const strike = () => setStrikes(strikes() + 1);
