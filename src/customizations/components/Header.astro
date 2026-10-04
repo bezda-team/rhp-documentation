@@ -11,7 +11,7 @@ import {
 
 // The part of the site this page is in, for the header's links
 const path = Astro.url.pathname;
-const section = path.startsWith('/gallery') ? 'gallery' : /^\/(start|guides|reference)\//.test(path) ? 'docs' : null;
+const section = path.startsWith('/gallery') ? 'gallery' : /^\/(start|ai|guides|reference)\//.test(path) ? 'docs' : null;
 // The landing page has no sidebar, so on a phone it has no menu to hold the theme control: it gets one of its own.
 const landing = path === '/' || path === '/index.html';
 ---

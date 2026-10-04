@@ -44,6 +44,7 @@ export default defineConfig({
         { label: 'What is rhp?', link: '/start/introduction/' },
         { label: 'Install', link: '/start/install/' },
         { label: 'Your first chart', link: '/start/first-chart/' },
+        { label: 'Build with AI', link: '/ai/' },
       ],
     }, {
       label: 'Guides',

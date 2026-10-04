@@ -12,6 +12,7 @@
     "astro": "astro",
     "reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm install",
     "sync-rhp": "node scripts/sync-rhp.mjs",
+    "sync-skill": "node scripts/sync-skill.mjs",
     "thumbnails": "node scripts/thumbnails.mjs",
     "icons": "node scripts/icons.mjs",
     "check-styles": "node scripts/check-styles.mjs",
