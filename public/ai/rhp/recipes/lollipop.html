@@ -48,21 +48,22 @@
 <script type="module">
 import { Chart, Plot, Bar, Dot, Tick, Label, Poster, slat, sortBy, nice, html, render, createSignal, createMemo } from "@bezda/rhp/standalone";
 
-// Data: the price of a Big Mac in each country, converted to US dollars. Illustrative. Replace with your own.
+// Data: the price of a Big Mac in each country in US dollars, from The Economist's Big Mac index of July 2026
+// (local prices at that month's exchange rates), rounded to the cent. Replace with your own.
 // BASE is the country the others are compared with.
 const BURGERS = [
-  { country: "Switzerland", price: 8.07 },
-  { country: "Uruguay", price: 7.03 },
-  { country: "Norway", price: 6.92 },
-  { country: "USA", price: 5.79 },
-  { country: "Britain", price: 5.48 },
-  { country: "Mexico", price: 4.9 },
-  { country: "Brazil", price: 4.8 },
-  { country: "China", price: 3.48 },
-  { country: "Japan", price: 3.12 },
-  { country: "South Africa", price: 2.98 },
-  { country: "Indonesia", price: 2.6 },
-  { country: "Taiwan", price: 2.37 },
+  { country: "Switzerland", price: 9.04 },
+  { country: "Uruguay", price: 8.94 },
+  { country: "Norway", price: 8.05 },
+  { country: "Britain", price: 7.4 },
+  { country: "Mexico", price: 6.27 },
+  { country: "USA", price: 6.22 },
+  { country: "Brazil", price: 4.71 },
+  { country: "China", price: 3.91 },
+  { country: "South Africa", price: 3.49 },
+  { country: "Japan", price: 3.08 },
+  { country: "Taiwan", price: 2.42 },
+  { country: "Indonesia", price: 2.38 },
 ];
 const BASE = "USA";
 const INK = "#232220", RED = "#c42f1d";
@@ -119,10 +120,10 @@ function BigMacs() {
   const v = createMemo(() => VIEWS[view()]);
   return html`
     <${Poster}
-      kicker="The burger index · 12 countries"
-      title=${html`<span>A Big Mac costs <em>three times</em> as much in Switzerland as in Taiwan</span>`}
+      kicker="The Big Mac index · 12 countries"
+      title=${html`<span>A Big Mac costs <em>nearly four times</em> as much in Switzerland as in Indonesia</span>`}
       dek="The same burger, priced in each country and converted to US dollars. Where it is cheap, the local currency buys more than the exchange rate says."
-      note="Illustrative prices. The idea comes from The Economist's Big Mac index. Switch the view to compare each price with the US price.">
+      note="Source: The Economist, Big Mac index, July 2026: local prices converted at that month's exchange rates, rounded to the cent. Switch the view to compare each price with the US price.">
       <div class="switch" role="group" aria-label="View">
         ${Object.keys(VIEWS).map((k) => html`<button type="button" aria-pressed=${() => view() === k} onClick=${() => setView(k)}>${VIEWS[k].name}</button>`)}
       </div>

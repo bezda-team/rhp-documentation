@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Frankfurt carries a third</title>
+<title>Northgate carries a third</title>
 <meta name="description" content="Live board: requests per second for six regions, each slat a line of the last minute that scrolls as readings arrive, the current value beside it, with pause and resume and a readout on hover, focus and tap. The lines move by rhp's JS version (animate) because the feed changes the data without pause. Use it for live or streaming data: metrics, sensors, prices, counts.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,15 +55,15 @@
 <script type="module">
 import { Chart, Plot, Line, Dot, Label, Poster, slat, html, render, createSignal, createMemo, onCleanup } from "@bezda/rhp/standalone";
 
-// Data: requests per second answered by each region of an API, one reading every 0.4 s, from a simulated feed.
-// Replace connect() below with your own feed; the board shows the last WINDOW seconds.
+// Data: requests per second answered by each region of an API (invented names), one reading every 0.4 s, from a
+// simulated feed. Replace connect() below with your own feed; the board shows the last WINDOW seconds.
 const REGIONS = [
-  { name: "Frankfurt", base: 4200, story: true },
-  { name: "Virginia", base: 3100 },
-  { name: "Singapore", base: 1900 },
-  { name: "Oregon", base: 1500 },
-  { name: "Tokyo", base: 1300 },
-  { name: "São Paulo", base: 800 },
+  { name: "Northgate", base: 4200, story: true },
+  { name: "Eastport", base: 3100 },
+  { name: "Bayside", base: 1900 },
+  { name: "Highmoor", base: 1500 },
+  { name: "Westmere", base: 1300 },
+  { name: "Southby", base: 800 },
 ];
 const TICK = 400; // ms between readings
 const WINDOW = 60; // seconds of history on the board
@@ -194,9 +194,20 @@ function TrafficBoard() {
   const say = () => REGIONS.map((r, i) => `${r.name}: ${rate.format(rps()[i])} requests a second`);
 
   const [picked, setPicked] = createSignal(null);
+  // The row of the slat an element is in, or null (between slats, on the axis or the text)
+  const rowOf = (el) => {
+    const root = el.closest("[data-row]");
+    return root ? +root.dataset.row : null;
+  };
+  // A mouse or a pen picks as it moves, a tap or a click picks, the keyboard picks; on no slat the pick stays
   const pick = (e) => {
-    const el = e.target.closest("[data-row]");
-    setPicked(el ? +el.dataset.row : null);
+    const row = rowOf(e.target);
+    if (row != null) setPicked(row);
+  };
+  // Leaving the board: back to the slat that has focus (a keyboard's or a click's pick), or none
+  const leave = (e) => {
+    if (e.pointerType === "touch") return; // a finger sends pointerleave as it lifts after a tap
+    setPicked(e.currentTarget.contains(document.activeElement) ? rowOf(document.activeElement) : null);
   };
   const readout = () => {
     const i = picked();
@@ -212,17 +223,16 @@ function TrafficBoard() {
     <${Poster}
       class=${() => (live() ? "" : "paused")}
       kicker=${html`<i class="led"></i><span>API traffic, ${() => (live() ? "live" : "paused")}</span>`}
-      title=${html`<em>Frankfurt</em> carries a third of the traffic`}
+      title=${html`<em>Northgate</em> carries a third of the traffic`}
       dek="Requests per second answered by each region of the API over the last minute. A reading arrives every 0.4 seconds and the lines move left; the dot at the end of each line is now."
-      note="Illustrative data from a simulated feed, the same on every load. Point at a region, tap it, or Tab into the board and use the arrow keys.">
+      note="Illustrative data: invented regions and a simulated feed, the same on every load. Point at a region, tap it, or Tab into the board and use the arrow keys.">
       <div class="status">
         <p class="readout">${readout}</p>
         <button type="button" class="pause" aria-label="Pause" aria-pressed=${() => String(!live())} onClick=${toggle}><i></i><span>Pause</span></button>
       </div>
       <div class="board"
-        onPointerMove=${pick} onPointerDown=${pick} onFocusIn=${pick}
-        onPointerLeave=${(e) => e.pointerType !== "touch" && setPicked(null)}
-        onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setPicked(null)}>
+        onPointerMove=${(e) => e.pointerType !== "touch" && pick(e)} onClick=${pick} onFocusIn=${pick}
+        onPointerLeave=${leave} onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setPicked(null)}>
         <${Chart} scale=${[-WINDOW, 0]} ticks=${[1, 0.75, 0.5, 0.25, 0].map((k) => -k * WINDOW)} format=${(v) => (v === 0 ? "now" : `${-v}s`)}
           label="Requests per second by region over the last minute"
           theme=${{ font: '"Martian Mono", ui-monospace, Menlo, monospace', ink: "#e9ece9", muted: "#8f9799", grid: "rgb(255 255 255 / .08)" }}>

@@ -44,7 +44,8 @@
 <script type="module">
 import { Chart, Plot, Bar, Label, Poster, slat, sortBy, nice, stackUp, html, render, createSignal, createMemo } from "@bezda/rhp/standalone";
 
-// Data: electricity generated in a year by source, in terawatt-hours (TWh). Illustrative data; replace with your own.
+// Data: electricity generated in 2025 by source, in terawatt-hours (TWh) rounded to whole numbers, from Ember's yearly
+// electricity data. Replace with your own.
 const SOURCES = [
   { key: "coal", name: "Coal", color: "#57493f" },
   { key: "gas", name: "Gas", color: "#de7a36" },
@@ -54,28 +55,35 @@ const SOURCES = [
   { key: "solar", name: "Solar", color: "#e3b400" },
 ];
 const COUNTRIES = [
-  { country: "France", coal: 1, gas: 30, nuclear: 335, hydro: 59, wind: 48, solar: 22 },
-  { country: "Germany", coal: 135, gas: 76, nuclear: 7, hydro: 20, wind: 139, solar: 60 },
-  { country: "Spain", coal: 7, gas: 70, nuclear: 54, hydro: 26, wind: 62, solar: 44 },
-  { country: "United Kingdom", coal: 4, gas: 98, nuclear: 41, hydro: 6, wind: 82, solar: 14 },
-  { country: "Italy", coal: 13, gas: 128, nuclear: 0, hydro: 40, wind: 23, solar: 31 },
-  { country: "Poland", coal: 102, gas: 16, nuclear: 0, hydro: 3, wind: 23, solar: 15 },
-  { country: "Norway", coal: 0, gas: 1, nuclear: 0, hydro: 137, wind: 14, solar: 0 },
-  { country: "Sweden", coal: 0, gas: 0, nuclear: 48, hydro: 66, wind: 34, solar: 3 },
+  { country: "France", coal: 2, gas: 17, nuclear: 392, hydro: 59, wind: 46, solar: 32 },
+  { country: "Germany", coal: 103, gas: 83, nuclear: 0, hydro: 20, wind: 136, solar: 90 },
+  { country: "Spain", coal: 1, gas: 62, nuclear: 54, hydro: 33, wind: 59, solar: 63 },
+  { country: "United Kingdom", coal: 0, gas: 91, nuclear: 36, hydro: 6, wind: 86, solar: 19 },
+  { country: "Italy", coal: 4, gas: 126, nuclear: 0, hydro: 42, wind: 21, solar: 45 },
+  { country: "Poland", coal: 87, gas: 25, nuclear: 0, hydro: 2, wind: 24, solar: 20 },
+  { country: "Norway", coal: 0, gas: 1, nuclear: 0, hydro: 145, wind: 14, solar: 1 },
+  { country: "Sweden", coal: 0, gas: 0, nuclear: 47, hydro: 68, wind: 39, solar: 4 },
 ];
 
 const KEYS = SOURCES.map((s) => s.key);
 const twh = new Intl.NumberFormat("en-US");
 const total = (d) => KEYS.reduce((sum, k) => sum + d[k], 0);
-const scale = nice(0, Math.max(...COUNTRIES.map(total)), 5); // 0 to 500 TWh
+const scale = nice(0, Math.max(...COUNTRIES.map(total)), 5); // 0 to 600 TWh
 
-// Slat types: one source's segment, and a country holding its segments in one band (an overlap Plot) and its number
+// Slat types: one source's segment, and a country holding its segments in one band (an overlap Plot) and its number.
+// A segment starts 2px after the one before it, and the first starts on the baseline. A segment too thin to show at
+// this width keeps a 2px sliver, drawn over its neighbor, so it shows at every width.
+const thin = (value) => value > 0 && value / scale.max < 0.03;
 const Layer = slat({
   css: `
-    .layer { --rhp-radius: 0px; --rhp-gap: 2px; cursor: pointer; }
+    .layer { --rhp-radius: 0px; cursor: pointer; }
+    .after { --rhp-gap: 2px; }
+    .thin { min-width: 2px; z-index: 1; }
     .off { opacity: .22; }
   `,
-}, (s) => html`<${Bar} from=${() => s.from} to=${() => s.to} color=${() => s.color} data-source=${() => s.source} class=${() => (s.pick && s.pick !== s.source ? "layer off" : "layer")} />`);
+}, (s) => html`
+  <${Bar} from=${() => s.from} to=${() => s.to} color=${() => s.color} data-source=${() => s.source}
+    class=${() => ["layer", s.from > 0 && "after", thin(s.to - s.from) && "thin", s.pick && s.pick !== s.source && "off"].filter(Boolean).join(" ")} />`);
 
 const Country = slat({
   thickness: 46,
@@ -114,8 +122,8 @@ function PowerMix() {
     <${Poster}
       kicker="Europe's electricity, by source"
       title="France runs on nuclear, Norway on water and Poland on coal"
-      dek="Electricity generated in a year, in terawatt-hours. Pick a source to line it up at the start of every bar and rank the countries by it; pick it again to go back to the totals."
-      note="Illustrative data. Bioenergy, oil and other sources are left out."
+      dek="Electricity generated in 2025, in terawatt-hours. Pick a source to line it up at the start of every bar and rank the countries by it; pick it again to go back to the totals."
+      note="Source: Ember's yearly electricity data for 2025, rounded to whole terawatt-hours. Bioenergy, oil and other sources are left out."
       onClick=${choose}>
       <div class="pylons" aria-hidden="true"></div>
       <div class="key" role="group" aria-label="Pick a source">
@@ -123,7 +131,7 @@ function PowerMix() {
           <button type="button" data-source=${s.key} aria-pressed=${() => pick() === s.key}><i style=${"background: " + s.color}></i>${s.name}</button>`)}
       </div>
       <${Chart} scale=${[scale.min, scale.max]} ticks=${scale.ticks} format=${(v) => twh.format(v)}
-        label="Electricity generated by source in eight European countries, in terawatt-hours"
+        label="Electricity generated by source in eight European countries in 2025, in terawatt-hours"
         theme=${{ font: '"Public Sans", "Segoe UI", system-ui, sans-serif', ink: "#1b1d21", muted: "#686b72", grid: "#d2d0c8" }}>
         <${Plot} rows=${COUNTRIES} key="country" pick=${pick} order=${() => sortBy((d) => (pick() ? d[pick()] : total(d)), "desc")}>${Country}<//>
       <//>

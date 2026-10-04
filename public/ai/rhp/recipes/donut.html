@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Who ships the world's phones</title>
-<meta name="description" content="Donut chart: a few parts of one whole, the total in the middle, and the slice under the pointer, finger or keyboard read out in its place. Use it for two to six parts of a total, one or two of them the story.">
+<meta name="description" content="Donut chart: a few parts of one whole, the total in the middle, and the slice the reader points at, taps or reaches with the keyboard read out in its place. Use it for two to six parts of a total, one or two of them the story.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@500&display=swap">
@@ -28,7 +28,7 @@
   .poster .dek { max-width: 40ch; font-size: 17px; line-height: 1.5; color: #4a4f57; }
   .poster .note { display: block; margin-top: 22px; font-size: 12px; line-height: 1.5; color: #5d636c; }
   .chart { width: 100%; max-width: 560px; justify-self: center; }
-  /* The middle of the ring: the total, or the brand being read */
+  /* The middle of the ring: the total, or the company being read */
   .hub { position: relative; z-index: 2; display: grid; place-content: center; text-align: center; pointer-events: none; }
   .hub small { font-size: clamp(11px, 2.6cqw, 14px); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #5d636c; }
   .hub b { font-size: clamp(34px, 12cqw, 72px); font-weight: 750; line-height: 1; letter-spacing: -.045em; }
@@ -54,20 +54,21 @@
 <script type="module">
 import { Chart, Plot, Bar, Label, Poster, slat, shares, stackUp, html, render, createSignal } from "@bezda/rhp/standalone";
 
-// Data: smartphones shipped worldwide in a year, in millions, by brand. Illustrative. Replace with your own.
-// A brand with a `color` is part of the story; the others are drawn gray, and their names carry them.
-const BRANDS = [
-  { brand: "Apple", units: 232, color: "#cf3b20" },
-  { brand: "Samsung", units: 223, color: "#2954c8" },
-  { brand: "Xiaomi", units: 169 },
-  { brand: "Transsion", units: 107 },
-  { brand: "vivo", units: 101 },
-  { brand: "Others", units: 407, color: "#b9bdc3" },
+// Data: smartphones shipped worldwide in 2024, in millions, by company (the parent of each company's brands), from
+// IDC's preliminary results of January 2025. Replace with your own.
+// A company with a `color` is part of the story; the others are drawn gray, and their names carry them.
+const COMPANIES = [
+  { company: "Apple", units: 232.1, color: "#cf3b20" },
+  { company: "Samsung", units: 223.4, color: "#2954c8" },
+  { company: "Xiaomi", units: 168.5 },
+  { company: "Transsion", units: 106.9 },
+  { company: "OPPO", units: 104.8 },
+  { company: "Others", units: 402.9, color: "#b9bdc3" },
 ];
 const GRAY = "#7d848e";
-const TOTAL = BRANDS.reduce((sum, b) => sum + b.units, 0);
-const { from, to } = stackUp(shares(BRANDS.map((b) => b.units))); // each slice's start and end, 0 to 100
-const fill = BRANDS.map((b) => b.color ?? GRAY);
+const TOTAL = COMPANIES.reduce((sum, c) => sum + c.units, 0);
+const { from, to } = stackUp(shares(COMPANIES.map((c) => c.units))); // each slice's start and end, 0 to 100
+const fill = COMPANIES.map((c) => c.color ?? GRAY);
 
 const number = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
 const percent = new Intl.NumberFormat("en-US", { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -95,9 +96,9 @@ const ring = (start, end) => {
   return `${rim}L${xy(b - i, INNER)}A${INNER},${INNER} 0 ${big(b - a - 2 * i)} 0 ${xy(a + i, INNER)}Z`;
 };
 
-// Slat type: one brand. The Bar keeps rhp's numbers and gives up its box to the SVG slice; --rhp-lo and --rhp-hi
+// Slat type: one company. The Bar keeps rhp's numbers and gives up its box to the SVG slice; --rhp-lo and --rhp-hi
 // (the Bar's ends, 0 to 1) give the angle a slice slides out along, and --rhp-p (the Label's value) its label's angle.
-const Brand = slat({
+const Company = slat({
   room: { start: 0, end: 0 },
   css: `
     .slice { container-type: size; pointer-events: none; }
@@ -121,35 +122,45 @@ const Brand = slat({
       <svg viewBox="-50 -50 100 100" aria-hidden="true"><path d=${() => ring(d.from, d.to)} /></svg>
     <//>
     <${Label} at=${() => (d.from + d.to) / 2} class="tag" style=${() => ({ "--text": textOn(d.fill) })}>
-      <span><i>${() => d.brand}</i><b>${() => percent.format(d.units / TOTAL)}</b></span>
+      <span><i>${() => d.company}</i><b>${() => percent.format(d.units / TOTAL)}</b></span>
     <//>
   </div>`);
 
-// Chart component: the slice under the pointer, a finger or the keyboard slides out, and the middle reads it
+// Chart component: the slice the reader points at, taps or reaches with the keyboard slides out, and the middle reads it
 function PhoneMakers() {
   const [on, setOn] = createSignal(null);
-  const pick = (e) => {
-    const el = e.target.closest("[data-row]");
-    setOn(el ? +el.dataset.row : null);
+  // The row of the slat an element is in, or null (between slats, on the axis or the text)
+  const rowOf = (el) => {
+    const root = el.closest("[data-row]");
+    return root ? +root.dataset.row : null;
   };
-  const brand = () => (on() == null ? null : BRANDS[on()]);
+  // A mouse or a pen picks as it moves, a tap or a click picks, the keyboard picks; on no slat the pick stays
+  const pick = (e) => {
+    const row = rowOf(e.target);
+    if (row != null) setOn(row);
+  };
+  // Leaving the poster: back to the slat that has focus (a keyboard's or a click's pick), or none
+  const leave = (e) => {
+    if (e.pointerType === "touch") return; // a finger sends pointerleave as it lifts after a tap
+    setOn(e.currentTarget.contains(document.activeElement) ? rowOf(document.activeElement) : null);
+  };
+  const company = () => (on() == null ? null : COMPANIES[on()]);
   return html`
     <${Poster}
-      kicker="Smartphones · shipments in one year"
-      title=${html`<em>Apple</em> and <em>Samsung</em> make more than a third of the world's phones`}
-      dek="Of 1.24 billion phones shipped, the two biggest brands made 455 million. The next three together made 377 million."
-      note="Illustrative data, in millions of phones. Point at a slice, tap it, or Tab into the chart and use the arrow keys."
-      onPointerMove=${pick} onPointerDown=${pick} onFocusIn=${pick}
-      onPointerLeave=${(e) => e.pointerType !== "touch" && setOn(null)}
-      onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setOn(null)}>
-      <${Chart} class="chart" aspect=${1} ticks=${false} label="Smartphones shipped by brand, as shares of the total"
+      kicker="Smartphones · shipments in 2024"
+      title=${html`<em>Apple</em> and <em>Samsung</em> ship more than a third of all smartphones`}
+      dek="Of 1.24 billion smartphones shipped in 2024, the two biggest companies shipped 455.5 million. The next three together shipped 380.2 million."
+      note="Source: IDC Worldwide Quarterly Mobile Phone Tracker, preliminary results for 2024 (January 2025), in millions of phones. Point at a slice, tap it, or Tab into the chart and use the arrow keys."
+      onPointerMove=${(e) => e.pointerType !== "touch" && pick(e)} onClick=${pick} onFocusIn=${pick}
+      onPointerLeave=${leave} onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setOn(null)}>
+      <${Chart} class="chart" aspect=${1} ticks=${false} label="Smartphones shipped in 2024 by company, as shares of the total"
         theme=${{ font: "Geist, 'Helvetica Neue', Arial, sans-serif", ink: "#16181b", muted: "#5d636c", surface: "#f1f1ef" }}>
         <div class="hub" aria-live="polite">
-          <small>${() => brand()?.brand ?? "All brands"}</small>
-          <b>${() => number.format(brand() ? brand().units : TOTAL / 1000)}</b>
-          <span>${() => (brand() ? "million phones" : "billion phones")}</span>
+          <small>${() => company()?.company ?? "All companies"}</small>
+          <b>${() => number.format(company() ? company().units : TOTAL / 1000)}</b>
+          <span>${() => (company() ? "million phones" : "billion phones")}</span>
         </div>
-        <${Plot} overlap=${true} keyboard=${true} rows=${BRANDS} from=${from} to=${to} fill=${fill} on=${(d) => on() === d.index}>${Brand}<//>
+        <${Plot} overlap=${true} keyboard=${true} rows=${COMPANIES} from=${from} to=${to} fill=${fill} on=${(d) => on() === d.index}>${Company}<//>
       <//>
     <//>`;
 }

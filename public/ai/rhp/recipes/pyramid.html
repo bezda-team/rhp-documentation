@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Japan's population by age</title>
-<meta name="description" content="Population pyramid: two sides of one population (men and women) by age band, oldest on top, with an age picked by pointer, finger or keyboard that lights everyone that age or older and reads out their share. Use it for any two groups compared across ordered bands.">
+<meta name="description" content="Population pyramid: two sides of one population (men and women) by age band, oldest on top, with an age picked by pointer, tap or keyboard that lights everyone that age or older and reads out their share. Use it for any two groups compared across ordered bands.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
@@ -41,12 +41,15 @@
     .poster .chart { grid-column: 2; grid-row: 1 / span 4; align-self: center; }
     .poster .note { grid-column: 1; grid-row: 4; align-self: end; }
   }
+  /* On a phone the chart is taller than half the screen: the readout stays at the top of the screen while the chart
+     scrolls under it (the poster is a flex column there: a sticky grid item can't leave its own row) */
   @media (max-width: 560px) {
     body { padding: 24px 16px 32px; }
-    .poster { padding: 34px 34px 20px 16px; }
+    .poster { display: flex; flex-direction: column; padding: 34px 34px 20px 16px; }
     .poster::after { top: 34px; right: 10px; font-size: 10px; }
     .poster .headline { font-size: 31px; }
     .poster .dek { font-size: 15px; }
+    .readout { position: sticky; top: 0; z-index: 2; background: inherit; }
     .readout b { font-size: 46px; }
     .readout span { font-size: 14px; }
   }
@@ -57,12 +60,12 @@
 <script type="module">
 import { Chart, Plot, Bar, Label, Poster, slat, html, render, createSignal, Show } from "@bezda/rhp/standalone";
 
-// Data: people in each age band, in millions, youngest first. Illustrative, close to Japan's 2023 estimates.
-// Replace with your own.
+// Data: people in each age band on October 1, 2023, in millions rounded to two decimals, youngest first, from the
+// Statistics Bureau of Japan's population estimates (total population). Replace with your own.
 const AGES = ["0-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64",
   "65-69", "70-74", "75-79", "80-84", "85-89", "90+"];
-const MEN = [2.0, 2.5, 2.7, 2.8, 3.2, 3.3, 3.3, 3.7, 4.1, 4.7, 4.8, 4.1, 3.7, 3.6, 4.3, 3.3, 2.4, 1.4, 0.7];
-const WOMEN = [1.9, 2.4, 2.6, 2.7, 3.1, 3.1, 3.2, 3.5, 3.9, 4.6, 4.8, 4.1, 3.7, 3.8, 4.8, 3.9, 3.5, 2.6, 2.0];
+const MEN = [2.09, 2.48, 2.69, 2.82, 3.21, 3.33, 3.27, 3.59, 3.94, 4.62, 4.87, 4.14, 3.72, 3.57, 4.16, 3.37, 2.46, 1.45, 0.71];
+const WOMEN = [2.00, 2.36, 2.56, 2.68, 3.02, 3.15, 3.11, 3.45, 3.83, 4.50, 4.78, 4.14, 3.79, 3.76, 4.66, 4.11, 3.44, 2.53, 2.02];
 const FROM = 13; // the age band picked at rest: 65 and older
 const COLORS = { men: "#00749a", women: "#c8442f" };
 
@@ -101,14 +104,25 @@ const Band = slat({
     <//>
   </div>`);
 
-// Chart component: the band under the pointer, a finger or the keyboard sets the age, and the readout counts
-// everyone that age or older
+// Chart component: the band the reader points at, taps or reaches with the keyboard sets the age, and the readout
+// counts everyone that age or older
 function AgeingJapan() {
   const [picked, setPicked] = createSignal(null);
   const from = () => picked() ?? FROM;
+  // The row of the slat an element is in, or null (between slats, on the axis or the text)
+  const rowOf = (el) => {
+    const root = el.closest("[data-row]");
+    return root ? +root.dataset.row : null;
+  };
+  // A mouse or a pen picks as it moves, a tap or a click picks, the keyboard picks; on no slat the pick stays
   const pick = (e) => {
-    const el = e.target.closest("[data-row]");
-    if (el) setPicked(+el.dataset.row);
+    const row = rowOf(e.target);
+    if (row != null) setPicked(row);
+  };
+  // Leaving the poster: back to the slat that has focus (a keyboard's or a click's pick), or none
+  const leave = (e) => {
+    if (e.pointerType === "touch") return; // a finger sends pointerleave as it lifts after a tap
+    setPicked(e.currentTarget.contains(document.activeElement) ? rowOf(document.activeElement) : null);
   };
   const older = () => MEN.slice(from()).concat(WOMEN.slice(from())).reduce((sum, v) => sum + v, 0);
   return html`
@@ -116,10 +130,9 @@ function AgeingJapan() {
       kicker="Japan · population by age and sex"
       title="Nearly three in ten people in Japan are 65 or older"
       dek="Men to the left, women to the right, in millions, the oldest at the top. Two bulges show the baby booms of the late 1940s and early 1970s; the base keeps shrinking."
-      note="Illustrative data, close to Japan's 2023 estimates (124.8 million people). Point at an age band, tap it, or Tab into the chart and use the arrow keys."
-      onPointerMove=${pick} onPointerDown=${pick} onFocusIn=${pick}
-      onPointerLeave=${(e) => e.pointerType !== "touch" && setPicked(null)}
-      onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setPicked(null)}>
+      note="Source: Statistics Bureau of Japan, population estimates for October 1, 2023 (124.35 million people), rounded to the nearest 10,000. Point at an age band, tap it, or Tab into the chart and use the arrow keys."
+      onPointerMove=${(e) => e.pointerType !== "touch" && pick(e)} onClick=${pick} onFocusIn=${pick}
+      onPointerLeave=${leave} onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setPicked(null)}>
       <p class="readout" aria-live="polite">
         <b>${() => percent.format(older() / TOTAL)}</b>
         <span>${() => (from() ? `are ${parseInt(AGES[from()])} or older` : "of all ages")}</span>
@@ -127,7 +140,7 @@ function AgeingJapan() {
       </p>
       <p class="key"><span><i style=${{ background: COLORS.men }}></i>Men</span><span><i style=${{ background: COLORS.women }}></i>Women</span></p>
       <${Chart} class="chart" scale=${[-(SPINE + WIDEST), SPINE + WIDEST]} ticks=${TICKS} format=${(v) => (Math.abs(v) - SPINE ? Math.round(Math.abs(v) - SPINE) + "M" : "0")}
-        label="Japan's population by age band, men and women, in millions"
+        label="Japan's population by age band in 2023, men and women, in millions"
         theme=${{ font: "'Zen Kaku Gothic New', 'Helvetica Neue', Arial, sans-serif", ink: "#1e1d1b", muted: "#6d6a63", grid: "#dfdad0" }}>
         <${Plot} keyboard=${true} age=${AGES} men=${MEN} women=${WOMEN} order=${AGES.map((_, i) => AGES.length - 1 - i)}
           old=${(d) => d.index >= from()} on=${(d) => d.index === from()}>${Band}<//>

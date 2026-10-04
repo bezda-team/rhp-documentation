@@ -47,7 +47,8 @@
 <script type="module">
 import { Chart, Plot, Bar, Tick, Label, Poster, slat, sortBy, nice, html, render, createSignal } from "@bezda/rhp/standalone";
 
-// Data: a year's sales and target for each region, in millions of US dollars. Illustrative. Replace with your own.
+// Data: a fictional company's sales and target for each region in a year, in millions of US dollars. Illustrative.
+// Replace with your own.
 const REGIONS = [
   { region: "North America", sales: 12.4, target: 11 },
   { region: "Europe", sales: 9.1, target: 10 },
@@ -104,7 +105,7 @@ function SalesByRegion() {
       kicker="Sales by region"
       title="Three of five regions beat their sales target"
       dek="Each region against its own target. Latin America fell furthest short, at three quarters of its target; North America beat its target by the most."
-      note="Illustrative data, in millions of US dollars. Bands: poor is under 80% of target, fair is 80 to 100%, good is above it.">
+      note="Illustrative data for a fictional company, in millions of US dollars. Bands: poor is under 80% of target, fair is 80 to 100%, good is above it.">
       <div class="bar">
         <p class="key">
           <span><i style=${{ background: BANDS.poor }}></i>Poor</span>
