@@ -1,0 +1,153 @@
+---
+// The home page's way into making charts with AI, between the showcase and the cards: what the rhp skill does, the two
+// ways to start (a coding agent, a chat app), each with its text to copy, and a link to the AI page.
+import AiCopy from './AiCopy.astro';
+---
+
+<section class="ai-section not-content" aria-labelledby="ai-section-title">
+	<p class="ai-kicker">Build with AI</p>
+	<h2 id="ai-section-title">Ask your AI agent for a chart</h2>
+	<p class="ai-lead">
+		An rhp chart is HTML and CSS, which AI agents already write well.
+		The rhp skill teaches them the rest, and in a coding agent, a checker renders the chart in a real browser before the agent hands it over.
+		Give no style and you get an original poster designed for its subject, with an interaction that fits.
+	</p>
+	<div class="ai-ways">
+		<div class="ai-way">
+			<h3>In a coding agent</h3>
+			<p class="ai-where">Claude Code, Codex, Cursor, Copilot, Gemini CLI and more</p>
+			<AiCopy what="install" />
+			<p class="ai-then">Then ask for a chart:</p>
+			<blockquote class="ai-ask">Make a chart of the world’s ten largest cities.</blockquote>
+		</div>
+		<div class="ai-way">
+			<h3>In a chat app</h3>
+			<p class="ai-where">ChatGPT, Claude, Gemini</p>
+			<AiCopy what="prompt" />
+			<p class="ai-then">Paste the prompt, then describe your chart after it.</p>
+		</div>
+	</div>
+	<p class="ai-more">
+		<a href="/ai/">What your agent does, the 30 recipes, and more ways to set it up<span aria-hidden="true"> →</span></a>
+	</p>
+</section>
+
+<style>
+	.ai-section {
+		margin-block: 0 4rem;
+	}
+
+	/* The showcase's kicker, in its colors */
+	.ai-kicker {
+		margin: 0 0 1rem;
+		font: 600 0.75rem/1 var(--sl-font-system-mono);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--sl-color-accent-high);
+	}
+
+	:root[data-theme='light'] .ai-kicker {
+		color: var(--sl-color-accent);
+	}
+
+	h2 {
+		margin: 0;
+		font-size: var(--sl-text-3xl);
+		font-weight: 600;
+		line-height: var(--sl-line-height-headings);
+		color: var(--sl-color-white);
+		text-wrap: balance;
+	}
+
+	.ai-lead {
+		margin: 0.9rem 0 0;
+		max-width: 46rem;
+		font-size: var(--sl-text-base);
+		line-height: 1.6;
+		color: var(--sl-color-gray-2);
+	}
+
+	/* Two cards like the ones under them, side by side, and stacked on a phone. Their texts to copy line up across. */
+	.ai-ways {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.5rem;
+		margin-top: 2rem;
+	}
+
+	.ai-way {
+		display: flex;
+		flex-direction: column;
+		gap: 0.9rem;
+		min-width: 0;
+		padding: 1.5rem;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: var(--page-border-radius-4);
+		background-color: var(--rhp-color-gray);
+		box-shadow: var(--sl-shadow-md);
+		--ai-copy-size: var(--sl-text-code-sm);
+	}
+
+	h3 {
+		margin: 0;
+		font-size: var(--sl-text-xl);
+		font-weight: 600;
+		line-height: var(--sl-line-height-headings);
+		color: var(--sl-color-white);
+	}
+
+	.ai-where {
+		margin: -0.4rem 0 0;
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-3);
+	}
+
+	.ai-then {
+		margin: 0;
+		font-size: var(--sl-text-sm);
+		line-height: 1.55;
+		color: var(--sl-color-text);
+	}
+
+	/* What the reader types next, as they would type it */
+	.ai-ask {
+		margin: -0.3rem 0 0;
+		padding: 0.1rem 0 0.1rem 0.9rem;
+		border-inline-start: 2px solid var(--sl-color-accent-high);
+		font-size: var(--sl-text-sm);
+		line-height: 1.55;
+		color: var(--sl-color-white);
+	}
+
+	.ai-more {
+		margin: 1.5rem 0 0;
+		font-size: var(--sl-text-sm);
+	}
+
+	.ai-more a {
+		font-weight: 600;
+		color: var(--sl-color-white);
+		text-decoration: underline;
+		text-decoration-color: var(--sl-color-accent-high);
+		text-decoration-thickness: 2px;
+		text-underline-offset: 0.3em;
+	}
+
+	.ai-more a:hover {
+		color: var(--sl-color-accent-high);
+	}
+
+	@media (max-width: 50rem) {
+		h2 {
+			font-size: var(--sl-text-2xl);
+		}
+
+		.ai-ways {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.ai-way {
+			padding: 1.25rem 1rem;
+		}
+	}
+</style>
