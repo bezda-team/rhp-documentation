@@ -1,9 +1,8 @@
 ---
-// A text to copy, with a button that copies it: the command that adds rhp's skill to a coding agent, or the prompt for
-// a chat app. The home page's AI section and the AI page (/ai/) show the same two texts, from here.
-interface Props {
-	what: 'install' | 'prompt';
-}
+// Shared copy controls for the skill command, chat prompt, and MCP setup snippets for each app.
+type Props =
+	| { what: 'install' | 'prompt'; text?: never; label?: never }
+	| { what?: never; text: string; label: string };
 
 const texts = {
 	install: {
@@ -15,8 +14,9 @@ const texts = {
 		label: 'Copy the prompt',
 	},
 };
-const { what } = Astro.props;
-const { text, label } = texts[what];
+const props = Astro.props;
+const { text, label } = props.what ? texts[props.what] : props;
+const what = props.what ?? 'command';
 // The prompt's link, apart, to keep it on one line where it fits: a break at its hyphen reads as a hyphenated word
 const parts = text.split(/(https:\/\/\S+)/);
 ---

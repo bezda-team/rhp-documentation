@@ -80,13 +80,14 @@ This adds it to the current project; add `-s user` after `add` for all your proj
 <details>
 <summary>Cursor</summary>
 
-[Add it to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=rhp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBiZXpkYS9yaHAtbWNwIl19) in one click.
+[Add it to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=rhp&config=eyJ0eXBlIjoic3RkaW8iLCJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBiZXpkYS9yaHAtbWNwIl19) in one click.
 Or add the server to `~/.cursor/mcp.json` for all your projects, or to `.cursor/mcp.json` for one:
 
 ```json
 {
   "mcpServers": {
     "rhp": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "@bezda/rhp-mcp"]
     }
@@ -169,14 +170,21 @@ Add the server to Zed's settings file, which the command **zed: open settings fi
 <details>
 <summary>Copilot CLI</summary>
 
-Type `/mcp add` in a session, or add the server to `~/.copilot/mcp-config.json`:
+Run this in your terminal:
+
+```sh
+copilot mcp add rhp -- npx -y @bezda/rhp-mcp
+```
+
+Or type `/mcp add` in a session, or add the server to `~/.copilot/mcp-config.json`:
 
 ```json
 {
   "mcpServers": {
     "rhp": {
       "command": "npx",
-      "args": ["-y", "@bezda/rhp-mcp"]
+      "args": ["-y", "@bezda/rhp-mcp"],
+      "tools": ["*"]
     }
   }
 }
