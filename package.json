@@ -16,7 +16,8 @@
     "icons": "node scripts/icons.mjs",
     "check-styles": "node scripts/check-styles.mjs",
     "check-ssr": "node scripts/check-ssr.mjs",
-    "check-pie": "node scripts/check-pie.mjs"
+    "check-pie": "node scripts/check-pie.mjs",
+    "check-bell": "node scripts/check-bell.mjs"
   },
   "dependencies": {
     "@astrojs/solid-js": "^3.0.3",
