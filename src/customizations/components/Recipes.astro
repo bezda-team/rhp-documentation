@@ -1,0 +1,29 @@
+---
+// The skill's recipes, as npm run sync-skill copied them into public/ai/rhp/: each one's name, linked to its live
+// page, and what it is for, from the table of recipes in SKILL.md (the one the agent picks from), in its order.
+import { recipes } from '../../gallery/recipes.js';
+---
+
+<table>
+	<thead>
+		<tr>
+			<th>Recipe</th>
+			<th>Use it for</th>
+		</tr>
+	</thead>
+	<tbody>
+		{recipes.map((r) => (
+			<tr>
+				<td><a href={r.url}>{r.name}</a></td>
+				<td>{r.use}</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+<style>
+	/* A recipe's name is its file's name: one word, never broken at its hyphen */
+	td:first-child {
+		white-space: nowrap;
+	}
+</style>

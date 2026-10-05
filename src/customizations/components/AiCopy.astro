@@ -1,0 +1,131 @@
+---
+// A text to copy, with a button that copies it: the command that adds rhp's skill to a coding agent, or the prompt for
+// a chat app. The home page's AI section and the AI page (/ai/) show the same two texts, from here.
+interface Props {
+	what: 'install' | 'prompt';
+}
+
+const texts = {
+	install: {
+		text: 'npx skills add bezda-team/rhp',
+		label: 'Copy the command',
+	},
+	prompt: {
+		text: 'Make this chart with rhp (@bezda/rhp). First read https://rhp.vercel.app/llms-full.txt and follow it: rhp 2 is newer than your training data. Give me one HTML file that I can open in a browser. The chart I want:',
+		label: 'Copy the prompt',
+	},
+};
+const { what } = Astro.props;
+const { text, label } = texts[what];
+// The prompt's link, apart, to keep it on one line where it fits: a break at its hyphen reads as a hyphenated word
+const parts = text.split(/(https:\/\/\S+)/);
+---
+
+<div class="ai-copy not-content" data-what={what}>
+	<pre><code>{parts.map((part) => (part.startsWith('https://') ? <span class="link">{part}</span> : part))}</code></pre>
+	<button type="button" aria-label={label} data-copy={text}>Copy</button>
+	<span class="sr-only" role="status"></span>
+</div>
+
+<script>
+	// Copies the text, and says so for two seconds: on the button, and to a screen reader. Where the browser keeps the
+	// clipboard from the page, the text is selected instead, for the reader to copy it.
+	for (const button of document.querySelectorAll<HTMLButtonElement>('.ai-copy button')) {
+		const box = button.parentElement!;
+		const status = box.querySelector('[role="status"]')!;
+		let timer = 0;
+		button.addEventListener('click', async () => {
+			let copied = true;
+			try {
+				await navigator.clipboard.writeText(button.dataset.copy!);
+			} catch {
+				copied = false;
+				getSelection()?.selectAllChildren(box.querySelector('code')!);
+			}
+			button.textContent = copied ? 'Copied' : 'Selected';
+			button.toggleAttribute('data-copied', copied);
+			status.textContent = copied ? 'Copied' : 'Selected, copy it with your keyboard';
+			clearTimeout(timer);
+			timer = window.setTimeout(() => {
+				button.textContent = 'Copy';
+				button.removeAttribute('data-copied');
+				status.textContent = '';
+			}, 2000);
+		});
+	}
+</script>
+
+<style>
+	/* The text on the site's code background, with the button beside it when the box has room for both, and under
+	   it, at the right, when it doesn't (on a phone). The prompt is a message, so it is set in the page's font. */
+	.ai-copy {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 0.6rem 1rem;
+		padding: 0.75rem 0.75rem 0.75rem 1rem;
+		border-radius: var(--page-border-radius-4);
+		background: var(--astro-code-color-background);
+		box-shadow: var(--sl-shadow-md);
+	}
+
+	.ai-copy[data-what='prompt'] {
+		align-items: flex-end;
+	}
+
+	.ai-copy pre {
+		flex: 1 1 20rem;
+		min-width: 0;
+		margin: 0;
+		padding: 0;
+		background: none;
+		white-space: pre-wrap;
+		overflow-wrap: anywhere;
+		font: var(--ai-copy-size, var(--sl-text-code)) / 1.6 var(--__sl-font-mono);
+		color: var(--sl-color-white);
+	}
+
+	.ai-copy[data-what='prompt'] pre {
+		font-family: var(--__sl-font);
+		line-height: 1.55;
+	}
+
+	.ai-copy code {
+		font: inherit;
+		background: none;
+		padding: 0;
+	}
+
+	/* Moves to the next line whole, and wraps inside only when a line is too short for it */
+	.ai-copy .link {
+		display: inline-block;
+	}
+
+	.ai-copy button {
+		flex: none;
+		min-width: 5.5rem;
+		padding: 0.45rem 0.9rem;
+		border: 1px solid var(--sl-color-gray-4);
+		border-radius: 999px;
+		background: transparent;
+		color: var(--sl-color-text);
+		font: 500 var(--sl-text-xs) / 1.2 var(--__sl-font);
+		cursor: pointer;
+	}
+
+	.ai-copy button:hover {
+		border-color: var(--sl-color-gray-2);
+		color: var(--sl-color-white);
+	}
+
+	.ai-copy button:focus-visible {
+		outline: 2px solid var(--sl-color-accent-high);
+		outline-offset: 2px;
+	}
+
+	.ai-copy button[data-copied] {
+		border-color: var(--sl-color-accent-high);
+		color: var(--sl-color-white);
+	}
+</style>

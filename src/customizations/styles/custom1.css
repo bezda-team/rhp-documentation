@@ -487,6 +487,35 @@ input[type=number]::-webkit-inner-spin-button {
 	}
 }
 
+/* Details blocks in a page (the setup for each app on the AI page) read as one list: a hairline above and below each,
+   its summary a line to click, and what it opens close under it. Starlight 0.11 has no style of its own for them. */
+.main-pane .content details {
+	border-bottom: 1px solid var(--sl-color-gray-5);
+}
+
+.main-pane .content details:not(details + details) {
+	border-top: 1px solid var(--sl-color-gray-5);
+}
+
+.main-pane .content details + details {
+	margin-top: 0;
+}
+
+.main-pane .content details[open] {
+	padding-bottom: 1.25rem;
+}
+
+.main-pane .content summary {
+	padding: 0.6rem 0;
+	font-weight: 600;
+	color: var(--sl-color-white);
+	cursor: pointer;
+}
+
+.main-pane .content summary + * {
+	margin-top: 0.25rem;
+}
+
 /* The docs' colors for rhp charts (src/gallery/ui/themes.js: DOCS_THEME), dark by default and light under Starlight's
    light theme. A chart's theme names these variables, so a chart drawn on the server into the page has the reader's
    colors before any script runs. */

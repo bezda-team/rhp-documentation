@@ -1,0 +1,229 @@
+---
+title: Build with AI
+description: Make rhp charts with an AI agent. Add the rhp skill to your coding agent with one command, or paste one prompt into a chat app.
+---
+
+import AiCopy from '../../customizations/components/AiCopy.astro';
+import Recipes from '../../customizations/components/Recipes.astro';
+
+Ask an AI agent for a chart, in a few words or in every detail, and it makes the chart with rhp.
+rhp uses CSS and JavaScript to build charts.
+The rhp skill teaches your agent how to use them together.
+Before a coding agent hands the chart over, a checker renders it in a real browser and reports each problem with a fix.
+
+## In a coding agent
+
+Run this in your project's folder:
+
+<AiCopy what="install" />
+
+It adds the skill to your coding agents: Claude Code, Codex, Cursor, GitHub Copilot, Gemini CLI and many others.
+With `-g` at the end, it adds the skill for all your projects.
+
+Then ask for a chart.
+A few words are enough:
+
+> Make a chart of the world's ten largest cities.
+
+Or say exactly what you want, and the agent does all of it:
+
+> Add a chart of our monthly signups to src/components/SignupsChart.jsx: Jan 820, Feb 940, Mar 1,310, Apr 1,180, May 1,560, Jun 1,720.
+> Columns in our brand blue, #4f46e5, with the Inter font, each column labeled with its number, the best month highlighted, and the change from the month before on hover or tap.
+
+The skill runs its checker with npx, so there is nothing else to install.
+If your project already uses another chart library, say "with rhp" in your request.
+
+## In a chat app
+
+Paste this prompt into ChatGPT, Claude or Gemini, and describe your chart after it:
+
+<AiCopy what="prompt" />
+
+The chatbot reads the skill from [llms-full.txt](/llms-full.txt) and gives you one HTML file: save it and open it in your browser.
+If it can't open links, download <a href="/llms-full.txt" download="llms-full.txt">llms-full.txt</a> and attach it to your message instead.
+A chat app can't run the checker, so the chatbot checks its code against the skill's rules.
+
+On claude.ai, you can add the skill to Claude instead of pasting the prompt.
+In **Customize > Plugins**, choose **Add**, then **Add marketplace**, enter `bezda-team/rhp`, and install **rhp**.
+Then ask for a chart with rhp.
+
+## What your agent does
+
+The skill gives your agent eight steps, which it follows in order for every chart:
+
+1. **Write the brief.** It writes down everything you asked for, in your words, and fills what you left open with defaults.
+2. **Find where the chart goes.** It reads your project's package.json and writes the chart for your framework, or one self-contained HTML file when there is no project.
+3. **Design the slat, then pick the recipes to start from.** It works out what one row of data is and what the reader must see in it, then reads the closest recipe whole.
+4. **Design it.** Unless you gave a style, the chart is an original editorial poster designed for its subject, with a headline that states the finding.
+5. **Give it an interaction.** It adds the one interaction that serves the chart's story, and it works with a mouse, a finger and the keyboard.
+6. **Build it from the recipe.** It keeps the recipe's structure and uses your data exactly, every value, in your units.
+7. **Check it, look at it, fix it.** The checker renders the chart in a browser at 1280px and 390px wide and reports each problem with a fix, and the agent fixes them and looks at the screenshots until the report is clean.
+8. **Audit and hand over.** It checks every request against the final code and screenshots, then tells you what it made, how to open it, and what it chose for you.
+
+## The recipes
+
+The skill starts every chart from the closest of its 30 recipes, and combines them when a chart needs more than one.
+Each recipe is a complete chart page, designed and tested at desktop and phone widths: open one to see it live.
+
+<Recipes />
+
+## The plugin and the MCP server
+
+Both are optional: the skill runs the checker by itself.
+
+In Claude Code, the rhp plugin adds the skill and the MCP server together.
+Type these two commands in a session:
+
+```text
+/plugin marketplace add bezda-team/rhp
+/plugin install rhp@rhp
+```
+
+The MCP server also works without the skill: it gives your agent the skill's guide, references and recipes as tools, and a check that returns the chart's screenshots to it.
+Use it where your agent can't run commands, such as Claude Desktop, or if you prefer tools.
+
+<details>
+<summary>Claude Desktop</summary>
+
+In **Settings > Developer**, choose **Edit Config**, add the server to `claude_desktop_config.json`, and restart Claude:
+
+```json
+{
+  "mcpServers": {
+    "rhp": {
+      "command": "npx",
+      "args": ["-y", "@bezda/rhp-mcp"]
+    }
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>Claude Code</summary>
+
+```sh
+claude mcp add rhp -- npx -y @bezda/rhp-mcp
+```
+
+This adds it to the current project; add `-s user` after `add` for all your projects.
+
+</details>
+
+<details>
+<summary>Cursor</summary>
+
+[Add it to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=rhp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBiZXpkYS9yaHAtbWNwIl19) in one click.
+Or add the server to `~/.cursor/mcp.json` for all your projects, or to `.cursor/mcp.json` for one:
+
+```json
+{
+  "mcpServers": {
+    "rhp": {
+      "command": "npx",
+      "args": ["-y", "@bezda/rhp-mcp"]
+    }
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>VS Code (GitHub Copilot)</summary>
+
+```sh
+code --add-mcp "{\"name\":\"rhp\",\"command\":\"npx\",\"args\":[\"-y\",\"@bezda/rhp-mcp\"]}"
+```
+
+</details>
+
+<details>
+<summary>Codex</summary>
+
+```sh
+codex mcp add rhp -- npx -y @bezda/rhp-mcp
+```
+
+</details>
+
+<details>
+<summary>Gemini CLI</summary>
+
+```sh
+gemini mcp add --scope user rhp npx -- -y @bezda/rhp-mcp
+```
+
+</details>
+
+<details>
+<summary>Windsurf (Devin Desktop)</summary>
+
+For the Devin CLI and the Devin Local agent:
+
+```sh
+devin mcp add -s user rhp -- npx -y @bezda/rhp-mcp
+```
+
+For the Cascade agent, add the server to `~/.config/devin/mcp_config.json` (on Windows, `%APPDATA%\devin\mcp_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "rhp": {
+      "command": "npx",
+      "args": ["-y", "@bezda/rhp-mcp"]
+    }
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>Zed</summary>
+
+Add the server to Zed's settings file, which the command **zed: open settings file** opens:
+
+```json
+{
+  "context_servers": {
+    "rhp": {
+      "command": "npx",
+      "args": ["-y", "@bezda/rhp-mcp"],
+      "env": {}
+    }
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>Copilot CLI</summary>
+
+Type `/mcp add` in a session, or add the server to `~/.copilot/mcp-config.json`:
+
+```json
+{
+  "mcpServers": {
+    "rhp": {
+      "command": "npx",
+      "args": ["-y", "@bezda/rhp-mcp"]
+    }
+  }
+}
+```
+
+</details>
+
+The first time the server starts, npx downloads it, which takes a while: if your app gives up before the server is ready, run `npx -y @bezda/rhp-mcp --version` once in a terminal, then restart the app.
+ChatGPT connects only to MCP servers on the internet, not to one on your computer, so use the prompt there.
+
+## Good to know
+
+- The checker needs Node.js 20 or later.
+- It renders charts in Chrome or Edge, and if you have neither, `npx -y @bezda/rhp-mcp install-browser` downloads Chromium for it.
+- The checker runs on your computer: your chart and its screenshots stay there, and it has no telemetry.
+- rhp, the skill and the checker are free and open source, under the MIT license.
