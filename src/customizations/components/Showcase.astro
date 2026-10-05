@@ -40,7 +40,7 @@ const recipeEntries = recipes.map((recipe) => {
 	return {
 		id: `recipe:${recipe.name}`,
 		kind: "recipe",
-		title: recipe.title,
+		title: recipe.name,
 		url: recipe.url,
 		aspect: shot.height / shot.width,
 	};
