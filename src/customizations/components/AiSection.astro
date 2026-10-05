@@ -1,6 +1,7 @@
 ---
 // The home page's ways into making charts with AI: the skill, a chat prompt, and the published MCP server.
 import AiCopy from './AiCopy.astro';
+import McpSetup from './McpSetup.astro';
 ---
 
 <section class="ai-section not-content" aria-labelledby="ai-section-title">
@@ -33,6 +34,7 @@ import AiCopy from './AiCopy.astro';
 				Give your agent the guide, references, 30 recipes and browser checker as tools, with screenshots it can inspect.
 				Use the MCP server on its own or alongside the skill.
 			</p>
+			<McpSetup />
 			<p class="ai-mcp-links">
 				<a href="/ai/#with-mcp-tools">Set up the MCP server<span aria-hidden="true"> →</span></a>
 				<a href="https://www.npmjs.com/package/@bezda/rhp-mcp">View the package on npm<span aria-hidden="true"> ↗</span></a>

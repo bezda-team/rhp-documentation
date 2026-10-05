@@ -1,0 +1,185 @@
+---
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import AiCopy from './AiCopy.astro';
+
+const server = { command: 'npx', args: ['-y', '@bezda/rhp-mcp'] };
+const config = JSON.stringify({ mcpServers: { rhp: server } }, null, 2);
+const apps = [
+	{
+		name: 'Claude Code',
+		instruction: 'Run in your terminal to add rhp for all your projects.',
+		code: 'claude mcp add --scope user --transport stdio rhp -- npx -y @bezda/rhp-mcp',
+	},
+	{
+		name: 'Codex',
+		instruction: 'Run in your terminal, then start a new Codex session.',
+		code: 'codex mcp add rhp -- npx -y @bezda/rhp-mcp',
+	},
+	{
+		name: 'Cursor',
+		instruction: 'Merge this into ~/.cursor/mcp.json for all projects, or .cursor/mcp.json for one project.',
+		code: JSON.stringify({ mcpServers: { rhp: { type: 'stdio', ...server } } }, null, 2),
+	},
+	{
+		name: 'VS Code',
+		instruction: 'Run in your terminal to add rhp to your VS Code user profile.',
+		code: 'code --add-mcp "{\\"name\\":\\"rhp\\",\\"command\\":\\"npx\\",\\"args\\":[\\"-y\\",\\"@bezda/rhp-mcp\\"]}"',
+	},
+	{
+		name: 'Gemini CLI',
+		instruction: 'Run in your terminal to add rhp for all your projects.',
+		code: 'gemini mcp add --scope user rhp npx -- -y @bezda/rhp-mcp',
+	},
+	{
+		name: 'Claude Desktop',
+		instruction: 'In Settings > Developer > Edit Config, merge this into claude_desktop_config.json, then fully restart Claude.',
+		code: config,
+	},
+	{
+		name: 'Copilot CLI',
+		instruction: 'Run in your terminal, then start a new Copilot CLI session.',
+		code: 'copilot mcp add rhp -- npx -y @bezda/rhp-mcp',
+	},
+	{
+		name: 'Windsurf',
+		instruction: 'In Cascade’s MCP panel, choose Open MCP config file and merge this server into the config.',
+		code: config,
+	},
+	{
+		name: 'Zed',
+		instruction: 'Open the command palette, run “zed: open settings file”, and merge this into your settings.',
+		code: JSON.stringify({ context_servers: { rhp: { ...server, env: {} } } }, null, 2),
+	},
+];
+---
+
+<div class="mcp-setup">
+	<Tabs>
+		{apps.map(({ name, instruction, code }) => (
+			<TabItem label={name}>
+				<p class="mcp-instruction">{instruction}</p>
+				<AiCopy text={code} label={`Copy ${name} setup`} />
+			</TabItem>
+		))}
+	</Tabs>
+	<p class="mcp-requirements">Requires Node.js 20 or later. <a href="/ai/#browser-setup">Browser setup for chart checking<span aria-hidden="true"> →</span></a></p>
+</div>
+
+<script>
+	for (const setup of document.querySelectorAll('.mcp-setup')) {
+		const tablist = setup.querySelector<HTMLElement>('[role="tablist"]');
+		if (!tablist) continue;
+		tablist.setAttribute('aria-label', 'MCP setup by app');
+		for (const tab of tablist.querySelectorAll('[role="tab"]')) {
+			tab.setAttribute('aria-controls', tab.getAttribute('href')!.slice(1));
+		}
+
+		const selection = document.createElement('li');
+		selection.className = 'mcp-selection';
+		selection.setAttribute('role', 'presentation');
+		selection.setAttribute('aria-hidden', 'true');
+		tablist.prepend(selection);
+
+		const positionSelection = () => {
+			const selected = tablist.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]');
+			if (!selected) return;
+			const bounds = selected.getBoundingClientRect();
+			const listBounds = tablist.getBoundingClientRect();
+			selection.style.transform = `translateX(${bounds.left - listBounds.left}px)`;
+			selection.style.width = `${bounds.width}px`;
+			selection.style.height = `${bounds.height}px`;
+		};
+
+		positionSelection();
+		new MutationObserver(positionSelection).observe(tablist, {
+			subtree: true,
+			attributes: true,
+			attributeFilter: ['aria-selected'],
+		});
+		new ResizeObserver(positionSelection).observe(tablist);
+		document.fonts.ready.then(positionSelection);
+	}
+</script>
+
+<style>
+	.mcp-setup {
+		min-width: 0;
+	}
+
+	.mcp-setup :global(.tablist-wrapper) {
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 999px;
+		background: var(--astro-code-color-background);
+		scrollbar-width: thin;
+	}
+
+	.mcp-setup :global([role='tablist']) {
+		position: relative;
+		isolation: isolate;
+		min-width: max-content;
+		margin: 0;
+		padding: 0.25rem;
+		border: 0;
+		gap: 0.15rem;
+	}
+
+	.mcp-setup :global(.tab) {
+		position: relative;
+		z-index: 1;
+		flex: 1 0 auto;
+		margin: 0;
+	}
+
+	.mcp-setup :global(.mcp-selection) {
+		position: absolute;
+		top: 0.25rem;
+		left: 0;
+		margin: 0;
+		border: 1px solid var(--sl-color-accent-high);
+		border-radius: 999px;
+		background: var(--rhp-color-gray);
+		pointer-events: none;
+		transition: transform 180ms ease, width 180ms ease;
+	}
+
+	.mcp-setup :global(.tab > [role='tab']) {
+		padding: 0.5rem 0.8rem;
+		border: 0;
+		border-radius: 999px;
+		font-size: var(--sl-text-sm);
+		line-height: 1.5;
+		white-space: nowrap;
+	}
+
+	.mcp-setup :global([role='tab']:focus-visible) {
+		outline: 2px solid var(--sl-color-accent-high);
+	}
+
+	.mcp-instruction,
+	.mcp-requirements {
+		margin: 0;
+		font-size: var(--sl-text-sm);
+		line-height: 1.55;
+		color: var(--sl-color-text);
+	}
+
+	.mcp-instruction {
+		margin-bottom: 0.75rem;
+	}
+
+	.mcp-requirements {
+		margin-top: 0.9rem;
+		color: var(--sl-color-gray-2);
+	}
+
+	.mcp-requirements a {
+		color: var(--sl-color-white);
+		text-underline-offset: 0.2em;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.mcp-setup :global(.mcp-selection) {
+			transition: none;
+		}
+	}
+</style>
