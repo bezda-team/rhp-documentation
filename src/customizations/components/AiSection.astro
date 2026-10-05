@@ -1,6 +1,5 @@
 ---
-// The home page's way into making charts with AI, between the showcase and the cards: what the rhp skill does, the two
-// ways to start (a coding agent, a chat app), each with its text to copy, and a link to the AI page.
+// The home page's ways into making charts with AI: the skill, a chat prompt, and the published MCP server.
 import AiCopy from './AiCopy.astro';
 ---
 
@@ -8,7 +7,8 @@ import AiCopy from './AiCopy.astro';
 	<h2 id="ai-section-title">Ask your AI agent for a chart</h2>
 	<p class="ai-lead">
 		rhp uses CSS and JavaScript to build charts.
-		The rhp skill teaches them the rest, and in a coding agent, a checker renders the chart in a real browser before the agent hands it over.
+		The rhp skill and MCP server give your agent the guide, 30 recipes and a browser checker.
+		The checker returns screenshots and fixes the agent can use before handing over the chart.
 		Give no style and you get an original poster designed for its subject, with an interaction that fits.
 	</p>
 	<p class="ai-kicker">Build with AI</p>
@@ -25,6 +25,18 @@ import AiCopy from './AiCopy.astro';
 			<p class="ai-where">ChatGPT, Claude, Gemini</p>
 			<AiCopy what="prompt" />
 			<p class="ai-then">Paste the prompt, then describe your chart after it.</p>
+		</div>
+		<div class="ai-way ai-way-mcp">
+			<h3>With MCP tools</h3>
+			<p class="ai-where">Apps that support local MCP servers</p>
+			<p class="ai-then">
+				Give your agent the guide, references, 30 recipes and browser checker as tools, with screenshots it can inspect.
+				Use the MCP server on its own or alongside the skill.
+			</p>
+			<p class="ai-mcp-links">
+				<a href="/ai/#with-mcp-tools">Set up the MCP server<span aria-hidden="true"> →</span></a>
+				<a href="https://www.npmjs.com/package/@bezda/rhp-mcp">View the package on npm<span aria-hidden="true"> ↗</span></a>
+			</p>
 		</div>
 	</div>
 	<p class="ai-more">
@@ -67,7 +79,7 @@ import AiCopy from './AiCopy.astro';
 		color: var(--sl-color-gray-2);
 	}
 
-	/* Two cards like the ones under them, side by side, and stacked on a phone. Their texts to copy line up across. */
+	/* The skill and chat cards sit side by side; the MCP option spans both columns. All stack on a phone. */
 	.ai-ways {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -85,6 +97,30 @@ import AiCopy from './AiCopy.astro';
 		background-color: var(--rhp-color-gray);
 		box-shadow: var(--sl-shadow-md);
 		--ai-copy-size: var(--sl-text-code-sm);
+	}
+
+	.ai-way-mcp {
+		grid-column: 1 / -1;
+	}
+
+	.ai-mcp-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.5rem;
+		margin: 0;
+		font-size: var(--sl-text-sm);
+	}
+
+	.ai-mcp-links a {
+		font-weight: 600;
+		color: var(--sl-color-white);
+		text-decoration: underline;
+		text-decoration-color: var(--sl-color-accent-high);
+		text-underline-offset: 0.2em;
+	}
+
+	.ai-mcp-links a:hover {
+		color: var(--sl-color-accent-high);
 	}
 
 	h3 {

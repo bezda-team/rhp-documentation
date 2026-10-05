@@ -1,0 +1,25 @@
+---
+const tools = [
+	{ name: 'rhp_guide', description: 'The workflow and rules for building a chart.' },
+	{ name: 'rhp_reference', description: 'References on the API, design, interactions, forms, framework setup and common mistakes.' },
+	{ name: 'rhp_recipe', description: 'A complete tested recipe, or the list of all 30 recipes.' },
+	{ name: 'rhp_check', description: 'A browser report with fixes and screenshots of the chart.' },
+];
+---
+
+<table>
+	<thead>
+		<tr><th>Tool</th><th>What your agent gets</th></tr>
+	</thead>
+	<tbody>
+		{tools.map(({ name, description }) => (
+			<tr><td><code>{name}</code></td><td>{description}</td></tr>
+		))}
+	</tbody>
+</table>
+
+<style>
+	td:first-child code {
+		white-space: nowrap;
+	}
+</style>
