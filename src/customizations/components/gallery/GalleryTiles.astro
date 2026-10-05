@@ -42,8 +42,7 @@ const sizes = "(min-width: 1100px) 330px, (min-width: 720px) 45vw, 92vw";
 
 <script>
 	// Masonry in reading order: rows 4px tall, each card spanning as many as its height needs.
-	const grid = document.querySelector(".gallery-tiles");
-	if (grid) {
+	for (const grid of document.querySelectorAll(".gallery-tiles")) {
 		const GAP = 30, ROW = 4;
 		const lay = () => {
 			for (const tile of grid.children) (tile as HTMLElement).style.gridRowEnd = `span ${Math.ceil((tile.firstElementChild!.getBoundingClientRect().height + GAP) / ROW)}`;

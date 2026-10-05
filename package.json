@@ -14,6 +14,7 @@
     "sync-rhp": "node scripts/sync-rhp.mjs",
     "sync-skill": "node scripts/sync-skill.mjs",
     "thumbnails": "node scripts/thumbnails.mjs",
+    "recipe-thumbnails": "node scripts/recipe-thumbnails.mjs",
     "icons": "node scripts/icons.mjs",
     "check-styles": "node scripts/check-styles.mjs",
     "check-ssr": "node scripts/check-ssr.mjs",

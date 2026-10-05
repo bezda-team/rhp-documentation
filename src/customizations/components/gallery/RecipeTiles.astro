@@ -1,0 +1,46 @@
+---
+import { getImage } from "astro:assets";
+import { recipes } from "../../../gallery/recipes.js";
+import "../../styles/gallery.css";
+
+const shots = import.meta.glob<{ default: ImageMetadata }>("../../../assets/recipes/*.png", { eager: true });
+const shot = (name: string) => shots[`../../../assets/recipes/${name}.png`]?.default;
+const missing = recipes.filter(({ name }) => !shot(name)).map(({ name }) => name);
+if (missing.length) {
+	throw new Error(`Missing AI recipe thumbnails: ${missing.join(", ")}. Run npm run recipe-thumbnails.`);
+}
+const tiles = await Promise.all(recipes.map(async (recipe, index) => {
+	const image = shot(recipe.name)!;
+	const [small, large] = await Promise.all([360, 720].map((width) => getImage({ src: image, width, format: "webp" })));
+	return { ...recipe, index, image, src: large.src, srcset: `${small.src} 360w, ${large.src} 720w` };
+}));
+const sizes = "(min-width: 1100px) 330px, (min-width: 720px) 45vw, 92vw";
+---
+
+<section class="recipe-gallery not-content" aria-labelledby="ai-recipes">
+	<h2 id="ai-recipes">AI Recipes</h2>
+	<p class="recipe-lede">{recipes.length} complete chart pages from <a href="/ai/">Build with AI</a>. Open a recipe to try its interactions and use it as a starting point.</p>
+	<ul class="gallery-tiles" data-recipe-tiles>
+		{tiles.map((recipe) => (
+			<li class="gallery-tile">
+				<a href={recipe.url} aria-label={`${recipe.name}: ${recipe.title}`}>
+					<picture class="gallery-shot">
+						<img src={recipe.src} srcset={recipe.srcset} sizes={sizes} width={recipe.image.width} height={recipe.image.height} alt="" loading="lazy" decoding="async" />
+					</picture>
+					<span class="gallery-meta">
+						<span class="gallery-num" aria-hidden="true">{String(recipe.index + 1).padStart(2, "0")}</span>
+						<span class="gallery-title">{recipe.name}</span>
+						<span class="gallery-poster">{recipe.title}</span>
+					</span>
+				</a>
+			</li>
+		))}
+	</ul>
+</section>
+
+<style>
+	.recipe-gallery.not-content { margin-top: 5rem; }
+	h2 { margin: 0; scroll-margin-top: calc(var(--sl-nav-height) + 1.5rem); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; font-weight: 600; letter-spacing: -.03em; color: var(--sl-color-white); }
+	.recipe-lede { max-width: 60ch; margin: 1rem 0 2rem; font-size: var(--sl-text-lg); line-height: 1.55; color: var(--sl-color-text); }
+	.recipe-lede a { color: var(--sl-color-text-accent); }
+</style>

@@ -1,20 +1,7 @@
 ---
 // The skill's recipes, as npm run sync-skill copied them into public/ai/rhp/: each one's name, linked to its live
 // page, and what it is for, from the table of recipes in SKILL.md (the one the agent picks from), in its order.
-import fs from 'node:fs';
-import path from 'node:path';
-
-const dir = path.join(process.cwd(), 'public/ai/rhp');
-const recipes = [...fs.readFileSync(path.join(dir, 'SKILL.md'), 'utf8').matchAll(/^\| `([\w-]+)` \| ([^|]+) \|$/gm)]
-	.map((m) => ({ name: m[1], use: m[2] }));
-const files = fs.readdirSync(path.join(dir, 'recipes')).filter((f) => f.endsWith('.html')).map((f) => f.replace(/\.html$/, ''));
-const listed = recipes.map((r) => r.name);
-const unlisted = files.filter((f) => !listed.includes(f));
-const missing = listed.filter((r) => !files.includes(r));
-
-if (unlisted.length || missing.length) {
-	throw new Error(`SKILL.md's table of recipes and public/ai/rhp/recipes/ differ: no row for ${unlisted.join(', ') || 'none'}, no file for ${missing.join(', ') || 'none'}. Run npm run sync-skill.`);
-}
+import { recipes } from '../../gallery/recipes.js';
 ---
 
 <table>
@@ -27,7 +14,7 @@ if (unlisted.length || missing.length) {
 	<tbody>
 		{recipes.map((r) => (
 			<tr>
-				<td><a href={`/ai/rhp/recipes/${r.name}.html`}>{r.name}</a></td>
+				<td><a href={r.url}>{r.name}</a></td>
 				<td>{r.use}</td>
 			</tr>
 		))}

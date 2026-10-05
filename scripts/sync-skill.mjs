@@ -7,6 +7,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { withRecipeNavigation } from "./recipe-navigation.mjs";
 
 const SITE = "https://rhp.vercel.app";
 // The references that go into llms-full.txt after SKILL.md; the others are linked. Keep the file under about 150 kB.
@@ -99,11 +100,13 @@ ${references.filter((f) => !FULL.includes(f)).map(reference).join("\n")}`;
 const full = [header, part("SKILL.md"), ...FULL.map((f) => part(`references/${f}`))].join("\n\n---\n\n") + "\n";
 
 // Everything is read and checked: now write, the skill's folder afresh so a file the skill dropped goes too
+const servedRecipes = new Map(recipes.map((file) => [`recipes/${file}`, withRecipeNavigation(read(`recipes/${file}`))]));
 const out = path.join(root, "public/ai/rhp");
 fs.rmSync(out, { recursive: true, force: true });
 for (const f of files) {
   fs.mkdirSync(path.dirname(path.join(out, f)), { recursive: true });
-  fs.copyFileSync(path.join(skill, f), path.join(out, f));
+  if (servedRecipes.has(f)) fs.writeFileSync(path.join(out, f), servedRecipes.get(f));
+  else fs.copyFileSync(path.join(skill, f), path.join(out, f));
 }
 fs.writeFileSync(path.join(root, "public/llms.txt"), llms);
 fs.writeFileSync(path.join(root, "public/llms-full.txt"), full);

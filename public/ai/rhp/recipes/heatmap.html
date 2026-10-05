@@ -47,8 +47,16 @@
     .readout { font-size: 13px; }
   }
 </style>
+<style id="recipe-navigation-styles">
+  .recipe-navigation { max-width: 1000px; margin: 0 auto 18px; text-align: left; }
+  .recipe-navigation a { display: inline-block; padding: 4px 0; font: 600 12.5px/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: #1d1b17; }
+  .recipe-navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .recipe-navigation a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+</style>
 </head>
 <body>
+<nav class="recipe-navigation" aria-label="Recipe navigation"><a href="/gallery/#ai-recipes">← Gallery</a></nav>
 <div id="chart"></div>
 <script type="module">
 import { Chart, Plot, Cell, Label, Poster, slat, nice, useOrientation, html, render, createSignal, onCleanup, Show } from "@bezda/rhp/standalone";

@@ -1,10 +1,11 @@
-// The home page's showcase: a few gallery posters, picked at random on each visit, live and in their best orientation.
-// Each poster is drawn as its gallery page draws it (Playground.jsx), without the controls and the code.
+// The home page's showcase: live gallery posters and AI recipes, picked at random on each visit.
+// Gallery examples use their chart components; recipes embed their standalone interactive pages.
 import "./ui/setup.js";
 import { createResource, createSignal, For, onMount, Show } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { Theme } from "@bezda/rhp";
 import { dark, DOCS_DARK, DOCS_LIGHT, V1_DARK, V1_LIGHT } from "./ui/themes.js";
+import RecipePoster from "./RecipePoster.jsx";
 
 const charts = import.meta.glob("./examples/*/poster/chart.jsx");
 const JS = new Set(["bar-chart", "box-plot"]);
@@ -16,13 +17,12 @@ const pick = (list, count) => {
   return out;
 };
 
-function Poster(props) {
+function GalleryPoster(props) {
   const e = props.entry;
   const [chart] = createResource(() => charts[`./examples/${e.id}/poster/chart.jsx`]().then((m) => m.default));
   // The v1 replicas (fruit bars, clouds) move with the JS version, as v1 did; the rest with CSS transitions.
   const js = JS.has(e.id);
   return (
-    <figure class={props.extra ? "showcase-item showcase-extra" : "showcase-item"} data-trial={props.trial || undefined}>
       <div class="playground not-content" data-version="poster">
         <div class="pg-preview">
           <Show when={chart()} fallback={<div class="showcase-loading" aria-busy="true" />}>
@@ -34,8 +34,18 @@ function Poster(props) {
           </Show>
         </div>
       </div>
+  );
+}
+
+function Poster(props) {
+  const e = props.entry;
+  return (
+    <figure class={props.extra ? "showcase-item showcase-extra" : "showcase-item"} data-trial={props.trial || undefined} data-entry={e.id}>
+      <Show when={e.kind === "recipe"} fallback={<GalleryPoster entry={e} />}>
+        <RecipePoster entry={e} />
+      </Show>
       <figcaption>
-        <a href={`/gallery/${e.id}/`}><span class="showcase-title">{e.title}</span> <span class="showcase-open">Open with its code →</span></a>
+        <a href={e.url}><span class="showcase-title">{e.title}</span> <span class="showcase-open">{e.kind === "recipe" ? "Open recipe →" : "Open with its code →"}</span></a>
       </figcaption>
     </figure>
   );
@@ -58,9 +68,9 @@ export default function Showcase(props) {
   // Resolves once every plot shown is drawn, in its fonts; false if a newer shuffle has taken over.
   const settled = async (run) => {
     await document.fonts.ready;
-    for (let i = 0; i < 600 && grid.querySelector(".showcase-loading"); i++) await frame();
+    for (let i = 0; i < 600 && run === runs && grid.querySelector(".showcase-loading"); i++) await frame();
     await frame(); await frame();
-    return run === runs;
+    return run === runs && !grid.querySelector(".showcase-loading");
   };
   const heights = () => cols.map((c) => c.getBoundingClientRect().height);
 
@@ -71,8 +81,9 @@ export default function Showcase(props) {
     const [a, b] = heights(), col = a <= b ? 0 : 1, room = Math.abs(a - b) - GAP;
     const taken = new Set(shown().map((e) => e.id));
     // The thumbnails' heights are a guess. Those that would fill most of the room go first, in random order.
-    const fits = pick(props.entries.filter((e) => !taken.has(e.id) && e.height <= room + SLACK), Infinity);
-    const tries = [...fits.filter((e) => e.height >= room / 2), ...fits.filter((e) => e.height < room / 2)].slice(0, 4);
+    const estimate = (e) => e.aspect ? cols[col].clientWidth * e.aspect + 32 : e.height;
+    const fits = pick(props.entries.filter((e) => !taken.has(e.id) && estimate(e) <= room + SLACK), Infinity);
+    const tries = [...fits.filter((e) => estimate(e) >= room / 2), ...fits.filter((e) => estimate(e) < room / 2)].slice(0, 4);
     for (const entry of tries) {
       setTrial(true);
       setExtra({ entry, col });
