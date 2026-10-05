@@ -5,13 +5,13 @@ import AiCopy from './AiCopy.astro';
 ---
 
 <section class="ai-section not-content" aria-labelledby="ai-section-title">
-	<p class="ai-kicker">Build with AI</p>
 	<h2 id="ai-section-title">Ask your AI agent for a chart</h2>
 	<p class="ai-lead">
 		An rhp chart is HTML and CSS, which AI agents already write well.
 		The rhp skill teaches them the rest, and in a coding agent, a checker renders the chart in a real browser before the agent hands it over.
 		Give no style and you get an original poster designed for its subject, with an interaction that fits.
 	</p>
+	<p class="ai-kicker">Build with AI</p>
 	<div class="ai-ways">
 		<div class="ai-way">
 			<h3>In a coding agent</h3>
@@ -33,13 +33,13 @@ import AiCopy from './AiCopy.astro';
 </section>
 
 <style>
-	.ai-section {
-		margin-block: 0 4rem;
+	.ai-section.not-content {
+		margin-block: 6rem;
 	}
 
 	/* The showcase's kicker, in its colors */
 	.ai-kicker {
-		margin: 0 0 1rem;
+		margin: 2rem 0 1rem;
 		font: 600 0.75rem/1 var(--sl-font-system-mono);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
@@ -52,7 +52,7 @@ import AiCopy from './AiCopy.astro';
 
 	h2 {
 		margin: 0;
-		font-size: var(--sl-text-3xl);
+		font-size: var(--sl-text-4xl);
 		font-weight: 600;
 		line-height: var(--sl-line-height-headings);
 		color: var(--sl-color-white);
@@ -72,7 +72,6 @@ import AiCopy from './AiCopy.astro';
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 1.5rem;
-		margin-top: 2rem;
 	}
 
 	.ai-way {
@@ -121,7 +120,7 @@ import AiCopy from './AiCopy.astro';
 
 	.ai-more {
 		margin: 1.5rem 0 0;
-		font-size: var(--sl-text-sm);
+		font-size: var(--sl-text-base);
 	}
 
 	.ai-more a {
@@ -139,7 +138,7 @@ import AiCopy from './AiCopy.astro';
 
 	@media (max-width: 50rem) {
 		h2 {
-			font-size: var(--sl-text-2xl);
+			font-size: var(--sl-text-3xl);
 		}
 
 		.ai-ways {
