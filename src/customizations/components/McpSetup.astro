@@ -136,8 +136,7 @@ const apps = [
 		box-shadow: inset 0 -2px 0 var(--mcp-tab-accent);
 	}
 
-	.mcp-setup :global([role='tab']:focus-visible),
-	.mcp-setup :global(.ai-copy button:focus-visible) {
+	.mcp-setup :global([role='tab']:focus-visible) {
 		outline: 2px solid var(--mcp-code-ink);
 		outline-offset: -3px;
 	}
@@ -154,25 +153,6 @@ const apps = [
 
 	.mcp-setup :global(.ai-copy pre) {
 		color: var(--mcp-code-ink);
-	}
-
-	.mcp-setup :global(.ai-copy button) {
-		min-width: 0;
-		border-color: var(--sl-color-gray-4);
-		border-radius: 6px;
-		background: transparent;
-		color: var(--mcp-code-ink);
-		font-size: 13px;
-	}
-
-	.mcp-setup :global(.ai-copy button:hover) {
-		border-color: var(--sl-color-gray-2);
-		background: var(--rhp-color-gray);
-		color: var(--mcp-code-ink);
-	}
-
-	.mcp-setup :global(.ai-copy button[data-copied]) {
-		border-color: var(--mcp-tab-accent);
 	}
 
 	.mcp-instruction {
