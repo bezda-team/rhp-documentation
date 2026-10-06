@@ -101,6 +101,14 @@ import McpSetup from './McpSetup.astro';
 		grid-column: 1 / -1;
 	}
 
+	.ai-way:not(.ai-way-mcp) :global(.ai-copy) {
+		border: 1px solid var(--sl-color-gray-5);
+	}
+
+	.ai-way :global(.ai-copy button:focus-visible) {
+		outline-color: var(--sl-color-white);
+	}
+
 	h3 {
 		margin: 0;
 		font-size: var(--sl-text-xl);
