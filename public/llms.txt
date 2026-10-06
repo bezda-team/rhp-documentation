@@ -59,7 +59,7 @@ The guides and the reference under Optional are written for Solid apps in JSX; t
 - [What is rhp?](https://rhp.vercel.app/start/introduction/): rhp is a free, open-source SolidJS library that turns tabular data into interactive, infographic-style charts. You describe one slat, and rhp repeats it for every row of your data.
 - [Install](https://rhp.vercel.app/start/install/): Add rhp to a project, or use it in a plain HTML page with no build step.
 - [Your first chart](https://rhp.vercel.app/start/first-chart/): Build a bar chart step by step, from plain bars to a styled chart that sorts itself.
-- [Build with AI](https://rhp.vercel.app/ai/): Make rhp charts with an AI agent. Add the rhp skill to your coding agent with one command, or paste one prompt into a chat app.
+- [Build with AI](https://rhp.vercel.app/ai/): Make rhp charts with an AI agent using the rhp skill, MCP tools, or a prompt for a chat app.
 - [Gallery](https://rhp.vercel.app/gallery/): Twenty-three interactive gallery plots and thirty complete AI recipes, built with rhp 2. Open one to explore the chart and its code.
 
 ## Optional

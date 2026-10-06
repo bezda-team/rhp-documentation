@@ -3,13 +3,13 @@ export const part = `
 .slat { pointer-events: none; }
 
 /* Round: the wedge is drawn in what the bars leave of the Chart's width. */
-.slat:vertical .slice { inset: 0; width: calc(100cqw - var(--bars) - 4cqw); height: 100%; translate: none; background: none; }
-.slat:vertical .slice svg { display: block; width: 100%; height: 100%; }
+.slice:vertical { inset: 0; width: calc(100cqw - var(--bars) - 4cqw); height: 100%; translate: none; background: none; }
+.slice:vertical svg { display: block; width: 100%; height: 100%; }
 .slice path { fill: var(--rhp-color); }
 
 /* Flat: rhp draws the stacked bar, in the band at the top. */
-.slat:horizontal .slice svg { display: none; }
-.slat:horizontal .slice { top: 0; bottom: auto; height: var(--strip); translate: none; }
+.slice:horizontal svg { display: none; }
+.slice:horizontal { top: 0; bottom: auto; height: var(--strip); translate: none; }
 `;
 
 // A generation. Only the bar and its name take the pointer.

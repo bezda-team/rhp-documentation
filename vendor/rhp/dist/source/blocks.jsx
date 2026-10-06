@@ -1,3 +1,4 @@
+/* @refresh skip */
 // Blocks are the pieces a slat is built from. Each block writes its raw numbers as CSS variables (--rhp-from, --rhp-to,
 // --rhp-at, --rhp-value) and the CSS turns them into positions using the scale (--rhp-min, --rhp-max) set on the Chart.
 // Blocks also take class, style, ref, children and any other attribute or handler, like a plain element.

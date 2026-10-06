@@ -16,18 +16,10 @@ export default function Lisbon() {
       height={200}
     >
       <Plot overlap points={[month.map((m, i) => [m, high[i]])]}>
-        {(d) => (
-          <div>
-            <Line points={d.points} fill base={10} />
-          </div>
-        )}
+        {(d) => <Line points={d.points} fill base={10} />}
       </Plot>
       <Plot overlap month={month} high={high}>
-        {(d) => (
-          <div>
-            <Dot at={d.month} cross={d.high} size="8px" />
-          </div>
-        )}
+        {(d) => <Dot at={d.month} cross={d.high} size="8px" />}
       </Plot>
     </Chart>
   );

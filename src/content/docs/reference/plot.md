@@ -9,7 +9,9 @@ description: A stack of slats made from your data. Every prop that isn't a setti
 </Plot>
 ```
 
-A Plot's child is the slat: a function of `d` that returns one element, often made with [`slat()`](/reference/slat/).
+A Plot's child is the slat: a function of `d` that returns one DOM root, often made with [`slat()`](/reference/slat/).
+A Plot adds no row wrapper of its own.
+For single-block roots in overlap Plots, see [a slat's element](/reference/slat/#a-slats-element).
 
 A Plot is a stack of slats and a [Chart](/reference/chart/) is the frame around it, which is not the everyday sense of the two words: see [Chart and Plot are two different components](/start/first-chart/#1-bars).
 

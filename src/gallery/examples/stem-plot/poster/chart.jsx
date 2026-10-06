@@ -19,7 +19,7 @@ export const SampleSlat = slat({
 ));
 
 // The resting line, the only scale a waveform needs.
-export const RestSlat = slat({ css: styles.rest }, () => <div><Tick at={0} thick={1} class="rest" /></div>);
+export const RestSlat = slat({ css: styles.rest }, () => <Tick at={0} thick={1} class="rest" />);
 
 export default function Stem(p) {
   const [strikes, setStrikes] = createSignal(0); // each strike rings with a new pitch and decay

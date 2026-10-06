@@ -39,11 +39,9 @@ export const PartSlat = slat({
   const span = animated(() => [d.from, d.to], () => ({ duration: 600 }));
 
   return (
-    <div class="slat">
-      <Bar from={d.from} to={d.to} color={d.color} class="slice">
-        <svg viewBox="-50 -50 100 100"><path d={wedge(...span())} /></svg>
-      </Bar>
-    </div>
+    <Bar from={d.from} to={d.to} color={d.color} class="slat slice">
+      <svg viewBox="-50 -50 100 100"><path d={wedge(...span())} /></svg>
+    </Bar>
   );
 });
 

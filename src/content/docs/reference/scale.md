@@ -13,6 +13,8 @@ description: Draw the chart's scale your own way, with a slat per tick.
 A Scale is a Plot of ticks from the Chart's scale.
 Its slat is drawn once per tick, and all its slats share one band that covers the chart.
 A Chart with a Scale in it draws no axis of its own.
+Because a Scale uses overlap, a slat drawing only a Tick can return that Tick directly.
+Use a wrapper when its slat draws a Tick and a separately positioned Label.
 
 | Prop | Default | What it does |
 |---|---|---|

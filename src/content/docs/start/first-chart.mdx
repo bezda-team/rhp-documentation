@@ -25,8 +25,9 @@ A Chart can hold more than one Plot, drawn over each other on the same scale.
 `sold` is a list, so the Plot makes one slat per number.
 In each slat, `d.sold` is its row's number, and the `Bar` runs from 0 to it.
 
-A slat is always one element that holds everything drawn in it: here, a `<div>` around the `Bar`.
-rhp stacks that element with the others and moves it when the rows are sorted, and the blocks inside it are placed by their values.
+Every slat returns one DOM root.
+Here, the stacking Plot needs a `<div>` around the Bar: rhp stacks and sorts the root as a full band, while the Bar inside it is placed and sized by its value.
+A Plot with `overlap`, or a Scale, can use a single block as its root without a wrapper: see [a slat's element](/reference/slat/#a-slats-element).
 
 ## 2. Names and numbers
 
