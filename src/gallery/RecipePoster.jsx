@@ -2,7 +2,7 @@
 import { createSignal, onCleanup, Show } from "solid-js";
 
 const WIDTH = 1280;
-const POSTER_SCALE = 1.1;
+const POSTER_SCALE = 1.15;
 
 export default function RecipePoster(props) {
   const [ready, setReady] = createSignal(false);
