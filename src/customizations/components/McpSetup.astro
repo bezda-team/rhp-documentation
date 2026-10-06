@@ -57,12 +57,11 @@ const apps = [
 	<Tabs>
 		{apps.map(({ name, instruction, code }) => (
 			<TabItem label={name}>
-				<p class="mcp-instruction">{instruction}</p>
 				<AiCopy text={code} label={`Copy ${name} setup`} />
+				<p class="mcp-instruction">{instruction}</p>
 			</TabItem>
 		))}
 	</Tabs>
-	<p class="mcp-requirements">Requires Node.js 20 or later. <a href="/ai/#browser-setup">Browser setup for chart checking<span aria-hidden="true"> →</span></a></p>
 </div>
 
 <script>
@@ -156,26 +155,11 @@ const apps = [
 		outline: 2px solid var(--sl-color-accent-high);
 	}
 
-	.mcp-instruction,
-	.mcp-requirements {
-		margin: 0;
+	.mcp-instruction {
+		margin: 0.9rem 0 0;
 		font-size: var(--sl-text-sm);
 		line-height: 1.55;
 		color: var(--sl-color-text);
-	}
-
-	.mcp-instruction {
-		margin-bottom: 0.75rem;
-	}
-
-	.mcp-requirements {
-		margin-top: 0.9rem;
-		color: var(--sl-color-gray-2);
-	}
-
-	.mcp-requirements a {
-		color: var(--sl-color-white);
-		text-underline-offset: 0.2em;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
