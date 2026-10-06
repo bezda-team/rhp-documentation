@@ -1,0 +1,160 @@
+---
+title: ManyDots
+description: A light-DOM bulk point collection with shared styles, category classes, per-point colors, and native events.
+---
+
+import Demo from '../../../customizations/components/Demo.astro';
+
+`ManyDots` draws a collection of plain HTML points directly inside a [Chart](/reference/chart/) with a value scale and a `cross` scale.
+It uses one collection update rather than one slat and rendering computation per point.
+It remains an explicit alternative to [Dot](/reference/blocks/#dot) at any point count, with no automatic switch when data grows or shrinks.
+
+`ManyDots` is part of the upcoming `2.0.3` release.
+The live example uses the current experimental source build.
+Until `2.0.3` is published on npm, follow [installation from current source](/start/install/#from-current-source) to try it in your app.
+
+```jsx
+import { Chart, ManyDots } from "@bezda/rhp";
+
+const samples = [
+  { id: "a", x: 20, y: 35 },
+  { id: "b", x: 60, y: 80 },
+];
+
+<Chart scale={[0, 100]} cross={[0, 100]} height={300} label="Measurements">
+  <ManyDots
+    rows={samples}
+    at={row => row.x}
+    cross={row => row.y}
+    key={row => row.id}
+    size="6px"
+  />
+</Chart>
+```
+
+Put `ManyDots` directly in the Chart, without a Plot or a slat wrapper.
+With the default horizontal orientation, `at` runs left to right and `cross` runs bottom to top.
+Vertical orientation swaps those axes.
+Both domains need finite, distinct endpoints, and points with nonfinite coordinates are omitted.
+
+## Colors and interaction
+
+This example draws 1,200 points.
+Choose a shared color, four reusable category classes, or a unique color per point.
+Hover over a point to inspect it, or click/tap to select it, then try again after **New data**.
+The controls work with a keyboard; individual point navigation is not built into this collection.
+
+<Demo name="block-manydots" height={430} />
+
+The chart is rendered on the server before its island hydrates.
+Its fixed initial seed gives the server and browser the same rows and order.
+Native events bubble from the points to the collection, so the demo defines a few host handlers instead of a handler per point.
+
+## Props
+
+`at`, `cross`, `color`, `size`, `shape`, `pointClass`, and `pointStyle` accept either a shared value or a `(row, index) => value` accessor.
+The index always refers to the original `rows` array, even when earlier rows have invalid coordinates and are omitted.
+
+| Prop | Default | What it does |
+| --- | --- | --- |
+| `rows` | Required | A readonly array of data rows. |
+| `at` | Required | A number or accessor for the value-axis coordinate. |
+| `cross` | Required | A number or accessor for the cross-axis coordinate. |
+| `key` | Source row index | A `(row, index) => identity` accessor for keyed element reuse; duplicate keys among rendered points throw. |
+| `size` | `"4px"` | Diameter as a CSS length or a number of pixels, shared or per point. |
+| `color` | `"series-1"` | A literal CSS color or a [theme](/guides/themes/) key, shared or per point. |
+| `shape` | Circle | An outline from [`shape()`](/reference/helpers/#shapes), shared or per point. |
+| `pointClass` | None | Space-separated application classes, shared or per point. |
+| `pointStyle` | None | A Solid CSS properties object for point appearance, shared or per point. |
+| `class`, `classList` | None | Classes on the collection's host element. |
+| `style` | None | A Solid CSS properties object or CSS string on the host element. |
+| `ref` | None | A reference to the host element. |
+| Event handlers and HTML attributes | None | Normal host attributes and handlers, including `id`, `title`, `data-*`, and `aria-*`. |
+
+Numeric sizes mean pixels in `ManyDots`.
+In `Dot`, a numeric size means a fraction of the slat's band.
+Use a CSS length such as `"6px"` to give both components the same marker diameter.
+The collection does not accept point children, `innerHTML`, or `textContent`.
+
+## Styling many points
+
+A shared size, color, and shape become concrete declarations in one stylesheet per collection.
+Category classes reuse application rules, while accessors can provide different colors, sizes, shapes, and styles for every point.
+Unique colors remain supported without creating one stylesheet rule per point.
+
+```jsx
+const styledSamples = [
+  { id: "a", x: 20, y: 35, color: "series-1", diameter: 6, selected: true },
+  { id: "b", x: 60, y: 80, color: "#bd355a", diameter: 8, selected: false },
+];
+
+<ManyDots
+  rows={styledSamples}
+  at={row => row.x}
+  cross={row => row.y}
+  key={row => row.id}
+  color={row => row.color}
+  size={row => row.diameter}
+  pointStyle={row => ({ opacity: row.selected ? 1 : 0.4 })}
+/>
+```
+
+Application classes can style background color, border radius, opacity, outlines, filters, and transforms.
+Explicit per-point color and shape accessors use inline declarations, so they take precedence over ordinary class rules for those properties.
+Size, color, and shape accessors also take precedence over the same properties in `pointStyle`.
+The collection owns coordinates and centering, and protects padding, borders, and other box properties that would distort point geometry.
+Use `size` for diameter and outlines for marker edging; explicit `pointStyle` width and height can override a shared size.
+The narrow geometry guard does not apply the slat's general text or font reset.
+
+Fixed dimensions use half-size offsets for centering.
+If custom CSS animates those dimensions, animate the centering margins with them so the center stays stationary.
+Percentage and math dimensions need matching coordinate adjustments; intrinsic and CSS-variable sizes retain native size-relative translation.
+Use `getBoundingClientRect()` when positioning an overlay against the visible point box, including application transforms.
+
+## Native DOM and events
+
+Each valid row has a `.rhp-manydot` element inside `.rhp-manydots-points`, under the `.rhp-manydots` host.
+Everything stays in light DOM, so `document.querySelector`, Testing Library, application classes, and page-level listeners can reach the points.
+Hover CSS and native click, touch, and pointer events remain available.
+Applications can build drag behavior with delegated pointer events; the collection does not provide a drag controller.
+
+Use `data-rhp-index` to recover the original row in a host handler:
+
+```jsx
+<ManyDots
+  rows={samples}
+  at={row => row.x}
+  cross={row => row.y}
+  onClick={event => {
+    const point = event.target.closest?.(".rhp-manydot");
+    if (point && event.currentTarget.contains(point)) {
+      const row = samples[Number(point.dataset.rhpIndex)];
+      console.log(row);
+    }
+  }}
+/>
+```
+
+Native leaf listeners, attributes, and unmanaged styles survive ordinary keyed updates.
+Application edits to collection-managed declarations can be overwritten when that point's managed styles change.
+Use the Chart's `label` to name the figure, and provide a textual summary or data table when readers need access to individual measurements.
+
+## Updates and server rendering
+
+Stable keys preserve point elements across replacement arrays, reordering, and removals.
+A dependency change still visits every row, but unchanged points receive no style writes.
+Data changes move points immediately, without Dot's per-point transitions.
+JavaScript-driven Chart scale animation remains available through the shared frame.
+
+Server rendering writes the complete collection, and hydration reuses its host, container, and points.
+Initial server points are adopted by order, then the client establishes keys for later updates.
+Keep the initial server and client row order aligned when row-specific DOM identity must survive hydration, because server keys are not serialized.
+Browsers without native CSS `@scope` use inherited-variable fallback styles and retain the collection's appearance, without the measured shared-CSS speed benefit.
+
+## Choosing Dot or ManyDots
+
+Keep `Dot` in a Plot when you need rich point content, custom slats, per-point handler props, or Plot's selection, keyboard navigation, and readout APIs.
+Use `ManyDots` when plain points and collection-level interaction suit the chart.
+Native interaction stays available, but those Plot features are not built into `ManyDots`.
+There is no fixed count threshold or automatic conversion between the two components.
+Rendering cost also depends on marker size, clipping, filters, opacity, and application styling, so measure the chart you intend to ship.

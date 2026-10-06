@@ -69,6 +69,7 @@ export default defineConfig({
         { label: 'Plot', link: '/reference/plot/' },
         { label: 'Scale', link: '/reference/scale/' },
         { label: 'Blocks', link: '/reference/blocks/' },
+        { label: 'ManyDots', link: '/reference/manydots/' },
         { label: 'slat()', link: '/reference/slat/' },
         { label: 'Helpers', link: '/reference/helpers/' },
         { label: 'Poster', link: '/reference/poster/' },

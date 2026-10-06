@@ -1,9 +1,10 @@
 ---
 title: Blocks
-description: Bar, Dot, Tick, Label, Cell, Place, Area and Line, and the props each one takes.
+description: Bar, Dot, Tick, Label, Cell, Place, Area and Line, plus ManyDots for bulk scatter points.
 ---
 
 Blocks are the pieces of a slat.
+For a bulk scatter collection directly inside a Chart, use [ManyDots](/reference/manydots/).
 Values are on the chart's scale.
 Every block also takes `class`, `style` (an object), `ref`, `color`, children, event handlers (`onClick`…) and HTML attributes (`title`, `data-*`, `aria-*`).
 
@@ -37,6 +38,21 @@ Bar, Dot, Tick, Label and Cell also take `shape`: an outline from [`shape()`](/r
 | `across` | `0.5` | where it sits across the band, from 0 to 1 |
 | `cross` | | its value on the chart's [second axis](/guides/scales/#a-second-axis), instead of `across` |
 | `color` | `series-1` | |
+
+## ManyDots
+
+[ManyDots](/reference/manydots/) draws one plain HTML point per data row, without a slat or rendering computation for each point.
+Place the collection directly inside a Chart with a `cross` scale.
+
+```jsx
+<Chart scale={[0, 100]} cross={[0, 100]}>
+  <ManyDots rows={samples} at={row => row.x} cross={row => row.y} key={row => row.id} />
+</Chart>
+```
+
+Colors, sizes, shapes, classes, and styles can vary by point.
+Native hover, click, touch, and drag events remain available through collection handlers or event delegation.
+The dedicated [ManyDots reference](/reference/manydots/) covers its props, a live example, source-build availability, and its differences from Dot.
 
 ## Tick
 

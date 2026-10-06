@@ -61,6 +61,30 @@ It's the same chart, with two differences:
 
 The same file also gives you `createSignal`, `createMemo`, `createStore` and Solid's other basics, so data that changes works the same way as in the rest of these pages.
 
+## From current source
+
+[ManyDots](/reference/manydots/) is part of the upcoming npm 2.0.3 release and is available in the current [GitHub source](https://github.com/bezda-team/rhp).
+The live documentation examples bundle that source build.
+The published npm 2.0.2 package predates ManyDots, so build the source package to use it in your app:
+
+```sh
+git clone https://github.com/bezda-team/rhp.git rhp-source
+cd rhp-source
+npm ci
+npm run build
+npm pack
+```
+
+`npm pack` prints the generated package filename.
+From your app, install that file:
+
+```sh
+npm install /path/to/rhp-source/bezda-rhp-2.0.2.tgz
+```
+
+The resulting package exports ManyDots from both `@bezda/rhp` and `@bezda/rhp/standalone`.
+For a plain HTML page, serve the built `dist/standalone.js` from your own site instead of the published CDN build.
+
 ## In a React, Vue or Svelte app
 
 In a React app, install `@bezda/rhp-react`: it turns an rhp chart into a React component.

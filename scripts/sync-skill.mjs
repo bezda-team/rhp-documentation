@@ -11,7 +11,7 @@ import { withRecipeNavigation } from "./recipe-navigation.mjs";
 
 const SITE = "https://rhp.vercel.app";
 // The references that go into llms-full.txt after SKILL.md; the others are linked. Keep the file under about 150 kB.
-const FULL = ["api.md", "pitfalls.md"];
+const FULL = ["api.md"];
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const skill = path.resolve(root, process.env.RHP_DIR ?? "../rhp", "skills/rhp");

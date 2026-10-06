@@ -7,7 +7,10 @@ import { ssrHydrationKey as _$ssrHydrationKey2 } from "solid-js/web";
 import { createComponent as _$createComponent } from "solid-js/web";
 
 // src/rhp.css
-var rhp_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-area path,.rhp-line,.rhp-line path){display:revert;box-sizing:border-box;margin:0;padding:0;border:0 solid transparent;border-radius:0;box-shadow:none;outline:revert;outline-offset:revert;background:none;overflow:visible;float:none;min-width:0;min-height:0;max-width:none;max-height:none;vertical-align:baseline;transition:none;animation:none;text-decoration:none;user-select:auto;touch-action:auto;font:inherit;font-synthesis:inherit;letter-spacing:inherit;word-spacing:inherit;text-transform:inherit;text-indent:inherit;text-align:inherit;text-shadow:inherit;color:inherit;white-space:inherit;text-rendering:inherit;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-text-stroke:inherit;-webkit-tap-highlight-color:inherit;word-break:inherit;overflow-wrap:inherit;hyphens:inherit;line-break:inherit;print-color-adjust:inherit}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object),.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){width:auto;height:auto}:where(:root:active-view-transition .rhp-plot>*){view-transition-name:none}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line)[hidden]{display:none}:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):before,:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):after{display:none}:is(.rhp-label,.rhp-gridline>span)::selection,:is(.rhp-label,.rhp-gridline>span,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell) ::selection{color:HighlightText;background-color:Highlight;text-shadow:none}.rhp-chart{--rhp-min: 0;--rhp-max: 100;--rhp-inset: 18%;padding-top:var(--rhp-pad-top, 2px);padding-right:var(--rhp-pad-right, 2px);padding-bottom:var(--rhp-pad-bottom, 2px);padding-left:var(--rhp-pad-left, 2px)}.rhp-body{all:initial}.rhp-body{position:relative;display:grid;width:100%;direction:ltr;container-type:inline-size;visibility:inherit;pointer-events:inherit;-webkit-tap-highlight-color:inherit;font:400 12px/1.15 var(--rhp-font);color:var(--rhp-ink);print-color-adjust:exact}.rhp-chart[data-rhp-o=h]:not([data-rhp-aspect])>.rhp-body{height:auto}.rhp-chart[data-rhp-o=v]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-o=h][data-rhp-sized]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height)}.rhp-chart[data-rhp-aspect]{box-sizing:border-box;aspect-ratio:var(--rhp-aspect);min-height:0}.rhp-chart[data-rhp-aspect]>.rhp-body{height:100%}.rhp-body>*{grid-area:1 / 1;min-width:0;min-height:0}.rhp-axis{position:relative;pointer-events:none}.rhp-gridline{position:absolute;--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-gridline[data-rhp-o=h]{top:0;bottom:0;left:calc(var(--rhp-p) * 100%);border-left:1px solid var(--rhp-grid)}.rhp-gridline[data-rhp-o=v]{left:0;right:0;bottom:calc(var(--rhp-p) * 100%);border-bottom:1px solid var(--rhp-grid)}.rhp-gridline>span{position:absolute;font-size:11px;line-height:1;color:var(--rhp-muted);white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-gridline[data-rhp-o=h]>span{top:calc(100% + 5px);left:0;translate:-50% 0}.rhp-gridline[data-rhp-o=v]>span{right:calc(100% + 6px);bottom:0;translate:0 50%}.rhp-plot{position:relative;z-index:1}.rhp-plot[data-rhp-o=h],.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){--rhp-toward-end: to right}.rhp-plot[data-rhp-o=v],.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){--rhp-toward-end: to top}.rhp-bar[data-rhp-o=h][data-rhp-back]{--rhp-toward-end: to left}.rhp-bar[data-rhp-o=v][data-rhp-back]{--rhp-toward-end: to bottom}.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 32px))}.rhp-chart[data-rhp-sized]>.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap]){width:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-overlap][data-rhp-o=h]{min-height:var(--rhp-pitch, 32px)}.rhp-plot>*>.rhp-plot,.rhp-plot>.rhp-plot{--rhp-pitch: initial}.rhp-plot>*>.rhp-plot{position:absolute}.rhp-plot[data-rhp-o=h]>*>.rhp-plot{top:calc((100% - var(--rhp-plot-thick, 100%)) / 2);right:0;bottom:calc((100% - var(--rhp-plot-thick, 100%)) / 2);left:0}.rhp-plot[data-rhp-o=v]>*>.rhp-plot{top:0;right:calc((100% - var(--rhp-plot-thick, 100%)) / 2);bottom:0;left:calc((100% - var(--rhp-plot-thick, 100%)) / 2)}.rhp-bar,.rhp-area,.rhp-line{--rhp-lo: clamp(0, (min(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1);--rhp-hi: clamp(0, (max(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)}.rhp-dot,.rhp-tick,.rhp-label,.rhp-place{--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line{position:absolute}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell{clip-path:var(--rhp-clip, none)}.rhp-area[data-rhp-o=h],.rhp-line[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-area[data-rhp-o=v],.rhp-line[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-bar[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){left:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){bottom:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar{background:var(--rhp-color, var(--rhp-series-1))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){border-top-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h][data-rhp-back]{border-top-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){border-top-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v][data-rhp-back]{border-top-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h]{top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:0 -50%}.rhp-bar[data-rhp-o=v]{left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:-50% 0}.rhp-dot{width:var(--rhp-size, 10px);height:var(--rhp-size, 10px);border-radius:50%;background:var(--rhp-color, var(--rhp-series-1))}.rhp-dot[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%);translate:-50% -50%}.rhp-dot[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%);translate:-50% 50%}.rhp-place{width:0;height:0}.rhp-place[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%)}.rhp-place[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%)}.rhp-tick{background:var(--rhp-color, var(--rhp-ink))}.rhp-tick[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));width:var(--rhp-tick-width, 2px);translate:-50% -50%}.rhp-tick[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));height:var(--rhp-tick-width, 2px);translate:-50% 50%}.rhp-label{font-size:var(--rhp-label-size, 12px);line-height:1.15;white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-label[data-rhp-at][data-rhp-o=h]{left:calc(min(var(--rhp-p),1)*100%);top:50%;translate:0 -50%;padding-left:var(--rhp-label-gap, 5px)}.rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% -50%;padding-top:0;padding-right:var(--rhp-label-gap, 5px);padding-bottom:0;padding-left:0}.rhp-label[data-rhp-at][data-rhp-o=v]{bottom:calc(max(var(--rhp-p),0)*100%);left:50%;translate:-50% 0;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-label[data-rhp-at][data-rhp-o=v][data-rhp-side=before]{translate:-50% 100%;padding-top:var(--rhp-label-gap, 3px);padding-right:0;padding-bottom:0;padding-left:0}.rhp-label[data-rhp-edge][data-rhp-o=h]{top:50%;translate:0 -50%;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=h]{right:100%;width:var(--rhp-room-start, 104px);text-align:right;padding-right:var(--rhp-label-gap, 8px)}.rhp-label[data-rhp-edge=end][data-rhp-o=h]{left:100%;width:var(--rhp-room-end, 44px);padding-left:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge][data-rhp-o=v]{left:0;right:0;text-align:center;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=v]{top:100%;padding-top:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge=end][data-rhp-o=v]{bottom:100%;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-cell{top:var(--rhp-cell-gap, 1px);right:var(--rhp-cell-gap, 1px);bottom:var(--rhp-cell-gap, 1px);left:var(--rhp-cell-gap, 1px);background:var(--rhp-color, color-mix(in oklab, var(--rhp-high) calc(clamp(0, (var(--rhp-value) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)*100%) , var(--rhp-low)));border-top-left-radius:var(--rhp-radius, 2px);border-top-right-radius:var(--rhp-radius, 2px);border-bottom-right-radius:var(--rhp-radius, 2px);border-bottom-left-radius:var(--rhp-radius, 2px)}.rhp-area{overflow:visible;fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 35%,transparent);stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:1.5px;filter:none;pointer-events:inherit;stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:miter;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;fill-rule:nonzero;paint-order:normal;shape-rendering:auto}.rhp-area path{fill:inherit;stroke:inherit;stroke-width:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;fill-rule:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit;d:var(--rhp-d, none)}.rhp-area[data-rhp-o=h],.rhp-line[data-rhp-o=h]{top:calc(var(--rhp-inset) / 2);height:calc(100% - var(--rhp-inset))}.rhp-area[data-rhp-o=v],.rhp-line[data-rhp-o=v]{left:calc(var(--rhp-inset) / 2);width:calc(100% - var(--rhp-inset))}.rhp-line{overflow:visible;fill:none;stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:2px;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;paint-order:normal;shape-rendering:auto;filter:none;pointer-events:inherit;--rhp-d-under: none}.rhp-line path{stroke-width:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit}.rhp-line .rhp-stroke{fill:none;stroke:inherit;d:var(--rhp-d, none)}.rhp-line .rhp-under{fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 22%,transparent);stroke:none;d:var(--rhp-d-under, none)}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label[data-rhp-at],.rhp-place,.rhp-area,.rhp-line,.rhp-gridline){transition-property:left,width,bottom,height,background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out)}.rhp-cell{transition-property:background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out);transition-delay:0s;transition-behavior:normal}@media(prefers-reduced-motion:no-preference){.rhp-area:not([data-rhp-animate=js] *) path,.rhp-line:not([data-rhp-animate=js] *) path{transition-property:d;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out);transition-delay:0s;transition-behavior:normal}}}@layer rhp.core{@media(forced-colors:active){.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell,.rhp-area,.rhp-line{forced-color-adjust:none}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell{outline:1px solid CanvasText;outline-offset:-1px}}}@layer rhp.place{.rhp-plot>*{position:absolute;box-sizing:border-box}.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap])>*{left:0;right:0;top:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));bottom:auto;height:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap])>*{top:0;bottom:0;left:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));right:auto;width:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-reorder=slide]:not([data-rhp-overlap])>*{transition-property:top,left;transition-duration:var(--rhp-slide-time, .3s),var(--rhp-slide-time, .3s);transition-timing-function:var(--rhp-slide-ease, ease-in-out),var(--rhp-slide-ease, ease-in-out);transition-delay:0s,0s;transition-behavior:normal,normal}.rhp-chart[data-rhp-turning] .rhp-plot[data-rhp-reorder]>*{transition:none}.rhp-chart[data-rhp-turning],.rhp-chart[data-rhp-turning] *,[data-rhp-animate=js] .rhp-bar,[data-rhp-animate=js] .rhp-dot,[data-rhp-animate=js] .rhp-tick,[data-rhp-animate=js] .rhp-label,[data-rhp-animate=js] .rhp-place,[data-rhp-animate=js] .rhp-area,[data-rhp-animate=js] .rhp-line,[data-rhp-animate=js] .rhp-gridline,[data-rhp-animate=js] .rhp-cell{transition:none}.rhp-plot>[hidden]{display:none}.rhp-plot[data-rhp-overlap]>:not(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){inset:0}@media(prefers-reduced-motion:reduce){.rhp-plot[data-rhp-reorder]:not([data-rhp-overlap])>*{transition:none}.rhp-chart .rhp-bar,.rhp-chart .rhp-dot,.rhp-chart .rhp-tick,.rhp-chart .rhp-label,.rhp-chart .rhp-place,.rhp-chart .rhp-area,.rhp-chart .rhp-line,.rhp-chart .rhp-gridline,.rhp-chart .rhp-cell{transition:none}}}";
+var rhp_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-area path,.rhp-line,.rhp-line path){display:revert;box-sizing:border-box;margin:0;padding:0;border:0 solid transparent;border-radius:0;box-shadow:none;outline:revert;outline-offset:revert;background:none;overflow:visible;float:none;min-width:0;min-height:0;max-width:none;max-height:none;vertical-align:baseline;transition:none;animation:none;text-decoration:none;user-select:auto;touch-action:auto;font:inherit;font-synthesis:inherit;letter-spacing:inherit;word-spacing:inherit;text-transform:inherit;text-indent:inherit;text-align:inherit;text-shadow:inherit;color:inherit;white-space:inherit;text-rendering:inherit;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-text-stroke:inherit;-webkit-tap-highlight-color:inherit;word-break:inherit;overflow-wrap:inherit;hyphens:inherit;line-break:inherit;print-color-adjust:inherit}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object),.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){width:auto;height:auto}:where(:root:active-view-transition .rhp-plot>*){view-transition-name:none}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line)[hidden]{display:none}:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):before,:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):after{display:none}:is(.rhp-label,.rhp-gridline>span)::selection,:is(.rhp-label,.rhp-gridline>span,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell) ::selection{color:HighlightText;background-color:Highlight;text-shadow:none}.rhp-chart{--rhp-min: 0;--rhp-max: 100;--rhp-inset: 18%;padding-top:var(--rhp-pad-top, 2px);padding-right:var(--rhp-pad-right, 2px);padding-bottom:var(--rhp-pad-bottom, 2px);padding-left:var(--rhp-pad-left, 2px)}.rhp-body{all:initial}.rhp-body{position:relative;display:grid;width:100%;direction:ltr;container-type:inline-size;visibility:inherit;pointer-events:inherit;-webkit-tap-highlight-color:inherit;font:400 12px/1.15 var(--rhp-font);color:var(--rhp-ink);print-color-adjust:exact}.rhp-chart[data-rhp-o=h]:not([data-rhp-aspect])>.rhp-body{height:auto}.rhp-chart[data-rhp-o=v]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-o=h][data-rhp-sized]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height)}.rhp-chart[data-rhp-aspect]{box-sizing:border-box;aspect-ratio:var(--rhp-aspect);min-height:0}.rhp-chart[data-rhp-aspect]>.rhp-body{height:100%}.rhp-body>*{grid-area:1 / 1;min-width:0;min-height:0}.rhp-axis{position:relative;pointer-events:none}.rhp-gridline{position:absolute;--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-gridline[data-rhp-o=h]{top:0;bottom:0;left:calc(var(--rhp-p) * 100%);border-left:1px solid var(--rhp-grid)}.rhp-gridline[data-rhp-o=v]{left:0;right:0;bottom:calc(var(--rhp-p) * 100%);border-bottom:1px solid var(--rhp-grid)}.rhp-gridline>span{position:absolute;font-size:11px;line-height:1;color:var(--rhp-muted);white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-axis[data-rhp-grid=off]>.rhp-gridline{border-color:transparent}.rhp-gridline[data-rhp-o=h]>span{top:calc(100% + 5px);left:0;translate:-50% 0}.rhp-gridline[data-rhp-o=v]>span{right:calc(100% + 6px);bottom:0;translate:0 50%}.rhp-plot{position:relative;z-index:1}.rhp-plot[data-rhp-o=h],.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){--rhp-toward-end: to right}.rhp-plot[data-rhp-o=v],.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){--rhp-toward-end: to top}.rhp-bar[data-rhp-o=h][data-rhp-back]{--rhp-toward-end: to left}.rhp-bar[data-rhp-o=v][data-rhp-back]{--rhp-toward-end: to bottom}.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 32px))}.rhp-chart[data-rhp-sized]>.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap]){width:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-overlap][data-rhp-o=h]{min-height:var(--rhp-pitch, 32px)}.rhp-plot>*>.rhp-plot,.rhp-plot>.rhp-plot{--rhp-pitch: initial}.rhp-plot>*>.rhp-plot{position:absolute}.rhp-plot[data-rhp-o=h]>*>.rhp-plot{top:calc((100% - var(--rhp-plot-thick, 100%)) / 2);right:0;bottom:calc((100% - var(--rhp-plot-thick, 100%)) / 2);left:0}.rhp-plot[data-rhp-o=v]>*>.rhp-plot{top:0;right:calc((100% - var(--rhp-plot-thick, 100%)) / 2);bottom:0;left:calc((100% - var(--rhp-plot-thick, 100%)) / 2)}.rhp-bar,.rhp-area,.rhp-line{--rhp-lo: clamp(0, (min(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1);--rhp-hi: clamp(0, (max(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)}.rhp-dot,.rhp-tick,.rhp-label,.rhp-place{--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line{position:absolute}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell{clip-path:var(--rhp-clip, none)}.rhp-area[data-rhp-o=h],.rhp-line[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-area[data-rhp-o=v],.rhp-line[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-bar[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){left:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){bottom:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar{background:var(--rhp-color, var(--rhp-series-1))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){border-top-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h][data-rhp-back]{border-top-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){border-top-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v][data-rhp-back]{border-top-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h]{top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:0 -50%}.rhp-bar[data-rhp-o=v]{left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:-50% 0}.rhp-dot{width:var(--rhp-size, 10px);height:var(--rhp-size, 10px);border-radius:50%;background:var(--rhp-color, var(--rhp-series-1))}.rhp-dot[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%);translate:-50% -50%}.rhp-dot[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%);translate:-50% 50%}.rhp-place{width:0;height:0}.rhp-place[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%)}.rhp-place[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%)}.rhp-tick{background:var(--rhp-color, var(--rhp-ink))}.rhp-tick[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));width:var(--rhp-tick-width, 2px);translate:-50% -50%}.rhp-tick[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));height:var(--rhp-tick-width, 2px);translate:-50% 50%}.rhp-label{font-size:var(--rhp-label-size, 12px);line-height:1.15;white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-label[data-rhp-at][data-rhp-o=h]{left:calc(min(var(--rhp-p),1)*100%);top:50%;translate:0 -50%;padding-left:var(--rhp-label-gap, 5px)}.rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% -50%;padding-top:0;padding-right:var(--rhp-label-gap, 5px);padding-bottom:0;padding-left:0}.rhp-label[data-rhp-at][data-rhp-o=v]{bottom:calc(max(var(--rhp-p),0)*100%);left:50%;translate:-50% 0;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-label[data-rhp-at][data-rhp-o=v][data-rhp-side=before]{translate:-50% 100%;padding-top:var(--rhp-label-gap, 3px);padding-right:0;padding-bottom:0;padding-left:0}.rhp-label[data-rhp-edge][data-rhp-o=h]{top:50%;translate:0 -50%;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=h]{right:100%;width:var(--rhp-room-start, 104px);text-align:right;padding-right:var(--rhp-label-gap, 8px)}.rhp-label[data-rhp-edge=end][data-rhp-o=h]{left:100%;width:var(--rhp-room-end, 44px);padding-left:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge][data-rhp-o=v]{left:0;right:0;text-align:center;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=v]{top:100%;padding-top:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge=end][data-rhp-o=v]{bottom:100%;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-cell{top:var(--rhp-cell-gap, 1px);right:var(--rhp-cell-gap, 1px);bottom:var(--rhp-cell-gap, 1px);left:var(--rhp-cell-gap, 1px);background:var(--rhp-color, color-mix(in oklab, var(--rhp-high) calc(clamp(0, (var(--rhp-value) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)*100%) , var(--rhp-low)));border-top-left-radius:var(--rhp-radius, 2px);border-top-right-radius:var(--rhp-radius, 2px);border-bottom-right-radius:var(--rhp-radius, 2px);border-bottom-left-radius:var(--rhp-radius, 2px)}.rhp-area{overflow:visible;fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 35%,transparent);stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:1.5px;filter:none;pointer-events:inherit;stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:miter;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;fill-rule:nonzero;paint-order:normal;shape-rendering:auto}.rhp-area path{fill:inherit;stroke:inherit;stroke-width:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;fill-rule:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit;d:var(--rhp-d, none)}.rhp-area[data-rhp-o=h],.rhp-line[data-rhp-o=h]{top:calc(var(--rhp-inset) / 2);height:calc(100% - var(--rhp-inset))}.rhp-area[data-rhp-o=v],.rhp-line[data-rhp-o=v]{left:calc(var(--rhp-inset) / 2);width:calc(100% - var(--rhp-inset))}.rhp-line{overflow:visible;fill:none;stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:2px;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;paint-order:normal;shape-rendering:auto;filter:none;pointer-events:inherit;--rhp-d-under: none}.rhp-line path{stroke-width:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit}.rhp-line .rhp-stroke{fill:none;stroke:inherit;d:var(--rhp-d, none)}.rhp-line .rhp-under{fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 22%,transparent);stroke:none;d:var(--rhp-d-under, none)}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label[data-rhp-at],.rhp-place,.rhp-area,.rhp-line,.rhp-gridline){transition-property:left,width,bottom,height,background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out)}.rhp-cell{transition-property:background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out);transition-delay:0s;transition-behavior:normal}@media(prefers-reduced-motion:no-preference){.rhp-area:not([data-rhp-animate=js] *) path,.rhp-line:not([data-rhp-animate=js] *) path{transition-property:d;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out);transition-delay:0s;transition-behavior:normal}}}@layer rhp.core{@media(forced-colors:active){.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell,.rhp-area,.rhp-line{forced-color-adjust:none}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell{outline:1px solid CanvasText;outline-offset:-1px}}}@layer rhp.place{.rhp-plot>*{position:absolute;box-sizing:border-box}.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap])>*{left:0;right:0;top:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));bottom:auto;height:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap])>*{top:0;bottom:0;left:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));right:auto;width:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-reorder=slide]:not([data-rhp-overlap])>*{transition-property:top,left;transition-duration:var(--rhp-slide-time, .3s),var(--rhp-slide-time, .3s);transition-timing-function:var(--rhp-slide-ease, ease-in-out),var(--rhp-slide-ease, ease-in-out);transition-delay:0s,0s;transition-behavior:normal,normal}.rhp-chart[data-rhp-turning] .rhp-plot[data-rhp-reorder]>*{transition:none}.rhp-chart[data-rhp-turning],.rhp-chart[data-rhp-turning] *,[data-rhp-animate=js] .rhp-bar,[data-rhp-animate=js] .rhp-dot,[data-rhp-animate=js] .rhp-tick,[data-rhp-animate=js] .rhp-label,[data-rhp-animate=js] .rhp-place,[data-rhp-animate=js] .rhp-area,[data-rhp-animate=js] .rhp-line,[data-rhp-animate=js] .rhp-gridline,[data-rhp-animate=js] .rhp-cell{transition:none}.rhp-plot>[hidden]{display:none}.rhp-plot[data-rhp-overlap]>:not(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){inset:0}@media(prefers-reduced-motion:reduce){.rhp-plot[data-rhp-reorder]:not([data-rhp-overlap])>*{transition:none}.rhp-chart .rhp-bar,.rhp-chart .rhp-dot,.rhp-chart .rhp-tick,.rhp-chart .rhp-label,.rhp-chart .rhp-place,.rhp-chart .rhp-area,.rhp-chart .rhp-line,.rhp-chart .rhp-gridline,.rhp-chart .rhp-cell{transition:none}}}";
+
+// src/manydots.css
+var manydots_default = "@layer rhp.core{.rhp-manydots{position:relative!important;z-index:1}.rhp-manydot{position:absolute!important;box-sizing:border-box!important;padding:0!important;border:0 solid transparent!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;top:auto!important;right:auto!important;width:var(--rhp-manydot-size, 4px)!important;height:var(--rhp-manydot-size, 4px)!important;margin:0 0 -2px -2px!important;translate:none!important;border-radius:50%;background-color:var(--rhp-manydot-color, #2a78d6);clip-path:var(--rhp-manydot-clip, none)}:where(.rhp-manydots-points[data-rhp-offset])>.rhp-manydot{margin-left:var(--rhp-manydot-offset)!important;margin-bottom:var(--rhp-manydot-offset)!important}@media(forced-colors:active){.rhp-manydot{forced-color-adjust:none!important;outline:1px solid CanvasText!important;outline-offset:-1px!important}}}";
 
 // src/gutters.css
 var gutters_default = "@layer rhp.core{[data-rhp-gutters=h]>.rhp-body{grid-template-columns:[start-start] var(--rhp-gutter-start) [start-end track-start] minmax(0,1fr) [track-end end-start] var(--rhp-gutter-end) [end-end]}.rhp-chart[data-rhp-gutters=v]:not([data-rhp-aspect])>.rhp-body{height:auto;grid-template-rows:[end-start] var(--rhp-gutter-end) [end-end track-start] var(--rhp-height, 240px) [track-end start-start] var(--rhp-gutter-start) [start-end]}.rhp-chart[data-rhp-gutters=v][data-rhp-aspect]>.rhp-body{grid-template-rows:[end-start] var(--rhp-gutter-end) [end-end track-start] minmax(0,1fr) [track-end start-start] var(--rhp-gutter-start) [start-end]}[data-rhp-gutters=h]>.rhp-body>*{grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>*{grid-area:track / 1}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{inset:auto;translate:none;width:auto;min-width:0;min-height:0}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{align-self:center;max-width:var(--rhp-gutter-max, 40cqw)}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{justify-self:end}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{justify-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{justify-self:stretch}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{align-self:end}}@layer rhp.place{[data-rhp-gutters=h]>.rhp-body>.rhp-plot{grid-column:1 / -1;display:grid;grid-template-columns:subgrid;grid-template-rows:100%}[data-rhp-gutters=v]>.rhp-body>.rhp-plot{grid-row:1 / -1;display:grid;grid-template-rows:subgrid;grid-template-columns:100%}[data-rhp-gutters]>.rhp-body>.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){position:relative;display:grid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / auto / -1;grid-template-columns:subgrid}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*{grid-area:1 / 1 / -1;grid-template-rows:subgrid}[data-rhp-gutters=h]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{align-self:start}[data-rhp-gutters=v]>.rhp-body>.rhp-plot:not([data-rhp-overlap])>*{justify-self:start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){grid-area:1 / track}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>:is(svg,img,canvas,video,iframe,embed,object,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-area,.rhp-line){grid-area:track / 1}[data-rhp-gutters=h] .rhp-plot .rhp-bar,[data-rhp-gutters=h] .rhp-plot .rhp-dot,[data-rhp-gutters=h] .rhp-plot .rhp-tick,[data-rhp-gutters=h] .rhp-plot .rhp-label,[data-rhp-gutters=h] .rhp-plot .rhp-cell,[data-rhp-gutters=h] .rhp-plot .rhp-area,[data-rhp-gutters=h] .rhp-plot .rhp-line,[data-rhp-gutters=h] .rhp-plot .rhp-plot{grid-column:track}[data-rhp-gutters=v] .rhp-plot .rhp-bar,[data-rhp-gutters=v] .rhp-plot .rhp-dot,[data-rhp-gutters=v] .rhp-plot .rhp-tick,[data-rhp-gutters=v] .rhp-plot .rhp-label,[data-rhp-gutters=v] .rhp-plot .rhp-cell,[data-rhp-gutters=v] .rhp-plot .rhp-area,[data-rhp-gutters=v] .rhp-plot .rhp-line,[data-rhp-gutters=v] .rhp-plot .rhp-plot{grid-row:track}[data-rhp-gutters]>.rhp-body>.rhp-plot>*>[data-rhp-edge]{position:relative}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:1 / start}[data-rhp-gutters=h]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:1 / end}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=start]{grid-area:start / 1}[data-rhp-gutters=v]>.rhp-body>.rhp-plot>*>[data-rhp-edge=end]{grid-area:end / 1}}";
@@ -265,7 +268,8 @@ function update(entry, css2) {
   }
 }
 var coreText, guttersText, crossText, coreSheet = () => coreText ?? (coreText = LAYERS + `
-` + important(rhp_default)), gutterSheet = () => guttersText ?? (guttersText = important(gutters_default)), crossSheet = () => crossText ?? (crossText = important(cross_default));
+` + important(rhp_default) + `
+` + manydots_default), gutterSheet = () => guttersText ?? (guttersText = important(gutters_default)), crossSheet = () => crossText ?? (crossText = important(cross_default));
 var linked = !1, checked = !1;
 function linkedCss() {
   linked = !0;
@@ -640,14 +644,14 @@ var loose = (v) => {
     } else if (depth === 0 && (ch === ";" || ch === "!")) return !0;
   }
   return quote2 !== null || depth !== 0;
-}, safe = (v) => v != null && !(typeof v == "string" && /[;!{}]/.test(v) && loose(v));
+}, safeCssValue = (v) => v != null && !(typeof v == "string" && /[;!{}]/.test(v) && loose(v));
 function withVars(st, vars) {
   let css2 = typeof st == "string" ? st : "";
   if (st && typeof st == "object")
     for (let key in st)
-      safe(st[key]) && (css2 += (css2 && !css2.endsWith(";") ? ";" : "") + key + ":" + st[key]);
+      safeCssValue(st[key]) && (css2 += (css2 && !css2.endsWith(";") ? ";" : "") + key + ":" + st[key]);
   for (let key in vars)
-    safe(vars[key]) && (css2 += (css2 && !css2.endsWith(";") ? ";" : "") + key + ":" + vars[key]);
+    safeCssValue(vars[key]) && (css2 += (css2 && !css2.endsWith(";") ? ";" : "") + key + ":" + vars[key]);
   return css2 || void 0;
 }
 var others = (props, mine) => {
@@ -811,6 +815,16 @@ var _tmpl$ = ["<div", ' style="', '">', "</div>"], _tmpl$22 = ["<div", ' style="
 }), useOrientation = () => useContext(Around).orientation, useCrossed = () => {
   let frame = useContext(Around).frame;
   return () => frame?.crossed() ?? !1;
+}, usePointFrame = () => {
+  let around = useContext(Around), frame = around.frame;
+  if (!frame) throw new Error("rhp: ManyDots must be inside a Chart with a cross scale.");
+  return {
+    orientation: around.orientation,
+    scale: frame.shown,
+    cross: frame.crossShown,
+    theme: frame.theme,
+    static: around.still
+  };
 }, short = (o) => o === "vertical" ? "v" : "h", SETTINGS = /* @__PURE__ */ new Set(["children", "order", "reorder", "orientation", "overlap", "slats", "key", "rows", "animate", "thick", "class", "style", "ref", "onLoop", "static", "keyboard"]), STEPS = {
   ArrowDown: 1,
   ArrowRight: 1,
@@ -1167,8 +1181,8 @@ function Scale(props) {
     first: (t) => t.index === 0,
     last: (t) => t.index === ticks().length - 1,
     toEnd: (t) => {
-      let [a, b] = frame.shown(), length2 = frame.length();
-      return length2 ? (b - t.at) / (b - a || 1) * length2 : 1 / 0;
+      let [a, b] = frame.shown(), length3 = frame.length();
+      return length3 ? (b - t.at) / (b - a || 1) * length3 : 1 / 0;
     }
   }), "Scale");
 }
@@ -1213,7 +1227,7 @@ function Theme(props) {
 }
 function themeVars(theme) {
   let vars = {};
-  theme.series.forEach((color, i) => vars["--rhp-series-" + (i + 1)] = color);
+  theme.series.forEach((color2, i) => vars["--rhp-series-" + (i + 1)] = color2);
   for (let key in theme)
     key !== "series" && (vars["--rhp-" + key] = theme[key]);
   return vars;
@@ -1268,11 +1282,16 @@ function Chart(props) {
     h: 0
   }, {
     equals: (a, b) => a.w === b.w && a.h === b.h
-  }), length2 = () => orientation() === "vertical" ? size().h : size().w, slats = /* @__PURE__ */ new Set(), crossed = () => props.cross != null, crossMoves, crossShown = () => anim() ? (crossMoves ?? (crossMoves = [animated(() => props.cross[0], timing), animated(() => props.cross[1], timing)]), [crossMoves[0](), crossMoves[1]()]) : props.cross, crossAxis = () => crossed() && tickValues(props.crossTicks, props.cross).length > 0, frame = {
+  }), length3 = () => orientation() === "vertical" ? size().h : size().w, slats = /* @__PURE__ */ new Set(), crossed = () => props.cross != null, crossMoves, crossShown = () => anim() ? (crossMoves ?? (crossMoves = [animated(() => props.cross[0], timing), animated(() => props.cross[1], timing)]), [crossMoves[0](), crossMoves[1]()]) : props.cross, crossAxis = () => crossed() && tickValues(props.crossTicks, props.cross).length > 0, frame = {
     orientation,
     domain,
     shown,
-    length: length2,
+    crossShown: () => crossed() ? crossShown() : null,
+    theme: () => ({
+      ...theme(),
+      ...props.style
+    }),
+    length: length3,
     crossed,
     sheet: (fn) => fn?.scope && slats.add(fn),
     need: (want) => setWants((list) => [...list, want]),
@@ -1377,6 +1396,9 @@ function Chart(props) {
             },
             get format() {
               return props.format;
+            },
+            get grid() {
+              return props.grid;
             }
           });
         }
@@ -1392,6 +1414,9 @@ function Chart(props) {
             },
             get format() {
               return props.crossFormat;
+            },
+            get grid() {
+              return props.crossGrid;
             }
           });
         }
@@ -1441,7 +1466,7 @@ for (let name of ["color", "thick", "size", "across", "radius", "start-radius", 
   KNOBS["--rhp-" + name] = "initial";
 function Axis(props) {
   let along = useOrientation(), orientation = () => props.cross ? along() === "vertical" ? "horizontal" : "vertical" : along();
-  return _$ssr2(_tmpl$42, _$ssrHydrationKey2(), _$ssrAttribute2("data-rhp-cross", props.cross ? "" : _$escape2(void 0, !0), !1), _$escape2(_$createComponent(For, {
+  return _$ssr2(_tmpl$42, _$ssrHydrationKey2(), _$ssrAttribute2("data-rhp-cross", props.cross ? "" : _$escape2(void 0, !0), !1) + _$ssrAttribute2("data-rhp-grid", props.grid === !1 ? "off" : _$escape2(void 0, !0), !1), _$escape2(_$createComponent(For, {
     get each() {
       return props.ticks;
     },
@@ -1473,69 +1498,280 @@ var straighten = (from, cmd) => {
   }
   return out;
 }, points = (cmds) => {
-  let out = [], at2 = [0, 0];
-  for (let c of cmds)
-    if (c[0] !== "Z") {
-      if (c[0] === "M" || c[0] === "L") at2 = [c[1], c[2]];
-      else {
-        if (c.slice(1).every((v) => typeof v == "number") && at2.every((v) => typeof v == "number")) {
-          for (let p of straighten(at2, c)) out.push(p);
-          at2 = c.slice(-2);
-          continue;
-        }
+  let paths = [], out, at2 = [0, 0];
+  for (let c of cmds) {
+    if (c[0] === "M")
+      out = [], paths.push(out), at2 = [c[1], c[2]];
+    else if (c[0] === "Z") at2 = out[0];
+    else if (c[0] === "L") at2 = [c[1], c[2]];
+    else {
+      if (c.slice(1).every((v) => typeof v == "number") && at2.every((v) => typeof v == "number")) {
+        for (let p of straighten(at2, c)) out.push(p);
         at2 = c.slice(-2);
+        continue;
       }
-      out.push(at2);
+      at2 = c.slice(-2);
     }
-  return out;
+    out.push(at2);
+  }
+  if (paths.length === 1) return paths[0].at(-1) === paths[0][0] ? paths[0].slice(0, -1) : paths[0];
+  let anchor = paths[0][0];
+  return paths.flatMap((p) => [...p, p[0], anchor]);
 }, polygon = (cmds, vertical, back2) => "polygon(" + points(cmds).map(([a, c]) => place(a, c, vertical, back2).join(" ")).join(", ") + ")", shapeFn = (cmds, vertical, back2) => {
   let parts = [];
   for (let c of cmds) {
     let pt = (i) => place(c[i], c[i + 1], vertical, back2).join(" ");
-    c[0] === "M" ? parts.unshift("from " + pt(1)) : c[0] === "L" ? parts.push("line to " + pt(1)) : c[0] === "Q" ? parts.push("curve to " + pt(3) + " with " + pt(1)) : c[0] === "C" ? parts.push("curve to " + pt(5) + " with " + pt(1) + " / " + pt(3)) : c[0] === "Z" && parts.push("close");
+    c[0] === "M" ? parts.push((parts.length ? "move to " : "from ") + pt(1)) : c[0] === "L" ? parts.push("line to " + pt(1)) : c[0] === "Q" ? parts.push("curve to " + pt(3) + " with " + pt(1)) : c[0] === "C" ? parts.push("curve to " + pt(5) + " with " + pt(1) + " / " + pt(3)) : c[0] === "Z" && parts.push("close");
   }
   return "shape(" + parts.join(", ") + ")";
 };
 function shape(...cmds) {
   let list = (Array.isArray(cmds[0]) && Array.isArray(cmds[0][0]) ? cmds[0] : cmds).map((c) => typeof c == "string" ? [c] : c);
+  if (list[0]?.[0] !== "M") throw new Error("rhp: a shape must start with M");
   for (let c of list) {
     let n = PAIRS[c[0]];
     if (n === void 0) throw new Error(`rhp: ${c[0]} is not a shape command (M, L, Q, C or Z)`);
     if (c.length !== n * 2 + 1) throw new Error(`rhp: ${c[0]} in a shape takes ${n * 2} numbers, not ${c.length - 1}`);
   }
-  let curved = list.some((c) => c[0] === "Q" || c[0] === "C"), made2 = /* @__PURE__ */ new Map();
+  let curved = list.some((c) => c[0] === "Q" || c[0] === "C"), compound = list.filter((c) => c[0] === "M").length > 1, made2 = /* @__PURE__ */ new Map();
   return {
     curved,
     // The clip for a block drawn this way. Both forms are made once and kept, so a hundred slats of one type
     // compile one string between them.
     clip(vertical, back2) {
       let key = (vertical ? 2 : 0) + (back2 ? 1 : 0), out = made2.get(key);
-      return out === void 0 && (out = curved && supportsShape() ? shapeFn(list, vertical, back2) : polygon(list, vertical, back2), made2.set(key, out)), out;
+      return out === void 0 && (out = (curved || compound) && supportsShape() ? shapeFn(list, vertical, back2) : polygon(list, vertical, back2), made2.set(key, out)), out;
     }
   };
 }
 
-// src/poster.jsx
+// src/manydots.jsx
 import { ssrElement as _$ssrElement2 } from "solid-js/web";
 import { mergeProps as _$mergeProps2 } from "solid-js/web";
+import { ssrStyle as _$ssrStyle2 } from "solid-js/web";
+import { ssrAttribute as _$ssrAttribute3 } from "solid-js/web";
+import { escape as _$escape3 } from "solid-js/web";
+import { ssr as _$ssr3 } from "solid-js/web";
+import { createRenderEffect as createRenderEffect3, splitProps as splitProps3 } from "solid-js";
+import { ssrElement } from "solid-js/web";
+var _tmpl$7 = ["<style data-rhp-manydots>", "</style>"], _tmpl$23 = ['<div class="rhp-manydots-points"', ' style="', '">', "</div>"], _tmpl$33 = "<style data-rhp-manydots></style>", _tmpl$43 = ['<div class="rhp-manydots-points"', ' style="', '"></div>'], OWN = ["rows", "at", "cross", "key", "size", "color", "shape", "pointClass", "pointStyle", "class", "classList", "style", "ref", "children", "innerHTML", "textContent"], THEME_KEY = /^(series-\d+|positive|negative|ink|muted|grid|surface|low|high)$/, GEOMETRY = /* @__PURE__ */ new Set(["left", "bottom", "width", "height", "margin-left", "margin-bottom", "translate"]), cssName = (name) => name.startsWith("--") ? name : name.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase()), readValue = (value, row, index) => typeof value == "function" ? value(row, index) : value, length2 = (value) => typeof value == "number" ? value + "px" : value, clip = (value, vertical) => value?.clip(vertical, !1), color = (value, theme) => typeof value == "string" && THEME_KEY.test(value) ? theme["--rhp-" + value] : value, DEFAULT_OFFSET = "-2px", dimension = (value) => {
+  let text = String(value).trim(), simple = text.match(/^([+-]?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?)(%|[a-z]+)?$/i);
+  if (simple) {
+    let n = Number(simple[1]);
+    return !Number.isFinite(n) || n < 0 || !simple[2] && n !== 0 ? null : simple[2] === "%" ? {
+      percent: n / 2,
+      margin: "0px"
+    } : {
+      margin: -n / 2 + (simple[2] ?? "px")
+    };
+  }
+  return !/\bvar\s*\(/i.test(text) && /^(calc|min|max|clamp)\(/i.test(text) && text.endsWith(")") ? {
+    calculation: text,
+    margin: "0px"
+  } : null;
+}, center = (position, size) => size.percent != null ? position - size.percent + "%" : size.calculation ? `calc(${position}% - max(0px, ${size.calculation}) * .5)` : position + "%", coordinate = ([lo, hi]) => {
+  let span = hi - lo;
+  if (Number.isFinite(span)) return (value) => (value - lo) / span * 100;
+  let start = lo / 2, width = hi / 2 - start;
+  return (value) => (value / 2 - start) / width * 100;
+};
+function pointStyle(value, x, y, size, fill, shape2, sharedDimension, sharedOffset) {
+  let out = {};
+  if (value && typeof value == "object")
+    for (let name in value) {
+      let key = cssName(name);
+      /^(--[-\w]+|-?[a-z][-a-z\d]*)$/i.test(key) && value[name] != null && (out[key] = String(value[name]));
+    }
+  size != null && (out.width = out.height = String(size)), fill != null && (delete out["background-color"], out["background-color"] = String(fill)), shape2 != null && (delete out["clip-path"], out["clip-path"] = String(shape2));
+  let width = out.width == null ? sharedDimension : dimension(out.width), height = out.height == null ? sharedDimension : out.height === out.width ? width : dimension(out.height);
+  if ("width" in out) {
+    let value2 = out.width;
+    delete out.width, out.width = value2;
+  }
+  if ("height" in out) {
+    let value2 = out.height;
+    delete out.height, out.height = value2;
+  }
+  return delete out.left, delete out.bottom, delete out["margin-left"], delete out["margin-bottom"], delete out.translate, width && height ? (out.left = center(x, width), out.bottom = center(y, height), width.margin !== sharedOffset && (out["margin-left"] = width.margin), height.margin !== sharedOffset && (out["margin-bottom"] = height.margin)) : (out.left = x + "%", out.bottom = y + "%", sharedOffset !== "0px" && (out["margin-left"] = out["margin-bottom"] = "0px"), out.translate = "-50% 50%"), out;
+}
+function pointCss(styles) {
+  let text = "";
+  for (let key in styles) {
+    let value = styles[key];
+    safeCssValue(value) && (text += key + ":" + value + (GEOMETRY.has(key) ? " !important;" : ";"));
+  }
+  return text;
+}
+function newPoint(document2, point) {
+  let el = document2.createElement("div");
+  el.className = point.class, el.setAttribute("data-rhp-index", point.index);
+  for (let key in point.style) el.style.setProperty(key, point.style[key], GEOMETRY.has(key) ? "important" : "");
+  return point.el = el, point;
+}
+function freshPoints(container, values) {
+  let records = /* @__PURE__ */ new Map();
+  if (!values.length) return records;
+  let document2 = container.ownerDocument, fragment = document2.createDocumentFragment();
+  for (let point of values)
+    newPoint(document2, point), records.set(point.key, point), fragment.appendChild(point.el);
+  return container.appendChild(fragment), records;
+}
+function claimedPoint(el) {
+  let style2 = {}, priorities = {};
+  for (let i = 0; i < el.style.length; i++) {
+    let key = el.style.item(i);
+    style2[key] = el.style.getPropertyValue(key), priorities[key] = el.style.getPropertyPriority(key);
+  }
+  return {
+    el,
+    class: el.className,
+    index: Number(el.getAttribute("data-rhp-index")),
+    style: style2,
+    priorities
+  };
+}
+function collectionCss(values) {
+  let rules = {
+    width: values["--rhp-manydot-size"],
+    height: values["--rhp-manydot-size"],
+    "margin-left": values["--rhp-manydot-offset"] ?? DEFAULT_OFFSET,
+    "margin-bottom": values["--rhp-manydot-offset"] ?? DEFAULT_OFFSET,
+    "background-color": values["--rhp-manydot-color"],
+    "clip-path": values["--rhp-manydot-clip"]
+  }, text = "@layer rhp.place, rhp.slat, rhp.core;@layer rhp.core { @scope { .rhp-manydot {";
+  for (let key in rules)
+    safeCssValue(rules[key]) && (text += `${key}:${rules[key]}${GEOMETRY.has(key) ? " !important" : ""};`);
+  return (text + "} } }").replace(/<\/(style)/gi, "<\\/$1");
+}
+function updatePoint(record, next) {
+  let el = record.el;
+  record.class !== next.class && (el.className = next.class), record.index !== next.index && el.setAttribute("data-rhp-index", next.index);
+  let before = Object.keys(record.style), after = Object.keys(next.style);
+  if (before.length !== after.length || after.some((key, i) => key !== before[i] || next.style[key] !== record.style[key] || record.priorities && record.priorities[key] !== (GEOMETRY.has(key) ? "important" : ""))) {
+    for (let key of before)
+      key in next.style || el.style.removeProperty(key);
+    for (let key of after)
+      el.style.setProperty(key, next.style[key], GEOMETRY.has(key) ? "important" : "");
+  }
+  record.class = next.class, record.index = next.index, record.style = next.style, delete record.priorities;
+}
+function ManyDots(props) {
+  let frame = usePointFrame();
+  if (!frame) throw new Error("rhp: ManyDots must be inside a Chart with a cross scale");
+  let [, attrs] = splitProps3(props, OWN), cls2 = () => {
+    let text = props.class ? "rhp-plot rhp-manydots " + props.class : "rhp-plot rhp-manydots", list = props.classList;
+    for (let name in list)
+      list[name] && (text += " " + name);
+    return text;
+  }, sharedSize = () => typeof props.size == "function" ? "4px" : length2(props.size ?? "4px"), sharedOffset = () => dimension(sharedSize())?.margin ?? "0px", defaults = () => {
+    let theme = frame.theme(), vertical = frame.orientation() === "vertical";
+    return {
+      "--rhp-manydot-size": sharedSize(),
+      "--rhp-manydot-color": typeof props.color == "function" ? color("series-1", theme) : color(props.color ?? "series-1", theme),
+      "--rhp-manydot-clip": typeof props.shape == "function" ? "none" : clip(props.shape, vertical) ?? "none",
+      "--rhp-manydot-offset": sharedOffset() === DEFAULT_OFFSET ? void 0 : sharedOffset()
+    };
+  }, points2 = () => {
+    if (props.rows == null || props.at === void 0 || props.cross === void 0)
+      throw new Error("rhp: ManyDots requires rows, at and cross props");
+    let scale = frame.scale(), cross = frame.cross();
+    if (!cross) throw new Error("rhp: ManyDots requires a Chart with cross={[min, max]}");
+    if (![...scale, ...cross].every(Number.isFinite) || scale[0] === scale[1] || cross[0] === cross[1])
+      throw new Error("rhp: ManyDots requires finite scale and cross domains with distinct endpoints");
+    let vertical = frame.orientation() === "vertical", theme = frame.theme(), alongPosition = coordinate(scale), crossPosition = coordinate(cross), rows = props.rows ?? [], at2 = props.at, crossValue = props.cross, size = props.size, fill = props.color, shape2 = props.shape, pointClass = props.pointClass, styles = props.pointStyle, defaultDimension = dimension(sharedSize()), defaultOffset = sharedOffset(), key = props.key, seen = key ? /* @__PURE__ */ new Set() : null, out = [];
+    for (let i = 0; i < rows.length; i++) {
+      let row = rows[i], a = readValue(at2, row, i), c = readValue(crossValue, row, i);
+      if (!Number.isFinite(a) || !Number.isFinite(c)) continue;
+      let along = alongPosition(a), across = crossPosition(c);
+      if (!Number.isFinite(along) || !Number.isFinite(across)) continue;
+      let id = key ? key(row, i) : i;
+      if (seen?.has(id)) throw new Error("rhp: ManyDots key must return a unique value for each point");
+      seen?.add(id);
+      let extraClass = readValue(pointClass, row, i);
+      out.push({
+        key: id,
+        index: i,
+        class: extraClass ? "rhp-manydot " + extraClass : "rhp-manydot",
+        style: pointStyle(readValue(styles, row, i), vertical ? across : along, vertical ? along : across, typeof size == "function" ? length2(size(row, i)) : void 0, typeof fill == "function" ? color(fill(row, i), theme) : void 0, typeof shape2 == "function" ? clip(shape2(row, i), vertical) : void 0, defaultDimension, defaultOffset)
+      });
+    }
+    return out;
+  };
+  {
+    let html = points2().map((point) => ssrElement("div", {
+      class: point.class,
+      "data-rhp-index": point.index,
+      style: pointCss(point.style)
+    }, void 0, !1).t).join("");
+    return _$ssrElement2("div", _$mergeProps2({
+      get class() {
+        return cls2();
+      }
+    }, attrs, {
+      "data-rhp-overlap": "",
+      get "data-rhp-o"() {
+        return short(frame.orientation());
+      },
+      get style() {
+        return withVars(props.style, {});
+      }
+    }), () => [_$ssr3(_tmpl$7, collectionCss(defaults())), _$ssr3(_tmpl$23, _$ssrAttribute3("data-rhp-offset", sharedOffset() === DEFAULT_OFFSET ? _$escape3(void 0, !0) : "", !1), _$ssrStyle2(withVars(void 0, defaults())), html)], !0);
+  }
+  let container, stylesheet, el = _$ssrElement2("div", _$mergeProps2({
+    get class() {
+      return cls2();
+    }
+  }, attrs, {
+    "data-rhp-overlap": "",
+    get "data-rhp-o"() {
+      return short(frame.orientation());
+    },
+    get style() {
+      return props.style;
+    }
+  }), () => [_$ssr3(_tmpl$33), _$ssr3(_tmpl$43, _$ssrAttribute3("data-rhp-offset", sharedOffset() === DEFAULT_OFFSET ? _$escape3(void 0, !0) : "", !1), _$ssrStyle2(defaults()))], !0), records = /* @__PURE__ */ new Map(), first = !0;
+  return createRenderEffect3(() => {
+    let text = collectionCss(defaults());
+    stylesheet.textContent !== text && (stylesheet.textContent = text);
+  }), createRenderEffect3(() => {
+    let values = points2(), initial = first ? [...container.children].filter((node) => node.classList.contains("rhp-manydot")) : [];
+    if (!records.size && !container.hasChildNodes()) {
+      records = freshPoints(container, values), first = !1;
+      return;
+    }
+    let next = /* @__PURE__ */ new Map(), cursor = container.firstElementChild;
+    for (let i = 0; i < values.length; i++) {
+      let value = values[i], record = records.get(value.key);
+      record ? updatePoint(record, value) : initial[i] ? (record = claimedPoint(initial[i]), updatePoint(record, value)) : record = newPoint(el.ownerDocument, value), next.set(value.key, record), record.el !== cursor && container.insertBefore(record.el, cursor), cursor = record.el.nextElementSibling;
+    }
+    for (let [key, record] of records)
+      next.has(key) || record.el.remove();
+    for (let i = values.length; i < initial.length; i++) initial[i].remove();
+    records = next, first = !1;
+  }), props.ref?.(el), el;
+}
+
+// src/poster.jsx
+import { ssrElement as _$ssrElement3 } from "solid-js/web";
+import { mergeProps as _$mergeProps3 } from "solid-js/web";
 import { createComponent as _$createComponent2 } from "solid-js/web";
 import { ssrHydrationKey as _$ssrHydrationKey3 } from "solid-js/web";
-import { ssr as _$ssr3 } from "solid-js/web";
-import { escape as _$escape3 } from "solid-js/web";
-import { Show as Show2, splitProps as splitProps3 } from "solid-js";
-var _tmpl$7 = ['<figcaption><span class="kicker">', '</span><span class="headline">', '</span><span class="dek">', "</span></figcaption>"], _tmpl$23 = ["<span", ' class="note">', "</span>"];
+import { ssr as _$ssr4 } from "solid-js/web";
+import { escape as _$escape4 } from "solid-js/web";
+import { Show as Show2, splitProps as splitProps4 } from "solid-js";
+var _tmpl$8 = ['<figcaption><span class="kicker">', '</span><span class="headline">', '</span><span class="dek">', "</span></figcaption>"], _tmpl$24 = ["<span", ' class="note">', "</span>"];
 function Poster(p) {
-  let [own, rest] = splitProps3(p, ["look", "kicker", "title", "dek", "note", "class", "children"]);
-  return _$ssrElement2("figure", _$mergeProps2({
+  let [own, rest] = splitProps4(p, ["look", "kicker", "title", "dek", "note", "class", "children"]);
+  return _$ssrElement3("figure", _$mergeProps3({
     get class() {
       return ["poster", own.look, own.class].filter(Boolean).join(" ");
     }
-  }, rest), () => [_$ssr3(_tmpl$7, _$escape3(own.kicker), _$escape3(own.title), _$escape3(own.dek)), "<!--$-->", _$escape3(own.children), "<!--/-->", "<!--$-->", _$escape3(_$createComponent2(Show2, {
+  }, rest), () => [_$ssr4(_tmpl$8, _$escape4(own.kicker), _$escape4(own.title), _$escape4(own.dek)), "<!--$-->", _$escape4(own.children), "<!--/-->", "<!--$-->", _$escape4(_$createComponent2(Show2, {
     get when() {
       return own.note;
     },
     get children() {
-      return _$ssr3(_tmpl$23, _$ssrHydrationKey3(), _$escape3(own.note));
+      return _$ssr4(_tmpl$24, _$ssrHydrationKey3(), _$escape4(own.note));
     }
   })), "<!--/-->"], !0);
 }
@@ -1548,6 +1784,7 @@ export {
   Dot,
   Label,
   Line,
+  ManyDots,
   Place,
   Plot,
   Poster,

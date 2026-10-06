@@ -12,7 +12,7 @@ The guides and the reference under Optional are written for Solid apps in JSX; t
 
 ## The skill
 
-- [llms-full.txt](https://rhp.vercel.app/llms-full.txt): SKILL.md, api.md and pitfalls.md in one file
+- [llms-full.txt](https://rhp.vercel.app/llms-full.txt): SKILL.md, api.md in one file
 - [SKILL.md](https://rhp.vercel.app/ai/rhp/SKILL.md): the workflow for every chart, how an rhp chart is built, a complete example, and the rules that prevent most bugs
 - [api.md](https://rhp.vercel.app/ai/rhp/references/api.md): every component, prop, helper and CSS variable, exactly.
 - [design.md](https://rhp.vercel.app/ai/rhp/references/design.md): the poster, art direction from the subject, look kits, palettes, type, layout, annotation, dark mode.
@@ -65,7 +65,7 @@ The guides and the reference under Optional are written for Solid apps in JSX; t
 ## Optional
 
 - [Guide: Screen readers](https://rhp.vercel.app/guides/accessibility/): A chart reads as a named figure with a list of its slats, in the order they're shown.
-- [Guide: Blocks](https://rhp.vercel.app/guides/blocks/): The eight building blocks of a slat, Bar, Dot, Tick, Label, Cell, Place, Area and Line, each with an example.
+- [Guide: Blocks](https://rhp.vercel.app/guides/blocks/): The eight individual building blocks of a slat, plus ManyDots for a bulk HTML scatter collection.
 - [Guide: Data](https://rhp.vercel.app/guides/data/): How a Plot hands your data to its slats, as lists or as row objects, with computed values and keys.
 - [Guide: Interaction](https://rhp.vercel.app/guides/interaction/): Hover states in CSS, clicks and keyboard with ordinary handlers, and choices fed back to the chart as data.
 - [Guide: Layout and orientation](https://rhp.vercel.app/guides/layout/): Turn charts vertical, set slat sizes and make room for names and numbers.
@@ -76,10 +76,11 @@ The guides and the reference under Optional are written for Solid apps in JSX; t
 - [Guide: Server rendering](https://rhp.vercel.app/guides/server/): Draw charts on the server, so they show before any script runs; the browser then takes them over.
 - [Guide: Styling](https://rhp.vercel.app/guides/styling/): Style charts with plain CSS. Classes, hover, gradients and images, plus a few rhp variables that work in both directions.
 - [Guide: Colors and themes](https://rhp.vercel.app/guides/themes/): Set a chart's colors and font with a theme, and color blocks by theme names.
-- [Reference: Blocks](https://rhp.vercel.app/reference/blocks/): Bar, Dot, Tick, Label, Cell, Place, Area and Line, and the props each one takes.
+- [Reference: Blocks](https://rhp.vercel.app/reference/blocks/): Bar, Dot, Tick, Label, Cell, Place, Area and Line, plus ManyDots for bulk scatter points.
 - [Reference: Chart](https://rhp.vercel.app/reference/chart/): The frame around one or more Plots. It sets the scale, the direction, the axis and the theme.
 - [Reference: CSS](https://rhp.vercel.app/reference/css/): The selectors and variables rhp adds to a slat's CSS, and the theme colors.
 - [Reference: Helpers](https://rhp.vercel.app/reference/helpers/): Small functions that turn raw data into what a chart needs, sort rows and set tick marks.
+- [Reference: ManyDots](https://rhp.vercel.app/reference/manydots/): A light-DOM bulk point collection with shared styles, category classes, per-point colors, and native events.
 - [Reference: Plot](https://rhp.vercel.app/reference/plot/): A stack of slats made from your data. Every prop that isn't a setting is data for the slats.
 - [Reference: Poster](https://rhp.vercel.app/reference/poster/): The panel the gallery's examples sit in, a kicker, a headline, a dek and a note around a chart. Its looks are an optional stylesheet.
 - [Reference: Scale](https://rhp.vercel.app/reference/scale/): Draw the chart's scale your own way, with a slat per tick.

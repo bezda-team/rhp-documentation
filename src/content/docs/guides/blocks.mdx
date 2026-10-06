@@ -1,6 +1,6 @@
 ---
 title: Blocks
-description: The eight building blocks of a slat, Bar, Dot, Tick, Label, Cell, Place, Area and Line, each with an example.
+description: The eight individual building blocks of a slat, plus ManyDots for a bulk HTML scatter collection.
 ---
 
 import Demo from '../../../customizations/components/Demo.astro';
@@ -8,6 +8,7 @@ import Demo from '../../../customizations/components/Demo.astro';
 A slat is made of blocks.
 You give a block numbers from your data, and rhp works out where on the chart those numbers fall.
 You can put as many blocks in a slat as you like, and any elements of your own around or inside them.
+For many scatter points, [ManyDots](/reference/manydots/) draws a collection directly inside a Chart.
 
 ## Bar
 
@@ -25,6 +26,17 @@ A round point at `at`.
 `size` sets its diameter (10px by default).
 
 <Demo name="block-dot" height={170} />
+
+## ManyDots
+
+A bulk collection of plain HTML points, positioned by `at` and `cross` on the Chart's two scales.
+Use ManyDots directly inside the Chart, without a Plot or a slat per point.
+Choose it explicitly for a large scatter collection; Dot remains available at any point count for individual blocks and custom slat content.
+
+Points can share styling, use category classes, or have individual colors, sizes, shapes, and styles.
+The collection uses light DOM, so document queries and native event delegation can reach its points.
+
+See the [ManyDots page](/reference/manydots/) for the live example, complete props, interaction patterns, and current source-build availability.
 
 ## Tick
 
