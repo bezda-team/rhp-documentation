@@ -26,6 +26,11 @@ const apps = [
 		code: 'copilot mcp add rhp -- npx -y @bezda/rhp-mcp',
 	},
 	{
+		name: 'VS Code',
+		instruction: 'Run in your terminal to add rhp to your VS Code user profile.',
+		code: 'code --add-mcp "{\\"name\\":\\"rhp\\",\\"command\\":\\"npx\\",\\"args\\":[\\"-y\\",\\"@bezda/rhp-mcp\\"]}"',
+	},
+	{
 		name: 'Claude Desktop',
 		instruction: 'In Settings > Developer > Edit Config, merge this into claude_desktop_config.json, then fully restart Claude.',
 		code: config,
@@ -34,11 +39,6 @@ const apps = [
 		name: 'Cursor',
 		instruction: 'Merge this into ~/.cursor/mcp.json for all projects, or .cursor/mcp.json for one project.',
 		code: JSON.stringify({ mcpServers: { rhp: { type: 'stdio', ...server } } }, null, 2),
-	},
-	{
-		name: 'VS Code',
-		instruction: 'Run in your terminal to add rhp to your VS Code user profile.',
-		code: 'code --add-mcp "{\\"name\\":\\"rhp\\",\\"command\\":\\"npx\\",\\"args\\":[\\"-y\\",\\"@bezda/rhp-mcp\\"]}"',
 	},
 	{
 		name: 'Windsurf',
