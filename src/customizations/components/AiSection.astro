@@ -35,10 +35,6 @@ import McpSetup from './McpSetup.astro';
 				Use the MCP server on its own or alongside the skill.
 			</p>
 			<McpSetup />
-			<p class="ai-mcp-links">
-				<a href="/ai/#with-mcp-tools">Set up the MCP server<span aria-hidden="true"> →</span></a>
-				<a href="https://www.npmjs.com/package/@bezda/rhp-mcp">View the package on npm<span aria-hidden="true"> ↗</span></a>
-			</p>
 		</div>
 	</div>
 	<p class="ai-more">
@@ -103,26 +99,6 @@ import McpSetup from './McpSetup.astro';
 
 	.ai-way-mcp {
 		grid-column: 1 / -1;
-	}
-
-	.ai-mcp-links {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem 1.5rem;
-		margin: 0;
-		font-size: var(--sl-text-sm);
-	}
-
-	.ai-mcp-links a {
-		font-weight: 600;
-		color: var(--sl-color-white);
-		text-decoration: underline;
-		text-decoration-color: var(--sl-color-accent-high);
-		text-underline-offset: 0.2em;
-	}
-
-	.ai-mcp-links a:hover {
-		color: var(--sl-color-accent-high);
 	}
 
 	h3 {
