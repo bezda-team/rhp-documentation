@@ -2,6 +2,7 @@
 import { createSignal, onCleanup, Show } from "solid-js";
 
 const WIDTH = 1280;
+const POSTER_SCALE = 1.15;
 
 export default function RecipePoster(props) {
   const [ready, setReady] = createSignal(false);
@@ -21,6 +22,8 @@ export default function RecipePoster(props) {
       if (disposed) return;
       const poster = doc.querySelector(".poster");
       if (!poster) throw new Error(`No poster rendered in ${props.entry.url}`);
+      // A narrower layout makes type and details larger when the poster fits the column.
+      poster.style.width = `${poster.getBoundingClientRect().width / POSTER_SCALE}px`;
       const measure = () => {
         queued = 0;
         if (disposed) return;
