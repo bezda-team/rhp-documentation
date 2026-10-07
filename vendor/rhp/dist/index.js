@@ -654,12 +654,31 @@ function cssTransition(path) {
   };
 }
 var drawn = (read, path) => noCssD ? transitioned(read, () => cssTransition(path())) : read;
-function writeVars(el, vars, back2) {
+function readStyle(st, prev) {
+  if (!st || typeof st != "object") return st;
+  let next = {}, changed = !prev || typeof prev != "object", count = 0;
+  for (let key in st) {
+    let value = st[key];
+    next[key] = value, count++, (changed || value !== prev[key] || !Object.hasOwn(prev, key)) && (changed = !0);
+  }
+  return changed || Object.keys(prev).length !== count ? next : prev;
+}
+function setStyle(el, st, prev, keys) {
+  let kept = typeof st == "string" || typeof prev == "string" || !st && prev ? keys.map((key) => [key, el.style.getPropertyValue(key)]) : [], css2 = style(el, st, prev);
+  for (let [key, value] of kept)
+    value && el.style.setProperty(key, value);
+  return css2;
+}
+function writeVars(el, vars, back2, st) {
   createRenderEffect((prev) => {
-    let v = vars();
+    let v = vars(), s = readStyle(st?.(), prev?.s), css2 = s !== prev?.s ? setStyle(el, s, prev?.css, Object.keys(v)) : prev?.css;
     for (let key in v)
-      v[key] !== prev?.[key] && (prev ? write(el, key, v[key]) : v[key] != null && el.style.setProperty(key, v[key]));
-    return back2 && el.toggleAttribute("data-rhp-back", back2(v)), v;
+      v[key] !== prev?.v[key] && (prev ? write(el, key, v[key]) : v[key] != null && el.style.setProperty(key, v[key]));
+    return back2 && el.toggleAttribute("data-rhp-back", back2(v)), {
+      v,
+      s,
+      css: css2
+    };
   });
 }
 var loose = (v) => {
@@ -699,21 +718,17 @@ function browserBlock(props, mine, base, vars, attrs, back2) {
         get "data-rhp-o"() {
           return short(orientation());
         }
-      }, () => splitProps(props, [...mine])[1], () => attrs ? attrs() : {}, {
-        get style() {
-          return props.style;
-        }
-      }), !1, !0), _$insert(_el$, () => props.children), _$runHydrationEvents(), _el$;
+      }, () => splitProps(props, [...mine])[1], () => attrs ? attrs() : {}), !1, !0), _$insert(_el$, () => props.children), _$runHydrationEvents(), _el$;
     })();
-    return writeVars(el2, (v) => vars(v ?? orientation() === "vertical"), back2), el2;
+    return writeVars(el2, () => vars(orientation() === "vertical"), back2, () => props.style), el2;
   }
   let el = _$getNextElement(_tmpl$);
   return "children" in props && insert(el, () => props.children), createRenderEffect((prev) => {
-    let c = cls(base, props.class), dir = short(orientation()), st = props.style, a = attrs?.(), v = vars(orientation() === "vertical");
+    let c = cls(base, props.class), dir = short(orientation()), st = readStyle(props.style, prev?.st), a = attrs?.(), v = vars(orientation() === "vertical");
     c !== prev?.c && el.setAttribute("class", c), dir !== prev?.dir && el.setAttribute("data-rhp-o", dir);
     for (let key in a)
       a[key] !== prev?.a[key] && (a[key] == null ? el.removeAttribute(key) : el.setAttribute(key, a[key]));
-    st !== prev?.st && style(el, st, prev?.st);
+    let css2 = st !== prev?.st ? setStyle(el, st, prev?.css, Object.keys(v)) : prev?.css;
     for (let key in v)
       v[key] !== prev?.v[key] && (prev ? write(el, key, v[key]) : v[key] != null && el.style.setProperty(key, v[key]));
     return back2 && el.toggleAttribute("data-rhp-back", back2(v)), {
@@ -721,6 +736,7 @@ function browserBlock(props, mine, base, vars, attrs, back2) {
       dir,
       a,
       st,
+      css: css2,
       v
     };
   }), props.ref?.(el), el;
@@ -798,13 +814,12 @@ function Area(props) {
       viewBox: "0 0 1000 1000",
       preserveAspectRatio: "none",
       get style() {
-        return p.style;
       }
     }), !0, !0);
     var _ref$ = pathEl;
     return typeof _ref$ == "function" ? _$use(_ref$, _el$5) : pathEl = _el$5, _$effect(() => _$setAttribute(_el$5, "d", path())), _$runHydrationEvents(), _el$4;
   })();
-  return writeVars(el, vars), node;
+  return writeVars(el, vars, null, () => p.style), node;
 }
 function Line(props) {
   let orientation = useOrientation(), crossed = useCrossed(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "fill", "base", "color", "smooth"]), box = createMemo(() => {
@@ -854,7 +869,6 @@ function Line(props) {
       viewBox: "0 0 1000 1000",
       preserveAspectRatio: "none",
       get style() {
-        return p.style;
       }
     }), !0, !0);
     var _ref$2 = pathEl;
@@ -866,7 +880,7 @@ function Line(props) {
       t: void 0
     }), _$runHydrationEvents(), _el$6;
   })();
-  return writeVars(el, vars), node;
+  return writeVars(el, vars, null, () => p.style), node;
 }
 
 // src/plot.jsx
