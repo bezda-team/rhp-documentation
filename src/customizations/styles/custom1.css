@@ -516,6 +516,28 @@ input[type=number]::-webkit-inner-spin-button {
 	margin-top: 0.25rem;
 }
 
+/* A table's names and defaults (every column but the last, which says what they do) break where a reader would, not
+   between any two letters: Starlight lets code wrap anywhere, and a table gives its spare width to the column with the
+   longest text, so it cut `crossFormat` into `crossF` and `ormat` to make room for the descriptions. The table's own
+   width decides how much they can keep. From 40rem every name and default stays whole beside a description; from
+   28rem (the content column beside the sidebar on a tablet) they break at a space or a hyphen. On a phone three
+   columns of whole words are wider than the screen, so Starlight's wrapping stays. */
+.main-pane .content table {
+	container-type: inline-size;
+}
+
+@container (min-width: 28rem) {
+	.main-pane .content td:not(:last-child) code {
+		overflow-wrap: normal;
+	}
+}
+
+@container (min-width: 40rem) {
+	.main-pane .content td:not(:last-child) code {
+		white-space: nowrap;
+	}
+}
+
 /* The docs' colors for rhp charts (src/gallery/ui/themes.js: DOCS_THEME), dark by default and light under Starlight's
    light theme. A chart's theme names these variables, so a chart drawn on the server into the page has the reader's
    colors before any script runs. */
