@@ -16,6 +16,27 @@ function samples(seed) {
 
 const coordinates = (row) => `Point ${row.id + 1}: ${row.x.toFixed(1)}, ${row.y.toFixed(1)}`;
 
+const css = `
+  .manydots-demo .mode-category .group-0 { background-color: var(--docs-chart-s1); }
+  .manydots-demo .mode-category .group-1 { background-color: var(--docs-chart-s2); }
+  .manydots-demo .mode-category .group-2 { background-color: var(--docs-chart-s3); }
+  .manydots-demo .mode-category .group-3 { background-color: var(--docs-chart-s4); }
+  .manydots-demo .rhp-manydot:hover,
+  .manydots-demo .rhp-manydot.selected {
+    outline: 2px solid var(--docs-chart-ink);
+    outline-offset: 2px;
+  }
+  .manydots-demo select {
+    font: inherit;
+    color: var(--docs-chart-ink);
+    background: var(--docs-chart-surface);
+    border: 1px solid var(--docs-chart-grid);
+    border-radius: .35rem;
+    padding: .2rem .4rem;
+  }
+  .manydots-demo .manydots-readout { min-height: 1.5em; margin: .5rem 0; }
+`;
+
 export default function Scatter() {
   const [rows, setRows] = createSignal(samples(0));
   const [mode, setMode] = createSignal("category");
@@ -46,26 +67,7 @@ export default function Scatter() {
 
   return (
     <div class="manydots-demo">
-      <style>{`
-        .manydots-demo .mode-category .group-0 { background-color: var(--docs-chart-s1); }
-        .manydots-demo .mode-category .group-1 { background-color: var(--docs-chart-s2); }
-        .manydots-demo .mode-category .group-2 { background-color: var(--docs-chart-s3); }
-        .manydots-demo .mode-category .group-3 { background-color: var(--docs-chart-s4); }
-        .manydots-demo .rhp-manydot:hover,
-        .manydots-demo .rhp-manydot.selected {
-          outline: 2px solid var(--docs-chart-ink);
-          outline-offset: 2px;
-        }
-        .manydots-demo select {
-          font: inherit;
-          color: var(--docs-chart-ink);
-          background: var(--docs-chart-surface);
-          border: 1px solid var(--docs-chart-grid);
-          border-radius: .35rem;
-          padding: .2rem .4rem;
-        }
-        .manydots-demo .manydots-readout { min-height: 1.5em; margin: .5rem 0; }
-      `}</style>
+      <style>{css}</style>
       <div class="demo-controls">
         <label>
           Coloring{" "}
