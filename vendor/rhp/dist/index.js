@@ -409,6 +409,13 @@ function flush() {
       put(el, key, value);
   arm();
 }
+function holdScale(el, frame) {
+  let w = frame?.written();
+  if (!w) return;
+  let queued = queue.get(frame.root()), v = frame.scaleNow();
+  for (let key in v)
+    v[key] === w[key] && !queued?.has(key) || (put(el, key, v[key]), write(el, key, null));
+}
 
 // src/animate.js
 var bezier = (x1, y1, x2, y2) => {
@@ -670,11 +677,12 @@ function setStyle(el, st, prev, keys) {
   return css2;
 }
 function writeVars(el, vars, back2, st) {
+  let chart = useChartFrame();
   createRenderEffect((prev) => {
     let v = vars(), s = readStyle(st?.(), prev?.s), css2 = s !== prev?.s ? setStyle(el, s, prev?.css, Object.keys(v)) : prev?.css;
     for (let key in v)
       v[key] !== prev?.v[key] && (prev ? write(el, key, v[key]) : v[key] != null && el.style.setProperty(key, v[key]));
-    return back2 && el.toggleAttribute("data-rhp-back", back2(v)), {
+    return !prev && chart && el !== chart.root() && holdScale(el, chart), back2 && el.toggleAttribute("data-rhp-back", back2(v)), {
       v,
       s,
       css: css2
@@ -707,7 +715,7 @@ var others = (props, mine) => {
   return !1;
 }, MINE = ["class", "style", "ref", "children"];
 function browserBlock(props, mine, base, vars, attrs, back2) {
-  let orientation = useOrientation();
+  let orientation = useOrientation(), chart = useChartFrame();
   if (others(props, mine)) {
     let el2 = (() => {
       var _el$ = _$getNextElement(_tmpl$);
@@ -731,7 +739,7 @@ function browserBlock(props, mine, base, vars, attrs, back2) {
     let css2 = st !== prev?.st ? setStyle(el, st, prev?.css, Object.keys(v)) : prev?.css;
     for (let key in v)
       v[key] !== prev?.v[key] && (prev ? write(el, key, v[key]) : v[key] != null && el.style.setProperty(key, v[key]));
-    return back2 && el.toggleAttribute("data-rhp-back", back2(v)), {
+    return prev || holdScale(el, chart), back2 && el.toggleAttribute("data-rhp-back", back2(v)), {
       c,
       dir,
       a,
@@ -896,7 +904,7 @@ var _tmpl$42 = /* @__PURE__ */ _$template2("<div class=rhp-axis aria-hidden=true
   frame: null,
   nested: !1,
   still: !1
-}), useOrientation = () => useContext(Around).orientation, useCrossed = () => {
+}), useOrientation = () => useContext(Around).orientation, useChartFrame = () => useContext(Around).frame, useCrossed = () => {
   let frame = useContext(Around).frame;
   return () => frame?.crossed() ?? !1;
 }, usePointFrame = () => {
@@ -1327,7 +1335,10 @@ function Chart(props) {
     h: 0
   }, {
     equals: (a, b) => a.w === b.w && a.h === b.h
-  }), length3 = () => orientation() === "vertical" ? size().h : size().w, slats = /* @__PURE__ */ new Set(), crossed = () => props.cross != null, crossMoves, crossShown = () => anim() ? (crossMoves ?? (crossMoves = [animated(() => props.cross[0], timing), animated(() => props.cross[1], timing)]), [crossMoves[0](), crossMoves[1]()]) : props.cross, crossAxis = () => crossed() && tickValues(props.crossTicks, props.cross).length > 0, frame = {
+  }), length3 = () => orientation() === "vertical" ? size().h : size().w, slats = /* @__PURE__ */ new Set(), crossed = () => props.cross != null, crossMoves, crossShown = () => anim() ? (crossMoves ?? (crossMoves = [animated(() => props.cross[0], timing), animated(() => props.cross[1], timing)]), [crossMoves[0](), crossMoves[1]()]) : props.cross, crossAxis = () => crossed() && tickValues(props.crossTicks, props.cross).length > 0, written, frame = {
+    root: () => el,
+    written: () => written,
+    scaleNow: () => untrack2(scaleVars),
     orientation,
     domain,
     shown,
@@ -1490,8 +1501,7 @@ function Chart(props) {
         w: void 0
       }), _el$2;
     }
-  });
-  return writeVars(el, () => {
+  }), scaleVars = () => {
     if (!crossed()) return {
       "--rhp-min": min(),
       "--rhp-max": max()
@@ -1503,7 +1513,8 @@ function Chart(props) {
       "--rhp-cross-min": a,
       "--rhp-cross-max": b
     };
-  }), moreAria().length && createRenderEffect2(() => {
+  };
+  return writeVars(el, () => written = scaleVars()), moreAria().length && createRenderEffect2(() => {
     for (let key of moreAria())
       props[key] == null ? el.removeAttribute(key) : el.setAttribute(key, props[key]);
   }), node;
@@ -1514,7 +1525,7 @@ var OWN_ARIA = /* @__PURE__ */ new Set(["aria-label", "aria-labelledby", "aria-d
 for (let name of ["color", "thick", "size", "across", "radius", "start-radius", "end-radius", "label-gap", "gap", "tick-width", "label-size", "cell-gap", "pitch", "plot-thick", "length-time", "length-ease", "slide-time", "slide-ease", "at", "from", "to", "value", "d", "position"])
   KNOBS["--rhp-" + name] = "initial";
 function Axis(props) {
-  let along = useOrientation(), orientation = () => props.cross ? along() === "vertical" ? "horizontal" : "vertical" : along();
+  let along = useOrientation(), chart = useChartFrame(), orientation = () => props.cross ? along() === "vertical" ? "horizontal" : "vertical" : along();
   return (() => {
     var _el$11 = _$getNextElement2(_tmpl$42);
     return _$insert2(_el$11, _$createComponent(For, {
@@ -1523,7 +1534,7 @@ function Axis(props) {
       },
       children: (t) => {
         let el = _$getNextElement2(_tmpl$5), num = el.firstChild;
-        return el.style.setProperty("--rhp-at", t), createRenderEffect2(() => {
+        return el.style.setProperty("--rhp-at", t), holdScale(el, chart), createRenderEffect2(() => {
           el.setAttribute("data-rhp-o", short(orientation()));
           let parts = [props.format ? props.format(t) : t].flat().map((x) => typeof x == "function" ? x() : x);
           num.replaceChildren(...parts.map((x) => x instanceof Node ? x : String(x ?? "")));

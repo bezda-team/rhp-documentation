@@ -22,7 +22,7 @@ var cross_default = "@layer rhp.core{.rhp-chart[data-rhp-cross]{--rhp-cross: ini
 var LAYERS = "@layer rhp.place, rhp.slat, rhp.core;", DESCRIPTORS = /^@(-webkit-)?keyframes\b|^@(font-face|property|counter-style|font-palette-values|font-feature-values|view-transition|position-try)\b/i;
 function important(css2) {
   css2 = uncomment(css2);
-  let out = "", seg = "", depth = 0, quote2 = null, paren = 0, frames = -1, flush = (end) => {
+  let out = "", seg = "", depth = 0, quote2 = null, paren = 0, frames = -1, flush2 = (end) => {
     let t = seg.trim(), declaration = t && t[0] !== "@" && !t.startsWith("--") && frames < 0 && /^[a-z-]+\s*:/i.test(t) && !/!important\s*$/i.test(t);
     out += (declaration ? seg.replace(/\s*$/, " !important") : seg) + end, seg = "";
   };
@@ -45,7 +45,7 @@ function important(css2) {
       seg += ch;
       continue;
     }
-    ch === "{" ? (frames < 0 && DESCRIPTORS.test(seg.trim()) && (frames = depth), out += seg + "{", seg = "", depth++) : ch === "}" ? (flush("}"), depth--, depth === frames && (frames = -1)) : ch === ";" ? flush(";") : seg += ch;
+    ch === "{" ? (frames < 0 && DESCRIPTORS.test(seg.trim()) && (frames = depth), out += seg + "{", seg = "", depth++) : ch === "}" ? (flush2("}"), depth--, depth === frames && (frames = -1)) : ch === ";" ? flush2(";") : seg += ch;
   }
   return out + seg;
 }
@@ -375,7 +375,13 @@ import { createStore } from "solid-js/store";
 import { createSignal, untrack } from "solid-js";
 
 // src/frame.js
-var direct = 0;
+var queue = /* @__PURE__ */ new Map(), armed = !1, idle2 = 0, direct = 0, canWait = typeof requestAnimationFrame == "function" && typeof document < "u", put = (el, key, value) => value == null ? el.style.removeProperty(key) : el.style.setProperty(key, value);
+function write(el, key, value) {
+  if (direct || !canWait)
+    return queue.get(el)?.delete(key), put(el, key, value);
+  let own = queue.get(el);
+  own || queue.set(el, own = /* @__PURE__ */ new Map()), own.set(key, value), arm();
+}
 function drawing(f) {
   direct++;
   try {
@@ -383,6 +389,29 @@ function drawing(f) {
   } finally {
     direct--;
   }
+}
+function arm() {
+  armed || (armed = !0, requestAnimationFrame(flush));
+}
+function flush() {
+  if (armed = !1, !queue.size) {
+    ++idle2 < 3 && arm();
+    return;
+  }
+  idle2 = 0;
+  let current = queue;
+  queue = /* @__PURE__ */ new Map();
+  for (let [el, own] of current)
+    for (let [key, value] of own)
+      put(el, key, value);
+  arm();
+}
+function holdScale(el, frame) {
+  let w = frame?.written();
+  if (!w) return;
+  let queued = queue.get(frame.root()), v = frame.scaleNow();
+  for (let key in v)
+    v[key] === w[key] && !queued?.has(key) || (put(el, key, v[key]), write(el, key, null));
 }
 
 // src/animate.js
@@ -812,7 +841,7 @@ var _tmpl$ = ["<div", ' style="', '">', "</div>"], _tmpl$22 = ["<div", ' style="
   frame: null,
   nested: !1,
   still: !1
-}), useOrientation = () => useContext(Around).orientation, useCrossed = () => {
+}), useOrientation = () => useContext(Around).orientation, useChartFrame = () => useContext(Around).frame, useCrossed = () => {
   let frame = useContext(Around).frame;
   return () => frame?.crossed() ?? !1;
 }, usePointFrame = () => {
@@ -1282,7 +1311,10 @@ function Chart(props) {
     h: 0
   }, {
     equals: (a, b) => a.w === b.w && a.h === b.h
-  }), length3 = () => orientation() === "vertical" ? size().h : size().w, slats = /* @__PURE__ */ new Set(), crossed = () => props.cross != null, crossMoves, crossShown = () => anim() ? (crossMoves ?? (crossMoves = [animated(() => props.cross[0], timing), animated(() => props.cross[1], timing)]), [crossMoves[0](), crossMoves[1]()]) : props.cross, crossAxis = () => crossed() && tickValues(props.crossTicks, props.cross).length > 0, frame = {
+  }), length3 = () => orientation() === "vertical" ? size().h : size().w, slats = /* @__PURE__ */ new Set(), crossed = () => props.cross != null, crossMoves, crossShown = () => anim() ? (crossMoves ?? (crossMoves = [animated(() => props.cross[0], timing), animated(() => props.cross[1], timing)]), [crossMoves[0](), crossMoves[1]()]) : props.cross, crossAxis = () => crossed() && tickValues(props.crossTicks, props.cross).length > 0, written2, frame = {
+    root: () => el,
+    written: () => written2,
+    scaleNow: () => untrack2(scaleVars),
     orientation,
     domain,
     shown,
@@ -1465,7 +1497,7 @@ var OWN_ARIA = /* @__PURE__ */ new Set(["aria-label", "aria-labelledby", "aria-d
 for (let name of ["color", "thick", "size", "across", "radius", "start-radius", "end-radius", "label-gap", "gap", "tick-width", "label-size", "cell-gap", "pitch", "plot-thick", "length-time", "length-ease", "slide-time", "slide-ease", "at", "from", "to", "value", "d", "position"])
   KNOBS["--rhp-" + name] = "initial";
 function Axis(props) {
-  let along = useOrientation(), orientation = () => props.cross ? along() === "vertical" ? "horizontal" : "vertical" : along();
+  let along = useOrientation(), chart = useChartFrame(), orientation = () => props.cross ? along() === "vertical" ? "horizontal" : "vertical" : along();
   return _$ssr2(_tmpl$42, _$ssrHydrationKey2(), _$ssrAttribute2("data-rhp-cross", props.cross ? "" : _$escape2(void 0, !0), !1) + _$ssrAttribute2("data-rhp-grid", props.grid === !1 ? "off" : _$escape2(void 0, !0), !1), _$escape2(_$createComponent(For, {
     get each() {
       return props.ticks;
