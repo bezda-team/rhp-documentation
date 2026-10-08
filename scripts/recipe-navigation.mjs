@@ -3,8 +3,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+// The rhp the site is built with (vendor/rhp): served recipes load exactly that version from jsDelivr, so a release is
+// a new address that every browser fetches, where "@2" may be kept in a browser's cache for up to a week
+const RHP = JSON.parse(fs.readFileSync(fileURLToPath(new URL("../vendor/rhp/package.json", import.meta.url)), "utf8")).version;
+
 export function withRecipeNavigation(html) {
-  const page = html
+  const page = html.replace(/cdn\.jsdelivr\.net\/npm\/@bezda\/rhp@[^/"]+\//g, `cdn.jsdelivr.net/npm/@bezda/rhp@${RHP}/`)
     .replace(/\n?<style id="recipe-navigation-styles">[\s\S]*?<\/style>\n?/g, "\n")
     .replace(/\n?<nav class="recipe-navigation"[\s\S]*?<\/nav>\n?/g, "\n");
   const poster = page.match(/\.poster\s*\{([^}]+)\}/)?.[1];
