@@ -1,0 +1,82 @@
+---
+// The gallery page's last section: the articles, each a card as wide as the page's content, with the top of one of its
+// central charts (src/assets/articles, npm run article-thumbnails) as a desktop draws it, or as a phone does on a narrow
+// screen, in the light or dark colors of the site's theme.
+import { getImage } from "astro:assets";
+import { articles } from "../../../gallery/articles.js";
+import "../../styles/gallery.css";
+
+const shots = import.meta.glob<{ default: ImageMetadata }>("../../../assets/articles/*.png", { eager: true });
+const shot = (name: string) => shots[`../../../assets/articles/${name}.png`]?.default;
+const list = articles();
+const NAMES = ["", "-dark", "-narrow", "-narrow-dark"];
+const missing = list.filter(({ slug }) => NAMES.some((n) => !shot(slug + n))).map(({ slug }) => slug);
+if (missing.length) {
+	throw new Error(`Missing article thumbnails: ${missing.join(", ")}. Run npm run article-thumbnails.`);
+}
+// Each picture at a few widths, up to its own (it is taken at twice the page's width)
+const variants = async (src: ImageMetadata, widths: number[]) => {
+	const all = [...widths.filter((w) => w < src.width), src.width];
+	const images = await Promise.all(all.map((width) => getImage({ src, width, format: "webp" })));
+	return { src: images.at(-1)!.src, srcset: images.map((image, k) => `${image.src} ${all[k]}w`).join(", ") };
+};
+const tiles = await Promise.all(list.map(async (article, index) => {
+	const [light, dark, narrow, narrowDark] = NAMES.map((n) => shot(article.slug + n)!);
+	return {
+		...article, index, light, narrowSize: { width: narrow.width, height: narrow.height },
+		wide: { light: await variants(light, [720, 1440]), dark: await variants(dark, [720, 1440]) },
+		narrow: { light: await variants(narrow, [400]), dark: await variants(narrowDark, [400]) },
+	};
+}));
+// The card is as wide as the content: 1080px at most (the gallery's grids), the screen less its margins below that
+const NARROW = "(max-width: 720px)";
+const sizes = "(min-width: 1180px) 1080px, 92vw";
+---
+
+<section class="article-gallery not-content" aria-labelledby="articles">
+	<h2 id="articles">Articles</h2>
+	<p class="article-lede">Whole articles made with rhp: the text and several charts on one page, with the charts linked to each other. Open one to read it.</p>
+	<ul class="article-tiles">
+		{tiles.map((article) => (
+			<li class="gallery-tile article-tile">
+				<a href={article.url}>
+					<picture class="gallery-shot">
+						<source media={`${NARROW} and (prefers-color-scheme: dark)`} srcset={article.narrow.dark.srcset} sizes="92vw" type="image/webp" {...article.narrowSize} data-dark />
+						<source media={NARROW} srcset={article.narrow.light.srcset} sizes="92vw" type="image/webp" {...article.narrowSize}
+							data-light-srcset={article.narrow.light.srcset} data-dark-srcset={article.narrow.dark.srcset} />
+						<source media="(prefers-color-scheme: dark)" srcset={article.wide.dark.srcset} sizes={sizes} type="image/webp" data-dark />
+						<img src={article.wide.light.src} srcset={article.wide.light.srcset} sizes={sizes} width={article.light.width} height={article.light.height}
+							alt={`${article.title}: the top of its ranking chart`} loading="lazy" decoding="async"
+							data-light-srcset={article.wide.light.srcset} data-dark-srcset={article.wide.dark.srcset} />
+					</picture>
+					<span class="gallery-meta">
+						<span class="gallery-num" aria-hidden="true">{String(article.index + 1).padStart(2, "0")}</span>
+						<span class="gallery-title">{article.title}</span>
+						<span class="gallery-poster">{article.description}</span>
+					</span>
+				</a>
+			</li>
+		))}
+	</ul>
+</section>
+
+<style>
+	.article-gallery.not-content { margin-top: 5rem; }
+	h2 { margin: 0; scroll-margin-top: calc(var(--sl-nav-height) + 1.5rem); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; font-weight: 600; letter-spacing: -.03em; color: var(--sl-color-white); }
+	.article-lede { max-width: 60ch; margin: 1rem 0 2rem; font-size: var(--sl-text-lg); line-height: 1.55; color: var(--sl-color-text); }
+	.article-tiles { display: grid; gap: 30px; margin: 0; padding: 0; list-style: none; }
+</style>
+
+<script>
+	// The site's theme menu (data-theme on <html>) picks the picture, not only the system setting
+	const pick = () => {
+		const dark = document.documentElement.dataset.theme !== "light";
+		for (const el of document.querySelectorAll<HTMLImageElement | HTMLSourceElement>(".article-tile :is(img, source)")) {
+			const set = dark ? el.dataset.darkSrcset : el.dataset.lightSrcset;
+			if (set && el.srcset !== set) el.srcset = set;
+		}
+	};
+	for (const s of document.querySelectorAll(".article-tile source[data-dark]")) s.remove(); // the script chooses instead
+	pick();
+	new MutationObserver(pick).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+</script>

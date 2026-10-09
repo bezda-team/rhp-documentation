@@ -16,6 +16,8 @@ npm run sync-rhp       # copy rhp's build (../rhp, after npm run build there) in
 npm run sync-skill     # copy rhp's AI skill (../rhp/skills/rhp, or RHP_DIR=<rhp repo>) into public/ai/rhp, and write public/llms.txt and public/llms-full.txt
 npm run thumbnails     # the gallery page's pictures, after a poster changes
 npm run recipe-thumbnails # the AI recipe cards' pictures, after a recipe changes
+npm run sync-articles  # copy the articles rhp's examples build (../rhp, or RHP_DIR=<rhp repo>) into public/gallery/articles
+npm run article-thumbnails # the article cards' pictures, after an article changes
 npm run check-styles   # with npm run dev running: edit every gallery example's CSS in its editor, and check the chart restyles
 ```
 
@@ -25,3 +27,4 @@ npm run check-styles   # with npm run dev running: edit every gallery example's 
 - `src/customizations/`: the site's own components (the hero, the showcase, the diagram) and styles.
 - `public/ai/rhp/`, `public/llms.txt` and `public/llms-full.txt`: written by `npm run sync-skill` from rhp's `skills/rhp/`; edit the skill there, not here.
   The served recipes also get a gallery link from `scripts/recipe-navigation.mjs` during sync.
+- `public/gallery/articles/`: written by `npm run sync-articles` from the articles' builds in the rhp repo (listed in `src/gallery/articles.js`), each with a link back to the gallery in place of its kicker and the site's theme; edit the article there, not here.
