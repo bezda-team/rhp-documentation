@@ -310,6 +310,7 @@ function LifeAtlas() {
   const cross = createMemo(() => layout().y.map((y) => height() - y));
   const halo = () => layout().d + 2 * layout().halo;
   let plot;
+  let map;
   // The islands are laid out from the plot's width: measured as the chart mounts, before its first frame, and followed in
   // the next frame when it changes (set inside the observer, it would resize the plot it watches in the same frame)
   onMount(() => {
@@ -317,6 +318,9 @@ function LifeAtlas() {
     const watch = new ResizeObserver(() => requestAnimationFrame(() => setWidth(plot.clientWidth)));
     watch.observe(plot);
     onCleanup(() => watch.disconnect());
+    const away = (e) => !map.contains(e.target) && unpin();
+    document.addEventListener("click", away);
+    onCleanup(() => document.removeEventListener("click", away));
   });
   // The country nearest the pointer, within 24px, or null
   const nearest = (e) => {
@@ -343,10 +347,17 @@ function LifeAtlas() {
     const i = nearest(e);
     if (i != null) setPicked(i);
   };
-  // A tap or a click picks it too, and pins it
+  // A tap or a click on a dot in reach picks it and pins it; one with no dot in reach, on the plate or anywhere else on
+  // the page, lets the pick go
+  const unpin = () => {
+    setPinned(null);
+    setPicked(null);
+  };
   const pin = (e) => {
-    point(e);
-    setPinned(picked());
+    const i = nearest(e);
+    if (i == null) return unpin();
+    setPicked(i);
+    setPinned(i);
   };
   // The keyboard picks the dot it focuses
   const focus = (e) => {
@@ -366,7 +377,7 @@ function LifeAtlas() {
       note=${NOTE}>
       <div class="stage">
         <p class="hint"><b>Point at a dot or tap it</b> to name its country. With a keyboard, Tab to the plate and use the arrow keys.</p>
-        <div class="map"
+        <div class="map" ref=${(el) => (map = el)}
           onPointerMove=${(e) => e.pointerType !== "touch" && point(e)} onClick=${pin} onFocusIn=${focus}
           onPointerLeave=${leave} onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setPicked(pinned())}>
           <${Chart} scale=${[MIN, MAX]} cross=${() => [0, height()]} height=${height} crossTicks=${false} crossGrid=${false} theme=${THEME}
