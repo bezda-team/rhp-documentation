@@ -219,12 +219,12 @@ const THEME = {
 // The scale under the plate, drawn as an atlas's scale bar: a segment every five years, inked and blank in turn,
 // with its number; a faint meridian runs up from each one
 const Years = slat({
-  room: { start: 4, end: 4, after: 46 },
+  room: { start: 4, end: 4, after: 52 },
   css: `
     .meridian { --rhp-tick-width: 1px; background: var(--rhp-grid); }
-    .seg { top: calc(100% + 15px); bottom: auto; height: 7px; --rhp-radius: 0px; background: var(--rhp-ink); box-shadow: 0 0 0 1px var(--rhp-ink); }
+    .seg { top: calc(100% + 21px); bottom: auto; height: 7px; --rhp-radius: 0px; background: var(--rhp-ink); box-shadow: 0 0 0 1px var(--rhp-ink); }
     .blank .seg { background: var(--rhp-surface); }
-    .num { top: calc(100% + 26px); bottom: auto; translate: -50% 0; --rhp-label-gap: 0px; font-size: 12px; font-weight: 500; color: var(--rhp-ink); }
+    .num { top: calc(100% + 32px); bottom: auto; translate: -50% 0; --rhp-label-gap: 0px; font-size: 12px; font-weight: 500; color: var(--rhp-ink); }
     .first .num { translate: 0 0; }
     .last .num { translate: -100% 0; }
   `,
