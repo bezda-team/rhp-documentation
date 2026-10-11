@@ -347,9 +347,11 @@ const station = (room, gutter, totals) => slat({ // totals: the day's total at t
     <${Plot} orientation="across" class="hours" pct=${() => d.pct}>${d.index === 0 ? HourTop : Hour}<//>
     ${totals ? html`<${Label} edge="end" class="total" aria-hidden="true">${() => compact.format(d.total)}<//>` : ""}
   </div>`);
-// On a phone the day's totals leave the rows (the station sign gives them), so the names keep their room
-const Station = station({ start: 156, end: 40, before: 20 }, 22, true);
-const StationNarrow = station({ start: 132, end: 8, before: 20 }, 20, false);
+// The names' room fits the longest name, in the weight of a lit one, with the stop's gap and 2px to spare: "Embankment
+// Offices" is 103.3px at 12.5px (99.2px at 12px). Measure again when the names change. On a phone the day's totals leave
+// the rows (the station sign gives them), so the names keep their room.
+const Station = station({ start: 128, end: 40, before: 20 }, 22, true);
+const StationNarrow = station({ start: 122, end: 8, before: 20 }, 20, false);
 
 // An hour of the station shown, in real numbers: its busiest hour in yellow with its count, the busiest of the other
 // half of the day in white with its count, the clock under every third hour (every sixth on a phone)
