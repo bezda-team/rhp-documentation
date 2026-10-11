@@ -415,6 +415,15 @@ function Rush() {
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     document.querySelector(`.board [data-row="${row}"]`)?.scrollIntoView({ block: "center", behavior: still ? "auto" : "smooth" });
   };
+  // A click on the poster's title block or its note, or anywhere outside the poster, lets the pick go: back to the
+  // station the poster opens on, the busiest
+  const away = (e) => {
+    if (e.target.closest?.(".poster") && !e.target.closest(".poster figcaption, .poster .note")) return;
+    setPicked(LEAD);
+    setHovered(null);
+  };
+  document.addEventListener("click", away);
+  onCleanup(() => document.removeEventListener("click", away));
 
   const headline = AM != null && PM != null ? `The suburbs fill the trains at ${clock(AM)}, downtown at ${clock(PM)}`
     : `Most stations are busiest at ${clock(AM ?? PM ?? ROWS[LEAD].peak)}`;
