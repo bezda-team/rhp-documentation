@@ -453,6 +453,8 @@ function AlbumRack() {
     if (e.pointerType === "touch") return; // a finger sends pointerleave as it lifts after a tap
     setPicked(e.currentTarget.contains(document.activeElement) ? rowOf(document.activeElement) : null);
   };
+  // Pointing: on the chart, a mouse or a pen picks as above; anywhere else on the poster, it is as if it had left it
+  const move = (e) => e.pointerType !== "touch" && (e.target.closest?.(".stage") ? pick(e) : leave(e));
   // Typing narrows the rack; when the reader is down in it, the results come up under the deck
   const search = (text) => {
     setQuery(text);
@@ -513,7 +515,7 @@ function AlbumRack() {
       title=${headline}
       dek=${() => `The ${N} best-selling albums of all time, by copies sold worldwide; each disc is ${unitWords(unit())}. Find an album, or point at, tap or Tab to one.`}
       note=${NOTE}
-      onPointerMove=${(e) => e.pointerType !== "touch" && pick(e)} onClick=${pick} onFocusIn=${pick}
+      onPointerMove=${move} onClick=${pick} onFocusIn=${pick}
       onPointerLeave=${leave} onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setPicked(null)}>
       <div class="deck" ref=${(el) => (deck = el)}>
         <div class="find">

@@ -313,13 +313,15 @@ function PowerMix() {
     if (e.pointerType === "touch") return; // a finger sends pointerleave as it lifts after a tap
     setOn(e.currentTarget.contains(document.activeElement) ? rowOf(document.activeElement) : null);
   };
+  // Pointing: on the chart, a mouse or a pen picks as above; anywhere else on the poster, it is as if it had left it
+  const move = (e) => e.pointerType !== "touch" && (e.target.closest?.(".plot") ? pick(e) : leave(e));
   return html`
     <${Poster}
       kicker="Electricity by source, 2024"
       title="The cleanest grids run on rivers, the least clean on gas"
       dek=${`Where the 100 biggest power producers got their electricity in 2024, sorted by the share from clean sources. Hydro is the largest source in ${hydroTop} of the 10 cleanest, gas in ${gasLow} of the 20 least clean.`}
       note=${NOTE}
-      onPointerMove=${(e) => e.pointerType !== "touch" && pick(e)} onClick=${pick} onFocusIn=${pick}
+      onPointerMove=${move} onClick=${pick} onFocusIn=${pick}
       onPointerLeave=${leave} onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setOn(null)}>
       <div class="stage">
         <div class=${() => (on() == null ? "meter" : "meter picked")} aria-hidden="true">

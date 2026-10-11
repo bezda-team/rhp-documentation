@@ -478,6 +478,8 @@ function BestSellers() {
     if (e.pointerType === "touch") return; // a finger sends pointerleave as it lifts after a tap
     setOn(e.currentTarget.contains(document.activeElement) ? rowOf(document.activeElement) : null);
   };
+  // Pointing: on the chart, a mouse or a pen picks as above; anywhere else on the poster, it is as if it had left it
+  const move = (e) => e.pointerType !== "touch" && (e.target.closest?.(".stage") ? pick(e) : leave(e));
 
   return html`
     <${Poster}
@@ -485,7 +487,7 @@ function BestSellers() {
       title=${HEADLINE}
       dek=${() => `Copies sold worldwide by ${LISTED} of an invented catalog, one disc for every ${unitText().replace(/^a /, "")}. Search for an album, point at one, tap it, or Tab into the list.`}
       note=${NOTE}
-      onPointerMove=${(e) => e.pointerType !== "touch" && pick(e)} onClick=${pick} onFocusIn=${pick}
+      onPointerMove=${move} onClick=${pick} onFocusIn=${pick}
       onPointerLeave=${leave} onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setOn(null)}>
       <div class="plate">
         <div class="find">

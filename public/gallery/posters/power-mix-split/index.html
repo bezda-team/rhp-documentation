@@ -405,6 +405,8 @@ function PowerMix() {
     if (e.pointerType === "touch") return; // a finger sends pointerleave as it lifts after a tap
     setOn(e.currentTarget.contains(document.activeElement) ? rowOf(document.activeElement) : null);
   };
+  // Pointing: on the chart, a mouse or a pen picks as above; anywhere else on the poster, it is as if it had left it
+  const move = (e) => e.pointerType !== "touch" && (e.target.closest?.(".stage") ? pick(e) : leave(e));
   const item = (s) => html`
     <li class=${s.key} style=${"--c: " + s.color}><i></i><span><span class="long">${s.name}</span><span class="short">${s.short ?? s.name}</span></span><b>${() => pct(shown()[s.key])}</b></li>`;
   return html`
@@ -413,7 +415,7 @@ function PowerMix() {
       title=${headline}
       dek="Shares of each country’s electricity in 2024: what it burns runs left of the copper line, its clean power right of it. Above the dashed line, more than half is clean."
       note=${NOTE}
-      onPointerMove=${(e) => e.pointerType !== "touch" && pick(e)} onClick=${pick} onFocusIn=${pick}
+      onPointerMove=${move} onClick=${pick} onFocusIn=${pick}
       onPointerLeave=${leave} onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setOn(null)}>
       <div class=${() => (on() == null ? "meter" : "meter picked")} aria-hidden="true">
         <p class="who" style="margin: 0"><b>${() => (phone() ? shown().name : shown().full)}</b><span>${() => (on() == null ? "Point at, tap or Tab to a country" : narrowest() ? `No. ${on() + 1} · ${twh.format(shown().total)} TWh` : `No. ${on() + 1} of ${COUNT} · ${twh.format(shown().total)} TWh in 2024`)}</span></p>
