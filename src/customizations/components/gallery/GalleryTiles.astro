@@ -2,11 +2,9 @@
 // The gallery page's cards: one per plot type, each showing its gallery version in the orientation it looks best in.
 // Cards keep their images' shapes, so they differ in height; a small script packs them into columns (masonry) in
 // reading order. Without it, they sit in plain rows. Images: src/assets/gallery (npm run thumbnails), with a dark
-// variant for the examples drawn on the page. After the examples come the gallery's posters, whole pages built with rhp
-// (src/gallery/posters.js), numbered on from them. Images: src/assets/posters (npm run poster-thumbnails).
+// variant for the examples drawn on the page.
 import { getCollection } from "astro:content";
 import { getImage } from "astro:assets";
-import { posters } from "../../../gallery/posters.js";
 import "../../styles/gallery.css";
 
 const entries = (await getCollection("docs", (e) => !!e.data.gallery)).sort((a, b) => a.data.gallery!.order - b.data.gallery!.order);
@@ -19,14 +17,6 @@ const variants = async (src: ImageMetadata) => {
 const tiles = await Promise.all(entries.map(async (e) => {
 	const name = e.slug.replace("gallery/", ""), light = shot(name), dark = shot(name + "-dark");
 	return { e, light, onPage: !!dark, img: light && (await variants(light)), dark: dark && (await variants(dark)) };
-}));
-const posterShots = import.meta.glob<{ default: ImageMetadata }>("../../../assets/posters/*.png", { eager: true });
-const posterShot = (slug: string) => posterShots[`../../../assets/posters/${slug}.png`]?.default;
-const missing = posters().filter(({ slug }) => !posterShot(slug)).map(({ slug }) => slug);
-if (missing.length) throw new Error(`Missing gallery poster thumbnails: ${missing.join(", ")}. Run npm run poster-thumbnails.`);
-const posterTiles = await Promise.all(posters().map(async (poster, index) => {
-	const image = posterShot(poster.slug)!;
-	return { ...poster, number: entries.length + index + 1, image, img: await variants(image) };
 }));
 const sizes = "(min-width: 1100px) 330px, (min-width: 720px) 45vw, 92vw";
 ---
@@ -44,20 +34,6 @@ const sizes = "(min-width: 1100px) 330px, (min-width: 720px) 45vw, 92vw";
 					<span class="gallery-num">{String(e.data.gallery!.order).padStart(2, "0")}</span>
 					<span class="gallery-title">{e.data.title}</span>
 					<span class="gallery-poster">{e.data.gallery!.poster}</span>
-				</span>
-			</a>
-		</li>
-	))}
-	{posterTiles.map(({ url, type, title, number, image, img }) => (
-		<li class="gallery-tile">
-			<a href={url}>
-				<picture class="gallery-shot">
-					<img src={img.src} srcset={img.srcset} sizes={sizes} width={image.width} height={image.height} alt={`${type}: ${title}`} loading="lazy" decoding="async" />
-				</picture>
-				<span class="gallery-meta">
-					<span class="gallery-num">{String(number).padStart(2, "0")}</span>
-					<span class="gallery-title">{type}</span>
-					<span class="gallery-poster">{title}</span>
 				</span>
 			</a>
 		</li>

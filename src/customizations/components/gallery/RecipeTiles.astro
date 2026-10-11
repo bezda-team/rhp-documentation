@@ -1,6 +1,7 @@
 ---
 import { getImage } from "astro:assets";
 import { recipes } from "../../../gallery/recipes.js";
+import { posters } from "../../../gallery/posters.js";
 import "../../styles/gallery.css";
 
 const shots = import.meta.glob<{ default: ImageMetadata }>("../../../assets/recipes/*.png", { eager: true });
@@ -15,6 +16,19 @@ const tiles = await Promise.all(recipes.map(async (recipe, index) => {
 	return { ...recipe, index, image, src: large.src, srcset: `${small.src} 360w, ${large.src} 720w` };
 }));
 const sizes = "(min-width: 1100px) 330px, (min-width: 720px) 45vw, 92vw";
+// After them, the recipes for lots of data (src/gallery/posters.js), numbered on; pictures: src/assets/posters (npm run
+// poster-thumbnails)
+const many = import.meta.glob<{ default: ImageMetadata }>("../../../assets/posters/*.png", { eager: true });
+const manyShot = (slug: string) => many[`../../../assets/posters/${slug}.png`]?.default;
+const manyMissing = posters().filter(({ slug }) => !manyShot(slug)).map(({ slug }) => slug);
+if (manyMissing.length) {
+	throw new Error(`Missing thumbnails for the recipes for lots of data: ${manyMissing.join(", ")}. Run npm run poster-thumbnails.`);
+}
+const manyTiles = await Promise.all(posters().map(async (recipe, index) => {
+	const image = manyShot(recipe.slug)!;
+	const [small, large] = await Promise.all([360, 720].map((width) => getImage({ src: image, width, format: "webp" })));
+	return { ...recipe, index: recipes.length + index, image, src: large.src, srcset: `${small.src} 360w, ${large.src} 720w` };
+}));
 ---
 
 <section class="recipe-gallery not-content" aria-labelledby="ai-recipes">
@@ -36,11 +50,32 @@ const sizes = "(min-width: 1100px) 330px, (min-width: 720px) 45vw, 92vw";
 			</li>
 		))}
 	</ul>
+	<section aria-labelledby="lots-of-data">
+		<h3 id="lots-of-data">Lots of data</h3>
+		<p class="recipe-lede">Ten recipes for charts of a hundred rows or more, each a different way to show them all: shades in place of bars, dots packed by group, a year set out as weeks, the top 25 first and the rest on request, a search that finds one album in two hundred, and a pick that dims every other country.</p>
+		<ul class="gallery-tiles" data-recipe-tiles>
+			{manyTiles.map((recipe) => (
+				<li class="gallery-tile">
+					<a href={recipe.url} aria-label={`${recipe.name}: ${recipe.title}`}>
+						<picture class="gallery-shot">
+							<img src={recipe.src} srcset={recipe.srcset} sizes={sizes} width={recipe.image.width} height={recipe.image.height} alt="" loading="lazy" decoding="async" />
+						</picture>
+						<span class="gallery-meta">
+							<span class="gallery-num" aria-hidden="true">{String(recipe.index + 1).padStart(2, "0")}</span>
+							<span class="gallery-title">{recipe.name}</span>
+							<span class="gallery-poster">{recipe.title}</span>
+						</span>
+					</a>
+				</li>
+			))}
+		</ul>
+	</section>
 </section>
 
 <style>
 	.recipe-gallery.not-content { margin-top: 5rem; }
 	h2 { margin: 0; scroll-margin-top: calc(var(--sl-nav-height) + 1.5rem); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; font-weight: 600; letter-spacing: -.03em; color: var(--sl-color-white); }
+	h3 { margin: 4.5rem 0 0; scroll-margin-top: calc(var(--sl-nav-height) + 1.5rem); font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.15; font-weight: 600; letter-spacing: -.02em; color: var(--sl-color-white); }
 	.recipe-lede { max-width: 60ch; margin: 1rem 0 2rem; font-size: var(--sl-text-lg); line-height: 1.55; color: var(--sl-color-text); }
 	.recipe-lede a { color: var(--sl-color-text-accent); }
 </style>

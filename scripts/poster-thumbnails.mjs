@@ -1,4 +1,4 @@
-// Capture the gallery's poster pages (src/gallery/posters.js) for their cards, as recipe-thumbnails.mjs does the recipes:
+// Capture the recipes for lots of data (src/gallery/posters.js) for their cards, as recipe-thumbnails.mjs does the others:
 // the poster at a 1280px window, without the page around it or the link back to the gallery. A poster more than 200px
 // taller than the gallery's tallest cards (1.35 times its width) is cut at their shape and fades out over its last 200px.
 // Run `npm run poster-thumbnails`, optionally followed by poster slugs, then build the site.

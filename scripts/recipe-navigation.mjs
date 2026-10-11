@@ -1,5 +1,5 @@
 // Add the site's gallery link to served recipe pages, keeping the skill's standalone source pages unchanged, and to the
-// gallery's poster pages (scripts/poster-pages.mjs), which link back to the gallery's plots.
+// recipes for lots of data (scripts/poster-pages.mjs).
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

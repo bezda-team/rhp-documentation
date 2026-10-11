@@ -33,11 +33,11 @@ The charts follow the site's theme menu (Starlight's `data-theme`), dark or ligh
 2. Add `src/content/docs/gallery/<slug>.mdx` like the others.
 3. Build, then take the card's screenshot: `npm run build && npm run thumbnails <slug>`, and build again.
 
-## Posters
+## Recipes for lots of data
 
-After the examples, the gallery's plots list ten posters: whole pages built with rhp, each served as it is from `public/gallery/posters/<slug>/index.html`.
-`src/gallery/posters.js` lists them in their order, with the kind of plot each card names; a card's other line is the page's `<title>`.
-Run `npm run poster-pages` after adding or changing a poster, and after `npm run sync-rhp`: it adds the link back to the gallery above the poster and loads the rhp the site is built with, as the served recipes do.
+At the end of the AI Recipes section, under "Lots of data", ten more recipes show charts of a hundred rows or more: whole pages built with rhp, each served as it is from `public/gallery/posters/<slug>/index.html`.
+`src/gallery/posters.js` lists them in their order, with the recipe name each card gives; a card's other line is the page's `<title>`, and its number follows the AI Recipes' own.
+Run `npm run poster-pages` after adding or changing one, and after `npm run sync-rhp`: it adds the link back to "Lots of data" above the poster and loads the rhp the site is built with, as the served recipes do.
 Then `npm run poster-thumbnails` (or with slugs, to take only those) and `npm run build`.
 A poster more than 200px taller than 1.35 times its width, the shape of the gallery's tallest cards, is cut at that shape on its card and fades out over its last 200px.
 
