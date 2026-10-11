@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rush hour, station by station</title>
+<meta name="description" content="Hourly riders at 120 stations of an invented subway on an average weekday, each station a row of 24 lamps lit toward its own busiest hour, with a station picker.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@500;700&display=swap">
+<script type="importmap">{ "imports": { "@bezda/rhp/standalone": "https://cdn.jsdelivr.net/npm/@bezda/rhp@2.0.4/dist/standalone.js" } }</script>
+<style>
+  /* The look: the dark panel of a subway control room, its lamps amber, each line in its own color */
+  :root {
+    color-scheme: dark;
+    --page: #08191d;
+    --paper: #10272c;
+    --ink: #eef5f3;
+    --soft: #a7bebb;
+    --rule: #2a4a51;
+    --accent: #ffd37a;
+    --amber-dim: #b98f4e;
+    --lamp-off: #4a3f2c;
+    --lamp-on: #ffd37a;
+    --display: Overpass, "Helvetica Neue", Arial, sans-serif;
+    --text: Overpass, "Helvetica Neue", Arial, sans-serif;
+    --mono: "Overpass Mono", ui-monospace, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 48px 16px; background: var(--page); color: var(--ink); }
+  .poster { max-width: 1080px; margin: 0 auto; padding: 44px 48px 24px; border-radius: 6px; background: var(--paper); color: var(--ink); font: 16px/1.5 var(--text); }
+  .poster figcaption { display: grid; gap: 12px 48px; margin-bottom: 24px; }
+  .poster .kicker { font: 700 12px/1.3 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .poster .headline { max-width: 17em; font: 800 clamp(30px, 4.6vw, 48px)/1.04 var(--display); letter-spacing: -.012em; text-wrap: balance; }
+  .poster .dek { max-width: 60ch; font-size: 17px; line-height: 1.5; color: var(--soft); }
+  .poster .note { display: block; margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--rule); font-size: 12px; line-height: 1.5; color: var(--soft); }
+  @media (min-width: 1000px) {
+    .poster figcaption { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: end; }
+    .poster .kicker { grid-column: 1 / -1; }
+  }
+
+  /* The key: what a lamp and the band mean */
+  .key { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 26px; margin: 0 0 16px; font-size: 13px; line-height: 1.3; color: var(--soft); }
+  .key span { display: inline-flex; align-items: center; gap: 8px; }
+  .key .ramp { width: 72px; height: 10px; border-radius: 2px; background: linear-gradient(90deg in oklab, var(--lamp-off), var(--lamp-on)); }
+  .key b { font: 700 12px/1 var(--mono); color: var(--ink); }
+  .key .band { width: 26px; height: 14px; background: color-mix(in oklab, var(--ink) 6%, var(--paper)); box-shadow: inset 0 0 0 1px var(--rule); }
+
+  /* The readout, like a train's next-stop display: the station shown, its picker and its hours. It stays at the top of
+     the screen while the lines scroll under it. */
+  .readout { display: grid; grid-template-columns: auto minmax(0, 1fr) 240px; align-items: center; gap: 8px 32px;
+    position: sticky; top: 0; z-index: 2;
+    margin: 0 -48px 24px; padding: 12px 48px 12px; border-block: 1px solid var(--rule); background: var(--page); }
+  html { scroll-padding-top: 150px; } /* focus and the picker bring a row into view below the pinned readout */
+  .pick { display: grid; gap: 4px; min-width: 0; }
+  .hint { font-size: 12px; line-height: 1.3; color: var(--soft); }
+  .picker { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .picker select { min-width: 0; max-width: 100%; padding: 0 22px 0 2px; border: 0; border-radius: 3px; appearance: none; cursor: pointer;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ffd37a' stroke-width='2'/%3E%3C/svg%3E") right 4px center / 12px 8px no-repeat;
+    color: var(--accent); font: 800 24px/1.2 var(--display); }
+  .picker select option, .picker select optgroup { background: var(--paper); color: var(--ink); font: 500 15px var(--text); }
+  .step { display: grid; flex: none; place-items: center; width: 32px; height: 32px; padding: 0; border: 1px solid var(--soft); border-radius: 50%; background: none; color: var(--ink); font: 700 18px/1 var(--display); cursor: pointer; }
+  .step:disabled { opacity: .35; cursor: default; }
+  .facts { display: grid; gap: 2px; margin: 0; font-size: 14px; line-height: 1.35; color: var(--soft); font-variant-numeric: tabular-nums; }
+  .facts span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .facts b { color: var(--ink); font-weight: 700; }
+  .poster :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* The six lines, each a strip map with its stations in order */
+  .lines { display: grid; gap: 26px 44px; }
+  .lines > section { min-width: 0; }
+  @media (min-width: 1000px) { .lines { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .line-head { display: flex; align-items: center; gap: 10px; margin: 0 0 4px; font: 700 15px/1.2 var(--display); }
+  .line-head .to { color: var(--soft); font-weight: 600; }
+  .bullet { display: inline-grid; flex: none; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--line); color: var(--paper); font: 800 14px/1 var(--display); font-style: normal; }
+
+  @media (max-width: 999px) {
+    .readout { grid-template-columns: minmax(0, 1fr) 150px; gap: 8px 16px; }
+    .pick { grid-column: 1 / -1; }
+  }
+  @media (max-width: 640px) {
+    body { padding: 16px 16px 32px; }
+    .poster { padding: 26px 18px 18px; }
+    .poster .dek { font-size: 15px; }
+    .readout { margin: 0 -18px 20px; padding: 10px 18px; grid-template-columns: minmax(0, 1fr) 118px; }
+    .picker select { font-size: 20px; }
+    .facts { font-size: 13px; }
+    .key { gap: 6px 20px; }
+    .key .ramp { width: 52px; }
+  }
+  @media (max-width: 400px) {
+    .poster { padding: 22px 12px 16px; }
+    .readout { margin: 0 -12px 18px; padding: 10px 12px; grid-template-columns: minmax(0, 1fr) 96px; }
+  }
+</style>
+<style id="recipe-navigation-styles">
+  .recipe-navigation { max-width: 1080px; margin: 0 auto 18px; text-align: left; }
+  .recipe-navigation a { display: inline-block; padding: 4px 0; font: 600 12.5px/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: #eef2f5; }
+  .recipe-navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .recipe-navigation a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<nav class="recipe-navigation" aria-label="Gallery navigation"><a href="/gallery/">← Gallery</a></nav>
+<div id="chart"></div>
+<script type="module">
+import { Chart, Plot, Cell, Bar, Label, Poster, slat, nice, html, render, createSignal, createEffect, onCleanup, Show } from "@bezda/rhp/standalone";
+
+// Data: riders entering each station in each hour of an average weekday (hour 0 is midnight to 1 am). Illustrative: the
+// subway, its six lines and its 120 stations are invented. Replace with your own: each line's stations in order along
+// it, each with its 24 hourly counts, and "downtown" after the counts of the stations in the city center.
+const NOTE = "Illustrative data: an invented subway in an invented city, its lines and stations made up. Riders entering each station per hour on an average weekday.";
+const LINES = [
+  { no: 1, color: "#ff6b6b", stations: [
+["Northgate", [89, 77, 79, 91, 153, 853, 3085, 3179, 1022, 369, 372, 413, 441, 455, 480, 592, 869, 1236, 1025, 796, 540, 403, 245, 135]],
+    ["Elm Park", [79, 68, 70, 81, 156, 932, 2906, 2532, 736, 311, 330, 367, 392, 402, 414, 525, 896, 1128, 896, 609, 474, 360, 217, 120]],
+    ["Ridgeway", [63, 55, 57, 64, 85, 306, 1554, 2606, 1242, 342, 268, 295, 315, 323, 329, 358, 597, 694, 645, 452, 387, 289, 175, 96]],
+    ["Fox Lane", [51, 45, 46, 52, 65, 156, 842, 1907, 1226, 347, 221, 240, 256, 263, 267, 362, 589, 675, 602, 399, 333, 236, 142, 78]],
+    ["Highfield", [88, 76, 79, 89, 114, 333, 1687, 3113, 1652, 484, 373, 409, 437, 450, 456, 560, 718, 1014, 950, 601, 542, 400, 242, 133]],
+    ["Beacon Hill", [84, 81, 84, 96, 116, 182, 674, 2070, 2289, 981, 511, 698, 892, 738, 560, 736, 1486, 2128, 1566, 632, 238, 148, 115, 96]],
+    ["Orchard Road", [87, 83, 87, 98, 120, 208, 864, 2456, 2413, 945, 513, 717, 917, 760, 601, 868, 1652, 2001, 1249, 480, 215, 150, 119, 98]],
+    ["Mill Bridge", [50, 48, 50, 57, 70, 129, 527, 1327, 1155, 444, 286, 415, 531, 440, 349, 511, 993, 1221, 768, 291, 126, 87, 69, 57]],
+    ["Civic Plaza", [121, 114, 119, 135, 163, 212, 406, 1062, 1469, 935, 691, 1188, 1848, 1401, 794, 756, 1949, 4969, 4855, 2087, 958, 539, 271, 156], "downtown"],
+    ["Exchange", [135, 127, 132, 150, 181, 236, 452, 1183, 1636, 1041, 769, 1322, 2057, 1560, 926, 1499, 4684, 6642, 3478, 1434, 983, 598, 302, 174], "downtown"],
+    ["Courthouse", [144, 135, 141, 160, 193, 251, 481, 1258, 1740, 1107, 819, 1407, 2189, 1662, 1069, 2250, 5657, 5528, 2335, 1299, 1036, 636, 321, 185], "downtown"],
+    ["Mint Street", [203, 190, 199, 225, 272, 355, 678, 1775, 2454, 1561, 1155, 1984, 3088, 2340, 1367, 1982, 6414, 10326, 5998, 2339, 1485, 897, 453, 261], "downtown"],
+    ["Riverside", [46, 44, 46, 52, 63, 92, 290, 899, 1068, 503, 279, 381, 488, 404, 315, 456, 949, 1288, 880, 334, 126, 80, 63, 52]],
+    ["Tannery", [82, 79, 82, 93, 114, 189, 695, 1853, 1772, 737, 473, 681, 871, 722, 568, 857, 1831, 2497, 1695, 631, 230, 144, 113, 93]],
+    ["Seaview Road", [69, 66, 69, 78, 95, 138, 418, 1267, 1493, 712, 413, 572, 731, 609, 522, 928, 1858, 2107, 1185, 406, 172, 119, 94, 78]],
+    ["Gull Point", [52, 45, 47, 53, 69, 229, 1141, 1935, 945, 274, 220, 243, 259, 267, 277, 317, 595, 677, 587, 374, 333, 238, 144, 79]],
+    ["Shell Bay", [35, 31, 32, 36, 46, 148, 801, 1516, 806, 214, 151, 165, 176, 181, 185, 261, 310, 443, 381, 257, 213, 162, 98, 54]],
+    ["Tech Park", [51, 49, 51, 58, 70, 90, 169, 420, 452, 265, 241, 266, 284, 290, 299, 619, 1929, 1931, 645, 325, 231, 130, 77, 58]],
+    ["Harrow Flats", [40, 34, 35, 40, 57, 239, 1000, 1294, 509, 175, 166, 185, 197, 202, 209, 238, 365, 466, 445, 317, 237, 180, 109, 60]],
+    ["Saltmarsh", [96, 83, 86, 100, 237, 1325, 3089, 2026, 566, 357, 401, 446, 476, 492, 512, 763, 1006, 1440, 1081, 945, 626, 436, 264, 145]],
+  ] },
+  { no: 2, color: "#4cc38a", stations: [
+    ["Ferndale", [95, 83, 85, 98, 183, 1043, 3192, 2759, 819, 373, 399, 444, 474, 486, 507, 600, 917, 1198, 1013, 828, 564, 433, 263, 145]],
+    ["Bracken Row", [68, 59, 61, 69, 93, 343, 1532, 2219, 959, 314, 285, 315, 337, 347, 348, 392, 562, 802, 759, 534, 404, 310, 187, 103]],
+    ["Thornbury", [67, 58, 60, 69, 128, 739, 2308, 2032, 604, 264, 281, 312, 333, 341, 354, 477, 721, 947, 777, 629, 404, 307, 185, 102]],
+    ["Oakhurst", [37, 32, 33, 38, 50, 164, 803, 1345, 652, 193, 158, 174, 186, 190, 203, 219, 388, 432, 385, 264, 225, 170, 103, 57]],
+    ["Willow Bank", [77, 67, 69, 78, 99, 293, 1595, 3181, 1783, 480, 328, 358, 382, 391, 415, 474, 711, 963, 856, 656, 467, 349, 212, 117]],
+    ["Lantern Way", [44, 42, 44, 50, 61, 92, 327, 1082, 1312, 591, 280, 367, 469, 388, 300, 421, 867, 1195, 834, 323, 122, 77, 61, 50]],
+    ["University", [84, 75, 78, 88, 107, 134, 177, 302, 660, 982, 921, 1210, 1660, 1536, 2018, 2768, 2153, 1320, 1125, 763, 592, 664, 424, 159]],
+    ["Glasshouses", [92, 88, 92, 104, 128, 227, 944, 2582, 2433, 940, 537, 761, 974, 806, 622, 860, 1735, 2360, 1636, 638, 249, 160, 126, 104]],
+    ["Guildhall", [116, 109, 114, 129, 156, 203, 388, 1016, 1405, 894, 661, 1136, 1768, 1340, 771, 951, 2992, 5562, 3741, 1467, 860, 514, 259, 149], "downtown"],
+    ["Union Hall", [118, 110, 115, 131, 158, 206, 393, 1029, 1423, 905, 670, 1151, 1790, 1357, 779, 922, 2763, 5126, 3510, 1441, 869, 520, 263, 151], "downtown"],
+    ["Market Cross", [121, 114, 119, 135, 163, 212, 406, 1062, 1469, 935, 691, 1188, 1848, 1404, 915, 2090, 5575, 5605, 2283, 1126, 876, 537, 271, 156], "downtown"],
+    ["Library", [113, 106, 111, 126, 152, 198, 379, 990, 1370, 871, 644, 1107, 1723, 1306, 742, 745, 2024, 4637, 4009, 1685, 864, 501, 253, 145], "downtown"],
+    ["Cathedral", [48, 46, 48, 55, 67, 107, 377, 1015, 997, 428, 278, 399, 511, 423, 325, 456, 980, 1431, 1050, 410, 143, 85, 66, 55]],
+    ["Ropewalk", [55, 53, 55, 63, 77, 140, 543, 1302, 1098, 436, 310, 456, 584, 485, 392, 614, 1227, 1492, 914, 333, 140, 95, 75, 63]],
+    ["Chalk Pit", [77, 74, 77, 88, 106, 150, 421, 1292, 1602, 802, 467, 642, 820, 683, 574, 995, 2033, 2394, 1396, 482, 196, 134, 106, 88]],
+    ["Hayfield", [58, 50, 52, 59, 72, 145, 776, 2087, 1603, 472, 254, 269, 287, 295, 301, 434, 541, 735, 571, 460, 369, 263, 159, 88]],
+    ["Linden Grove", [64, 55, 57, 65, 84, 279, 1425, 2498, 1249, 350, 271, 297, 317, 325, 332, 457, 640, 764, 639, 472, 396, 290, 176, 97]],
+    ["Quail Hill", [79, 69, 71, 80, 102, 303, 1555, 2897, 1545, 444, 335, 368, 393, 403, 407, 497, 795, 999, 904, 674, 478, 365, 218, 120]],
+    ["Stonecross", [65, 56, 58, 67, 146, 858, 2292, 1706, 472, 246, 271, 301, 321, 331, 351, 438, 602, 868, 747, 545, 385, 298, 178, 98]],
+    ["Quarry Hill", [90, 78, 81, 92, 151, 800, 2864, 2956, 970, 371, 379, 421, 449, 460, 479, 741, 938, 1330, 1125, 866, 556, 414, 249, 137]],
+  ] },
+  { no: 3, color: "#63a4ff", stations: [
+    ["Lakeview", [96, 83, 85, 98, 186, 1038, 3066, 2565, 761, 370, 400, 445, 475, 487, 527, 603, 1063, 1325, 1185, 724, 573, 435, 264, 145]],
+    ["Heron Wharf", [83, 72, 75, 85, 131, 627, 2311, 2521, 877, 344, 350, 388, 414, 426, 430, 583, 690, 939, 849, 648, 518, 381, 230, 127]],
+    ["Reed Bank", [76, 66, 68, 77, 125, 652, 2366, 2488, 827, 313, 318, 353, 377, 386, 393, 509, 722, 917, 774, 655, 467, 347, 209, 115]],
+    ["Shingle Bank", [44, 38, 40, 45, 58, 190, 969, 1713, 863, 243, 188, 206, 220, 225, 237, 314, 397, 519, 455, 366, 278, 201, 122, 67]],
+    ["Marina", [44, 38, 39, 44, 57, 167, 825, 1484, 773, 233, 185, 203, 217, 222, 233, 303, 449, 640, 599, 390, 269, 199, 121, 66]],
+    ["Ferry Road", [66, 64, 66, 75, 91, 139, 478, 1473, 1680, 750, 402, 550, 704, 584, 464, 677, 1264, 1482, 900, 347, 162, 115, 91, 75]],
+    ["Canal Basin", [61, 59, 61, 70, 85, 146, 586, 1643, 1604, 637, 361, 509, 651, 540, 435, 677, 1346, 1638, 1006, 369, 156, 106, 84, 70]],
+    ["Printworks", [59, 56, 59, 67, 81, 125, 463, 1500, 1754, 768, 369, 489, 625, 517, 394, 513, 990, 1340, 943, 381, 157, 103, 81, 67]],
+    ["Bank Square", [182, 170, 178, 202, 244, 318, 608, 1590, 2199, 1399, 1035, 1778, 2767, 2097, 1192, 1213, 3406, 7890, 6802, 2792, 1393, 805, 406, 234], "downtown"],
+    ["Opera House", [146, 137, 143, 162, 195, 255, 487, 1274, 1762, 1121, 829, 1425, 2217, 1680, 983, 1451, 4784, 7740, 4479, 1706, 1068, 644, 325, 187], "downtown"],
+    ["Tower Square", [142, 133, 139, 158, 191, 249, 476, 1245, 1722, 1096, 810, 1392, 2166, 1643, 1016, 1999, 5847, 6900, 3123, 1393, 1029, 629, 318, 183], "downtown"],
+    ["Treasury", [174, 163, 170, 193, 233, 304, 582, 1521, 2104, 1338, 990, 1701, 2646, 2008, 1265, 2641, 7456, 8244, 3571, 1660, 1255, 769, 388, 223], "downtown"],
+    ["Arena", [81, 77, 80, 91, 109, 137, 174, 219, 270, 324, 375, 418, 446, 456, 464, 616, 1179, 1523, 929, 352, 215, 1806, 3341, 320]],
+    ["Foundry Lane", [72, 69, 72, 82, 100, 166, 606, 1568, 1461, 610, 410, 595, 762, 633, 519, 849, 1728, 2094, 1266, 451, 184, 125, 98, 82]],
+    ["Ironworks", [49, 47, 49, 56, 67, 100, 326, 997, 1155, 531, 295, 406, 519, 431, 353, 583, 1204, 1478, 902, 319, 127, 85, 67, 56]],
+    ["Kiln Street", [44, 38, 40, 45, 55, 115, 646, 1768, 1367, 390, 196, 207, 220, 226, 227, 289, 429, 536, 466, 340, 263, 202, 122, 67]],
+    ["Smelter Row", [72, 62, 64, 73, 97, 346, 1715, 2811, 1322, 376, 304, 335, 358, 367, 373, 446, 709, 893, 771, 514, 456, 328, 198, 109]],
+    ["Slate Hill", [45, 39, 41, 46, 59, 173, 876, 1615, 856, 251, 193, 212, 226, 232, 250, 351, 519, 606, 536, 400, 271, 208, 126, 69]],
+    ["Coalbrook", [62, 54, 55, 63, 90, 397, 1657, 2103, 807, 273, 259, 287, 307, 315, 319, 423, 619, 864, 731, 461, 406, 285, 170, 94]],
+    ["Copper Mill", [97, 84, 87, 100, 218, 1242, 3199, 2312, 651, 366, 405, 451, 481, 493, 499, 608, 1111, 1264, 1154, 721, 602, 441, 267, 147]],
+  ] },
+  { no: 4, color: "#b993ff", stations: [
+    ["Hollin Cross", [90, 78, 81, 92, 158, 903, 3243, 3302, 1048, 375, 379, 421, 449, 460, 490, 576, 873, 1073, 891, 665, 557, 410, 249, 137]],
+    ["Sorrelfield", [63, 55, 56, 64, 91, 392, 1680, 2211, 871, 284, 265, 293, 313, 322, 338, 442, 743, 846, 812, 495, 405, 289, 174, 96]],
+    ["Primrose Way", [81, 70, 72, 82, 119, 545, 2329, 3003, 1152, 366, 339, 376, 401, 412, 416, 505, 732, 1037, 982, 662, 506, 370, 223, 123]],
+    ["Bell Wood", [40, 35, 36, 41, 52, 139, 723, 1438, 820, 237, 172, 188, 200, 207, 208, 232, 387, 457, 406, 279, 249, 183, 111, 61]],
+    ["Clover Hill", [58, 50, 51, 58, 80, 329, 1595, 2428, 1058, 294, 243, 268, 286, 294, 315, 424, 703, 822, 732, 437, 364, 264, 159, 87]],
+    ["Herb Garden", [65, 62, 65, 74, 90, 145, 545, 1571, 1616, 674, 383, 537, 686, 568, 436, 596, 1221, 1711, 1221, 480, 181, 113, 89, 74]],
+    ["Lavender Row", [63, 61, 63, 72, 88, 156, 634, 1685, 1553, 605, 366, 524, 671, 557, 446, 667, 1261, 1477, 891, 338, 155, 109, 87, 72]],
+    ["Old Town", [1184, 243, 58, 55, 66, 88, 155, 318, 433, 401, 433, 559, 661, 667, 583, 511, 610, 826, 822, 753, 1098, 1503, 1824, 2146]],
+    ["Merchant Row", [190, 179, 186, 211, 255, 333, 637, 1666, 2304, 1466, 1084, 1863, 2898, 2196, 1246, 1204, 3136, 7682, 7193, 3078, 1480, 844, 425, 245], "downtown"],
+    ["Clock Tower", [199, 187, 195, 221, 267, 348, 666, 1741, 2407, 1532, 1132, 1946, 3029, 2295, 1306, 1362, 4027, 9381, 7981, 3167, 1532, 881, 444, 256], "downtown"],
+    ["Arcade", [175, 164, 172, 195, 235, 306, 586, 1534, 2121, 1350, 998, 1715, 2669, 2023, 1188, 1738, 5211, 7614, 4203, 1837, 1274, 775, 391, 225], "downtown"],
+    ["Senate", [191, 180, 188, 213, 257, 335, 641, 1676, 2318, 1475, 1091, 1874, 2916, 2210, 1284, 1776, 5846, 10027, 6140, 2331, 1410, 847, 428, 246], "downtown"],
+    ["Gallery", [60, 57, 60, 68, 83, 125, 412, 1214, 1343, 606, 355, 497, 635, 527, 428, 701, 1502, 1938, 1233, 438, 162, 104, 82, 68]],
+    ["Theatre Row", [45, 43, 45, 51, 62, 94, 320, 973, 1098, 491, 271, 373, 477, 395, 310, 462, 981, 1337, 910, 341, 125, 79, 62, 51]],
+    ["Weavers Lane", [46, 44, 46, 53, 64, 114, 434, 1074, 938, 378, 262, 383, 490, 406, 317, 466, 1001, 1403, 980, 371, 132, 81, 63, 53]],
+    ["Mulberry Way", [38, 33, 34, 39, 53, 211, 956, 1374, 581, 181, 162, 179, 191, 195, 197, 234, 374, 498, 456, 334, 239, 176, 106, 58]],
+    ["Juniper Dell", [36, 32, 33, 37, 49, 174, 819, 1278, 583, 179, 154, 170, 181, 186, 197, 237, 298, 408, 361, 250, 218, 165, 101, 55]],
+    ["Hawthorn End", [78, 68, 70, 80, 135, 736, 2543, 2515, 801, 317, 328, 364, 389, 398, 403, 505, 840, 987, 808, 673, 473, 355, 216, 119]],
+    ["Aspen Way", [33, 29, 30, 34, 50, 239, 1023, 1302, 490, 151, 140, 155, 165, 170, 173, 253, 379, 441, 350, 280, 218, 152, 92, 50]],
+    ["Westbrook", [97, 84, 86, 99, 167, 881, 2918, 2783, 887, 385, 405, 450, 481, 495, 507, 603, 1051, 1287, 1062, 815, 602, 440, 267, 147]],
+  ] },
+  { no: 5, color: "#ff7fc8", stations: [
+    ["Kestrel Park", [89, 77, 80, 93, 228, 1393, 3492, 2414, 633, 337, 373, 415, 443, 454, 483, 575, 1042, 1214, 1125, 672, 579, 408, 246, 135]],
+    ["Falcon Road", [50, 43, 45, 51, 79, 402, 1564, 1780, 620, 214, 210, 233, 248, 254, 262, 298, 504, 619, 590, 392, 299, 230, 138, 76]],
+    ["Wren Street", [81, 70, 72, 83, 148, 796, 2462, 2179, 671, 316, 339, 377, 403, 415, 438, 576, 1030, 1209, 1058, 646, 514, 369, 224, 123]],
+    ["Lark Rise", [35, 30, 31, 35, 48, 184, 910, 1441, 652, 182, 147, 163, 173, 178, 179, 227, 343, 453, 413, 260, 207, 159, 96, 53]],
+    ["Swallowfield", [66, 58, 59, 67, 89, 325, 1643, 2739, 1299, 358, 282, 310, 331, 341, 345, 451, 599, 869, 793, 561, 424, 307, 184, 101]],
+    ["Magpie Lane", [94, 90, 94, 106, 129, 197, 678, 2086, 2368, 1055, 567, 777, 994, 824, 645, 914, 1751, 2172, 1389, 537, 236, 162, 128, 106]],
+    ["Owl Street", [86, 83, 86, 98, 120, 211, 842, 2204, 2013, 793, 496, 715, 915, 757, 578, 762, 1480, 2000, 1401, 562, 230, 150, 118, 98]],
+    ["Rook Street", [56, 53, 56, 63, 78, 148, 636, 1633, 1426, 530, 320, 461, 590, 488, 372, 484, 931, 1256, 882, 357, 147, 97, 76, 63]],
+    ["Dockside", [109, 103, 107, 122, 147, 191, 366, 957, 1324, 842, 623, 1071, 1666, 1263, 771, 1388, 3871, 4545, 2132, 1043, 790, 484, 244, 141], "downtown"],
+    ["Harbor Front", [176, 165, 172, 195, 236, 307, 588, 1537, 2125, 1352, 1000, 1718, 2674, 2027, 1210, 1948, 5567, 7182, 3634, 1724, 1271, 776, 392, 226], "downtown"],
+    ["Customs Quay", [192, 180, 188, 213, 258, 336, 643, 1681, 2324, 1479, 1093, 1879, 2924, 2216, 1267, 1424, 4377, 9140, 6913, 2703, 1445, 850, 429, 247], "downtown"],
+    ["Shipyard", [179, 168, 175, 199, 240, 313, 599, 1566, 2166, 1378, 1019, 1752, 2725, 2070, 1359, 3164, 8389, 8320, 3351, 1656, 1291, 791, 400, 230], "downtown"],
+    ["Infirmary", [140, 54, 56, 64, 79, 107, 417, 1310, 538, 352, 451, 556, 641, 692, 1053, 2117, 899, 421, 310, 222, 157, 113, 268, 982]],
+    ["Lighthouse", [55, 53, 55, 62, 76, 127, 476, 1286, 1237, 509, 318, 456, 583, 483, 374, 535, 1138, 1607, 1139, 438, 157, 97, 75, 62]],
+    ["Anchor Row", [96, 92, 96, 109, 132, 194, 616, 1927, 2301, 1078, 585, 797, 1018, 846, 690, 1124, 2330, 2892, 1784, 635, 250, 167, 132, 109]],
+    ["Pier Gardens", [65, 56, 58, 66, 94, 417, 1880, 2581, 1034, 307, 273, 302, 323, 332, 349, 494, 806, 930, 717, 551, 392, 296, 179, 98]],
+    ["Tidemill", [55, 48, 50, 56, 72, 219, 1108, 2000, 1038, 303, 235, 259, 276, 283, 296, 449, 585, 839, 788, 417, 333, 253, 153, 84]],
+    ["Cove Road", [63, 55, 57, 65, 101, 503, 1916, 2136, 740, 267, 266, 295, 315, 324, 335, 379, 618, 748, 602, 456, 398, 290, 175, 96]],
+    ["Lowmoor", [35, 30, 31, 36, 80, 491, 1358, 1038, 282, 135, 146, 163, 174, 179, 179, 212, 324, 391, 331, 257, 218, 160, 96, 53]],
+    ["Dunmore", [96, 84, 86, 99, 189, 1072, 3214, 2720, 802, 375, 404, 449, 480, 492, 526, 636, 1018, 1146, 949, 705, 604, 439, 266, 146]],
+  ] },
+  { no: 6, color: "#c9d3d3", stations: [
+    ["Brackenfield", [91, 79, 82, 93, 144, 711, 2717, 3055, 1067, 387, 384, 427, 455, 467, 508, 667, 1057, 1301, 1212, 739, 550, 416, 253, 139]],
+    ["Ashby Road", [73, 64, 66, 74, 108, 468, 1851, 2232, 839, 312, 308, 341, 364, 373, 398, 515, 856, 1030, 936, 576, 468, 335, 202, 111]],
+    ["Moorside", [79, 69, 71, 81, 132, 672, 2323, 2333, 767, 319, 332, 368, 393, 404, 407, 570, 787, 1045, 978, 599, 470, 365, 218, 120]],
+    ["Market Halls", [40, 39, 40, 57, 581, 1668, 390, 114, 136, 164, 190, 236, 540, 1034, 655, 259, 190, 164, 136, 110, 88, 69, 55, 46]],
+    ["Granary", [88, 76, 78, 89, 109, 233, 1208, 2935, 2052, 611, 379, 408, 436, 447, 461, 499, 857, 1002, 818, 624, 516, 398, 242, 133]],
+    ["Freight Yard", [45, 43, 45, 51, 63, 102, 402, 1226, 1316, 544, 276, 376, 481, 397, 303, 407, 840, 1212, 891, 356, 130, 80, 62, 51]],
+    ["Corn Hall", [93, 89, 93, 106, 129, 208, 807, 2440, 2614, 1086, 563, 771, 986, 819, 662, 998, 1827, 2047, 1192, 456, 222, 160, 127, 106]],
+    ["Depot Square", [85, 81, 85, 96, 117, 188, 723, 2214, 2410, 1011, 517, 704, 901, 748, 610, 956, 1821, 2089, 1224, 453, 207, 147, 116, 96]],
+    ["Central", [155, 145, 152, 172, 208, 271, 519, 1357, 1877, 1194, 883, 1518, 2362, 1797, 1258, 3179, 7374, 6204, 2356, 1372, 1117, 686, 346, 199], "downtown"],
+    ["Post Office", [186, 175, 182, 207, 250, 326, 623, 1630, 2255, 1434, 1061, 1823, 2836, 2149, 1224, 1287, 3839, 8876, 7473, 2949, 1432, 825, 416, 239], "downtown"],
+    ["Bourse", [126, 118, 123, 140, 169, 220, 421, 1102, 1525, 970, 717, 1233, 1918, 1456, 917, 1793, 4544, 4622, 2035, 1141, 908, 557, 281, 162], "downtown"],
+    ["Town Hall", [161, 151, 158, 179, 216, 282, 540, 1412, 1953, 1243, 919, 1579, 2457, 1862, 1060, 1117, 3298, 7492, 6224, 2477, 1234, 715, 360, 207], "downtown"],
+    ["Museum", [51, 49, 51, 58, 71, 122, 471, 1216, 1107, 445, 291, 422, 540, 448, 367, 603, 1244, 1530, 935, 332, 132, 88, 70, 58]],
+    ["Embassy Row", [90, 86, 90, 102, 125, 218, 797, 1907, 1640, 682, 505, 745, 954, 792, 648, 1046, 2097, 2514, 1511, 543, 227, 156, 123, 102]],
+    ["Parkside", [59, 57, 59, 67, 82, 146, 546, 1297, 1097, 449, 331, 489, 626, 518, 403, 578, 1199, 1633, 1122, 429, 162, 103, 81, 67]],
+    ["Fairfield", [71, 62, 64, 72, 90, 203, 1122, 2762, 1920, 540, 311, 333, 356, 364, 397, 436, 823, 1040, 869, 676, 452, 328, 197, 109]],
+    ["Meadowbank", [46, 40, 41, 47, 60, 168, 857, 1626, 887, 260, 197, 216, 231, 236, 246, 268, 461, 543, 439, 335, 286, 211, 128, 70]],
+    ["Crossways", [47, 41, 42, 49, 91, 523, 1609, 1394, 413, 185, 198, 220, 235, 242, 244, 301, 442, 545, 522, 355, 282, 217, 131, 72]],
+    ["Cargo Yards", [62, 54, 56, 63, 105, 545, 1844, 1806, 586, 249, 261, 290, 309, 320, 329, 487, 720, 928, 812, 613, 409, 283, 172, 94]],
+    ["Airport", [294, 257, 260, 299, 429, 737, 1187, 1524, 1563, 1458, 1425, 1463, 1469, 1412, 1371, 1461, 1648, 1703, 1513, 1282, 1151, 978, 688, 426]],
+  ] },
+];
+
+// What the text and the readout read, computed from the data
+const STATIONS = LINES.flatMap((line, l) => line.stations.map(([name, riders, area], p) => {
+  const peak = Math.max(...riders);
+  return {
+    name, riders, p, line: l, no: line.no, color: line.color, last: p === line.stations.length - 1, downtown: area === "downtown",
+    peak, hour: riders.indexOf(peak), total: riders.reduce((sum, v) => sum + v, 0), level: riders.map((v) => (peak > 0 ? v / peak : 0)),
+  };
+}));
+STATIONS.forEach((s, id) => (s.id = id));
+const count = new Intl.NumberFormat("en-US");
+const clock = (h) => `${h % 12 || 12} ${h % 24 < 12 ? "am" : "pm"}`;
+const hourSpan = (h) => {
+  const a = h % 24, b = (h + 1) % 24, n = (x) => x % 12 || 12, ap = (x) => (x < 12 ? "am" : "pm");
+  return ap(a) === ap(b) ? `${n(a)} to ${n(b)} ${ap(b)}` : `${n(a)} ${ap(a)} to ${n(b)} ${ap(b)}`;
+};
+const ends = (s) => s.p < 5 || s.p >= LINES[s.line].stations.length - 5; // the five stops nearest each end of a line
+const morning = (s) => s.hour < 12;
+const mode = (hours) => {
+  const tally = {};
+  for (const h of hours) tally[h] = (tally[h] ?? 0) + 1;
+  return +Object.keys(tally).sort((a, b) => tally[b] - tally[a])[0];
+};
+const END = STATIONS.filter(ends);
+const DOWN = STATIONS.filter((s) => s.downtown);
+const endsAM = END.filter(morning);
+const downPM = DOWN.filter((s) => !morning(s));
+const pattern = endsAM.length >= 0.75 * END.length && downPM.length >= 0.75 * DOWN.length;
+const TITLE = pattern
+  ? `The ends of the lines rush at ${clock(mode(endsAM.map((s) => s.hour)))}, downtown at ${clock(mode(downPM.map((s) => s.hour)))}`
+  : `${STATIONS.filter(morning).length} of ${STATIONS.length} stations are busiest before noon`;
+const DEK = `Riders entering ${STATIONS.length} stations of an invented subway, hour by hour on an average weekday. `
+  + `Of the ${END.length} stops nearest the ends of the lines, ${endsAM.length} are busiest before noon; `
+  + `${downPM.length === DOWN.length ? `all ${DOWN.length}` : `${downPM.length} of the ${DOWN.length}`} downtown stops are busiest after it.`;
+const LEAD = STATIONS.reduce((a, b) => (b.peak > a.peak ? b : a)).id; // the busiest station hour of the network: shown at rest
+const TOP = nice(0, Math.max(...STATIONS.map((s) => s.peak))).max; // one scale for every station's hourly bars
+const busiest = (s) => (s.peak > 0 ? `busiest ${hourSpan(s.hour)} with ${count.format(s.peak)} riders` : "no riders");
+const say = (s) => `${s.name}, line ${s.no}${s.downtown ? ", downtown" : ""}: ${busiest(s)}, ${count.format(s.total)} riders all day`;
+STATIONS.forEach((s) => (s.say = say(s)));
+
+// The page's tokens, read by every chart
+const THEME = {
+  font: "var(--text)", ink: "var(--ink)", muted: "var(--soft)", grid: "var(--rule)", surface: "var(--paper)",
+  series: ["var(--accent)", "var(--amber-dim)"], low: "var(--lamp-off)", high: "var(--lamp-on)",
+};
+
+// Slat types
+// An hour of a station: one lamp, lit from the theme's low to its high by the share of the station's busiest hour.
+// The first station of a line carries the clock above the lamps, every third hour.
+const Hour = slat({
+  css: `
+    .lamp { --rhp-cell-gap: 1px; --rhp-radius: 2px; }
+    .clock { overflow: visible; text-overflow: clip; font: 500 11px/1 "Overpass Mono", ui-monospace, Menlo, monospace; color: var(--rhp-muted); pointer-events: none; --rhp-label-gap: 5px; }
+  `,
+}, (h) => html`
+  <div>
+    <${Cell} value=${() => h.level} class="lamp" />
+    <${Show} when=${() => h.top && h.index % 3 === 0}>
+      <${Label} edge="end" class="clock">${() => h.index}<//>
+    <//>
+  </div>`);
+
+// A station: its stop on the line's strip map and its name in the start room, then its 24 lamps. Downtown stops sit
+// on a lighter band. Two sizes of start room: a phone's and a wider screen's.
+const station = (start) => slat({
+  thickness: 18,
+  room: { start, end: 6, before: 18 },
+  css: `
+    .stop { cursor: pointer; outline: none; }
+    .stop::before { content: ""; position: absolute; top: 0; bottom: 0; left: ${6 - start}px; width: 3px; background: var(--line); }
+    .stop.first::before { top: 50%; }
+    .stop.last::before { bottom: 50%; }
+    .stop::after { content: ""; position: absolute; top: 50%; left: ${7.5 - start}px; width: 10px; height: 10px; translate: -50% -50%; border: 2px solid var(--line); border-radius: 50%; background: var(--rhp-surface); box-sizing: border-box; }
+    .downtown { background: color-mix(in oklab, var(--rhp-ink) 6%, var(--rhp-surface)); box-shadow: ${-start}px 0 0 color-mix(in oklab, var(--rhp-ink) 6%, var(--rhp-surface)), 6px 0 0 color-mix(in oklab, var(--rhp-ink) 6%, var(--rhp-surface)); }
+    .name { justify-content: flex-start; text-align: left; padding-left: 19px; font-size: 12px; font-weight: 600; color: var(--rhp-muted); }
+    .ring { display: none; position: absolute; z-index: 2; inset: -1px -3px; border: 2px solid var(--rhp-ink); border-radius: 4px; pointer-events: none; }
+    .lit .ring { display: block; }
+    .stop:focus-visible .ring { display: block; inset: -3px -5px; border: 3px solid var(--rhp-series-1); }
+    .lit .name { color: var(--rhp-ink); font-weight: 800; }
+    .lit::after { background: var(--rhp-ink); }
+  `,
+}, (d) => html`
+  <div class=${() => "stop" + (d.p === 0 ? " first" : "") + (d.last ? " last" : "") + (d.downtown ? " downtown" : "") + (d.lit ? " lit" : "")}
+    data-row=${() => d.id} style=${() => ({ "--line": d.color })} aria-label=${() => d.say}>
+    <${Label} edge="start" class="name">${() => d.name}<//>
+    <${Plot} orientation="across" level=${() => d.level} top=${() => d.p === 0}>${Hour}<//>
+    <i class="ring"></i>
+  </div>`);
+const StationWide = station(124);
+const StationNarrow = station(112);
+
+// An hour in the readout: the shown station's riders, on one scale for every station; its busiest hour lit
+const Hourly = slat({
+  inset: 0.14,
+  room: { start: 20, end: 2 },
+  css: `
+    .bar { --rhp-radius: 1px; }
+    .t { overflow: visible; text-overflow: clip; font: 500 11px/1 "Overpass Mono", ui-monospace, Menlo, monospace; color: var(--rhp-muted); }
+  `,
+}, (m) => html`
+  <div>
+    <${Bar} to=${() => m.riders} color=${() => (m.top ? "series-1" : "series-2")} class="bar" />
+    <${Show} when=${() => m.index % 6 === 0}><${Label} edge="start" class="t">${() => m.index}<//><//>
+  </div>`);
+
+// Chart component: pointing at a station previews it; a click, a tap, the keyboard, the picker or its arrows keep it
+function Stations() {
+  const roomy = matchMedia("(min-width: 560px)");
+  const [wide, setWide] = createSignal(roomy.matches);
+  const turn = (e) => setWide(e.matches);
+  roomy.addEventListener("change", turn);
+  onCleanup(() => roomy.removeEventListener("change", turn));
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const [held, setHeld] = createSignal(LEAD);
+  const [hover, setHover] = createSignal(null);
+  const shown = () => hover() ?? held();
+  const s = () => STATIONS[shown()];
+  let picker;
+  createEffect(() => picker && (picker.value = String(shown())));
+
+  // The station an element is in, or null (between rows, in a line's head)
+  const rowOf = (el) => {
+    const root = el.closest("[data-row]");
+    return root ? +root.dataset.row : null;
+  };
+  // A mouse or a pen previews as it moves; on no station the preview stays; leaving the lines ends it
+  const point = (e) => {
+    if (e.pointerType === "touch") return;
+    const row = rowOf(e.target);
+    if (row == null) return;
+    setHover(row);
+  };
+  const keep = (e) => {
+    const row = rowOf(e.target);
+    if (row == null) return;
+    setHeld(row);
+    setHover(null);
+  };
+  // The picker and its arrows keep a station, and bring its row into view under the readout
+  const go = (id) => {
+    setHeld(Math.max(0, Math.min(STATIONS.length - 1, id)));
+    setHover(null);
+    document.querySelector(`.lines [data-row="${held()}"]`)?.scrollIntoView({ block: "nearest", behavior: still ? "auto" : "smooth" });
+  };
+
+  return html`
+    <${Poster} kicker="Subway riders, an average weekday" title=${TITLE} dek=${DEK} note=${NOTE}>
+      <p class="key" aria-hidden="true">
+        <span>quiet hour<i class="ramp"></i>the station's busiest</span>
+        <span><i class="band"></i>downtown stops</span>
+        <span><b>18</b>the hour from 6 to 7 pm</span>
+      </p>
+      <div class="readout">
+        <div class="pick">
+          <label class="hint" for="station">Point at a station's row, tap it, or choose it here</label>
+          <div class="picker">
+            <button type="button" class="step" aria-label="Previous station" disabled=${() => held() === 0} onClick=${() => go(held() - 1)}>‹</button>
+            <i class="bullet" style=${() => ({ "--line": s().color })} aria-hidden="true">${() => s().no}</i>
+            <select id="station" ref=${(el) => (picker = el)} onChange=${(e) => go(+e.currentTarget.value)}>
+              ${LINES.map((line, l) => {
+                const rows = STATIONS.filter((x) => x.line === l);
+                return html`<optgroup label=${`Line ${line.no}: ${rows[0].name} to ${rows.at(-1).name}`}>
+                  ${rows.map((x) => html`<option value=${x.id}>${x.name}</option>`)}
+                </optgroup>`;
+              })}
+            </select>
+            <button type="button" class="step" aria-label="Next station" disabled=${() => held() === STATIONS.length - 1} onClick=${() => go(held() + 1)}>›</button>
+          </div>
+        </div>
+        <p class="facts" aria-live="polite">
+          <span>${() => (s().peak > 0 ? "Busiest " : "No riders")}<b>${() => (s().peak > 0 ? hourSpan(s().hour) : "")}</b></span>
+          <span><b>${() => count.format(s().peak)}</b> riders</span>
+          <span><b>${() => count.format(s().total)}</b> all day</span>
+        </p>
+        <${Chart} orientation="vertical" height=${42} scale=${[0, TOP]} ticks=${false} theme=${{ ...THEME, surface: "var(--page)" }}
+          label=${() => `Riders entering ${s().name} each hour, on one scale for every station`}>
+          <${Plot} riders=${() => s().riders} top=${(m) => m.index === s().hour} animate=${["riders"]}>${Hourly}<//>
+        <//>
+      </div>
+      <div class="lines" onPointerMove=${point} onPointerLeave=${(e) => e.pointerType !== "touch" && setHover(null)} onClick=${keep} onFocusIn=${keep}>
+        ${LINES.map((line, l) => {
+          const rows = STATIONS.filter((x) => x.line === l);
+          const from = rows[0].name, to = rows.at(-1).name;
+          return html`
+            <section style=${{ "--line": line.color }}>
+              <h2 class="line-head"><i class="bullet" aria-hidden="true">${line.no}</i><span>Line ${line.no}${" "}<span class="to">${from} to ${to}</span></span></h2>
+              <${Chart} scale=${[0, 1]} ticks=${false} theme=${THEME}
+                label=${`Line ${line.no}, ${from} to ${to}: riders entering each of its ${rows.length} stations by hour of the day, each station's lamps lit toward its busiest hour`}>
+                ${() => html`<${Plot} keyboard=${true} rows=${rows} lit=${(d) => shown() === d.id}>${wide() ? StationWide : StationNarrow}<//>`}
+              <//>
+            </section>`;
+        })}
+      </div>
+    <//>`;
+}
+
+render(() => html`<${Stations} />`, document.getElementById("chart"));
+</script>
+</body>
+</html>

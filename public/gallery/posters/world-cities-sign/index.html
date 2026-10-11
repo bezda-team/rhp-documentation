@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The world's largest cities</title>
+<meta name="description" content="The 150 largest cities in the world by population in 2025, set as a highway guide sign: each city a line, its people counted out in blocks of one million. The top 25 at first, all 150 on request.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800&display=swap">
+<script type="importmap">{ "imports": { "@bezda/rhp/standalone": "https://cdn.jsdelivr.net/npm/@bezda/rhp@2.0.4/dist/standalone.js" } }</script>
+<style>
+  /* Tokens: a highway guide sign. Its green for the paper, its white for the ink, the yellow of an "exit only" panel
+     for the largest city, and a pale tint of the green for every other city's blocks */
+  :root {
+    color-scheme: dark;
+    --page: #083524;
+    --paper: #0b4f37;
+    --ink: #f2f7f3;
+    --soft: #bcd3c6;
+    --rule: #2a6a52;
+    --accent: #ffcf3f;
+    --quiet: #76a48d;
+    --display: "Overpass", "Highway Gothic", "Arial Narrow", Arial, sans-serif;
+    --text: "Overpass", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 48px 16px; background: var(--page); }
+
+  /* The poster is the sign: rounded corners and a white border line set in from its edge */
+  .poster { max-width: 960px; margin: 0 auto; padding: 46px 50px 34px; border-radius: 24px; background: var(--paper); color: var(--ink); font: 16px/1.5 var(--text);
+    box-shadow: inset 0 0 0 9px var(--paper), inset 0 0 0 12px var(--ink); }
+  .poster figcaption { display: grid; gap: 12px; margin-bottom: 26px; }
+  .poster .kicker { font: 800 13px/1.3 var(--text); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .poster .headline { max-width: 16em; font: 800 clamp(26px, 5.6vw, 54px)/1.02 var(--display); text-wrap: balance; }
+  .poster .dek { max-width: 56ch; font-size: 18px; line-height: 1.5; color: var(--soft); }
+  .poster .unit { display: inline-block; width: 9px; height: 14px; margin: 0 2px; vertical-align: -1px; background: var(--quiet); }
+  .poster .note { display: block; margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 12.5px; line-height: 1.55; color: var(--soft); }
+
+  /* The switch over the list, and the button at its end: white on the sign's green, the one in force filled */
+  .tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 0 0 18px; }
+  .choice { display: inline-flex; }
+  .choice button, .more button { min-height: 36px; padding: 8px 14px 6px; border: 2px solid var(--ink); background: none; color: var(--ink); font: 800 14px/1 var(--text); white-space: nowrap; cursor: pointer; }
+  .choice button { margin-left: -2px; }
+  .choice button:first-child { margin-left: 0; border-radius: 6px 0 0 6px; }
+  .choice button:last-child { border-radius: 0 6px 6px 0; }
+  .choice button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+  .more { margin: 16px 0 0; }
+  .more button { border-radius: 6px; }
+  .poster button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  /* Phones and narrow windows: names go over their bars (the slat type changes at the same width) */
+  @media (max-width: 759.98px) {
+    body { padding: 16px 16px 32px; }
+    .poster { padding: 30px 22px 22px; border-radius: 18px; box-shadow: inset 0 0 0 7px var(--paper), inset 0 0 0 9px var(--ink); }
+    .poster figcaption { gap: 10px; margin-bottom: 18px; }
+    .poster .kicker { font-size: 12px; }
+    .poster .dek { font-size: 15px; }
+    .tools { margin-bottom: 12px; }
+  }
+</style>
+<style id="recipe-navigation-styles">
+  .recipe-navigation { max-width: 960px; margin: 0 auto 18px; text-align: left; }
+  .recipe-navigation a { display: inline-block; padding: 4px 0; font: 600 12.5px/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: #eef2f5; }
+  .recipe-navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .recipe-navigation a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<nav class="recipe-navigation" aria-label="Gallery navigation"><a href="/gallery/">← Gallery</a></nav>
+<div id="chart"></div>
+<script type="module">
+import { Chart, Plot, Bar, Label, Poster, Show, slat, nice, html, render, createSignal } from "@bezda/rhp/standalone";
+
+// Data: people living in each city in 2025 and in 2000, in thousands. United Nations, World Urbanization Prospects:
+// The 2025 Revision, file 21 (cities by the Degree of Urbanisation). Names shortened to their usual English form;
+// the UN lists Mbuji-Mayi as Kasaï-Oriental.
+const RAW = [
+  ["Jakarta", "Indonesia", 41914, 25592], ["Dhaka", "Bangladesh", 36585, 17435], ["Tokyo", "Japan", 33413, 30303], ["New Delhi", "India", 30222, 17969], ["Shanghai", "China", 29559, 14035],
+  ["Guangzhou", "China", 27563, 18970], ["Cairo", "Egypt", 25566, 15677], ["Manila", "Philippines", 24735, 17799], ["Kolkata", "India", 22550, 18355], ["Seoul", "South Korea", 22490, 18963],
+  ["Karachi", "Pakistan", 21423, 10800], ["Mumbai", "India", 20203, 15953], ["São Paulo", "Brazil", 18950, 16702], ["Bangkok", "Thailand", 18180, 8377], ["Mexico City", "Mexico", 17734, 17598],
+  ["Beijing", "China", 17013, 9635], ["Lahore", "Pakistan", 15156, 7979], ["Istanbul", "Türkiye (Turkey)", 15015, 10634], ["Moscow", "Russia", 14525, 11195], ["Ho Chi Minh City", "Vietnam", 14053, 6006],
+  ["Buenos Aires", "Argentina", 14018, 11712], ["New York", "US", 13920, 13044], ["Shenzhen", "China", 13878, 8181], ["Bengaluru", "India", 13187, 6052], ["Osaka", "Japan", 12964, 14488],
+  ["Lagos", "Nigeria", 12792, 7909], ["Los Angeles", "US", 12740, 11196], ["Luanda", "Angola", 11370, 715], ["Chennai", "India", 11153, 7613], ["Kinshasa", "DR Congo", 10944, 5328],
+  ["Bogotá", "Colombia", 10624, 6341], ["Lima", "Peru", 10580, 6992], ["London", "UK", 10416, 7655], ["Hajipur", "India", 9942, 3364], ["Rio de Janeiro", "Brazil", 9500, 8417],
+  ["Paris", "France", 9382, 8385], ["Hyderabad", "India", 9191, 6341], ["Tehran", "Iran", 9175, 6999], ["Taipei", "Taiwan", 9137, 7899], ["Bandung", "Indonesia", 8909, 6333],
+  ["Kuala Lumpur", "Malaysia", 8444, 4144], ["Dar es Salaam", "Tanzania", 7795, 2072], ["Suzhou", "China", 7731, 3672], ["Ahmedabad", "India", 7632, 5119], ["Hangzhou", "China", 7500, 4965],
+  ["Wuhan", "China", 7364, 5637], ["Tianjin", "China", 7285, 4302], ["Alexandria", "Egypt", 7267, 4478], ["Nagoya", "Japan", 7146, 6506], ["Johannesburg", "South Africa", 7077, 2768],
+  ["Chongqing", "China", 7071, 5282], ["Riyadh", "Saudi Arabia", 6916, 2557], ["Surat", "India", 6909, 3293], ["Surabaya", "Indonesia", 6844, 5722], ["Pune", "India", 6818, 4345],
+  ["Khartoum", "Sudan", 6809, 4135], ["Nanjing", "China", 6801, 3898], ["Santiago", "Chile", 6726, 5305], ["Addis Ababa", "Ethiopia", 6706, 2792], ["Abidjan", "Côte d'Ivoire", 6622, 3442],
+  ["Chaozhou", "China", 6408, 4213], ["Amman", "Jordan", 6404, 2640], ["Baghdad", "Iraq", 6391, 4272], ["Chengdu", "China", 6140, 5487], ["Nairobi", "Kenya", 6134, 2580],
+  ["Kozhikode", "India", 6124, 2317], ["Shenyang", "China", 5703, 4586], ["Kabul", "Afghanistan", 5636, 2715], ["Onitsha", "Nigeria", 5628, 2353], ["Yangon", "Myanmar", 5618, 3805],
+  ["Accra", "Ghana", 5593, 2612], ["Madrid", "Spain", 5584, 3921], ["Faisalabad", "Pakistan", 5566, 2817], ["Toronto", "Canada", 5494, 3793], ["Mashhad", "Iran", 5398, 3470],
+  ["Dubai", "UAE", 5284, 1297], ["Xi'an", "China", 5231, 3982], ["Colombo", "Sri Lanka", 5224, 3818], ["Yaoundé", "Cameroon", 5106, 1579], ["Kochi", "India", 5078, 3394],
+  ["Hanoi", "Vietnam", 5068, 3024], ["Lucknow", "India", 5052, 3200], ["Chattogram", "Bangladesh", 4984, 3779], ["Singapore", "Singapore", 4964, 3539], ["Kampala", "Uganda", 4881, 1697],
+  ["Zhengzhou", "China", 4878, 2795], ["Hefei", "China", 4867, 3019], ["Islamabad", "Pakistan", 4860, 2590], ["Kano", "Nigeria", 4840, 2720], ["Hong Kong", "China", 4750, 4305],
+  ["Saint Petersburg", "Russia", 4736, 3979], ["Santo Domingo", "Dominican Republic", 4600, 2920], ["Cape Town", "South Africa", 4509, 2427], ["Casablanca", "Morocco", 4457, 3171], ["Mogadishu", "Somalia", 4399, 1239],
+  ["Harbin", "China", 4376, 3476], ["Kanpur", "India", 4330, 3843], ["Kumasi", "Ghana", 4298, 1489], ["Damascus", "Syria", 4288, 2527], ["Jeddah", "Saudi Arabia", 4284, 1682],
+  ["Kuwait City", "Kuwait", 4265, 1558], ["Medan", "Indonesia", 4246, 3393], ["Bamako", "Mali", 4245, 1249], ["Luxor", "Egypt", 4188, 221], ["Belo Horizonte", "Brazil", 4163, 3464],
+  ["Wenzhou", "China", 4158, 3389], ["Sydney", "Australia", 4151, 2858], ["Guadalajara", "Mexico", 4135, 3593], ["Douala", "Cameroon", 4105, 1455], ["Jaipur", "India", 4072, 2547],
+  ["Sana'a", "Yemen", 4019, 1653], ["Taiyuan", "China", 4006, 2450], ["Puning", "China", 3989, 2950], ["Barcelona", "Spain", 3983, 2831], ["Houston", "US", 3955, 1229],
+  ["Monterrey", "Mexico", 3938, 3287], ["Tashkent", "Uzbekistan", 3936, 2986], ["Antananarivo", "Madagascar", 3916, 1156], ["Varanasi", "India", 3859, 2862], ["Dakar", "Senegal", 3852, 2149],
+  ["Owerri", "Nigeria", 3833, 1271], ["Ürümqi", "China", 3755, 1899], ["Ibadan", "Nigeria", 3721, 2097], ["Recife", "Brazil", 3691, 2990], ["Chicago", "US", 3683, 3740],
+  ["Brazzaville", "Congo", 3656, 1273], ["Melbourne", "Australia", 3640, 2343], ["Qingdao", "China", 3617, 2868], ["Ankara", "Türkiye (Turkey)", 3612, 2382], ["Mbuji-Mayi", "DR Congo", 3606, 1919],
+  ["Karaj", "Iran", 3599, 1966], ["Berlin", "Germany", 3561, 3328], ["Savar", "Bangladesh", 3557, 1629], ["Peshawar", "Pakistan", 3554, 2204], ["Lusaka", "Zambia", 3511, 1056],
+  ["Indore", "India", 3476, 1987], ["Jinan", "China", 3473, 2593], ["Changsha", "China", 3458, 2695], ["Medellín", "Colombia", 3350, 2781], ["Changchun", "China", 3350, 2968],
+  ["Patna", "India", 3309, 2016], ["Nanchang", "China", 3300, 2375], ["Nanning", "China", 3289, 2151], ["Quanzhou", "China", 3286, 2783], ["Washington, D.C.", "US", 3270, 1907],
+  ["Busan", "South Korea", 3263, 3584], ["Nagpur", "India", 3258, 2460], ["Algiers", "Algeria", 3246, 2183], ["Fortaleza", "Brazil", 3244, 2549], ["Kathmandu", "Nepal", 3232, 1507],
+];
+const NOTE = "Source: United Nations, World Urbanization Prospects: The 2025 Revision (estimates for 2025). The UN counts a city as one continuous area of at least 50,000 people living 1,500 or more to the square kilometre, whatever its official limits, so some entries are whole dense regions (Hajipur in Bihar, Kozhikode in Kerala) and figures differ from city-limit counts. The UN lists Mbuji-Mayi as Kasaï-Oriental.";
+const TOP = 25; // the cities shown at first
+
+// The rows, ranked from a sorted copy: a row's index is its rank less one
+const CITIES = RAW.map(([city, country, k2025, k2000]) => ({ city, country, k2025, k2000, pop: k2025 / 1000 }))
+  .sort((a, b) => b.k2025 - a.k2025);
+const LEAD = 0; // the largest city in 2025, which the headline names
+const FORMER = CITIES.reduce((best, d, i) => (d.k2000 > CITIES[best].k2000 ? i : best), 0); // the largest of them in 2000
+const scale = nice(0, Math.max(...CITIES.map((d) => d.pop)));
+
+// Numbers: millions with at most one decimal, and counts under a million in full
+const millions = new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 });
+const count = new Intl.NumberFormat("en-US");
+const people = (k) => (k >= 1000 ? `${millions.format(k / 1000)} million` : count.format(Math.round(k) * 1000));
+const value = (d) => (d.index === 0 ? `${millions.format(d.pop)} million` : millions.format(d.pop));
+const say = (d) => `${d.index + 1}. ${d.city}, ${d.country}: ${people(d.k2025)} people`;
+
+// The chart's font and colors, read from the page's tokens
+const THEME = {
+  font: "var(--text)", ink: "var(--ink)", muted: "var(--soft)", grid: "var(--rule)", surface: "var(--paper)",
+  series: ["var(--accent)", "var(--ink)", "var(--quiet)"],
+};
+
+// Slat types: a city is one line of the sign, its people counted out in blocks of one million (a wider gap after every
+// ten). Every full block is worth one million and the last one is cut to what is left, so the bar keeps its exact
+// length. The largest city is in sign yellow, and the largest of 2000 in sign white.
+const CITY_CSS = `
+  .city { --gap: 2px; --tens: 5px; }
+  .bar {
+    --rhp-radius: 0px;
+    mask:
+      linear-gradient(to right, #000 calc(100% - var(--gap)), #0000 0) 0 0 / calc(100% * var(--unit)) 100%,
+      linear-gradient(to right, #000 calc(100% - var(--tens)), #0000 0) 0 0 / calc(1000% * var(--unit)) 100%;
+    mask-composite: intersect;
+  }
+  .former .bar { background: var(--rhp-series-2); }
+  .lit .bar { background: var(--rhp-series-1); }
+  .value { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .lit .value { color: var(--rhp-series-1); font-weight: 800; }
+  .country { margin-left: 8px; font-weight: 400; color: var(--rhp-muted); }
+`;
+const classes = (d) => (d.lit ? "city lit" : d.former ? "city former" : "city");
+
+// Wide windows: the rank, the city and its country to the left of the bar, left-aligned like the destinations on a sign
+const CityWide = slat({
+  thickness: 30,
+  inset: "7px",
+  room: { start: 272, end: 40 },
+  css: [CITY_CSS, `
+    .name { justify-content: flex-start; text-align: left; font-size: 15px; font-weight: 600; }
+    .rank { display: inline-block; width: 2.2em; margin-right: 10px; text-align: right; font-size: 12px; font-weight: 400; color: var(--rhp-muted); font-variant-numeric: tabular-nums; }
+    .country { font-size: 13px; }
+    .lit .name { color: var(--rhp-series-1); }
+  `],
+}, (d) => html`
+  <div class=${() => classes(d)} aria-label=${() => say(d)}>
+    <${Label} edge="start" class="name"><span class="rank">${() => d.index + 1}</span>${() => d.city}<span class="country">${() => d.country}</span><//>
+    <${Bar} to=${() => d.pop} color="series-3" class="bar" style=${() => ({ "--unit": 1 / d.pop })} />
+    <${Label} at=${() => d.pop} class="value">${() => value(d)}<//>
+  </div>`);
+
+// Narrow windows and phones: the rank in the margin and the city over its bar, so the bars keep the width of the screen
+const CityNarrow = slat({
+  thickness: 42,
+  inset: "15px",
+  room: { start: 30, end: 48 },
+  css: [CITY_CSS, `
+    .city { --gap: 1px; --tens: 3px; }
+    .rank { font-size: 11px; color: var(--rhp-muted); font-variant-numeric: tabular-nums; --rhp-label-gap: 8px; }
+    .above { position: absolute; left: 0; top: 0; max-width: calc(100% + 48px); overflow: hidden; font-size: 13px; font-weight: 600; line-height: 15px; white-space: nowrap; text-overflow: ellipsis; color: var(--rhp-ink); }
+    .country { font-size: 12px; }
+    .lit .above { color: var(--rhp-series-1); }
+    .value { font-size: 12px; }
+  `],
+}, (d) => html`
+  <div class=${() => classes(d)} aria-label=${() => say(d)}>
+    <${Label} edge="start" class="rank">${() => d.index + 1}<//>
+    <span class="above" aria-hidden="true">${() => d.city}<span class="country">${() => d.country}</span></span>
+    <${Bar} to=${() => d.pop} color="series-3" class="bar" style=${() => ({ "--unit": 1 / d.pop })} />
+    <${Label} at=${() => d.pop} class="value">${() => value(d)}<//>
+  </div>`);
+
+// Chart component: the app holds whether all the cities are shown, and the width decides the slat type
+function LargestCities() {
+  const [all, setAll] = createSignal(false);
+  const media = matchMedia("(min-width: 760px)");
+  const [wide, setWide] = createSignal(media.matches);
+  media.addEventListener("change", (e) => setWide(e.matches));
+
+  // The button at the end of the closed list opens it and goes; the focus it had passes to the switch, in place
+  let allButton;
+  const openAll = (e) => {
+    const focused = document.activeElement === e.currentTarget;
+    setAll(true);
+    if (focused) allButton.focus({ preventScroll: true });
+  };
+
+  const lead = CITIES[LEAD];
+  const former = CITIES[FORMER];
+  const cities = (type) => html`
+    <${Plot} rows=${CITIES} order=${() => CITIES.map((_, i) => (all() || i < TOP ? i : null))}
+      lit=${(d) => d.index === LEAD} former=${(d) => d.index === FORMER}>${type}<//>`;
+
+  return html`
+    <${Poster}
+      kicker="World cities, 2025"
+      title=${FORMER === LEAD ? `${lead.city} is still the world’s largest city` : `${lead.city} has overtaken ${former.city} as the world’s largest city`}
+      dek=${html`<span>People living in the world’s ${CITIES.length} largest cities in 2025, one block <i class="unit" aria-hidden="true"></i> for each million. ${former.city} led in 2000 with ${people(former.k2000)}; ${lead.city} has since grown from ${people(lead.k2000).replace(" million", "")} to ${people(lead.k2025)}.</span>`}
+      note=${NOTE}>
+      <div class="tools">
+        <div class="choice" role="group" aria-label="Cities shown">
+          <button type="button" aria-pressed=${() => !all()} onClick=${() => setAll(false)}>Top ${TOP}</button>
+          <button type="button" aria-pressed=${all} onClick=${() => setAll(true)} ref=${(el) => (allButton = el)}>All ${CITIES.length}</button>
+        </div>
+      </div>
+      <${Chart} scale=${[scale.min, scale.max]} ticks=${false} theme=${THEME}
+        label=${`The ${CITIES.length} largest cities in the world by people living there in 2025, in millions`}>
+        <${Show} when=${wide} fallback=${() => cities(CityNarrow)}>${() => cities(CityWide)}<//>
+      <//>
+      <${Show} when=${() => !all()}>
+        <p class="more"><button type="button" onClick=${openAll}>Show the other ${CITIES.length - TOP} cities</button></p>
+      <//>
+    <//>`;
+}
+
+render(() => html`<${LargestCities} />`, document.getElementById("chart"));
+</script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The cleanest grids run on rivers</title>
+<meta name="description" content="Where the 100 biggest power producers got their electricity in 2024, as 100% stacked bars of coal, oil, gas, nuclear, hydro, wind and solar, sorted by clean share, with a meter that reads out the country you point at.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
+<script type="importmap">{ "imports": { "@bezda/rhp/standalone": "https://cdn.jsdelivr.net/npm/@bezda/rhp@2.0.4/dist/standalone.js" } }</script>
+<style>
+  /* Tokens: a power station's pale concrete, near-black ink, a signal red for the country picked */
+  :root {
+    --page: #d3d8d1; --paper: #eef0eb; --ink: #15181a; --soft: #4a514c; --rule: #cbd0c8; --accent: #b3261e;
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif; --text: Barlow, "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 48px 16px; background: var(--page); }
+
+  /* The poster: the headline across the top, then the meter beside the long list of countries */
+  .poster { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "kicker" "headline" "dek" "stage" "note";
+    max-width: 760px; margin: 0 auto; padding: 44px clamp(16px, 5vw, 40px) 26px; background: var(--paper); color: var(--ink); font: 16px/1.5 var(--text); }
+  .poster figcaption { display: contents; }
+  .poster .kicker { grid-area: kicker; font: 600 13px/1.3 var(--text); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .poster .headline { grid-area: headline; max-width: 15em; margin-top: 10px; font: 700 clamp(36px, 5.2vw, 62px)/.98 var(--display); text-wrap: balance; }
+  .poster .dek { grid-area: dek; max-width: 58ch; margin-top: 14px; font-size: clamp(15px, 1.6vw, 18px); line-height: 1.5; color: var(--soft); }
+  .poster .note { grid-area: note; display: block; margin-top: 22px; padding-top: 12px; border-top: 1px solid var(--rule); font-size: 12.5px; line-height: 1.5; color: var(--soft); }
+  .stage { grid-area: stage; min-width: 0; margin-top: 26px; }
+
+  /* The meter: the key and the readout in one. Under 1180px it sits above the list, and while a country is picked it
+     stays at the top of the screen as the list scrolls under it. */
+  .meter { margin: 0 -8px 10px; padding: 9px 8px 10px; background: var(--paper); }
+  .meter.picked { position: sticky; top: 0; z-index: 2; box-shadow: 0 1px 0 var(--rule); }
+  .meter p { margin: 0; }
+  .meter .who { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font: 700 18px/1.2 var(--display); }
+  .meter .country { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .meter .share { flex: none; font-variant-numeric: tabular-nums; }
+  .meter .share b { color: var(--accent); }
+  .meter .mix { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 2px 8px; margin: 6px 0 4px; padding: 0; list-style: none; font: 600 14px/1.3 var(--display); }
+  .meter li { display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+  .meter li i { flex: none; width: 10px; height: 10px; border-radius: 1px; }
+  .meter li b { margin-left: auto; font-variant-numeric: tabular-nums; }
+  .meter li.zero { color: var(--soft); font-weight: 500; }
+  .meter li.zero b { font-weight: 500; }
+  .meter .hint { font-size: 13px; line-height: 1.35; color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* From 1180px the meter stands in a column of its own beside the list, and stays in view as the list scrolls by */
+  @media (min-width: 1180px) {
+    .poster { max-width: 1180px; padding: 56px 56px 30px; }
+    .stage { display: grid; grid-template-columns: 250px minmax(0, 1fr); column-gap: 48px; align-items: start; margin-top: 34px; }
+    .plot { grid-column: 2; grid-row: 1; }
+    .meter, .meter.picked { position: sticky; top: 28px; grid-column: 1; grid-row: 1; margin: 0; padding: 0; box-shadow: none; }
+    .meter .who { display: grid; gap: 6px; }
+    .meter .country { min-height: 2lh; font-size: 30px; line-height: 1.02; white-space: normal; }
+    .meter .share { font: 600 15px/1 var(--text); color: var(--soft); }
+    .meter .share b { display: block; margin-bottom: 4px; font: 700 64px/.9 var(--display); }
+    .meter .mix { grid-template-columns: 1fr; gap: 0; margin: 16px 0 12px; font-size: 17px; }
+    .meter li { padding: 4px 0; border-top: 1px solid var(--rule); }
+    .meter li:nth-child(5) { border-top: 2px solid var(--ink); }
+    .meter li i { width: 12px; height: 12px; }
+    .meter .hint { white-space: normal; }
+  }
+  .poster :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+</style>
+<style id="recipe-navigation-styles">
+  .recipe-navigation { max-width: 760px; margin: 0 auto 18px; text-align: left; }
+  @media (min-width: 1180px) { .recipe-navigation { max-width: 1180px; } }
+  .recipe-navigation a { display: inline-block; padding: 4px 0; font: 600 12.5px/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: #1d1b17; }
+  .recipe-navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .recipe-navigation a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<nav class="recipe-navigation" aria-label="Gallery navigation"><a href="/gallery/">← Gallery</a></nav>
+<div id="chart"></div>
+<script type="module">
+import { Chart, Plot, Scale, Bar, Tick, Label, Poster, slat, shares, stackUp, html, render, createSignal, createMemo } from "@bezda/rhp/standalone";
+
+// Data: electricity generated in 2024, in terawatt-hours, by the 100 countries and territories that generated the most,
+// from Ember's yearly electricity data (2026 release). "oil" is Ember's other fossil; "other" is bioenergy, geothermal
+// and other renewables.
+// [name, coal, gas, oil, nuclear, hydro, wind, solar, other]
+const GENERATION = [
+  ["China", 5827.6, 320.72, 88.88, 450.85, 1354.25, 997.04, 839.04, 208.5],
+  ["United States", 652.16, 1869.9, 30.47, 781.86, 237.04, 451.9, 303.75, 63.94],
+  ["India", 1517.9, 56.44, 4.09, 54.7, 156.53, 81.54, 143.07, 22.25],
+  ["Russia", 215.17, 545.78, 13.79, 215.71, 210.54, 4.57, 2.92, 0.83],
+  ["Japan", 327.13, 346.24, 25, 84.91, 79.45, 11.54, 96.7, 45.42],
+  ["Brazil", 16.21, 48.76, 13.71, 15.78, 413.21, 108.49, 71.32, 58.24],
+  ["Canada", 25.14, 109.6, 7.3, 85.47, 343.2, 46.83, 9.42, 9.83],
+  ["South Korea", 190.78, 178.35, 6.78, 188.75, 4.3, 3.36, 32.72, 20.34],
+  ["France", 1.02, 18.1, 9.54, 380.45, 71.12, 45.4, 25.06, 11.25],
+  ["Germany", 106.33, 78.41, 20.39, 0, 23.83, 141.6, 74.13, 51.3],
+  ["Saudi Arabia", 0, 287.98, 156.84, 0, 0, 1.59, 8.23, 0],
+  ["Iran", 0.73, 340.05, 26.61, 7.35, 18.87, 1.25, 0.9, 0.03],
+  ["Indonesia", 228.43, 68.78, 7.12, 0, 27.29, 0.47, 1.35, 38.1],
+  ["Mexico", 12.39, 221.67, 33.81, 12.31, 23.54, 19.75, 25.72, 5.99],
+  ["Türkiye (Turkey)", 121.32, 63.28, 0.98, 0, 74.57, 36.53, 25.67, 18.88],
+  ["Vietnam", 152.77, 21.83, 0.62, 0, 88.72, 12.75, 25.86, 1.03],
+  ["Taiwan", 115.62, 124.99, 4.26, 12.18, 4.21, 10.33, 14.9, 2.07],
+  ["United Kingdom", 1.9, 86.3, 11.45, 40.59, 5.76, 83.28, 14.79, 40.09],
+  ["Australia", 127.33, 49.1, 6.42, 0, 12.85, 32.74, 50.21, 2.99],
+  ["Spain", 2.58, 52.34, 10.41, 54.53, 34.41, 62.2, 58.29, 6.18],
+  ["Italy", 3.95, 118.59, 10.78, 0, 53.13, 22.22, 35.99, 22.9],
+  ["South Africa", 206.81, 0, 1.94, 7.8, 1.1, 11.1, 18.3, 0.47],
+  ["Egypt", 0, 192.98, 17.83, 0, 14.37, 6.14, 6.07, 0],
+  ["Thailand", 33.26, 136.37, 0.28, 0, 6.41, 3.38, 5.43, 14.39],
+  ["Malaysia", 85.3, 71.32, 1.15, 0, 34.52, 0, 4.12, 1.71],
+  ["United Arab Emirates", 0, 121.01, 0, 40.63, 0, 0.2, 15.21, 0.21],
+  ["Sweden", 0, 0.11, 1.97, 50.67, 64.61, 40.45, 4.16, 10.18],
+  ["Poland", 93.5, 20.46, 4.55, 0, 2.11, 25.89, 17.66, 7.95],
+  ["Norway", 0, 1.47, 0.72, 0, 139.55, 14.6, 0.53, 0.24],
+  ["Pakistan", 24.27, 41.66, 1.95, 24.6, 40.16, 3.89, 19.84, 0.7],
+  ["Argentina", 1.31, 81.95, 6.36, 10.45, 29.67, 16.17, 3.97, 2.63],
+  ["Iraq", 0, 79.3, 68, 0, 2, 0, 0.43, 0],
+  ["Philippines", 79.36, 18.05, 1.34, 0, 10.09, 1.5, 2.08, 11.75],
+  ["Netherlands", 7.47, 44.29, 4.93, 3.57, 0.09, 33.48, 21.82, 6.68],
+  ["Kazakhstan", 64.03, 34.71, 1.74, 0, 11.25, 4.91, 1.87, 0],
+  ["Bangladesh", 20.29, 67.03, 12.5, 0, 0.7, 0, 1.22, 0],
+  ["Algeria", 0, 95, 0.33, 0, 0.02, 0.02, 0.99, 0],
+  ["Kuwait", 0, 57.42, 33, 0, 0, 1.86, 0.21, 0],
+  ["Colombia", 11.21, 19.79, 3.46, 0, 48.88, 0.15, 3.43, 2.22],
+  ["Chile", 13.56, 12.67, 0.32, 0, 26, 10.43, 20.19, 5.45],
+  ["Finland", 0.83, 0.82, 2.19, 32.6, 14.3, 20.48, 0.94, 10.39],
+  ["Uzbekistan", 5.7, 61.3, 1.5, 0, 8.2, 1.9, 2.9, 0],
+  ["Israel", 11.5, 57.4, 0.4, 0, 0.01, 0.46, 10.52, 0.11],
+  ["Venezuela", 0, 3.6, 3.5, 0, 73, 0.02, 0.01, 0],
+  ["Austria", 0, 7.54, 3.27, 0, 45.71, 9.14, 8.14, 4.67],
+  ["Switzerland", 0, 0.27, 1.22, 24.02, 44.94, 0.18, 5.66, 2.08],
+  ["Belgium", 0, 14.17, 3.81, 31.25, 0.55, 13.87, 8.56, 3.61],
+  ["Czechia", 26.52, 3.79, 0.5, 29.7, 2.66, 0.67, 3.59, 5.38],
+  ["Singapore", 0.57, 54.93, 1.17, 0, 0, 0, 1.28, 1.66],
+  ["Peru", 0, 23.23, 0.42, 0, 32, 2.09, 0.95, 0.6],
+  ["Greece", 3.27, 21.53, 4.18, 0, 3.58, 12.55, 11.26, 0.71],
+  ["Qatar", 0, 54.4, 0, 0, 0, 0, 2.15, 0.13],
+  ["Romania", 7.96, 9.15, 0.18, 10.91, 14.19, 6.43, 3.42, 0.48],
+  ["Laos", 12.18, 0, 0, 0, 40, 0, 0.09, 0.04],
+  ["Oman", 0, 44.8, 1.9, 0, 0, 0.1, 2.3, 0],
+  ["Portugal", 0, 5.63, 1.37, 0, 14.89, 14.34, 7.09, 3.95],
+  ["Belarus", 0.02, 27, 1.7, 15.69, 0.4, 0.2, 0.26, 0.55],
+  ["New Zealand", 1.2, 4.31, 0.66, 0, 23.45, 4.31, 0.37, 9.71],
+  ["Paraguay", 0, 0, 0, 0, 42.17, 0, 0, 0.24],
+  ["Morocco", 26.18, 4.33, 1.54, 0, 0.81, 7.09, 2.41, 0.04],
+  ["Bulgaria", 8.76, 2.04, 0.26, 15.78, 2.79, 1.46, 5.49, 1.72],
+  ["Hungary", 2.44, 7.13, 0.45, 16.02, 0.23, 0.69, 9.2, 1.84],
+  ["Bahrain", 0, 37.85, 0, 0, 0, 0, 0.1, 0],
+  ["Nigeria", 0, 28.17, 0, 0, 9.2, 0, 0.13, 0.06],
+  ["Hong Kong", 12.6, 24, 0.45, 0, 0, 0, 0.23, 0.16],
+  ["Serbia", 23.26, 1.72, 0.13, 0, 10.1, 1.25, 0.16, 0.34],
+  ["Denmark", 1.75, 0.91, 1.13, 0, 0.02, 20.6, 3.78, 7.06],
+  ["Libya", 0, 25.78, 8.8, 0, 0, 0, 0.01, 0],
+  ["Turkmenistan", 0, 33, 0, 0, 0.01, 0, 0, 0],
+  ["Ecuador", 0, 0.95, 8.05, 0, 23, 0.23, 0.04, 0.39],
+  ["Ireland", 0.63, 15.1, 0.89, 0, 0.77, 11.6, 1.09, 1],
+  ["Slovakia", 0.52, 2.88, 0.79, 18.23, 4.83, 0, 0.69, 1.58],
+  ["Azerbaijan", 0, 24.5, 0.07, 0, 3, 0.09, 0.08, 0.1],
+  ["North Korea", 9.23, 0, 0.7, 0, 17, 0, 0.17, 0],
+  ["Ethiopia", 0, 0, 0, 0, 24.42, 0.7, 0.04, 0.04],
+  ["Syria", 0, 13, 11, 0, 0.75, 0, 0.1, 0.03],
+  ["Ghana", 0, 14.91, 0.57, 0, 8.6, 0, 0.17, 0.02],
+  ["Dominican Republic", 7.2, 7, 5.3, 0, 1.47, 1.3, 1.55, 0.21],
+  ["Jordan", 0, 14.67, 3.3, 0, 0.02, 1.75, 3.93, 0],
+  ["Tajikistan", 1, 0.2, 0, 0, 21, 0, 0, 0],
+  ["Myanmar", 1.2, 10, 0.12, 0, 10, 0, 0.12, 0.27],
+  ["Tunisia", 0, 20.2, 0.23, 0, 0.01, 0.37, 0.56, 0],
+  ["Puerto Rico", 3.2, 5.4, 10.2, 0, 0.05, 0.18, 0.96, 0.01],
+  ["Mozambique", 0, 3.13, 0.15, 0, 16.3, 0, 0.08, 0.13],
+  ["Zambia", 2.13, 0, 0.34, 0, 17, 0, 0.17, 0.08],
+  ["Cuba", 0, 2.65, 16, 0, 0.12, 0.07, 0.24, 0.35],
+  ["Iceland", 0, 0, 0, 0, 13.46, 0.01, 0.01, 5.57],
+  ["Sri Lanka", 5.56, 0, 2.01, 0, 7.01, 0.87, 1.37, 0.24],
+  ["Slovenia", 3.5, 0.48, 0.02, 5.84, 5.34, 0.01, 1.27, 0.25],
+  ["DR Congo", 0, 0, 0, 0, 13.4, 0, 2.51, 0.01],
+  ["Guatemala", 2.5, 0, 2.5, 0, 6.3, 0.37, 0.28, 3.84],
+  ["Kyrgyzstan", 1.53, 0.19, 0.05, 0, 14, 0, 0, 0],
+  ["Angola", 0, 1.4, 2.7, 0, 11, 0, 0.44, 0.05],
+  ["Bosnia and Herzegovina", 9.13, 0, 0.15, 0, 5.44, 0.37, 0.39, 0.04],
+  ["Cambodia", 9.43, 0, 0.53, 0, 4.37, 0, 1.07, 0.08],
+  ["Croatia", 0.8, 3.25, 0.01, 0, 6.73, 2.68, 0.82, 1],
+  ["Sudan", 0, 0, 3, 0, 11.5, 0, 0.16, 0.11],
+  ["Georgia", 0, 2.81, 0, 0, 11, 0.09, 0.03, 0],
+  ["Bolivia", 0, 8.73, 0.2, 0, 3.3, 0.48, 0.4, 0.42],
+  ["Panama", 0.5, 2.8, 1, 0, 7.13, 0.96, 0.99, 0.05],
+];
+const COLUMNS = ["coal", "gas", "oil", "nuclear", "hydro", "wind", "solar", "other"];
+const NOTE = "Source: Ember, yearly electricity data (2026 release), for 2024, the latest year it covers for all 100 countries and territories. Clean means every source but coal, oil and gas, as Ember counts it, so the gray part of a bar (bioenergy, geothermal and other renewables) is clean too. Oil is Ember's “other fossil”, which is mostly oil.";
+
+// The sources from the left of each bar: the clean ones, then the fossil ones. Other clean sources go between them in gray.
+const SOURCES = [
+  { key: "hydro", name: "Hydro", color: "#2f6fb8" },
+  { key: "nuclear", name: "Nuclear", color: "#4b2e83" },
+  { key: "wind", name: "Wind", color: "#5cb8a4" },
+  { key: "solar", name: "Solar", color: "#f2c230" },
+  { key: "coal", name: "Coal", color: "#24211e" },
+  { key: "oil", name: "Oil", color: "#7a4127" },
+  { key: "gas", name: "Gas", color: "#e8873f" },
+];
+const OTHER = "#a9aea5";
+const STACK = ["hydro", "nuclear", "wind", "solar", "other", "coal", "oil", "gas"];
+const COLOR = { ...Object.fromEntries(SOURCES.map((s) => [s.key, s.color])), other: OTHER };
+const SEAM = STACK.indexOf("other"); // clean runs out at the end of this part
+const SHORT = { "Bosnia and Herzegovina": "Bosnia & Herz.", "Dominican Republic": "Dominican Rep.", "United Arab Emirates": "UAE", "Türkiye (Turkey)": "Türkiye" };
+
+// Each country's mix as shares of its generation, laid end to end, and its clean share (where the clean parts end)
+const mix = (name, twh) => {
+  const share = shares(STACK.map((k) => twh[k]));
+  const { from, to } = stackUp(share);
+  return {
+    name, short: SHORT[name] ?? name,
+    pct: Object.fromEntries(STACK.map((k, i) => [k, share[i]])),
+    from, to: to.map((v) => Math.min(100, v)),
+    clean: Math.min(100, to[SEAM]),
+  };
+};
+const read = (row) => Object.fromEntries(COLUMNS.map((k, i) => [k, row[i + 1]]));
+// A sorted copy, cleanest first (ties keep the larger producer first); ranks and the dek come from it
+const COUNTRIES = GENERATION.map((row) => mix(row[0], read(row))).sort((a, b) => b.clean - a.clean);
+const total = Object.fromEntries(COLUMNS.map((k) => [k, GENERATION.reduce((sum, row) => sum + read(row)[k], 0)]));
+const ALL = mix("All 100 together", total);
+
+const percent = (v) => (v > 0 && v < 0.5 ? "<1%" : v >= 99.5 && v < 100 ? ">99%" : Math.round(v) + "%");
+const ordinal = (n) => n + (n % 100 >= 11 && n % 100 <= 13 ? "th" : ["th", "st", "nd", "rd"][n % 10] ?? "th");
+const rankOf = (r) => {
+  const rank = 1 + COUNTRIES.filter((c) => c.clean > r.clean).length;
+  const tied = COUNTRIES.some((c) => c !== r && c.clean === r.clean);
+  return `${ordinal(rank)} cleanest of ${COUNTRIES.length}${tied ? ", tied" : ""}`;
+};
+// The largest of the seven named sources in a country
+const largest = (r) => SOURCES.reduce((a, s) => (r.pct[s.key] > r.pct[a.key] ? s : a)).key;
+const hydroTop = COUNTRIES.slice(0, 10).filter((r) => largest(r) === "hydro").length;
+const gasLow = COUNTRIES.slice(-20).filter((r) => largest(r) === "gas").length;
+const say = (r) => `${r.name}: ${percent(r.clean)} clean; ` + SOURCES.map((s) => `${s.name.toLowerCase()} ${percent(r.pct[s.key])}`).join(", ");
+
+// The chart's font and colors, read from the page's tokens
+const THEME = { font: "var(--text)", ink: "var(--ink)", muted: "var(--soft)", grid: "var(--rule)", surface: "var(--paper)", series: ["var(--accent)"] };
+
+// Slat types: a country is its name, its parts end to end, an ink seam where its clean power runs out, and its clean share.
+// The frame behind the parts draws the ring of the country picked.
+const Country = slat({
+  thickness: 20,
+  inset: "3px",
+  room: { start: "auto", end: 44 },
+  css: `
+    .row { cursor: pointer; outline: none; }
+    .name { font-size: 13px; font-weight: 500; --rhp-label-gap: 10px; }
+    .name .short { display: none; }
+    .frame { --rhp-radius: 0px; background: none; }
+    .row:is(.on, :focus-visible) .frame { box-shadow: 0 0 0 1px var(--rhp-surface), 0 0 0 3px var(--rhp-ink); }
+    .seg { --rhp-radius: 0px; }
+    .after { --rhp-gap: 1px; }
+    .seam { --rhp-tick-width: 2px; }
+    .clean { font-size: 13px; font-weight: 600; --rhp-label-gap: 8px; }
+    .on .name, .on .clean { color: var(--rhp-series-1); }
+    .dim :is(.seg, .seam) { opacity: .3; }
+    .dim :is(.name, .clean) { color: var(--rhp-muted); }
+    @container (max-width: 480px) {
+      .name { font-size: 12px; --rhp-label-gap: 7px; }
+      .name .long { display: none; }
+      .name .short { display: inline; }
+      .clean { font-size: 12px; --rhp-label-gap: 6px; }
+    }
+  `,
+}, (d) => html`
+  <div class=${() => (d.on ? "row on" : d.dim ? "row dim" : "row")} data-row=${() => d.index} aria-label=${() => say(d)}>
+    <${Label} edge="start" class="name"><span class="long">${() => d.name}</span><span class="short">${() => d.short}</span><//>
+    <${Bar} from=${0} to=${100} class="frame" />
+    ${STACK.map((key, k) => html`<${Bar} from=${() => d.from[k]} to=${() => d.to[k]} color=${COLOR[key]} class=${k > 0 ? "seg after" : "seg"} />`)}
+    <${Tick} at=${() => d.clean} thick=${1} color="ink" class="seam" />
+    <${Label} edge="end" class="clean">${() => percent(d.clean)}<//>
+  </div>`);
+
+// The scale, drawn above and below the list: hairlines every 25%, and a head over the clean shares
+const Mark = slat({
+  room: { before: 24, after: 24 },
+  css: `
+    .grid { --rhp-tick-width: 1px; }
+    .num { font-size: 11px; color: var(--rhp-muted); translate: -50% 0; --rhp-label-gap: 0px; }
+    .top { top: -20px; }
+    .bottom { top: calc(100% + 7px); }
+    .head { translate: 0 0; --rhp-label-gap: 8px; font-weight: 600; color: var(--rhp-ink); }
+  `,
+}, (t) => html`
+  <div>
+    <${Tick} at=${() => t.at} thick=${1} color="grid" class="grid" />
+    <${Label} at=${() => t.at} class=${() => (t.last ? "num top head" : "num top")}>${() => (t.last ? "clean" : t.at + "%")}<//>
+    <${Label} at=${() => t.at} class="num bottom">${() => t.at}%<//>
+  </div>`);
+
+// Half of a country's power: a dashed line over every bar
+const Half = slat({
+  room: {},
+  css: `.half { --rhp-tick-width: 1px; background: repeating-linear-gradient(0deg, var(--rhp-ink) 0 3px, transparent 3px 7px); opacity: .45; }`,
+}, (h) => html`<${Tick} at=${() => h.at} thick=${1} class="half" />`);
+
+// Chart component: the country the reader points at, taps or reaches with the keyboard is lit, and the meter reads it out
+function PowerMix() {
+  const [on, setOn] = createSignal(null);
+  const shown = createMemo(() => (on() == null ? ALL : COUNTRIES[on()]));
+  // The row of the slat an element is in, or null (between slats, on the meter or the text)
+  const rowOf = (el) => {
+    const root = el.closest("[data-row]");
+    return root ? +root.dataset.row : null;
+  };
+  // A mouse or a pen picks as it moves, a tap or a click picks, the keyboard picks; on no country the pick stays
+  const pick = (e) => {
+    const row = rowOf(e.target);
+    if (row != null) setOn(row);
+  };
+  // Leaving the poster: back to the country that has focus, or none
+  const leave = (e) => {
+    if (e.pointerType === "touch") return; // a finger sends pointerleave as it lifts after a tap
+    setOn(e.currentTarget.contains(document.activeElement) ? rowOf(document.activeElement) : null);
+  };
+  return html`
+    <${Poster}
+      kicker="Electricity by source, 2024"
+      title="The cleanest grids run on rivers, the least clean on gas"
+      dek=${`Where the 100 biggest power producers got their electricity in 2024, sorted by the share from clean sources. Hydro is the largest source in ${hydroTop} of the 10 cleanest, gas in ${gasLow} of the 20 least clean.`}
+      note=${NOTE}
+      onPointerMove=${(e) => e.pointerType !== "touch" && pick(e)} onClick=${pick} onFocusIn=${pick}
+      onPointerLeave=${leave} onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setOn(null)}>
+      <div class="stage">
+        <div class=${() => (on() == null ? "meter" : "meter picked")} aria-hidden="true">
+          <p class="who"><span class="country">${() => shown().name}</span><span class="share"><b>${() => percent(shown().clean)}</b> clean</span></p>
+          <ul class="mix">
+            ${SOURCES.map((s) => html`
+              <li class=${() => (shown().pct[s.key] === 0 ? "zero" : "")}><i style=${"background: " + s.color}></i>${s.name}<b>${() => percent(shown().pct[s.key])}</b></li>`)}
+          </ul>
+          <p class="hint">${() => (on() == null ? "Point at or tap a country to read its mix." : rankOf(shown()))}</p>
+        </div>
+        <div class="plot">
+          <${Chart} scale=${[0, 100]} theme=${THEME}
+            label="Electricity generated in 2024 by source, as shares of each country's total, for the 100 countries and territories that generate the most, cleanest first">
+            <${Scale} ticks=${[0, 25, 50, 75, 100]}>${Mark}<//>
+            <${Plot} rows=${COUNTRIES} keyboard=${true} on=${(d) => on() === d.index} dim=${(d) => on() != null && on() !== d.index}>${Country}<//>
+            <${Plot} overlap=${true} slats=${1} at=${50} style=${{ "pointer-events": "none" }}>${Half}<//>
+          <//>
+        </div>
+      </div>
+    <//>`;
+}
+
+render(() => html`<${PowerMix} />`, document.getElementById("chart"));
+</script>
+</body>
+</html>

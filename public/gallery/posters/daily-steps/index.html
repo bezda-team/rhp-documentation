@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A year of steps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wdth,wght@75..100,400..700&display=swap">
+<script type="importmap">{ "imports": { "@bezda/rhp/standalone": "https://cdn.jsdelivr.net/npm/@bezda/rhp@2.0.4/dist/standalone.js" } }</script>
+<style>
+  /* A pedometer's LCD: gray-green glass, its dark ink, ghost tints of the glass for the days under the goal,
+     the ink for the days that reached it, and a red from across the wheel for the longest streak */
+  :root {
+    --page: #b5bd9f; --paper: #dbe1cb; --lcd: #cdd5b8; --ink: #1a2312; --soft: #475134; --rule: #c3cab0; --accent: #a42414;
+    --b1: #bcc4a4; --b2: #a2ab87; --b3: #838e66; --b4: #3c4a29; --b5: #1a2312;
+    --text: Saira, "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px 16px 32px; background: var(--page); }
+
+  /* The poster: one column on a phone, the counter beside the headline from 860px */
+  .poster { display: flex; flex-direction: column; max-width: 1040px; margin: 0 auto; padding: 22px 14px 18px; background: var(--paper); color: var(--ink); font: 16px/1.5 var(--text); }
+  .poster > * { min-width: 0; }
+  .poster figcaption { display: contents; }
+  .poster .kicker { font: 600 13px/1.3 var(--text); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .poster .headline { margin-top: 8px; max-width: 18em; font: 700 clamp(30px, 4.6vw, 46px)/1.02 var(--text); font-stretch: 75%; text-wrap: balance; }
+  .poster .dek { margin-top: 10px; max-width: 54ch; font-size: 15px; line-height: 1.45; color: var(--soft); }
+  .poster .note { display: block; margin-top: 12px; font-size: 12px; line-height: 1.5; color: var(--soft); }
+
+  /* The counter: the pedometer's display, which reads the day picked, or the whole year */
+  .lcd { display: grid; align-content: center; gap: 5px; width: 100%; max-width: 380px; margin-top: 16px; padding: 10px 14px 10px 16px; border-radius: 8px; background: var(--lcd); color: var(--ink);
+    box-shadow: inset 0 1px 3px rgb(26 35 18 / .3), inset 0 0 0 1px rgb(26 35 18 / .14); cursor: default; user-select: none; }
+  .lcd:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .lcd .when { display: flex; align-items: center; gap: 8px; font: 600 13px/1 var(--text); font-stretch: 75%; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+  .lcd .feet { flex: none; width: 20px; height: 17px; fill: currentColor; }
+  .lcd .count { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; }
+  .lcd .unit { padding-bottom: 1px; font: 700 13px/1 var(--text); font-stretch: 75%; letter-spacing: .14em; text-transform: uppercase; }
+  .lcd .status { font-size: 15px; line-height: 1.3; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Seven-segment figures: each segment a bar with pointed ends; the segments that are off stay as a ghost */
+  .digits { display: flex; font-size: clamp(28px, (100vw - 170px) / var(--fit), 52px); transform: skewX(-7deg); transform-origin: 0 100%; }
+  .dig, .sep { position: relative; height: 1em; }
+  .dig { width: .56em; margin-right: .1em; }
+  .sep { width: .16em; margin-left: -.06em; }
+  .dig i, .sep i { position: absolute; background: currentColor; opacity: .09; }
+  .dig i.on, .sep i.on { opacity: 1; }
+  .dig .a, .dig .g, .dig .d { left: .065em; right: .065em; height: .1em; clip-path: polygon(0 50%, .05em 0, calc(100% - .05em) 0, 100% 50%, calc(100% - .05em) 100%, .05em 100%); }
+  .dig .a { top: 0; }
+  .dig .g { top: .45em; }
+  .dig .d { bottom: 0; }
+  .dig .b, .dig .c, .dig .e, .dig .f { width: .1em; clip-path: polygon(50% 0, 100% .05em, 100% calc(100% - .05em), 50% 100%, 0 calc(100% - .05em), 0 .05em); }
+  .dig .e, .dig .f { left: 0; }
+  .dig .b, .dig .c { right: 0; }
+  .dig .b, .dig .f { top: .065em; bottom: calc(50% + .015em); }
+  .dig .c, .dig .e { top: calc(50% + .015em); bottom: .065em; }
+  .sep i { left: 0; bottom: -.06em; width: .08em; height: .17em; }
+  .hint { margin: 8px 0 0; font-size: 13px; line-height: 1.4; color: var(--soft); }
+  /* On a phone the hint goes above the counter, so that the counter and the whole year fit in one screen */
+  @media (max-width: 859px) {
+    .hint { order: 1; }
+    .lcd { order: 2; margin-top: 10px; }
+    .cal { order: 3; margin-top: 14px; }
+    .key { order: 4; }
+    .poster .note { order: 5; }
+  }
+
+  /* The year: one strip of weeks, or two or three lines of whole months on narrower screens */
+  .cal { margin-top: 18px; }
+  .cal .rhp-chart + .rhp-chart { margin-top: 8px; }
+
+  /* The key: the five inks, with the counts where one gives way to the next */
+  .key { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px 14px; margin-top: 8px; font-size: 13px; line-height: 14px; }
+  .key .ramp { position: relative; display: flex; gap: 2px; padding-bottom: 18px; }
+  .key .ramp i { width: 44px; height: 14px; border-radius: 1px; }
+  .key .ramp b { position: absolute; top: 19px; translate: -50% 0; font-size: 12px; font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .key .ramp b.goal { font-weight: 700; }
+
+  @media (max-width: 359px) {
+    .poster .headline { font-size: 27px; }
+  }
+  @media (min-width: 860px) {
+    body { padding: 48px 24px; }
+    .poster .dek { margin-top: 14px; font-size: 17px; line-height: 1.5; }
+    .lcd { gap: 6px; padding: 12px 16px 12px 18px; }
+    .poster { display: grid; grid-template-columns: minmax(0, 1fr) 360px; column-gap: 56px; padding: 44px 48px 24px;
+      grid-template-areas: "kicker lcd" "headline lcd" "dek hint" "cal cal" "key note"; }
+    .poster .kicker { grid-area: kicker; }
+    .poster .headline { grid-area: headline; }
+    .poster .dek { grid-area: dek; }
+    .lcd { grid-area: lcd; align-self: stretch; margin-top: 0; }
+    .hint { grid-area: hint; margin-top: 12px; }
+    .cal { grid-area: cal; margin-top: 30px; }
+    .key { grid-area: key; }
+    .poster .note { grid-area: note; align-self: start; margin-top: 8px; text-align: right; }
+  }
+</style>
+<style id="recipe-navigation-styles">
+  .recipe-navigation { max-width: 1040px; margin: 0 auto 18px; text-align: left; }
+  .recipe-navigation a { display: inline-block; padding: 4px 0; font: 600 12.5px/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: #1d1b17; }
+  .recipe-navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .recipe-navigation a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<nav class="recipe-navigation" aria-label="Gallery navigation"><a href="/gallery/">← Gallery</a></nav>
+<div id="chart"></div>
+<script type="module">
+import { Chart, Plot, Cell, Label, Place, Poster, slat, html, render, createSignal, createMemo, createSelector, onCleanup, Show, For } from "@bezda/rhp/standalone";
+
+// Data: your steps, one count per day of YEAR from January 1 (null for a day with no count), and the note that goes
+// with them. Illustrative: these counts are invented. Put your own here, 365 of them (366 in a leap year).
+const YEAR = 2025;
+const GOAL = 10000;
+const NOTE = "Illustrative data: invented step counts for one person's year.";
+const STEPS = [
+  5311, 9386, 8494, 16739, 7015, 7914, 9964, 9379, 7735, 10278, 4976, 1992, 7696, 6413,
+  6025, 7389, 8604, 4118, 6251, 2868, 2829, 2874, 2863, 1475, 1691, 1615, 5799, 6183,
+  6179, 8898, 9159, 3620, 5218, 5932, 9876, 6894, 6695, 5877, 15941, 3206, 5805, 7645,
+  7729, 5314, 7808, 18197, 2102, 8886, 6902, 7910, 6690, 9521, 6085, 5265, 9311, 7289,
+  8559, 5405, 8288, 5498, 3859, 8949, 5703, 3016, 8290, 6855, 4040, 5352, 9120, 7762,
+  7811, 6056, 8967, 4185, 3823, 6494, 4308, 8327, 6120, 8214, 18816, 9099, 7638, 8269,
+  8135, 8316, 8654, 20186, 6482, 8152, 6760, 6603, 3497, 9774, 16876, 2532, 8817, 10056,
+  8235, 10401, 10665, 6435, 6305, 6493, 7641, 6544, 7875, 8243, 18656, 8550, 8813, 7252,
+  5881, 10279, 8648, 7246, 5795, 6981, 5899, 9126, 8322, 8767, 5872, 7055, 7195, 4220,
+  7388, 8913, 9228, 7457, 5566, 5479, 7446, 10290, 8349, 10431, 19592, 4328, 7031, 9751,
+  9985, 7608, 3890, 5670, 9053, 7190, 10425, 10786, 10784, 11214, 15471, 12323, 12356, 11881,
+  12669, 11771, 11753, 12888, 11082, 11522, 12623, 10984, 12367, 10984, 10549, 10361, 11103, 12740,
+  11274, 8756, 9094, 20048, 6222, 11571, 9678, 9960, 10066, 11467, 5135, 9706, 8571, 11422,
+  10158, 6655, 8493, 6283, 11097, 9614, 9753, 10460, 9378, 9939, 21581, 23310, 21022, 19580,
+  23066, 17987, 17749, 19814, 20142, 7339, 8416, 9856, 10113, 11453, 4967, 9892, 7187, 8963,
+  7932, 6786, 8278, 6754, 4726, 11740, 10946, 8386, 10780, 12386, 6437, 8946, 8691, 8126,
+  8626, 9720, 10364, 7999, 7597, 8123, 5474, 10094, 8888, 7867, 5666, 6086, 8822, 9204,
+  11835, 5958, 11110, 17857, 6699, 9836, 9319, 4442, 8610, 10121, 15479, 8108, 4376, 9075,
+  7236, 9301, 3653, 6591, 6021, 8751, 7711, 2805, 6790, 8102, 14630, 6003, 3627, 7335,
+  9214, 8822, 8104, 18224, 8896, 10061, 7512, 8421, 9446, 7697, 17741, 6638, 7297, 8015,
+  7415, 19544, 20663, 18336, 20659, 9631, 7140, 7639, 7470, 4850, 4351, 6237, 7832, 7167,
+  8545, 7004, 2695, 5653, 4358, 2926, 7263, 7308, 8701, 8899, 4328, 653, 4124, 10605,
+  8373, 7283, 9248, 5067, 4478, 8809, 6903, 10482, 6557, 6058, 4963, 2318, 7163, 9739,
+  7817, 8083, 9966, 9070, 4106, 6382, 5257, 5331, 6632, 7331, 16920, 5447, 7043, 7606,
+  5434, 8088, 9807, 19157, 5599, 8588, 7269, 5777, 7017, 6860, 4196, 5428, 6305, 7198,
+  6270, 5539, 10283, 4858, 4582, 6418, 7195, 4131, 3307, 3206, 15208, 4742, 7357, 7250,
+  8147,
+];
+
+// What depends on the data: the days of the year, their counts, the totals and the longest run at the goal
+const DAY_MS = 864e5;
+const DAYS = Math.round((Date.UTC(YEAR + 1, 0, 1) - Date.UTC(YEAR, 0, 1)) / DAY_MS);
+const dateOf = (i) => new Date(Date.UTC(YEAR, 0, 1 + i));
+const weekdayOf = (i) => (dateOf(i).getUTCDay() + 6) % 7; // Monday 0 to Sunday 6
+const startOf = (m) => Math.round((Date.UTC(YEAR, m, 1) - Date.UTC(YEAR, 0, 1)) / DAY_MS); // month 12 is the year's end
+const COUNTS = Array.from({ length: DAYS }, (_, i) => (STEPS[i] == null || !Number.isFinite(+STEPS[i]) ? null : Math.max(0, Math.round(+STEPS[i]))));
+const COUNTED = COUNTS.filter((v) => v != null);
+const TOTAL = COUNTED.reduce((sum, v) => sum + v, 0);
+const AVERAGE = COUNTED.length ? TOTAL / COUNTED.length : 0;
+const AT_GOAL = COUNTED.filter((v) => v >= GOAL).length;
+const BEST = COUNTED.length ? Math.max(...COUNTED) : 0;
+// The longest run of days at the goal or over it (the earliest, when two are as long)
+const RUN = (() => {
+  let best = { len: 0, from: -1 };
+  let len = 0;
+  COUNTS.forEach((v, i) => {
+    len = v != null && v >= GOAL ? len + 1 : 0;
+    if (len > best.len) best = { len, from: i - len + 1 };
+  });
+  return { ...best, to: best.from + best.len - 1 };
+})();
+const inRun = (i) => RUN.len >= 2 && i != null && i >= RUN.from && i <= RUN.to;
+
+// The five inks: under half the goal, under three quarters, under the goal, under one and a half goals, and over
+const BINS = [GOAL / 2, GOAL * 0.75, GOAL, GOAL * 1.5];
+const inkOf = (v) => (v == null ? "surface" : "series-" + (BINS.filter((b) => v >= b).length + 1));
+
+const count = new Intl.NumberFormat("en-US");
+const shortDay = new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" });
+const longDay = new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" });
+const monthDay = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", timeZone: "UTC" });
+const MONTH = Array.from({ length: 12 }, (_, m) => new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" }).format(dateOf(startOf(m))));
+const MONTH_LONG = Array.from({ length: 12 }, (_, m) => new Intl.DateTimeFormat("en-US", { month: "long", timeZone: "UTC" }).format(dateOf(startOf(m))));
+const WEEKDAY = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+// The words, from the data, so they stay true for your own counts
+const HEADLINE = RUN.len >= 2
+  ? `Your longest ${count.format(GOAL)}-step streak ran ${RUN.len} days, from ${monthDay.format(dateOf(RUN.from))} to ${monthDay.format(dateOf(RUN.to))}`
+  : RUN.len === 1
+    ? AT_GOAL === 1
+      ? `You reached ${count.format(GOAL)} steps once, on ${monthDay.format(dateOf(RUN.from))}`
+      : `You reached ${count.format(GOAL)} steps on ${AT_GOAL} days, never two in a row`
+    : BEST > 0
+      ? `You never reached ${count.format(GOAL)} steps; your best day had ${count.format(BEST)}`
+      : `No steps counted in ${YEAR} yet`;
+const DEK = `Each square is a day of ${YEAR}, Monday on top, darker the farther you walked. ` + (COUNTED.length
+  ? `The two darkest reached the ${count.format(GOAL)}-step goal, on ${AT_GOAL} of ${COUNTED.length} ${COUNTED.length === DAYS ? "days" : "days with a count"}.`
+  : "No day has a count yet.");
+
+// The year cut into 1, 2 or 3 lines of whole months. A line is a list of weeks, and a week holds its seven days
+// (null for a day outside the line), the month that opens in it, and the streak's label when it hangs from it.
+const linesOf = (n) => Array.from({ length: n }, (_, k) => {
+  const m0 = (12 / n) * k;
+  const m1 = (12 / n) * (k + 1);
+  const first = startOf(m0);
+  const last = startOf(m1) - 1;
+  const weeks = [];
+  for (let monday = first - weekdayOf(first); monday <= last; monday += 7) {
+    const days = Array.from({ length: 7 }, (_, w) => (monday + w >= first && monday + w <= last ? monday + w : null));
+    const held = days.filter((i) => i != null);
+    const opens = held.find((i) => dateOf(i).getUTCDate() === 1);
+    const sum = held.reduce((s, i) => s + (COUNTS[i] ?? 0), 0);
+    weeks.push({
+      days,
+      counts: days.map((i) => (i == null ? null : COUNTS[i])),
+      month: opens == null ? "" : MONTH[dateOf(opens).getUTCMonth()],
+      tag: "",
+      say: `Week of ${monthDay.format(dateOf(held[0]))}: ${count.format(sum)} steps`,
+    });
+  }
+  // The streak's label goes on the line that holds its middle day: under its first week there, or ending under its
+  // last week when the streak starts in the line's right half
+  const mid = RUN.from + Math.floor(RUN.len / 2);
+  const run = weeks.flatMap((w, j) => (w.days.some(inRun) ? [j] : []));
+  if (RUN.len >= 2 && weeks.some((w) => w.days.includes(mid))) {
+    if (run[0] < weeks.length / 2) weeks[run[0]].tag = "start";
+    else weeks[run.at(-1)].tag = "end";
+  }
+  return { weeks, label: n === 1 ? `Daily steps in ${YEAR}` : `Daily steps, ${MONTH_LONG[m0]} to ${MONTH_LONG[m1 - 1]} ${YEAR}` };
+});
+const LINES = [1, 2, 3].map(linesOf);
+
+// The theme reads the page's tokens: the five inks are series 1 to 5, the streak's red is series 6
+const THEME = {
+  font: "var(--text)", ink: "var(--ink)", muted: "var(--soft)", grid: "var(--rule)", surface: "var(--paper)",
+  series: ["var(--b1)", "var(--b2)", "var(--b3)", "var(--b4)", "var(--b5)", "var(--accent)"],
+};
+
+// Slat types: a week is a column of seven days, Monday on top, with the month that opens in it above and the
+// streak's label below. A day is one square of the LCD, in its ink; the day picked is ringed in ink, the streak in red.
+const WEEK = {
+  css: `
+    .px { --rhp-radius: 1px; --rhp-cell-gap: 1.5px; }
+    .run .px { box-shadow: 0 0 0 1.5px var(--rhp-series-6); }
+    .on { z-index: 1; }
+    .on .px { box-shadow: 0 0 0 2px var(--rhp-ink), inset 0 0 0 1.5px var(--rhp-surface); }
+    .none .px { background: transparent; box-shadow: inset 0 0 0 1px var(--rhp-series-3); }
+    .wd { font: 500 11px/1 var(--rhp-font); color: var(--rhp-muted); }
+    .wd:horizontal { width: auto; }
+    .mon { position: absolute; bottom: 7px; left: 1px; font: 600 12px/1 var(--rhp-font); font-stretch: 75%; letter-spacing: .12em; text-transform: uppercase; color: var(--rhp-ink); white-space: nowrap; }
+    .tag { position: absolute; top: 6px; left: 1px; padding-top: 4px; border-top: 2px solid var(--rhp-series-6); font: 700 12px/1 var(--rhp-font); color: var(--rhp-series-6); white-space: nowrap; }
+    .tag.end { left: auto; right: 1px; }
+  `,
+};
+const week = (w) => html`
+  <div class="wk" aria-label=${() => w.say}>
+    <${Plot} orientation="across" day=${() => w.days} steps=${() => w.counts} first=${() => w.index === 0}>${(x) => html`
+      <div class=${() => "day" + (x.day != null && w.picked.is(x.day) ? " on" : "") + (inRun(x.day) ? " run" : "") + (x.day != null && x.steps == null ? " none" : "")}
+        data-day=${() => x.day ?? undefined}>
+        <${Show} when=${() => x.day != null}>
+          <${Cell} class="px" color=${() => inkOf(x.steps)} />
+        <//>
+        <${Show} when=${() => x.first && x.index % 2 === 0 && x.index < 6}>
+          <${Label} edge="start" class="wd">${() => WEEKDAY[x.index]}<//>
+        <//>
+      </div>`}<//>
+    <${Show} when=${() => w.month}>
+      <${Place} at=${1} across=${0}><span class="mon">${() => w.month}</span><//>
+    <//>
+    <${Show} when=${() => w.tag}>
+      <${Place} at=${0} across=${() => (w.tag === "end" ? 1 : 0)}><span class=${() => "tag " + w.tag}>${RUN.len}-day streak</span><//>
+    <//>
+  </div>`;
+// The line that holds the streak's label has room under it for the label; the others have none
+const Week = slat({ ...WEEK, room: { before: 34, after: 2, end: 22, start: 2 } }, week);
+const TaggedWeek = slat({ ...WEEK, room: { before: 34, after: 2, end: 22, start: 24 } }, week);
+
+// The counter's figures: seven segments each, the ones that are off kept as a ghost. A day with no count shows dashes.
+const SEGMENTS = { 0: "abcdef", 1: "bc", 2: "abdeg", 3: "abcdg", 4: "bcfg", 5: "acdfg", 6: "acdefg", 7: "abc", 8: "abcdefg", 9: "abcdfg", "-": "g" };
+const PLACES = Math.max(5, String(Math.max(TOTAL, BEST)).length);
+const FIT = PLACES * 0.66 + Math.floor((PLACES - 1) / 3) * 0.1; // the figures' width, in em
+function Digits(value) {
+  const text = () => (value() == null ? "-----" : String(Math.round(value())));
+  const at = (k) => {
+    const s = text();
+    const j = s.length - PLACES + k;
+    return j >= 0 ? s[j] : null;
+  };
+  return html`<span class="digits" style=${`--fit: ${FIT}`} aria-hidden="true">${Array.from({ length: PLACES }, (_, k) => [
+    html`<span class="dig">${[..."abcdefg"].map((s) => html`<i class=${() => (SEGMENTS[at(k)]?.includes(s) ? s + " on" : s)}></i>`)}</span>`,
+    (PLACES - 1 - k) % 3 === 0 && k < PLACES - 1 ? html`<span class="sep"><i class=${() => (/\d/.test(at(k) ?? "") ? "on" : "")}></i></span>` : null,
+  ])}</span>`;
+}
+
+// Chart component: the day under a mouse or a pen is read out as it moves; a tap, a click or the counter's arrow keys
+// pick a day that stays while the counter has focus. Leaving the poster gives the counter back that day, or the year.
+function StepYear() {
+  const [hover, setHover] = createSignal(null);
+  const [held, setHeld] = createSignal(null);
+  const shown = () => hover() ?? held();
+  const isShown = createSelector(shown); // a day's square changes only when it is picked or unpicked
+  let counter;
+
+  // The calendar's width: first from the window's, less the page's and the poster's padding, so the year is drawn in
+  // the first render with the rest of the page; then as measured
+  const [width, setWidth] = createSignal(innerWidth < 860 ? innerWidth - 60 : Math.min(1040, innerWidth - 48) - 96);
+  const measure = (el) => {
+    const watch = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
+    watch.observe(el);
+    onCleanup(() => watch.disconnect());
+  };
+  const ROOM = 36; // 34px before the first week for the weekday names, 2px after the last
+  const widest = (n) => Math.max(...LINES[n - 1].map((line) => line.weeks.length));
+  // The year's lines: as few as keep a day's square 15px wide or more, and never more than three, so that on a phone
+  // the counter and the whole year fit in one screen and the reading of any day is in sight
+  const lines = createMemo(() => [1, 2].find((n) => (width() - ROOM) / widest(n) >= 15) ?? 3);
+  const cell = createMemo(() => Math.max(8, Math.floor((width() - ROOM) / widest(lines()))));
+
+  // The day of the square an element is in, or null (a gap, a blank, the words)
+  const dayOf = (el) => {
+    const square = el.closest?.("[data-day]");
+    return square ? +square.dataset.day : null;
+  };
+  const point = (e) => {
+    const i = dayOf(e.target);
+    if (i != null) setHover(i);
+  };
+  const pick = (e) => {
+    const i = dayOf(e.target);
+    if (i == null) return;
+    setHover(null);
+    setHeld(i);
+    counter.focus({ preventScroll: true }); // the counter keeps the pick, and its arrow keys go on from it
+  };
+  const leave = (e) => {
+    if (e.pointerType === "touch") return; // a finger sends pointerleave as it lifts after a tap
+    setHover(null);
+  };
+  // The counter's keys: a day back or on, a week with Page Up and Down, the year's ends with Home and End
+  const STEP = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1, PageUp: 7, PageDown: -7, Home: -Infinity, End: Infinity };
+  const key = (e) => {
+    if (e.key === "Escape") {
+      setHover(null);
+      setHeld(null);
+      return;
+    }
+    const by = STEP[e.key];
+    if (by === undefined || e.altKey || e.ctrlKey || e.metaKey) return;
+    e.preventDefault();
+    setHover(null);
+    const from = held() ?? (by > 0 ? -1 : DAYS);
+    setHeld(Math.min(DAYS - 1, Math.max(0, from + by)));
+  };
+
+  const when = () => (shown() == null ? `All of ${YEAR}` : shortDay.format(dateOf(shown())));
+  const status = () => {
+    const i = shown();
+    if (i == null) return TOTAL > 0 ? `${count.format(Math.round(AVERAGE))} a day on average` : "No steps counted yet";
+    const v = COUNTS[i];
+    if (v == null) return "No count for this day";
+    if (v === GOAL) return "Right on the goal";
+    return v > GOAL ? `Goal reached, ${count.format(v - GOAL)} over` : `${count.format(GOAL - v)} short of the goal`;
+  };
+  const say = () => {
+    const i = held();
+    if (i == null) return `No day picked. All of ${YEAR}: ${count.format(TOTAL)} steps.`;
+    const v = COUNTS[i];
+    return `${longDay.format(dateOf(i))}: ${v == null ? "no count" : count.format(v) + " steps"}`;
+  };
+
+  return html`
+    <${Poster} kicker=${`Daily steps · ${YEAR}`} title=${HEADLINE} dek=${DEK} note=${NOTE}
+      onPointerMove=${(e) => e.pointerType !== "touch" && point(e)} onClick=${pick}
+      onPointerLeave=${leave} onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setHeld(null)}>
+      <div class="lcd" ref=${(el) => (counter = el)} tabindex="0"
+        role="slider" aria-label=${`Day of ${YEAR}`} aria-valuemin="0" aria-valuemax=${DAYS - 1}
+        aria-valuenow=${() => held() ?? 0} aria-valuetext=${say} onKeyDown=${key}>
+        <span class="when" aria-hidden="true">
+          <svg class="feet" viewBox="0 0 24 20"><ellipse cx="6" cy="9" rx="3.3" ry="4.6" transform="rotate(-8 6 9)" /><ellipse cx="6.8" cy="16.9" rx="2.5" ry="2.6" /><ellipse cx="17" cy="5" rx="3.3" ry="4.6" transform="rotate(8 17 5)" /><ellipse cx="16.2" cy="12.9" rx="2.5" ry="2.6" /></svg>
+          ${when}
+        </span>
+        <span class="count" aria-hidden="true">${Digits(() => (shown() == null ? TOTAL : COUNTS[shown()]))}<span class="unit">steps</span></span>
+        <span class="status" aria-hidden="true">${status}</span>
+      </div>
+      <p class="hint">Point at a day or tap it, or Tab to the counter and use the arrow keys.</p>
+      <div class="cal" ref=${measure}>
+        <${For} each=${() => LINES[lines() - 1]}>${(line) => html`
+          <${Chart} orientation="vertical" scale=${[0, 1]} ticks=${false} label=${line.label} theme=${THEME}
+            height=${() => 7 * cell()} style=${() => ({ width: ROOM + line.weeks.length * cell() + "px" })}>
+            <${Plot} rows=${line.weeks} picked=${{ is: isShown }}>${line.weeks.some((w) => w.tag) ? TaggedWeek : Week}<//>
+          <//>`}<//>
+      </div>
+      <div class="key">
+        <span>Steps in a day</span>
+        <span class="ramp" aria-hidden="true">
+          ${[1, 2, 3, 4, 5].map((k) => html`<i style=${`background: var(--b${k})`}></i>`)}
+          ${BINS.map((b, k) => html`<b class=${b === GOAL ? "goal" : ""} style=${`left: ${(k + 1) * 20}%`}>${count.format(b)}</b>`)}
+        </span>
+      </div>
+    <//>`;
+}
+
+render(() => html`<${StepYear} />`, document.getElementById("chart"));
+</script>
+</body>
+</html>

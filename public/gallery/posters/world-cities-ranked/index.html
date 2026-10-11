@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The world's largest cities</title>
+<meta name="description" content="The 150 most populous cities in the world in 2025, ranked as an atlas index, each counted out in blocks of a million people. The top 25 show first; a switch shows all 150.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Fira+Sans+Condensed:wght@400;500;600&display=swap">
+<script type="importmap">{ "imports": { "@bezda/rhp/standalone": "https://cdn.jsdelivr.net/npm/@bezda/rhp@2.0.4/dist/standalone.js" } }</script>
+<style>
+  /* Tokens: an atlas plate. The sea's pale blue as the paper, navy ink, the atlas's red for the largest city,
+     and the brick of a map's built-up areas for every other city */
+  :root {
+    --page: #b5cfd9; --paper: #d4e7ee; --ink: #0c2230; --soft: #36505f; --rule: #aecbd6;
+    --accent: #a5122a; --quiet: #a26a50;
+    --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+    --text: "Fira Sans Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 48px 16px; background: var(--page); }
+
+  /* The plate, framed by a map's neatline: a hairline, a band of alternating ink and paper, a hairline */
+  .poster { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 12px; max-width: 980px; margin: 0 auto; padding: 60px 64px 44px;
+    background: var(--paper); color: var(--ink); font: 16px/1.5 var(--text);
+    grid-template-areas: "kicker" "headline" "dek" "legend" "stage" "note"; }
+  .neatline { position: absolute; inset: 18px; pointer-events: none; border: 1px solid var(--ink); outline: 1px solid var(--ink); outline-offset: -7px;
+    background:
+      repeating-linear-gradient(90deg, var(--ink) 0 32px, transparent 32px 64px) top / 100% 5px no-repeat,
+      repeating-linear-gradient(90deg, var(--ink) 0 32px, transparent 32px 64px) bottom / 100% 5px no-repeat,
+      repeating-linear-gradient(180deg, var(--ink) 0 32px, transparent 32px 64px) left / 5px 100% no-repeat,
+      repeating-linear-gradient(180deg, var(--ink) 0 32px, transparent 32px 64px) right / 5px 100% no-repeat; }
+  .poster figcaption { display: contents; }
+  .poster .kicker { grid-area: kicker; font: 600 12px/1.3 var(--text); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
+  .poster .headline { grid-area: headline; max-width: 15em; font: 700 clamp(34px, 5.2vw, 52px)/1 var(--display); letter-spacing: -.005em; text-wrap: balance; }
+  .poster .dek { grid-area: dek; max-width: 50ch; font-size: 17px; line-height: 1.5; color: var(--soft); }
+  .poster .note { grid-area: note; display: block; margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--rule); font-size: 12px; line-height: 1.5; color: var(--soft); }
+
+  /* The key, boxed as on a map */
+  .legend { grid-area: legend; align-self: start; display: grid; grid-template-columns: repeat(2, max-content); gap: 6px 22px; margin: 6px 0 4px; padding: 12px 16px; list-style: none;
+    border: 1px solid var(--ink); font-size: 14px; line-height: 1.3; }
+  .legend .title { grid-column: 1 / -1; font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--soft); }
+  .legend li { display: flex; align-items: center; gap: 9px; }
+  .legend i { flex: none; display: inline-block; }
+  .k-blocks { width: 35px; height: 12px; background: linear-gradient(to right, var(--quiet) calc(100% - 2px), transparent 0) 0 0 / 12px 100%; }
+  .k-cap { width: 11px; height: 11px; border: 1.5px solid var(--ink); border-radius: 50%; background: radial-gradient(circle, var(--ink) 0 2px, transparent 2.5px); }
+  .k-dot { width: 5px; height: 5px; margin: 0 3px; border-radius: 50%; background: var(--ink); }
+  .k-mega { width: 2px; height: 18px; margin: 0 4px; background: repeating-linear-gradient(to bottom, var(--ink) 0 4px, transparent 4px 7px); }
+
+  /* The index: a switch that stays at the top of the screen while the list scrolls under it */
+  .stage { grid-area: stage; min-width: 0; }
+  .switch { position: sticky; top: 0; z-index: 3; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px;
+    margin: 6px 0 10px; padding: 10px 0; border-bottom: 1px solid var(--ink); background: var(--paper); }
+  .status { display: grid; margin: 0; font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .status span { grid-area: 1 / 1; }
+  .status .off { visibility: hidden; }
+  .choice { display: inline-flex; }
+  .choice button { min-height: 34px; margin-left: -1px; padding: 6px 16px; border: 1px solid var(--ink); background: none; color: var(--ink); font: 600 15px/1 var(--text); cursor: pointer; }
+  .choice button:first-child { margin-left: 0; }
+  .choice button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+  .poster :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* From 860px: the key sits beside the title, as a map's legend beside its cartouche */
+  @media (min-width: 860px) {
+    .poster { grid-template-columns: minmax(0, 1fr) max-content; column-gap: 44px;
+      grid-template-areas: "kicker legend" "headline legend" "dek legend" "stage stage" "note note"; }
+    .legend { grid-template-columns: max-content; margin-top: 0; }
+  }
+  @media (max-width: 640px) {
+    body { padding: 16px 16px 32px; }
+    .poster { padding: 30px 22px 26px; row-gap: 10px; }
+    .neatline { inset: 8px; outline-offset: -5px;
+      background:
+        repeating-linear-gradient(90deg, var(--ink) 0 20px, transparent 20px 40px) top / 100% 3px no-repeat,
+        repeating-linear-gradient(90deg, var(--ink) 0 20px, transparent 20px 40px) bottom / 100% 3px no-repeat,
+        repeating-linear-gradient(180deg, var(--ink) 0 20px, transparent 20px 40px) left / 3px 100% no-repeat,
+        repeating-linear-gradient(180deg, var(--ink) 0 20px, transparent 20px 40px) right / 3px 100% no-repeat; }
+    .poster .kicker { font-size: 11px; letter-spacing: .14em; }
+    .poster .dek { font-size: 15px; }
+    .legend { grid-template-columns: repeat(2, minmax(0, max-content)); gap: 5px 14px; padding: 10px 12px; font-size: 13px; }
+    .status { font-size: 14px; }
+    .choice button { padding: 6px 12px; font-size: 14px; }
+  }
+</style>
+<style id="recipe-navigation-styles">
+  .recipe-navigation { max-width: 980px; margin: 0 auto 18px; text-align: left; }
+  .recipe-navigation a { display: inline-block; padding: 4px 0; font: 600 12.5px/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: #1d1b17; }
+  .recipe-navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .recipe-navigation a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<nav class="recipe-navigation" aria-label="Gallery navigation"><a href="/gallery/">← Gallery</a></nav>
+<div id="chart"></div>
+<script type="module">
+import { Chart, Plot, Scale, Bar, Tick, Label, Poster, Show, slat, nice, html, render, createSignal } from "@bezda/rhp/standalone";
+
+// Data: the 150 most populous cities at mid-2025, in millions of people, from the United Nations' World Urbanization
+// Prospects 2025 (File 21). A city is counted the same way everywhere, from population grids and satellite data
+// (the Degree of Urbanisation), not from its official limits. Each line: the city's name in English, the name most
+// readers know when it was changed recently, its country, 1 for a national capital, its population.
+const CITIES = [
+  ["Jakarta", "", "Indonesia", 1, 41.914],
+  ["Dhaka", "", "Bangladesh", 1, 36.585],
+  ["Tokyo", "", "Japan", 1, 33.413],
+  ["New Delhi", "", "India", 1, 30.222],
+  ["Shanghai", "", "China", 0, 29.559],
+  ["Guangzhou", "", "China", 0, 27.563],
+  ["Cairo", "", "Egypt", 1, 25.566],
+  ["Manila", "", "Philippines", 1, 24.735],
+  ["Kolkata", "", "India", 0, 22.55],
+  ["Seoul", "", "South Korea", 1, 22.49],
+  ["Karachi", "", "Pakistan", 0, 21.423],
+  ["Mumbai", "", "India", 0, 20.203],
+  ["São Paulo", "", "Brazil", 0, 18.95],
+  ["Bangkok", "", "Thailand", 1, 18.18],
+  ["Mexico City", "", "Mexico", 1, 17.734],
+  ["Beijing", "", "China", 1, 17.013],
+  ["Lahore", "", "Pakistan", 0, 15.156],
+  ["Istanbul", "", "Türkiye (Turkey)", 0, 15.015],
+  ["Moscow", "", "Russia", 1, 14.525],
+  ["Ho Chi Minh City", "", "Vietnam", 0, 14.053],
+  ["Buenos Aires", "", "Argentina", 1, 14.018],
+  ["New York City", "", "United States", 0, 13.92],
+  ["Shenzhen", "", "China", 0, 13.878],
+  ["Bengaluru", "", "India", 0, 13.187],
+  ["Osaka", "", "Japan", 0, 12.964],
+  ["Lagos", "", "Nigeria", 0, 12.792],
+  ["Los Angeles", "", "United States", 0, 12.74],
+  ["Luanda", "", "Angola", 1, 11.37],
+  ["Chennai", "", "India", 0, 11.153],
+  ["Kinshasa", "", "DR Congo", 1, 10.944],
+  ["Bogotá", "", "Colombia", 1, 10.624],
+  ["Lima", "", "Peru", 1, 10.58],
+  ["London", "", "United Kingdom", 1, 10.416],
+  ["Hajipur", "", "India", 0, 9.942],
+  ["Rio de Janeiro", "", "Brazil", 0, 9.5],
+  ["Paris", "", "France", 1, 9.382],
+  ["Hyderabad", "", "India", 0, 9.191],
+  ["Tehran", "", "Iran", 1, 9.175],
+  ["Taipei", "", "Taiwan", 1, 9.137],
+  ["Bandung", "", "Indonesia", 0, 8.909],
+  ["Kuala Lumpur", "", "Malaysia", 1, 8.444],
+  ["Dar es Salaam", "", "Tanzania", 1, 7.795],
+  ["Suzhou", "", "China", 0, 7.731],
+  ["Ahmedabad", "", "India", 0, 7.632],
+  ["Hangzhou", "", "China", 0, 7.5],
+  ["Wuhan", "", "China", 0, 7.364],
+  ["Tianjin", "", "China", 0, 7.285],
+  ["Alexandria", "", "Egypt", 0, 7.267],
+  ["Nagoya", "", "Japan", 0, 7.146],
+  ["Johannesburg", "", "South Africa", 0, 7.077],
+  ["Chongqing", "", "China", 0, 7.071],
+  ["Riyadh", "", "Saudi Arabia", 1, 6.916],
+  ["Surat", "", "India", 0, 6.909],
+  ["Surabaya", "", "Indonesia", 0, 6.844],
+  ["Pune", "", "India", 0, 6.818],
+  ["Khartoum", "", "Sudan", 1, 6.809],
+  ["Nanjing", "", "China", 0, 6.801],
+  ["Santiago", "", "Chile", 1, 6.726],
+  ["Addis Ababa", "", "Ethiopia", 1, 6.706],
+  ["Abidjan", "", "Côte d'Ivoire", 1, 6.622],
+  ["Chaozhou", "", "China", 0, 6.408],
+  ["Amman", "", "Jordan", 1, 6.404],
+  ["Baghdad", "", "Iraq", 1, 6.391],
+  ["Chengdu", "", "China", 0, 6.14],
+  ["Nairobi", "", "Kenya", 1, 6.134],
+  ["Kozhikode", "", "India", 0, 6.124],
+  ["Shenyang", "", "China", 0, 5.703],
+  ["Kabul", "", "Afghanistan", 1, 5.636],
+  ["Onitsha", "", "Nigeria", 0, 5.628],
+  ["Yangon", "", "Myanmar", 0, 5.618],
+  ["Accra", "", "Ghana", 1, 5.593],
+  ["Madrid", "", "Spain", 1, 5.584],
+  ["Faisalabad", "", "Pakistan", 0, 5.566],
+  ["Toronto", "", "Canada", 0, 5.494],
+  ["Mashhad", "", "Iran", 0, 5.398],
+  ["Dubai", "", "UAE", 0, 5.284],
+  ["Xi'an", "", "China", 0, 5.231],
+  ["Colombo", "", "Sri Lanka", 1, 5.224],
+  ["Yaoundé", "", "Cameroon", 1, 5.106],
+  ["Kochi", "", "India", 0, 5.078],
+  ["Hanoi", "", "Vietnam", 1, 5.068],
+  ["Lucknow", "", "India", 0, 5.052],
+  ["Chattogram", "Chittagong", "Bangladesh", 0, 4.984],
+  ["Singapore", "", "Singapore", 1, 4.964],
+  ["Kampala", "", "Uganda", 1, 4.881],
+  ["Zhengzhou", "", "China", 0, 4.878],
+  ["Hefei", "", "China", 0, 4.867],
+  ["Islamabad", "", "Pakistan", 1, 4.86],
+  ["Kano", "", "Nigeria", 0, 4.84],
+  ["Hong Kong", "", "China (SAR)", 1, 4.75],
+  ["Saint Petersburg", "", "Russia", 0, 4.736],
+  ["Santo Domingo", "", "Dominican Rep.", 1, 4.6],
+  ["Cape Town", "", "South Africa", 1, 4.509],
+  ["Casablanca", "", "Morocco", 0, 4.457],
+  ["Mogadishu", "", "Somalia", 1, 4.399],
+  ["Harbin", "", "China", 0, 4.376],
+  ["Kanpur", "", "India", 0, 4.33],
+  ["Kumasi", "", "Ghana", 0, 4.298],
+  ["Damascus", "", "Syria", 1, 4.288],
+  ["Jeddah", "", "Saudi Arabia", 0, 4.284],
+  ["Kuwait City", "", "Kuwait", 1, 4.265],
+  ["Medan", "", "Indonesia", 0, 4.246],
+  ["Bamako", "", "Mali", 1, 4.245],
+  ["Luxor", "", "Egypt", 0, 4.188],
+  ["Belo Horizonte", "", "Brazil", 0, 4.163],
+  ["Wenzhou", "", "China", 0, 4.158],
+  ["Sydney", "", "Australia", 0, 4.151],
+  ["Guadalajara", "", "Mexico", 0, 4.135],
+  ["Douala", "", "Cameroon", 0, 4.105],
+  ["Jaipur", "", "India", 0, 4.072],
+  ["Sana'a", "", "Yemen", 1, 4.019],
+  ["Taiyuan", "", "China", 0, 4.006],
+  ["Puning", "", "China", 0, 3.989],
+  ["Barcelona", "", "Spain", 0, 3.983],
+  ["Houston", "", "United States", 0, 3.955],
+  ["Monterrey", "", "Mexico", 0, 3.938],
+  ["Tashkent", "", "Uzbekistan", 1, 3.936],
+  ["Antananarivo", "", "Madagascar", 1, 3.916],
+  ["Varanasi", "", "India", 0, 3.859],
+  ["Dakar", "", "Senegal", 1, 3.852],
+  ["Owerri", "", "Nigeria", 0, 3.833],
+  ["Ürümqi", "", "China", 0, 3.755],
+  ["Ibadan", "", "Nigeria", 0, 3.721],
+  ["Recife", "", "Brazil", 0, 3.691],
+  ["Chicago", "", "United States", 0, 3.683],
+  ["Brazzaville", "", "Congo", 1, 3.656],
+  ["Melbourne", "", "Australia", 0, 3.64],
+  ["Qingdao", "", "China", 0, 3.617],
+  ["Ankara", "", "Türkiye (Turkey)", 1, 3.612],
+  ["Kasaï-Oriental", "", "DR Congo", 0, 3.606],
+  ["Karaj", "", "Iran", 0, 3.599],
+  ["Berlin", "", "Germany", 1, 3.561],
+  ["Savar", "", "Bangladesh", 0, 3.557],
+  ["Peshawar", "", "Pakistan", 0, 3.554],
+  ["Lusaka", "", "Zambia", 1, 3.511],
+  ["Indore", "", "India", 0, 3.476],
+  ["Jinan", "", "China", 0, 3.473],
+  ["Changsha", "", "China", 0, 3.458],
+  ["Medellín", "", "Colombia", 0, 3.35],
+  ["Changchun", "", "China", 0, 3.35],
+  ["Patna", "", "India", 0, 3.309],
+  ["Nanchang", "", "China", 0, 3.3],
+  ["Nanning", "", "China", 0, 3.289],
+  ["Quanzhou", "", "China", 0, 3.286],
+  ["Washington, D.C.", "", "United States", 1, 3.27],
+  ["Busan", "", "South Korea", 0, 3.263],
+  ["Nagpur", "", "India", 0, 3.258],
+  ["Algiers", "", "Algeria", 1, 3.246],
+  ["Fortaleza", "", "Brazil", 0, 3.244],
+  ["Kathmandu", "", "Nepal", 1, 3.232]
+];
+const SHOWN = 25; // the cities shown at first
+const MEGA = 10; // a megacity has 10 million people or more, in the UN's terms
+
+// What depends on the data: the rows ranked from a sorted copy, the scale, and every number the words quote
+const ROWS = CITIES.map(([name, aka, country, capital, pop]) => ({ name, aka, country, capital: capital === 1, pop }))
+  .sort((a, b) => b.pop - a.pop);
+const TOTAL = ROWS.length;
+const scale = nice(0, Math.max(...ROWS.map((r) => r.pop)));
+const one = new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 });
+const ORDINALS = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"];
+const tokyo = ROWS.findIndex((r) => r.name === "Tokyo");
+const megacities = ROWS.filter((r) => r.pop >= MEGA).length;
+const [first, second, third] = ROWS;
+const say = (d) => `${d.index + 1}. ${d.name}${d.aka ? `, formerly ${d.aka}` : ""}, ${d.country}${d.capital ? ", national capital" : ""}: ${one.format(d.pop)} million people`;
+
+// The chart's font and colors, read from the page's tokens
+const THEME = { font: "var(--text)", ink: "var(--ink)", muted: "var(--soft)", grid: "var(--rule)", surface: "var(--paper)", series: ["var(--accent)", "var(--quiet)"] };
+const ACCENT = "series-1"; // the largest city
+const QUIET = "series-2"; // every other city
+
+// Slat types. A city's bar is cut into blocks of one million people by a mask: every full block is the same size in
+// every bar, and the last one is cut to what is left, so a bar keeps its exact length and its millions can be counted.
+const BLOCKS = (gap) => `.blocks { --rhp-radius: 0px; mask: linear-gradient(to right, #000 calc(100% - ${gap}), #0000 0) 0 0 / calc(100% * var(--unit)) 100%; }`;
+const symbol = (d) => (d.capital ? "sym cap" : "sym");
+const SYMBOL = `
+  .sym { flex: none; justify-self: center; width: 5px; height: 5px; border-radius: 50%; background: var(--rhp-ink); }
+  .sym.cap { width: 11px; height: 11px; border: 1.5px solid var(--rhp-ink); background: radial-gradient(circle, var(--rhp-ink) 0 2px, transparent 2.5px); }
+`;
+
+// From 860px: an atlas index, the rank, the symbol, the name and the country in columns before the bar. The megacity
+// line is dashed down through the cities that reach it and stops at the last one, so it never runs through a number;
+// the numbers stand on the paper, so the hairlines stop at them.
+const Row = slat({
+  thickness: 28,
+  inset: "7px",
+  room: { start: 318, end: 48 },
+  css: `
+    .cols { display: grid; grid-template-columns: 30px 12px 148px 96px; column-gap: 8px; align-items: center; font-size: 14px; text-align: left; }
+    .rank { text-align: right; font-size: 12px; color: var(--rhp-muted); font-variant-numeric: tabular-nums; }
+    .nm { overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+    .aka { font-size: 12px; font-weight: 400; color: var(--rhp-muted); }
+    .ctry { overflow: hidden; text-overflow: ellipsis; font-size: 13px; color: var(--rhp-muted); }
+    .val { --rhp-label-gap: 7px; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .val .num { margin: 0 -3px; padding: 0 3px; background: var(--rhp-surface); }
+    .first .nm, .first .val { color: var(--rhp-series-1); font-weight: 600; }
+    .mega { --rhp-tick-width: 2px; background: repeating-linear-gradient(to bottom, var(--rhp-ink) 0 4px, transparent 4px 7px); }
+    ${SYMBOL}
+    ${BLOCKS("2px")}
+  `,
+}, (d) => html`
+  <div class=${() => (d.first ? "city first" : "city")} aria-label=${() => say(d)}>
+    <${Label} edge="start" aria-hidden="true"><span class="cols"><span class="rank">${() => d.index + 1}</span><span class=${() => symbol(d)}></span><span class="nm">${() => d.name}${() => (d.aka ? html`<span class="aka"> (${d.aka})</span>` : "")}</span><span class="ctry">${() => d.country}</span></span><//>
+    <${Bar} to=${() => d.pop} class="blocks" color=${() => (d.first ? ACCENT : QUIET)} style=${() => ({ "--unit": 1 / d.pop })} />
+    <${Show} when=${() => d.pop >= MEGA}><${Tick} at=${MEGA} thick=${1} class="mega" /><//>
+    <${Label} at=${() => d.pop} class="val" aria-hidden="true"><span class="num">${() => one.format(d.pop) + (d.first ? " million" : "")}</span><//>
+  </div>`);
+
+// Under 860px: the rank, the name and the country on one line, and the bar and its number under it across the width,
+// with the megacity mark dashed across the bars that reach it (a line down the whole list would strike through the names)
+const Stack = slat({
+  thickness: 38,
+  inset: "14.5px",
+  room: { start: 4, end: 14 },
+  css: `
+    .line { position: absolute; left: 0; right: 0; top: 1px; display: flex; align-items: center; gap: 6px; font-size: 13px; line-height: 15px; white-space: nowrap; }
+    .rank { flex: none; min-width: 2.2em; font-size: 12px; color: var(--rhp-muted); font-variant-numeric: tabular-nums; }
+    .nm { flex: none; font-weight: 500; }
+    .aka { font-size: 12px; font-weight: 400; color: var(--rhp-muted); }
+    .ctry { min-width: 0; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: var(--rhp-muted); }
+    .val { --rhp-label-gap: 6px; font-size: 13px; line-height: 1; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .first .nm, .first .val { color: var(--rhp-series-1); font-weight: 600; }
+    /* rhp places blocks with translate, so the row under the name is lowered with transform, which adds to it */
+    .blocks, .mega, .val { transform: translateY(5px); }
+    @container (max-width: 420px) { .unit { display: none; } }
+    @container (max-width: 300px) { .line { gap: 4px; } .rank { min-width: 1.9em; } .aka, .ctry { font-size: 11px; } }
+    .mega { --rhp-tick-width: 2px; background: repeating-linear-gradient(to bottom, var(--rhp-ink) 0 3px, transparent 3px 5px); }
+    ${SYMBOL}
+    ${BLOCKS("1px")}
+  `,
+}, (d) => html`
+  <div class=${() => (d.first ? "city first" : "city")} aria-label=${() => say(d)}>
+    <span class="line" aria-hidden="true"><span class="rank">${() => d.index + 1}</span><span class=${() => symbol(d)}></span><span class="nm">${() => d.name}${() => (d.aka ? html`<span class="aka"> (${d.aka})</span>` : "")}</span><span class="ctry">${() => d.country}</span></span>
+    <${Bar} to=${() => d.pop} class="blocks" color=${() => (d.first ? ACCENT : QUIET)} style=${() => ({ "--unit": 1 / d.pop })} />
+    <${Show} when=${() => d.pop >= MEGA}><${Tick} at=${MEGA} thick="13px" class="mega" /><//>
+    <${Label} at=${() => d.pop} class="val" aria-hidden="true">${() => one.format(d.pop)}<span class="unit">${() => (d.first ? " million" : "")}</span><//>
+  </div>`);
+
+// The scale, drawn as a map's scale bar over the list: segments of ten million, ink and paper by turns, and (beside
+// an index) a hairline down from each
+const step = (t) => Math.round((t.at - scale.min) / scale.step);
+const marks = (lines) => slat({
+  room: { before: 40 },
+  css: `
+    .grid { --rhp-tick-width: 1px; background: var(--rhp-grid); }
+    .seg { --rhp-radius: 0px; top: -12px; bottom: auto; height: 6px; border: 1px solid var(--rhp-ink); background: var(--rhp-surface); }
+    .seg.odd { background: var(--rhp-ink); }
+    .num { top: 0; translate: -50% -100%; padding-bottom: 16px; font-size: 11px; color: var(--rhp-muted); }
+    .num.start { translate: 0 -100%; }
+    .num.end { translate: -100% -100%; }
+    @container (max-width: 420px) { .unit { display: none; } }
+  `,
+}, (t) => html`
+  <div>
+    ${lines ? html`<${Tick} at=${() => t.at} thick=${1} class="grid" />` : ""}
+    <${Show} when=${() => !t.last}>
+      <${Bar} from=${() => t.at} to=${() => t.next} class=${() => (step(t) % 2 ? "seg odd" : "seg")} />
+    <//>
+    <${Label} at=${() => t.at} class=${() => (t.first ? "num start" : t.last ? "num end" : "num")}>${() => t.at}<span class="unit">${() => (t.last ? " million" : "")}</span><//>
+  </div>`);
+const Lines = marks(true);
+const Bare = marks(false);
+
+// Chart component: the switch shows the top 25 or all 150; the cities past 25 are hidden by their place (null)
+function WorldCities() {
+  const [all, setAll] = createSignal(false);
+  const wide = matchMedia("(min-width: 860px)");
+  const [isWide, setWide] = createSignal(wide.matches);
+  wide.addEventListener("change", (e) => setWide(e.matches));
+  const places = () => ROWS.map((_, i) => (all() || i < SHOWN ? i : null));
+  let stage;
+  // Back to the top 25 from far down the list: bring the top of the list back on screen
+  const show = (every) => {
+    setAll(every);
+    if (!every && stage.getBoundingClientRect().top < 0) stage.scrollIntoView({ block: "start" });
+  };
+  const chart = (type, mark) => html`
+    <${Chart} scale=${[scale.min, scale.max]} theme=${THEME}
+      label=${`The ${TOTAL} most populous cities in the world in 2025, in millions of people`}>
+      <${Scale} ticks=${scale.ticks}>${mark}<//>
+      <${Plot} rows=${ROWS} order=${places} first=${(d) => d.index === 0}>${type}<//>
+    <//>`;
+  return html`
+    <${Poster}
+      kicker="World cities by population, 2025"
+      title=${`${first.name} is now the world's largest city, and ${ROWS[tokyo].name} only the ${ORDINALS[tokyo]}`}
+      dek=${`The UN's 2025 count measures every city the same way, by where people live densely rather than by city limits: ${first.name} has ${one.format(first.pop)} million people, ${second.name} ${one.format(second.pop)} million and ${third.name} ${one.format(third.pop)} million.`}
+      note="Source: United Nations, World Urbanization Prospects: The 2025 Revision (File 21), population at mid-2025. A city here is a contiguous area of at least 1,500 people per square kilometre and 50,000 people in all, mapped from population grids and satellite data, so it can be larger or smaller than the city's official limits or its metropolitan area. City names are the UN's in English, with Sri Jayawardenepura Kotte-Colombo shortened to Colombo and Tamar (Hong Kong) to Hong Kong.">
+      <i class="neatline" aria-hidden="true"></i>
+      <ul class="legend" aria-label="Key">
+        <li class="title" aria-hidden="true">Key</li>
+        <li><i class="k-blocks"></i>One million people</li>
+        <li><i class="k-cap"></i>National capital</li>
+        <li><i class="k-dot"></i>Other city</li>
+        <li><i class="k-mega"></i>${`10 million: a megacity (${megacities} of ${TOTAL})`}</li>
+      </ul>
+      <div class="stage" ref=${(el) => (stage = el)}>
+        <div class="switch">
+          <p class="status" aria-live="polite">
+            <span class=${() => (all() ? "off" : "")}>${`Ranks 1 to ${SHOWN} of ${TOTAL}`}</span>
+            <span class=${() => (all() ? "" : "off")}>${`All ${TOTAL} ranks`}</span>
+          </p>
+          <div class="choice" role="group" aria-label="Cities shown">
+            <button type="button" aria-pressed=${() => !all()} onClick=${() => show(false)}>${`Top ${SHOWN}`}</button>
+            <button type="button" aria-pressed=${() => all()} onClick=${() => show(true)}>${`All ${TOTAL}`}</button>
+          </div>
+        </div>
+        <${Show} when=${isWide} fallback=${() => chart(Stack, Bare)}>${() => chart(Row, Lines)}<//>
+      </div>
+    <//>`;
+}
+
+render(() => html`<${WorldCities} />`, document.getElementById("chart"));
+</script>
+</body>
+</html>

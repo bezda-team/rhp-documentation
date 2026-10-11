@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 200 best-selling albums</title>
+<meta name="description" content="The 200 best-selling albums of all time, each one's sales pressed into records, one disc per million copies, with a search field and a readout. Illustrative data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;1,6..96,600;1,6..96,700&family=Schibsted+Grotesk:wght@400;500;600&display=swap">
+<script type="importmap">{ "imports": { "@bezda/rhp/standalone": "https://cdn.jsdelivr.net/npm/@bezda/rhp@2.0.4/dist/standalone.js" } }</script>
+<style>
+  /* Tokens: the vinyl itself as the paper, gold for the gold record, platinum grey for every other disc */
+  :root {
+    color-scheme: dark;
+    --page: #09080b; --paper: #151318; --ink: #f4efe6; --soft: #aaa3ae; --rule: #2e2a33;
+    --accent: #e8b84a; --quiet: #7a7682; --frame: #7a6431; --well: #0e0d11;
+    --display: "Bodoni Moda", "Bodoni 72", Didot, Georgia, serif;
+    --text: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 40px 16px; background: var(--page); }
+
+  /* The poster: framed like a certification plaque, a gold double rule inside its edge */
+  .poster { max-width: 1120px; margin: 0 auto; padding: 56px 48px 30px; background-color: var(--paper); color: var(--ink); font: 16px/1.5 var(--text);
+    box-shadow: inset 0 0 0 12px var(--paper), inset 0 0 0 13px var(--frame), inset 0 0 0 17px var(--paper), inset 0 0 0 18px var(--frame); }
+  .poster figcaption { display: grid; gap: 14px; margin-bottom: 26px; }
+  .poster .kicker { font: 600 12px/1.3 var(--text); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
+  .poster .headline { max-width: 17em; font: 700 clamp(30px, 5.4vw, 60px)/1.02 var(--display); letter-spacing: -.01em; text-wrap: balance; }
+  .poster .headline em { font-style: italic; font-weight: 600; color: var(--accent); }
+  .poster .headline .nobr { white-space: nowrap; }
+  .poster .dek { max-width: 62ch; font-size: 17px; line-height: 1.5; color: var(--soft); }
+  .poster .note { display: block; margin-top: 22px; padding-top: 12px; border-top: 1px solid var(--rule); font-size: 12px; line-height: 1.5; color: var(--soft); }
+
+  /* The deck: the search and the record on the platter, pinned to the top of the screen while the rack scrolls under it */
+  .deck { position: sticky; top: 0; z-index: 2; display: grid; grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); align-items: end; gap: 12px 36px;
+    margin: 0 0 14px; padding: 14px 0 14px; background: var(--paper); border-bottom: 1px solid var(--rule); }
+  .find-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 6px; font-size: 12px; line-height: 16px; }
+  .find-head label { font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+  .count { color: var(--soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .field { position: relative; }
+  .field svg { position: absolute; left: 13px; top: 50%; width: 16px; height: 16px; translate: 0 -50%; color: var(--soft); pointer-events: none; }
+  .field input { width: 100%; height: 42px; padding: 0 14px 0 38px; border: 1px solid #4a4551; border-radius: 21px; background: var(--well); color: var(--ink); font: 500 15px var(--text); }
+  .field input::placeholder { color: #958e9b; }
+  .field input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* The readout: a record with a gold label, and what is on it */
+  .now { display: grid; grid-template-columns: 60px minmax(0, 1fr) auto; grid-template-areas: "rec meta sold" "rec title sold" "rec by sold"; align-items: center; column-gap: 16px; min-width: 0; }
+  .record { width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 0 0 1px #3a3640;
+    background:
+      radial-gradient(circle, var(--paper) 0 2px, var(--accent) 2.5px 16px, #0b0a0d 16.5px 17.5px, transparent 18px),
+      conic-gradient(from 20deg, transparent 0 8%, rgb(255 255 255 / .09) 13%, transparent 19% 50%, rgb(255 255 255 / .07) 63%, transparent 69%),
+      repeating-radial-gradient(circle, #0b0a0d 0 1px, #221f27 1px 2px); }
+  .now.empty .record { background: radial-gradient(circle, var(--paper) 0 2px, #2a2730 2.5px 16px, #0b0a0d 16.5px 17.5px, transparent 18px), repeating-radial-gradient(circle, #0b0a0d 0 1px, #221f27 1px 2px); }
+  .record { grid-area: rec; }
+  .now .meta { grid-area: meta; font-size: 11.5px; line-height: 16px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+  .now .title { grid-area: title; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: italic 700 21px/26px var(--display); color: var(--ink); }
+  .now .by { grid-area: by; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 13px; line-height: 18px; color: var(--soft); }
+  .sold { grid-area: sold; min-width: 6.2em; text-align: right; line-height: 1; white-space: nowrap; }
+  .sold b { display: block; font: 700 32px/1 var(--display); font-variant-numeric: lining-nums tabular-nums; color: var(--accent); }
+  .sold span { display: block; margin-top: 5px; font-size: 12px; color: var(--soft); }
+
+  .stage { min-width: 0; }
+
+  @media (max-width: 899px) {
+    body { padding: 16px 16px 32px; }
+    .poster { padding: 30px 18px 20px; box-shadow: inset 0 0 0 7px var(--paper), inset 0 0 0 8px var(--frame), inset 0 0 0 11px var(--paper), inset 0 0 0 12px var(--frame); }
+    .poster figcaption { gap: 10px; margin-bottom: 16px; }
+    .poster .dek { font-size: 15px; }
+    .deck { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 8px 0 10px; }
+    .find-head { margin-bottom: 4px; }
+    .field input { height: 40px; }
+  }
+  @media (max-width: 599px) {
+    .now { grid-template-columns: 44px minmax(0, 1fr) auto; grid-template-areas: "rec meta sold" "rec title title" "rec by by"; column-gap: 12px; }
+    .record { width: 44px; height: 44px; background:
+      radial-gradient(circle, var(--paper) 0 1.5px, var(--accent) 2px 11px, #0b0a0d 11.5px 12.5px, transparent 13px),
+      conic-gradient(from 20deg, transparent 0 8%, rgb(255 255 255 / .09) 13%, transparent 19% 50%, rgb(255 255 255 / .07) 63%, transparent 69%),
+      repeating-radial-gradient(circle, #0b0a0d 0 1px, #221f27 1px 2px); }
+    .now.empty .record { background: radial-gradient(circle, var(--paper) 0 1.5px, #2a2730 2px 11px, #0b0a0d 11.5px 12.5px, transparent 13px), repeating-radial-gradient(circle, #0b0a0d 0 1px, #221f27 1px 2px); }
+    .now .meta { font-size: 11px; }
+    .now .title { font-size: 18px; line-height: 22px; }
+    .now .by { font-size: 12px; line-height: 16px; }
+    .sold { min-width: 0; }
+    .sold b, .sold span { display: inline; }
+    .sold b { font-size: 17px; }
+    .sold span { margin-left: 4px; font-size: 12px; }
+  }
+</style>
+<style id="recipe-navigation-styles">
+  .recipe-navigation { max-width: 1120px; margin: 0 auto 18px; text-align: left; }
+  .recipe-navigation a { display: inline-block; padding: 4px 0; font: 600 12.5px/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: #eef2f5; }
+  .recipe-navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .recipe-navigation a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<nav class="recipe-navigation" aria-label="Gallery navigation"><a href="/gallery/">← Gallery</a></nav>
+<div id="chart"></div>
+<script type="module">
+import { Chart, Plot, Scale, Bar, Tick, Label, Poster, Show, slat, nice, html, render, createSignal, createMemo, onMount, onCleanup } from "@bezda/rhp/standalone";
+
+// Data: title, artist, year of release, copies sold worldwide in millions.
+// Illustrative: the albums and artists are invented. Put your own rows here, in any order.
+const DATA = [
+    ["Midnight Parade", "Delia Vance", 1982, 66.2],
+    ["Wild Machines", "Glass Bloom", 1994, 49.2],
+    ["Glass Carnival", "Tidewater Union", 1979, 45.1],
+    ["Neon & Ash", "Ines Esposito", 1992, 41.6],
+    ["Saltwater", "Ines Vance", 1985, 37.2],
+    ["Mercury Road", "Fenwick Esposito", 1973, 37.1],
+    ["Brass & Bone", "The Cobalt Hours", 1985, 34.2],
+    ["Calliope", "Saffron Calloway", 1967, 32.9],
+    ["Faded Comet", "Boone Vance", 1969, 32.8],
+    ["Quiet Kingdom", "Theo Templeton", 2010, 30.9],
+    ["Gold & Gravel", "Saffron Thorne", 1996, 29.8],
+    ["Lucky Kingdom", "Glass Bloom", 1988, 29.5],
+    ["Greatest Hits", "Theo Valentin", 1991, 28.7],
+    ["Neon Carnival", "Tidewater Signal", 1997, 28.6],
+    ["Lonesome Engines", "Brass Ghosts", 2003, 27.3],
+    ["Salt & Sugar", "Fenwick Esposito", 1999, 27.3],
+    ["Thunder & Lace", "Bram Achterberg", 1988, 26.9],
+    ["Cascade", "Glass Lagoon", 2006, 26.9],
+    ["Silver Hymns", "Cinder Hours", 1990, 26.6],
+    ["Ninth Street", "Evander Halloran", 1985, 25.7],
+    ["Marquee", "Hollow Lagoon", 1989, 25.7],
+    ["Borrowed Harbour", "Hollis Quintero", 1991, 25],
+    ["Overture", "Copper Drive", 2007, 25],
+    ["Vagabond", "Calder Moreau", 2004, 24.5],
+    ["Electric Garden", "Hollow Comets", 2004, 24.2],
+    ["Solstice", "The Orchid Choir", 1989, 24.1],
+    ["Wild Lanterns", "Tidewater Signal", 1973, 24.1],
+    ["Radio Horizons", "Petra Solano", 1997, 23.6],
+    ["Hidden Comet", "Hollis Quintero", 1998, 23.6],
+    ["Winter Postcards", "Orrin Hargreave", 1979, 23.6],
+    ["Stolen Weather", "Ivory Engine", 1995, 23.3],
+    ["Wild Comet", "Copper Lagoon", 1975, 22.7],
+    ["Hidden Horizons", "Northbound Union", 1998, 22.7],
+    ["Firefly", "The Static Hours", 1989, 22.5],
+    ["Riviera", "The Lucky Saints", 1986, 22.5],
+    ["Electric Lanterns", "Ines Vance", 1975, 22.4],
+    ["Quiet Fever", "Romy Ostrova", 1991, 22.1],
+    ["Neon Ballroom", "Soundtrack", 1991, 22],
+    ["The Singles", "Theo Templeton", 1986, 21.6],
+    ["Winter Parade", "Glass Drive", 1989, 21.2],
+    ["Northern Signal", "Fenwick Solano", 1995, 21.2],
+    ["Radio Lanterns", "Corin Penhallow", 2006, 20.9],
+    ["Sundial", "Kingfisher Roses", 1991, 20.6],
+    ["Borrowed Arcade", "Ivory Engine", 1981, 20.6],
+    ["Neon Frontier", "The Wild Pines", 1994, 20.6],
+    ["Crimson Orchard", "Northbound Union", 1987, 20.5],
+    ["Paper Kingdom", "Soundtrack", 2001, 20.5],
+    ["Silver Postcards", "Petra Ostrova", 1997, 20.2],
+    ["Borrowed Hymns", "Copper Lagoon", 1977, 20.1],
+    ["Ribbons & Rust", "Orrin Hargreave", 2009, 20.1],
+    ["Saturday Carnival", "Soundtrack", 1986, 20],
+    ["Sleepless Engines", "Romy Fairbanks", 2003, 19.9],
+    ["Painted Orchard", "Ines Vance", 2001, 19.8],
+    ["Painted Cathedral", "Bram Moreau", 2009, 19.8],
+    ["Silver Rivers", "Liesl Kestrel", 1999, 19.7],
+    ["Faded Lullaby", "Saffron Thorne", 2004, 19.4],
+    ["Distant Arcade", "Liesl Kestrel", 1999, 19.2],
+    ["Summer Parade", "Satellite Rebels", 1976, 19.1],
+    ["Quiet Parade", "Evander Halloran", 1976, 19.1],
+    ["Silver Mirrors", "Tidewater Comets", 2006, 18.9],
+    ["Borrowed Engines", "Glass Lagoon", 2005, 18.8],
+    ["Painted Machines", "Saffron Thorne", 1981, 18.8],
+    ["Electric Comet", "Saffron Moreau", 1982, 18.7],
+    ["Hollow Avenue", "The Hollow Roses", 1968, 18.6],
+    ["Gold Collection", "Orchid Harbors", 1999, 18.6],
+    ["Painted Comet", "Brass Harbors", 1997, 18.5],
+    ["Distant Kingdom", "Fenwick Esposito", 1994, 18.4],
+    ["Paragon", "Marlow Hargreave", 1997, 18.4],
+    ["Lonesome Avenue", "Lux Templeton", 1978, 18.2],
+    ["Copper Hymns", "The Wild Pines", 1987, 18.1],
+    ["Borrowed Highway", "Ines Vance", 1982, 18.1],
+    ["The Very Best", "The Wild Pines", 1984, 18.1],
+    ["Copper Lanterns", "Rafe Hargreave", 1984, 18.1],
+    ["Painted Harbour", "Ines Vance", 2004, 18],
+    ["Faded Cathedral", "Theo Valentin", 2002, 18],
+    ["Quiet Engines", "Ottilie Ostrova", 1995, 17.8],
+    ["Wanderlust", "Glass Society", 1983, 17.7],
+    ["Amber Dynamite", "Harbor Tides", 1996, 17.6],
+    ["Silver Highway", "Dashiell Ostrova", 1998, 17.6],
+    ["Highway Hymns", "Soundtrack", 1992, 17.6],
+    ["Daybreak", "Brass Harbors", 2011, 17.6],
+    ["Hollow Hymns", "Isla Sorensen", 1984, 17.5],
+    ["Velvet & Steel", "The Glass Ferries", 2001, 17.5],
+    ["Greatest Hits", "Calder Ashworth", 1999, 17.5],
+    ["Summer Dynamite", "Calder Ashworth", 1986, 17.5],
+    ["Undercurrent", "Romy Ostrova", 1998, 17.3],
+    ["Electric Carnival", "Dove Varga", 1999, 17.3],
+    ["Hidden Cathedral", "Mira Valentin", 1993, 17.3],
+    ["Stolen Postcards", "Lucky Hours", 1994, 17.3],
+    ["Hidden Lanterns", "Orchid Rebels", 2004, 17.2],
+    ["Winter Highway", "Odette Marchetti", 1983, 17.2],
+    ["Coastal Motel", "Soundtrack", 1978, 17.2],
+    ["Paper Engines", "Cobalt Rebels", 1989, 17.1],
+    ["Midnight Rivers", "Corin Dumont", 2003, 17],
+    ["Velvet Echoes", "Sable Okoro", 1973, 16.9],
+    ["Cinders & Silk", "Mira Valentin", 1982, 16.9],
+    ["Burning Harbour", "Liesl Okoro", 1994, 16.8],
+    ["Slow Burn", "Cobalt Drive", 1990, 16.7],
+    ["Distant Lanterns", "Meridian Atlas", 1987, 16.6],
+    ["Crimson Ballroom", "Liesl Hargreave", 1999, 16.5],
+    ["Glass Highway", "Harbor Tides", 1983, 16.5],
+    ["Golden Highway", "Ione Sorensen", 1996, 16.3],
+    ["Burning Orchard", "Wild Bloom", 1978, 16.3],
+    ["Glass Weather", "Velvet Telegraph", 1980, 16.2],
+    ["Stolen Machines", "Rafe Penhallow", 1994, 16.2],
+    ["Open Water", "Ivory Union", 1994, 16.1],
+    ["Hollow Postcards", "Isla Castellan", 1994, 16.1],
+    ["Neon Parade", "Sable Larkspur", 1986, 16.1],
+    ["Burning Kingdom", "The Wild Pines", 1990, 16.1],
+    ["Arcadia", "Orrin Ferreira", 1997, 16],
+    ["Sleepless Fever", "The Ivory Comets", 1987, 16],
+    ["Heatwave", "Brass Ghosts", 1993, 16],
+    ["Copper Lullaby", "Ines Navarre", 2003, 16],
+    ["Golden Rivers", "Bram Castellan", 1992, 15.9],
+    ["Burning Cathedral", "Glass Bloom", 1997, 15.9],
+    ["Anthology", "Jasper Marchetti", 1989, 15.9],
+    ["High Season", "Saffron Calloway", 1986, 15.8],
+    ["Hollow Satellites", "Cass Okoro", 2005, 15.8],
+    ["Neon Weather", "Bram Achterberg", 1974, 15.8],
+    ["Crimson Rivers", "Lux Templeton", 1966, 15.8],
+    ["Distant Comet", "Dashiell Ostrova", 1983, 15.7],
+    ["Stolen Dynamite", "Noor Achterberg", 1972, 15.7],
+    ["Honey & Static", "Calder Moreau", 1993, 15.7],
+    ["Long Distance", "Delia Achterberg", 1979, 15.6],
+    ["Fathom", "Marlow Vance", 2002, 15.6],
+    ["Lucky Hymns", "Orrin Hargreave", 1990, 15.5],
+    ["Electric Ballroom", "Rafe Hargreave", 1988, 15.5],
+    ["Copper Ballroom", "Tidewater Signal", 1998, 15.5],
+    ["Copper Satellites", "Rafe Hargreave", 1986, 15.4],
+    ["Copper Mirrors", "Fenwick Esposito", 1996, 15.4],
+    ["Crimson Postcards", "Odette Kestrel", 2006, 15.4],
+    ["Midnight Arcade", "Ivory Union", 1987, 15.4],
+    ["Lonesome Frontier", "Romy Ostrova", 1993, 15.4],
+    ["Midnight Horizons", "Theo Ferreira", 2002, 15.3],
+    ["Faded Dynamite", "Rafe Hargreave", 1993, 15.3],
+    ["Burning Rivers", "Petra Larkspur", 1984, 15.2],
+    ["Summer Frontier", "Boone Vance", 1989, 15.2],
+    ["Crimson Mirrors", "Glass Drive", 1983, 15.2],
+    ["Crimson Fever", "Maren Achterberg", 1973, 15.1],
+    ["Electric Harbour", "Boone Lindqvist", 1998, 15.1],
+    ["Hidden Kingdom", "The Orchid Choir", 2001, 15.1],
+    ["Radio Arcade", "Calder Ashworth", 1981, 15],
+    ["Quiet Satellites", "Orrin Danvers", 1987, 15],
+    ["Lighthouse", "Lucky Signal", 1981, 14.9],
+    ["Low Tide", "The Lucky Saints", 2007, 14.9],
+    ["Neon Engines", "Wren Danvers", 1982, 14.9],
+    ["Glass Fever", "Ione Sorensen", 1984, 14.9],
+    ["Hidden Avenue", "Wren Halloran", 1986, 14.8],
+    ["Quiet Horizons", "Static Saints", 1983, 14.8],
+    ["Lonesome Telegraph", "Marlow Vance", 1977, 14.8],
+    ["Northern Echoes", "Jasper Marchetti", 1992, 14.7],
+    ["Crimson Hymns", "Wren Halloran", 1990, 14.7],
+    ["Faded Arcade", "Boone Lindqvist", 1997, 14.7],
+    ["Amber Frontier", "Hollis Castellan", 1986, 14.7],
+    ["Winter Frontier", "Harbor Tides", 2010, 14.7],
+    ["Neon Motel", "Ottilie Ostrova", 1982, 14.7],
+    ["Sweet Hymns", "Ines Esposito", 1994, 14.5],
+    ["Amber Telegraph", "Bram Templeton", 1996, 14.5],
+    ["Sweet Arcade", "Evander Okoro", 1985, 14.5],
+    ["Painted Weather", "Orrin Hargreave", 2002, 14.5],
+    ["Amber Ballroom", "Bram Vance", 2003, 14.4],
+    ["Hollow Cathedral", "Theo Valentin", 1987, 14.4],
+    ["Golden Machines", "Bram Achterberg", 2004, 14.4],
+    ["Crimson Comet", "Mira Thorne", 1992, 14.4],
+    ["Silver Frontier", "Mira Valentin", 1987, 14.4],
+    ["Copper Carnival", "Marlow Castellan", 1980, 14.4],
+    ["Velvet Cathedral", "Theo Valentin", 1982, 14.3],
+    ["Glass Postcards", "Ivory Parade", 1999, 14.3],
+    ["Hidden Machines", "The Cobalt Hours", 2001, 14.3],
+    ["Paper Echoes", "Bram Templeton", 1978, 14.3],
+    ["Sweet Motel", "The Copper Tides", 1991, 14.2],
+    ["Silver Motel", "The Wild Pines", 1995, 14.2],
+    ["Second Nature", "Cobalt Ferries", 1982, 14.2],
+    ["Quiet Frontier", "The Orchid Choir", 1996, 14.2],
+    ["Silver Orchard", "Corin Penhallow", 1982, 14.1],
+    ["Lucky Arcade", "The Paper Atlas", 1981, 14.1],
+    ["Burning Telegraph", "Silver Kings", 1980, 14.1],
+    ["Burning Garden", "Odette Thorne", 1992, 14],
+    ["Sweet Garden", "Delia Marchetti", 1999, 14],
+    ["Neon Telegraph", "Delia Vance", 1985, 14],
+    ["Monsoon", "Odette Greaves", 1974, 14],
+    ["Quiet Motel", "Fenwick Esposito", 1989, 13.9],
+    ["Sleepless Hymns", "Sable Okoro", 1991, 13.9],
+    ["Paper Arcade", "Velvet Kings", 1984, 13.9],
+    ["Midnight Signal", "Dashiell Ostrova", 1987, 13.9],
+    ["Coastal Harbour", "Odette Thorne", 2001, 13.9],
+    ["Crimson Motel", "Rafe Penhallow", 1984, 13.9],
+    ["Coastal Kingdom", "Ansel Quintero", 1980, 13.9],
+    ["Hollow Weather", "Delia Penhallow", 1989, 13.8],
+    ["Neon Signal", "Isla Fairbanks", 1991, 13.8],
+    ["Hollow Carnival", "The Ivory Comets", 1997, 13.8],
+    ["Golden Avenue", "Theo Valentin", 1978, 13.8],
+    ["Coastal Lullaby", "Ivory Atlas", 2010, 13.7],
+    ["Paper Avenue", "Ione Sorensen", 1998, 13.7],
+    ["Midnight Echoes", "Ivory Parade", 1989, 13.7],
+    ["Stolen Fever", "The Static Hours", 1986, 13.6],
+    ["Starling", "Calder Ashworth", 1982, 13.6],
+    ["Velvet Machines", "Wren Quintero", 1986, 13.5],
+    ["Quiet Arcade", "Orchid Rebels", 1969, 13.5],
+    ["Paper Postcards", "The Ivory Comets", 1978, 13.2]
+];
+const NOTE = "Illustrative data: the albums, the artists and their sales are invented, shaped like the real all-time list. Disc counts are rounded to whole units; the numbers are exact.";
+
+// The widest name in the type it is set in, so the names' room fits every one and stays put while a search hides some
+await document.fonts.load('400 12.5px "Schibsted Grotesk"').catch(() => {});
+const pen = document.createElement("canvas").getContext("2d");
+pen.font = '400 12.5px "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif';
+
+// Ranks come from a sorted copy, never from the input order
+const ALBUMS = DATA.map(([title, artist, year, sales]) => ({ title, artist, year, sales }))
+  .sort((a, b) => b.sales - a.sales)
+  .map((a, i) => ({ ...a, rank: i + 1 }));
+const N = ALBUMS.length;
+const TOP = ALBUMS[0];
+const SCALE = nice(0, Math.max(1, ...ALBUMS.map((a) => a.sales)), 7); // 0 to 70 million, ticks every 10
+// Millions with one decimal, two under a million, and no trailing zeros
+const tenths = new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 });
+const hundredths = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
+const millions = { format: (v) => (Math.abs(v) < 1 ? hundredths : tenths).format(v) };
+const LEAD = N > 1 ? TOP.sales - ALBUMS[1].sales : 0; // how far No. 1 is ahead of No. 2
+
+// One disc stands for a million copies, or for more when a million would be too small a disc to see
+const UNITS = [-2, -1, 0, 1, 2, 3].flatMap((k) => [1, 2, 5].map((m) => m * 10 ** k)); // 0.01 to 5,000 million
+const MIN_DISC = 7.5; // px along the bar
+const WORDS = { 1: "a million", 2: "two million", 5: "five million", 10: "ten million" };
+const unitWords = (u) => `${WORDS[u] ?? (u < 1 ? new Intl.NumberFormat("en-US").format(Math.round(u * 1e6)) : `${u} million`)} copies`;
+
+// Search: every word typed must be in the title or the artist, accents and case aside
+const fold = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const KEYS = ALBUMS.map((a) => fold(`${a.title} ${a.artist}`));
+const NAME_ROOM = Math.ceil(Math.max(0, ...ALBUMS.map((a) => pen.measureText(`${a.title} \u00b7 ${a.artist}`).width)) * 1.04) + 35 + 12;
+const say = (a) => `No. ${a.rank}: ${a.title} by ${a.artist}, ${a.year}, ${millions.format(a.sales)} million copies`;
+
+// The chart's font and colors, read from the page's tokens
+const THEME = {
+  font: "var(--text)", ink: "var(--ink)", muted: "var(--soft)", grid: "var(--rule)", surface: "var(--paper)",
+  series: ["var(--accent)", "var(--quiet)"],
+};
+
+// Slat types: the scale, numbered over and under the rack, and one album: its rank and name, its discs, its sales
+const Mark = slat({
+  room: { before: 26, after: 26 },
+  css: `
+    .line { --rhp-tick-width: 1px; }
+    .num { --rhp-label-gap: 0px; translate: -50% 0; font-size: 11px; color: var(--rhp-muted); }
+    .over { top: -20px; }
+    .first { translate: 0 0; }
+    .under { top: calc(100% + 8px); }
+  `,
+}, (t) => html`
+  <div>
+    <${Tick} class="line" at=${() => t.at} thick=${1} color="grid" />
+    <${Label} class=${() => (t.first ? "num over first" : "num over")} at=${() => t.at}>${() => (t.at === 0 ? "0" : `${t.at}M`)}<//>
+    <${Label} class=${() => (t.first ? "num under first" : "num under")} at=${() => t.at}>${() => (t.at === 0 ? "0" : `${t.at}M`)}<//>
+  </div>`);
+
+// One album, two ways: from 900px its name beside its discs; narrower, its name over them, so the discs keep the width.
+// The rooms are in px (a 200-slat chart lays out faster that way), so each way is its own slat type.
+const ALBUM_CSS = `
+  .album { cursor: default; }
+  .album:focus-visible { outline: 2px solid var(--rhp-ink); outline-offset: -2px; border-radius: 3px; }
+  .no { display: inline-block; width: 2.1em; margin-right: .7em; text-align: right; color: var(--rhp-muted); font-variant-numeric: tabular-nums; }
+  .by { color: var(--rhp-muted); }
+  .discs { --rhp-radius: 0px;
+    mask: radial-gradient(circle closest-side, #0000 19%, #000 27% 82%, #0000 89%) 0 50% / calc(100% / var(--n)) 100% repeat-x; }
+  .value { font-size: 11.5px; color: var(--rhp-muted); }
+  .lit .discs { background: var(--rhp-series-1); }
+  .lit :is(.name, .no, .by, .value) { color: var(--rhp-series-1); }
+`;
+const name = (d) => html`<span class="no">${() => d.rank}</span>${() => d.title}<span class="by">${" · "}${() => d.artist}</span>`;
+const sold = (d) => html`
+  <${Bar} to=${() => d.sales} class="discs" color="series-2" style=${() => ({ "--n": d.discs })} />
+  <${Label} at=${() => d.sales} class="value">${() => `${millions.format(d.sales)}M`}<//>`;
+const AlbumWide = slat({
+  thickness: 20,
+  inset: "4px",
+  room: { start: NAME_ROOM, end: 48 },
+  css: [ALBUM_CSS, `
+    .name { font-size: 12.5px; }
+    .nm { display: block; width: ${NAME_ROOM - 8}px; text-align: left; white-space: nowrap; } /* the room less rhp's 8px gap: names start in one column */
+  `],
+}, (d) => html`
+  <div class=${() => (d.lit ? "album lit" : "album")} data-row=${() => d.index} aria-label=${() => say(d)}>
+    <${Label} edge="start" class="name"><span class="nm">${name(d)}</span><//>
+    ${sold(d)}
+  </div>`);
+const AlbumNarrow = slat({
+  thickness: 36,
+  inset: "13px",
+  room: { start: 2, end: 48 },
+  css: [ALBUM_CSS, `
+    /* The name runs over the discs and on into the room past them (48px), to the chart's edge */
+    .name { position: absolute; left: 0; top: 0; max-width: calc(100% + 48px); overflow: hidden; text-overflow: ellipsis; font-size: 11.5px; line-height: 12px; white-space: nowrap; }
+    .no { width: 2em; margin-right: .3em; text-align: left; }
+    .value { font-size: 11px; }
+  `],
+}, (d) => html`
+  <div class=${() => (d.lit ? "album lit" : "album")} data-row=${() => d.index} aria-label=${() => say(d)}>
+    <span class="name" aria-hidden="true">${name(d)}</span>
+    ${sold(d)}
+  </div>`);
+const narrowScreen = matchMedia("(max-width: 899px)"); // the poster's own breakpoint
+const [narrow, setNarrow] = createSignal(narrowScreen.matches);
+narrowScreen.addEventListener("change", (e) => setNarrow(e.matches));
+
+// Chart component: the app holds what the reader typed and which album they picked
+function AlbumRack() {
+  const [query, setQuery] = createSignal("");
+  const [picked, setPicked] = createSignal(null);
+  const [perMillion, setPerMillion] = createSignal(0); // px along the plot for a million copies
+  let deck, stage, input;
+
+  // The albums that match, in rank order, and each row's place on screen (null hides it)
+  const matches = createMemo(() => {
+    const words = fold(query()).split(/\s+/).filter(Boolean);
+    return ALBUMS.flatMap((_, i) => (words.every((w) => KEYS[i].includes(w)) ? [i] : []));
+  });
+  const places = createMemo(() => {
+    const p = ALBUMS.map(() => null);
+    matches().forEach((i, k) => (p[i] = k));
+    return p;
+  });
+  // The album on the record: the one picked, or else the first one shown (No. 1 at rest)
+  const lit = createMemo(() => {
+    const p = picked();
+    return p != null && places()[p] != null ? p : matches()[0] ?? null;
+  });
+  const shown = () => (lit() == null ? null : ALBUMS[lit()]);
+  const unit = createMemo(() => UNITS.find((u) => u * perMillion() >= MIN_DISC) ?? UNITS[UNITS.length - 1]);
+  const count = () => {
+    const n = matches().length;
+    return !query().trim() ? `${N} albums` : n === 0 ? `None of ${N} match` : `${n} of ${N} match`;
+  };
+
+  // The row of the slat an element is in, or null (between slats, on the deck or the text)
+  const rowOf = (el) => {
+    const root = el.closest("[data-row]");
+    return root ? +root.dataset.row : null;
+  };
+  // A mouse or a pen picks as it moves, a tap or a click picks, the keyboard picks; on no slat the pick stays
+  const pick = (e) => {
+    const row = rowOf(e.target);
+    if (row != null) setPicked(row);
+  };
+  // Leaving the poster: back to the slat that has focus (a keyboard's or a click's pick), or none
+  const leave = (e) => {
+    if (e.pointerType === "touch") return; // a finger sends pointerleave as it lifts after a tap
+    setPicked(e.currentTarget.contains(document.activeElement) ? rowOf(document.activeElement) : null);
+  };
+  // Typing narrows the rack; when the reader is down in it, the results come up under the deck
+  const search = (text) => {
+    setQuery(text);
+    setPicked(null);
+    const gap = stage.getBoundingClientRect().top - deck.getBoundingClientRect().bottom;
+    if (gap < 0) window.scrollBy(0, gap);
+  };
+  // Enter or the down arrow goes to the first album found; Escape empties the field
+  const keys = (e) => {
+    if ((e.key === "Enter" || e.key === "ArrowDown") && matches().length) {
+      e.preventDefault();
+      stage.querySelector(`[data-row="${matches()[0]}"]`)?.focus();
+    } else if (e.key === "Escape" && input.value) {
+      e.preventDefault();
+      input.value = "";
+      search("");
+    }
+  };
+
+  // The plot's width sets the disc's unit (measured between the scale's first and last lines, once rhp has placed
+  // them); the deck's height keeps an album the keyboard reaches clear of the deck
+  const measure = () => {
+    const xs = [...stage.querySelectorAll(".rhp-scale .line")].map((el) => {
+      const r = el.getBoundingClientRect();
+      return r.left + r.width / 2;
+    });
+    if (xs.length > 1) setPerMillion((Math.max(...xs) - Math.min(...xs)) / (SCALE.ticks[SCALE.ticks.length - 1] - SCALE.ticks[0]));
+    document.documentElement.style.scrollPaddingTop = `${deck.offsetHeight + 8}px`;
+  };
+  let watch, frame;
+  onMount(() => {
+    watch = new ResizeObserver(() => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => (frame = requestAnimationFrame(measure)));
+    });
+    watch.observe(stage);
+    watch.observe(deck);
+  });
+  onCleanup(() => {
+    watch?.disconnect();
+    cancelAnimationFrame(frame);
+  });
+
+  // The rack of albums, drawn by either slat type
+  const rack = (type) => html`
+    <${Plot} rows=${ALBUMS} order=${places} keyboard=${true}
+      lit=${(d) => lit() === d.index} discs=${(d) => Math.max(1, Math.round(d.sales / unit()))}>${type}<//>`;
+
+  const headline = N === 0 ? "No albums to show yet"
+    : N === 1 ? html`<em>${TOP.title}</em> has sold ${millions.format(TOP.sales)} million copies`
+    : millions.format(LEAD) !== "0"
+    ? html`<em>${TOP.title}</em> leads the <span class="nobr">all-time</span> list by ${millions.format(LEAD)} million copies`
+    : html`<em>${TOP.title}</em> shares the top of the all-time list`;
+
+  return html`
+    <${Poster}
+      kicker="All-time album sales"
+      title=${headline}
+      dek=${() => `The ${N} best-selling albums of all time, by copies sold worldwide; each disc is ${unitWords(unit())}. Find an album, or point at, tap or Tab to one.`}
+      note=${NOTE}
+      onPointerMove=${(e) => e.pointerType !== "touch" && pick(e)} onClick=${pick} onFocusIn=${pick}
+      onPointerLeave=${leave} onFocusOut=${(e) => !e.currentTarget.contains(e.relatedTarget) && setPicked(null)}>
+      <div class="deck" ref=${(el) => (deck = el)}>
+        <div class="find">
+          <div class="find-head">
+            <label for="find">Find an album</label>
+            <span class="count" id="find-count" aria-live="polite">${count}</span>
+          </div>
+          <div class="field">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.6" /><path d="M11 11l3.6 3.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+            <input id="find" type="search" placeholder="Title or artist" autocomplete="off" spellcheck="false" aria-describedby="find-count"
+              ref=${(el) => (input = el)} onInput=${(e) => search(e.currentTarget.value)} onKeyDown=${keys}>
+          </div>
+        </div>
+        <div class=${() => (shown() ? "now" : "now empty")} aria-hidden="true">
+          <div class="record"></div>
+          <span class="meta">${() => (shown() ? `No. ${shown().rank}` : "No match")}</span>
+          <span class="title">${() => (shown() ? shown().title : N ? `“${query().trim()}”` : "")}</span>
+          <span class="by">${() => (shown() ? `${shown().artist}, ${shown().year}` : (N ? `Not in any title or artist of the ${N}` : "The list is empty"))}</span>
+          <span class="sold">${() => (shown() ? html`<b>${millions.format(shown().sales)}</b><span>million copies</span>` : "")}</span>
+        </div>
+      </div>
+      <div class="stage" ref=${(el) => (stage = el)}>
+        <${Chart} scale=${[SCALE.min, SCALE.max]} theme=${THEME}
+          label=${`The ${N} best-selling albums of all time, copies sold in millions (illustrative)`}>
+          <${Scale} ticks=${SCALE.ticks}>${Mark}<//>
+          <${Show} when=${narrow} fallback=${() => rack(AlbumWide)}>${() => rack(AlbumNarrow)}<//>
+        <//>
+      </div>
+    <//>`;
+}
+
+render(() => html`<${AlbumRack} />`, document.getElementById("chart"));
+</script>
+</body>
+</html>
