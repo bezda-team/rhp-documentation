@@ -233,11 +233,11 @@ const THEME = {
 };
 
 // Slat types: a week is a column of seven days, Monday on top, with the month that opens in it above and the
-// streak's label below. A day is one square of the LCD, in its ink; the day picked is ringed in ink, the streak in red.
+// streak's label below. A day is one square of the LCD, in its ink; the day picked is ringed in ink, and each day of the streak has a red dot, ringed in the paper so it shows on the darkest inks.
 const WEEK = {
   css: `
     .px { --rhp-radius: 1px; --rhp-cell-gap: 1.5px; }
-    .run .px { box-shadow: 0 0 0 1.5px var(--rhp-series-6); }
+    .run .px::after { content: ""; position: absolute; top: 50%; left: 50%; width: 32%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; background: var(--rhp-series-6); box-shadow: 0 0 0 1.5px var(--rhp-surface); }
     .on { z-index: 1; }
     .on .px { box-shadow: 0 0 0 2px var(--rhp-ink), inset 0 0 0 1.5px var(--rhp-surface); }
     .none .px { background: transparent; box-shadow: inset 0 0 0 1px var(--rhp-series-3); }
@@ -317,7 +317,10 @@ function StepYear() {
     const square = el.closest?.("[data-day]");
     return square ? +square.dataset.day : null;
   };
+  // Pointing: a day shows it and a gap between days keeps the last one; off the calendar, the counter goes back as when
+  // the pointer leaves the poster
   const point = (e) => {
+    if (!e.target.closest?.(".cal")) return leave(e);
     const i = dayOf(e.target);
     if (i != null) setHover(i);
   };
