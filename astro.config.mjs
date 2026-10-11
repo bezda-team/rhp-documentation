@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import { redirects } from './src/redirects.js';
 import starlight from '@astrojs/starlight';
 import solid from "@astrojs/solid-js";
 
@@ -7,18 +8,7 @@ import tailwind from "@astrojs/tailwind";
 // https://astro.build/config
 export default defineConfig({
   // The v1 docs' pages, sent to where their topics are now (old links, and the repo's website link).
-  redirects: {
-    '/getting-started/introduction': '/start/introduction/',
-    '/getting-started/installation': '/start/install/',
-    '/getting-started/quick-start': '/start/first-chart/',
-    '/guides/components': '/guides/blocks/',
-    '/guides/templates': '/reference/slat/',
-    '/guides/state-management': '/guides/data/',
-    '/tutorials/bar-chart': '/start/first-chart/',
-    '/examples/bar-plots': '/gallery/bar-chart/',
-    '/examples/box-and-whisker-plots': '/gallery/box-plot/',
-    '/reference/example': '/reference/chart/',
-  },
+  redirects,
   integrations: [starlight({
     title: 'rhp',
     // rhp's logo, with no square behind it, stands for the title (npm run icons builds it and every icon from
