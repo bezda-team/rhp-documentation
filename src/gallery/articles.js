@@ -9,6 +9,7 @@ import path from "node:path";
 export const ARTICLES = [
   {
     slug: "every-word", source: "examples/vocabulary/dist/vocabulary.html", url: "/gallery/articles/every-word/",
+    stats: { source: "examples/vocabulary/server/article-stats.js", endpoint: "/api/article-stats" },
     thumbnail: { chart: ".ranking .rhp-chart", slat: ".ranking .rhp-chart [data-name]", rows: 12, hide: ".ranking .controls" },
   },
 ];

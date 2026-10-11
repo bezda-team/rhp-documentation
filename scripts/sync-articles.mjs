@@ -41,12 +41,19 @@ const pages = ARTICLES.map((article) => {
     throw new Error(`${source} is not a whole page with a viewport, a <title> and a <meta name="description">.`);
   }
   if (html.includes('<meta name="back-link"')) throw new Error(`${source} already has a back link: it is the site's copy, not the article's build.`);
-  return { article, html: html.replace(viewport[0], viewport[0] + head + "\n") };
+  const stats = article.stats ? fs.readFileSync(path.join(rhp, article.stats.source), "utf8") : null;
+  const statsMeta = stats ? `<meta name="article-stats" content="${article.stats.endpoint}">\n` : "";
+  return { article, stats, html: html.replace(viewport[0], viewport[0] + head + "\n" + statsMeta) };
 });
 
-for (const { article, html } of pages) {
+for (const { article, html, stats } of pages) {
   const out = path.join(root, "public", article.url, "index.html");
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, html);
+  if (stats) {
+    const api = path.join(root, article.stats.endpoint + ".js");
+    fs.mkdirSync(path.dirname(api), { recursive: true });
+    fs.writeFileSync(api, stats);
+  }
   console.log(`${article.url} ← ${article.source} (${Math.round(html.length / 1024)} kB)`);
 }
