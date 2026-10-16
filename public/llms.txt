@@ -20,6 +20,7 @@ The guides and the reference under Optional are written for Solid apps in JSX; t
 - [forms.md](https://rhp.vercel.app/ai/rhp/references/forms.md): the subject's own form, which chart for which data and story, and which recipe has the technique.
 - [interaction.md](https://rhp.vercel.app/ai/rhp/references/interaction.md): which interaction for which story, with complete code for each.
 - [looks.md](https://rhp.vercel.app/ai/rhp/references/looks.md): eight looks written out in full (tokens, fonts, texture, type), as examples of how a look is written, not a menu.
+- [performance.md](https://rhp.vercel.app/ai/rhp/references/performance.md): measured optimizations for an expensive chart, preserving its slats, styling, state, and interactions.
 - [pitfalls.md](https://rhp.vercel.app/ai/rhp/references/pitfalls.md): mistakes and their fixes.
 
 ## Recipes
@@ -65,7 +66,7 @@ The guides and the reference under Optional are written for Solid apps in JSX; t
 - [Install](https://rhp.vercel.app/start/install/): Add rhp to a project, or use it in a plain HTML page with no build step.
 - [Your first chart](https://rhp.vercel.app/start/first-chart/): Build a bar chart step by step, from plain bars to a styled chart that sorts itself.
 - [Build with AI](https://rhp.vercel.app/ai/): Make rhp charts with an AI agent using the rhp skill, MCP tools, or a prompt for a chat app.
-- [Gallery](https://rhp.vercel.app/gallery/): Twenty-three interactive gallery plots and thirty complete AI recipes, built with rhp 2. Open one to explore the chart and its code.
+- [Gallery](https://rhp.vercel.app/gallery/): Twenty-three interactive gallery plots and forty-four complete AI recipes, built with rhp 2. Open one to explore the chart and its code.
 
 ## Optional
 
