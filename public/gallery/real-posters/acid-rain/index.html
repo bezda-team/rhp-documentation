@@ -207,19 +207,18 @@ export function installDotLabels(poster, rows, format) {
       const leftSide = index >= rows.length - 3;
       const points = series.map(item => item.path.points[index]);
       const dots = points.map(point => ({left: point.x - 13, right: point.x + 13, top: point.y - 13, bottom: point.y + 13}));
-      const options = crossing => series.map((item, n) => {
+      const options = series.map((item, n) => {
         const point = points[n], width = item.context.measureText(format(rows[index][item.key === 'power' ? 'generationIndex' : 'so2Index'])).width;
-        const left = crossing || leftSide ? point.x - width - 20 : point.x + 20;
-        const right = crossing || !leftSide ? point.x + width + 20 : point.x - 20;
+        const left = leftSide ? point.x - width - 20 : point.x + 20;
+        const right = leftSide ? point.x - 20 : point.x + width + 20;
         const own = lineBand(item.path, left, right);
         const bands = [...series.map(other => lineBand(other.path, left, right)).filter(Boolean),
           ...[...fixed, ...dots].filter(other => other.left < right + 5 && other.right + 5 > left)];
         return labelCandidates({left, right, height: item.height, anchor: point.y, own, bands, top: bounds.top, bottom: bounds.bottom, series: item.key});
       });
-      const normal = chooseLabelPositions(options(false)), crossing = chooseLabelPositions(options(true));
-      if (!normal || !crossing) throw new Error(`No clear percentage-label placement for ${rows[index].year}`);
-      placements.set(rows[index].year, {side: leftSide, normal: normal.map((box, n) => box.bottom - points[n].y - series[n].baseline),
-        crossing: crossing.map((box, n) => box.bottom - points[n].y - series[n].baseline)});
+      const positions = chooseLabelPositions(options);
+      if (!positions) throw new Error(`No clear percentage-label placement for ${rows[index].year}`);
+      placements.set(rows[index].year, {side: leftSide, offsets: positions.map((box, n) => box.bottom - points[n].y - series[n].baseline)});
     }
     apply(false);
   }
@@ -228,9 +227,11 @@ export function installDotLabels(poster, rows, format) {
     const placement = placements.get(Number(poster.dataset.selectedYear));
     if (!placement) {lastSide = true;return;}
     const moving = animate && lastSide !== null && lastSide !== placement.side && !matchMedia('(prefers-reduced-motion:reduce)').matches;
-    const write = offsets => labels.forEach((label, i) => label.style.setProperty('--label-y', `${offsets[i]}px`));
-    write(moving ? placement.crossing : placement.normal);
-    if (moving) timer = setTimeout(() => write(placement.normal), 200);
+    labels.forEach((label, i) => label.style.setProperty('--label-y', `${placement.offsets[i]}px`));
+    // Change sides without a temporary vertical position or a path over other marks.
+    const switching = moving || labels.some(label => label.classList.contains('switching'));
+    labels.forEach(label => label.classList.toggle('switching', switching));
+    if (switching) timer = setTimeout(() => labels.forEach(label => label.classList.remove('switching')), 200);
     lastSide = placement.side;
   }
   function schedule() {
@@ -282,7 +283,8 @@ const Hair = slat({room:{},css:`.hair {background:var(--rhp-muted);opacity:.5;--
 const Mark = slat({room:{},css:`
  .dot {border:3px solid var(--rhp-surface);transition:none;}
  .value {--rhp-label-gap:0px;translate:0 var(--label-y,-5px);font-size:20px;font-weight:600;line-height:1.1;white-space:nowrap;transition:none;}
- .value-text {display:inline-block;transform:translateX(20px);transition:transform 180ms ease;}
+ .value-text {display:inline-block;transform:translateX(20px);opacity:1;transition:transform 180ms ease,opacity 80ms ease;}
+ .switching .value-text {opacity:0;transition:transform 180ms ease;}
  .final .value {visibility:hidden;}
  .power .value {color:var(--rhp-series-2);} .sulfur .value {color:var(--rhp-series-1);}
  .near-end .value-text {transform:translateX(calc(-100% - 20px));}
