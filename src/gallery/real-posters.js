@@ -24,8 +24,8 @@ export const REAL_POSTERS = [
     title: "The acid-rain cleanup",
     description: "EPA-covered U.S. power plants cut sulfur dioxide 94% while generating almost as much electricity.",
     source: "examples/real/acid-rain",
-    page: "acid-rain-glass.html",
-    image: "acid-rain-glass.png",
+    page: "acid-rain-glass-animated.html",
+    image: "acid-rain-glass-animated.png",
     files: ["data.json", "source-snapshot.json", "artwork-credits.json", "image-prompt.txt", "post.txt", "research.txt", "fetch-data.mjs", "assets/BARLOW-CONDENSED-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
   },
   {
