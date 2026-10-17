@@ -20,6 +20,15 @@ export const REAL_POSTERS = [
     files: ["data.json", "reviews-by-year.csv", "fetch-data.mjs", "assets/SPACE-GROTESK-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
   },
   {
+    slug: "acid-rain",
+    title: "The acid-rain cleanup",
+    description: "EPA-covered U.S. power plants cut sulfur dioxide 94% while generating almost as much electricity.",
+    source: "examples/dataisbeautiful/acid-rain",
+    page: "acid-rain-glass.html",
+    image: "acid-rain-glass.png",
+    files: ["data.json", "source-snapshot.json", "artwork-credits.json", "image-prompt.txt", "post.txt", "research.txt", "fetch-data.mjs", "assets/BARLOW-CONDENSED-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
+  },
+  {
     slug: "destiny-players",
     title: "Destiny 2",
     description: "Steam player peaks around the farewell, final update, and revival news.",
