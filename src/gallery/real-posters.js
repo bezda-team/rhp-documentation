@@ -2,6 +2,15 @@
 // npm run sync-real-posters copies each page, its data links, and its full-poster thumbnail from the rhp repository.
 export const REAL_POSTERS = [
   {
+    slug: "movie-bombs",
+    title: "2026 movie loss forecasts",
+    description: "The biggest comparable trade forecasts, with directors and stars.",
+    source: "examples/dataisbeautiful/movie-bombs",
+    page: "movie-bombs.html",
+    image: "movie-bombs.png",
+    files: ["data.json", "forecasts.json", "selection-audit.json", "source-snapshot.json", "artwork-credits.json", "post.txt", "research.txt", "assets/ANTON-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
+  },
+  {
     slug: "no-mans-sky",
     title: "No Man's Sky",
     description: "The launch year still accounts for 48% of its negative Steam reviews.",

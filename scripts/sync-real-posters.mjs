@@ -8,6 +8,7 @@ import { withRecipeNavigation } from "./recipe-navigation.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const rhp = path.resolve(root, process.env.RHP_DIR ?? "../rhp");
+const download = fs.readFileSync(path.join(rhp, "skills/rhp/references/download.md"), "utf8");
 
 // Read and validate the complete set before changing served files.
 const pages = realPosters().map((poster) => {
@@ -23,7 +24,7 @@ const pages = realPosters().map((poster) => {
     name: name.endsWith(".mjs") ? `${name}.txt` : name,
     body: fs.readFileSync(path.join(source, name)),
   }));
-  let served = withRecipeNavigation(html, { href: "/gallery/#real-posters", label: "Gallery navigation" });
+  let served = withRecipeNavigation(html, { href: "/gallery/#real-posters", label: "Gallery navigation", download });
   for (const file of files.filter((file) => file.source !== file.name)) {
     served = served.replaceAll(`href="${file.source}"`, `href="${file.name}" download="${path.basename(file.source)}"`);
   }
