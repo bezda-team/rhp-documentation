@@ -5,7 +5,7 @@ import { promisify } from "node:util";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { handle } from "./poster-views.js";
+import endpoint, { handle } from "./poster-views.js";
 
 const exec = promisify(execFile);
 const env = { UPSTASH_REDIS_REST_URL: "https://redis.test", UPSTASH_REDIS_REST_TOKEN: "test-only-token" };
@@ -99,4 +99,10 @@ test("storage failures and malformed results never display a false zero", async 
   const response = await handle(post(), env, async () => Response.json({ result: 1234 }));
   assert.equal(response.headers.get("Cache-Control"), "no-store");
   assert.deepEqual(await response.json(), { views: 1234 });
+});
+
+test("the endpoint exposes the Web handler required by Vercel", async () => {
+  assert.equal(typeof endpoint.fetch, "function");
+  const response = await endpoint.fetch(new Request("https://gallery.test/api/poster-views?poster=histogram"));
+  assert.equal(response.status, 400);
 });

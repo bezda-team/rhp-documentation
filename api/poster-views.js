@@ -66,3 +66,5 @@ export async function handle(request, env = process.env, fetchRedis = fetch) {
     return respond({ error: "Counts unavailable" }, 503);
   }
 }
+
+export default { fetch: (request) => handle(request) };
