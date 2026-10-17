@@ -29,7 +29,7 @@ npm run check-styles   # with npm run dev running: edit every gallery example's 
 - `public/ai/rhp/`, `public/llms.txt` and `public/llms-full.txt`: written by `npm run sync-skill` from rhp's `skills/rhp/`; edit the skill there, not here.
   The served recipes also get a gallery link from `scripts/recipe-navigation.mjs` during sync.
 - `public/gallery/real-posters/` and `src/assets/real-posters/`: written by `npm run sync-real-posters` from the finished posters in the rhp repo (listed in `src/gallery/real-posters.js`).
-  They appear in the gallery’s two-column Real posters section before Articles.
+  They appear in the gallery’s Posters section before Articles, using two columns on wide screens and one on phones.
 - `public/gallery/articles/`: written by `npm run sync-articles` from the articles' builds in the rhp repo (listed in `src/gallery/articles.js`), each with a link back to the gallery in place of its kicker and the site's theme; edit the article there, not here.
 
 ## Article statistics on Vercel

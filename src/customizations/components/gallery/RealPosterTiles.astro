@@ -11,11 +11,11 @@ const tiles = await Promise.all(realPosters().map(async (poster, index) => {
 	const variants = await Promise.all(widths.map((width) => getImage({ src: image, width, format: "webp" })));
 	return { ...poster, index, image, src: variants.at(-1)!.src, srcset: variants.map((variant, i) => `${variant.src} ${widths[i]}w`).join(", ") };
 }));
-const sizes = "(min-width: 1180px) 527px, 44vw";
+const sizes = "(min-width: 1180px) 527px, (min-width: 720px) 44vw, 92vw";
 ---
 
 <section class="real-poster-gallery not-content" aria-labelledby="real-posters">
-	<h2 id="real-posters">Real posters</h2>
+	<h2 id="real-posters">Posters</h2>
 	<p class="real-poster-lede">Finished posters built with rhp from real, sourced data. Open one to explore the chart or download the full poster.</p>
 	<ul class="real-poster-tiles">
 		{tiles.map((poster) => (
@@ -40,7 +40,10 @@ const sizes = "(min-width: 1180px) 527px, 44vw";
 	.real-poster-gallery.not-content { margin-top: 5rem; }
 	h2 { margin: 0; scroll-margin-top: calc(var(--sl-nav-height) + 1.5rem); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; font-weight: 600; letter-spacing: -.03em; color: var(--sl-color-white); }
 	.real-poster-lede { max-width: 60ch; margin: 1rem 0 2rem; font-size: var(--sl-text-lg); line-height: 1.55; color: var(--sl-color-text); }
-	.real-poster-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 26px; align-items: start; margin: 0; padding: 0; list-style: none; }
+	.real-poster-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 30px 26px; align-items: start; margin: 0; padding: 0; list-style: none; }
+	@media (min-width: 60rem) {
+		.real-poster-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	}
 	@media (max-width: 40rem) {
 		.real-poster-tiles { gap: 24px 14px; }
 		.gallery-meta { grid-template-columns: minmax(0, 1fr); padding-inline: 0; gap: 3px; }
