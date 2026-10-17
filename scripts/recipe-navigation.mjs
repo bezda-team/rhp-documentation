@@ -33,7 +33,8 @@ export function withRecipeNavigation(html, { href = "/gallery/#ai-recipes", labe
   const declared = page.match(/body\s*\{[^}]*?background:\s*([^;]+)/)?.[1];
   const token = declared?.match(/^var\((--[\w-]+)\)$/)?.[1];
   const background = (token ? page.match(new RegExp(`${token}:\\s*([^;]+)`))?.[1] : declared)?.match(/#([a-f\d]{6}|[a-f\d]{3})\b/i)?.[1];
-  if (!(width || changes.length) || !background || !page.includes('<div id="chart">')) {
+  const mount = page.match(/<(?:div|main)\s+id="chart">/)?.[0];
+  if (!(width || changes.length) || !background || !mount) {
     throw new Error("Recipe navigation needs the poster's width, page background and #chart mount.");
   }
   const hex = background.length === 3 ? [...background].map((digit) => digit + digit).join("") : background;
@@ -55,7 +56,7 @@ export function withRecipeNavigation(html, { href = "/gallery/#ai-recipes", labe
 </style>`;
   const navigation = `<nav class="recipe-navigation" aria-label="${label}"><a href="${href}">← Gallery</a></nav>`;
   return page.replace("</head>", style + "\n</head>")
-    .replace('<div id="chart">', navigation + '\n<div id="chart">')
+    .replace(mount, navigation + "\n" + mount)
     .replace(/\s*<\/body>/, '\n' + downloadBlock + '\n</body>');
 }
 

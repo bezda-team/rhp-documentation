@@ -8,6 +8,7 @@ import { createServer } from "node:http";
 import { randomUUID } from "node:crypto";
 import { packageSite } from "./vercel-output.mjs";
 import { redirects } from "../src/redirects.js";
+import { realPosters } from "../src/gallery/real-posters.js";
 
 const out = await fs.mkdtemp(path.join(tmpdir(), "rhp-vercel-"));
 const listen = async (server) => {
@@ -27,10 +28,16 @@ try {
     assert.equal(route.status, 301);
     assert.equal(route.headers.Location, destination);
   }
-  for (const url of ["/", "/gallery/", "/start/install/", "/reference/chart/", "/gallery/articles/every-word/"]) {
+  for (const url of ["/", "/gallery/", "/start/install/", "/reference/chart/", "/gallery/articles/every-word/", ...realPosters().map((poster) => poster.url)]) {
     const route = config.routes.find((r) => r.dest && r.src && new RegExp(r.src).test(url));
     assert(route, `No route for ${url}`);
     await fs.access(path.join(out, "static", route.dest));
+  }
+  for (const poster of realPosters()) {
+    for (const name of poster.files) {
+      const served = name.endsWith(".mjs") ? `${name}.txt` : name;
+      await fs.access(path.join(out, "static", poster.url, served));
+    }
   }
   const func = path.join(out, "functions/api/article-stats.func");
   const options = JSON.parse(await fs.readFile(path.join(func, ".vc-config.json"), "utf8"));

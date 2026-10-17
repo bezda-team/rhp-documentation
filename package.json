@@ -14,6 +14,7 @@
     "reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm install",
     "sync-rhp": "node scripts/sync-rhp.mjs",
     "sync-skill": "node scripts/sync-skill.mjs",
+    "sync-real-posters": "node scripts/sync-real-posters.mjs",
     "sync-articles": "node scripts/sync-articles.mjs",
     "thumbnails": "node scripts/thumbnails.mjs",
     "recipe-thumbnails": "node scripts/recipe-thumbnails.mjs",
