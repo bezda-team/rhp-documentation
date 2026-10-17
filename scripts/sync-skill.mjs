@@ -100,7 +100,7 @@ ${references.filter((f) => !FULL.includes(f)).map(reference).join("\n")}`;
 const full = [header, part("SKILL.md"), ...FULL.map((f) => part(`references/${f}`))].join("\n\n---\n\n") + "\n";
 
 // Everything is read and checked: now write, the skill's folder afresh so a file the skill dropped goes too
-const servedRecipes = new Map(recipes.map((file) => [`recipes/${file}`, withRecipeNavigation(read(`recipes/${file}`))]));
+const servedRecipes = new Map(recipes.map((file) => [`recipes/${file}`, withRecipeNavigation(read(`recipes/${file}`), { download: read("references/download.md") })]));
 const out = path.join(root, "public/ai/rhp");
 fs.rmSync(out, { recursive: true, force: true });
 for (const f of files) {

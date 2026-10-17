@@ -48,6 +48,7 @@ The recipes:
 The skill's other references, which SKILL.md links to:
 
 - [design.md](https://rhp.vercel.app/ai/rhp/references/design.md): art direction from the subject (idea, marks, composition, palette, type), the poster, color, type, layout, annotation, charts inside an app, a style the user asks for.
+- [download.md](https://rhp.vercel.app/ai/rhp/references/download.md): the download icon for standalone HTML posters, with a complete PNG export block.
 - [environments.md](https://rhp.vercel.app/ai/rhp/references/environments.md): plain HTML, Solid, Astro, React, Next.js, Vue, Svelte and Angular, each verified, and the html template to JSX rules.
 - [forms.md](https://rhp.vercel.app/ai/rhp/references/forms.md): the subject's own form, which chart for which data and story, and which recipe has the technique.
 - [interaction.md](https://rhp.vercel.app/ai/rhp/references/interaction.md): which interaction for which story, with complete code for each.
@@ -243,6 +244,10 @@ When the user asks for a "static" chart, an image-like chart or no interaction, 
 A chart with fixed data and no interaction gets `static=${true}` on its Chart: rhp draws it once and keeps no signals.
 
 ### 6. Build it, with the recipe's technique
+
+For every standalone HTML poster page, keep the recipe's PNG download control, or copy the complete block from [download.md](https://rhp.vercel.app/ai/rhp/references/download.md) before `</body>`.
+It is an icon above the poster on the right, outside the saved image; on gallery recipe pages it shares the row and color of the gallery link.
+It saves the full poster, including the headline and note, even when the page scrolls.
 
 - Keep the recipe's code format and section order: data, then slat types, then the chart component, then mounting.
   With `ManyDots`, omit slat types and put the collection directly inside the Chart.
@@ -493,6 +498,7 @@ Read the ones the chart needs; each is self-contained.
 - [design.md](https://rhp.vercel.app/ai/rhp/references/design.md): art direction from the subject (idea, marks, composition, palette, type), the poster, color, type, layout, annotation, charts inside an app, a style the user asks for.
 - [looks.md](https://rhp.vercel.app/ai/rhp/references/looks.md): eight looks written out in full (tokens, fonts, texture, type), as examples of how a look is written, not a menu.
 - [interaction.md](https://rhp.vercel.app/ai/rhp/references/interaction.md): which interaction for which story, with complete code for each.
+- [download.md](https://rhp.vercel.app/ai/rhp/references/download.md): the download icon for standalone HTML posters, with a complete PNG export block.
 - [performance.md](https://rhp.vercel.app/ai/rhp/references/performance.md): measured optimizations for an expensive chart, preserving its slats, styling, state, and interactions.
 - [environments.md](https://rhp.vercel.app/ai/rhp/references/environments.md): plain HTML, Solid, Astro, React, Next.js, Vue, Svelte and Angular, each verified, and the html template to JSX rules.
 - [api.md](https://rhp.vercel.app/ai/rhp/references/api.md): every component, prop, helper and CSS variable, exactly.

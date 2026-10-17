@@ -8,8 +8,10 @@ import { fileURLToPath } from "node:url";
 // a new address that every browser fetches, where "@2" may be kept in a browser's cache for up to a week
 const RHP = JSON.parse(fs.readFileSync(fileURLToPath(new URL("../vendor/rhp/package.json", import.meta.url)), "utf8")).version;
 
-export function withRecipeNavigation(html, { href = "/gallery/#ai-recipes", label = "Recipe navigation" } = {}) {
-  const page = html.replace(/cdn\.jsdelivr\.net\/npm\/@bezda\/rhp@[^/"]+\//g, `cdn.jsdelivr.net/npm/@bezda/rhp@${RHP}/`)
+export function withRecipeNavigation(html, { href = "/gallery/#ai-recipes", label = "Recipe navigation", download = null } = {}) {
+  const page = html.replace(/\n?<style id="poster-download-styles">[\s\S]*?<\/style>\n?/g, "\n")
+    .replace(/\n?<script type="module" id="poster-download-script">[\s\S]*?<\/script>\n?/g, "\n")
+    .replace(/cdn\.jsdelivr\.net\/npm\/@bezda\/rhp@[^/"]+\//g, `cdn.jsdelivr.net/npm/@bezda/rhp@${RHP}/`)
     .replace(/\n?<style id="recipe-navigation-styles">[\s\S]*?<\/style>\n?/g, "\n")
     .replace(/\n?<nav class="recipe-navigation"[\s\S]*?<\/nav>\n?/g, "\n");
   // The poster's width at every window size, so the link stays over its left edge: the max-width of the page's .poster
@@ -41,17 +43,20 @@ export function withRecipeNavigation(html, { href = "/gallery/#ai-recipes", labe
   });
   const luminance = rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
   const ink = luminance < 0.179 ? "#eef2f5" : "#1d1b17";
+  // Older poster pages get the same export block as the skill recipes.
+  const downloadBlock = (download ?? fs.readFileSync(new URL("../public/ai/rhp/references/download.md", import.meta.url), "utf8")).match(/```html\n([\s\S]*?)\n```/)[1];
   const style = `<style id="recipe-navigation-styles">
-  .recipe-navigation { ${width ? `max-width: ${width}; ` : ""}margin: 0 auto 18px; text-align: left; }${changes.map((w) => `
+  .recipe-navigation { ${width ? `max-width: ${width}; ` : ""}display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 auto 18px; text-align: left; color: ${ink}; }${changes.map((w) => `
   @media ${w.media.replace(/^@media\s*/, "").replace(/ and @media\s*/g, " and ")} { .recipe-navigation { max-width: ${w.max}; } }`).join("")}
   .recipe-navigation a { display: inline-block; padding: 4px 0; font: 600 12.5px/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-    letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: ${ink}; }
+    letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: inherit; }
   .recipe-navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .recipe-navigation a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
 </style>`;
   const navigation = `<nav class="recipe-navigation" aria-label="${label}"><a href="${href}">← Gallery</a></nav>`;
   return page.replace("</head>", style + "\n</head>")
-    .replace('<div id="chart">', navigation + '\n<div id="chart">');
+    .replace('<div id="chart">', navigation + '\n<div id="chart">')
+    .replace(/\s*<\/body>/, '\n' + downloadBlock + '\n</body>');
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
