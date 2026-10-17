@@ -1,4 +1,4 @@
-// Package Astro's static pages and the article APIs together using Vercel's Build Output API.
+// Package Astro's static pages and the statistics APIs together using Vercel's Build Output API.
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -28,11 +28,18 @@ export async function packageSite(out) {
   routes.push({ handle: "filesystem" }, { src: "/.*", dest: "/404.html", status: 404 });
   await fs.writeFile(path.join(out, "config.json"), JSON.stringify({ version: 3, routes }, null, 2) + "\n");
 
-  for (const article of ARTICLES.filter((a) => a.stats)) {
-    const func = path.join(out, "functions", article.stats.endpoint + ".func");
-    await fs.mkdir(func, { recursive: true });
-    await fs.copyFile(path.join(root, article.stats.endpoint + ".js"), path.join(func, "stats.mjs"));
-    await fs.copyFile(path.join(root, "scripts/article-stats-handler.mjs"), path.join(func, "index.mjs"));
+  const endpoints = [...ARTICLES.filter((article) => article.stats).map((article) => article.stats.endpoint), "/api/poster-views"];
+  for (const endpoint of endpoints) {
+    const func = path.join(out, "functions", endpoint + ".func");
+    await fs.mkdir(path.join(func, "api"), { recursive: true });
+    await fs.copyFile(path.join(root, endpoint + ".js"), path.join(func, endpoint + ".js"));
+    if (endpoint === "/api/poster-views") {
+      await fs.mkdir(path.join(func, "src/gallery"), { recursive: true });
+      await fs.copyFile(path.join(root, "src/gallery/real-posters.js"), path.join(func, "src/gallery/real-posters.js"));
+    }
+    await fs.copyFile(path.join(root, "scripts/stats-handler.mjs"), path.join(func, "node-handler.mjs"));
+    await fs.writeFile(path.join(func, "package.json"), '{"type":"module"}\n');
+    await fs.writeFile(path.join(func, "index.mjs"), `import { handle } from ".${endpoint}.js";\nimport { nodeHandler } from "./node-handler.mjs";\nexport default nodeHandler(handle);\n`);
     await fs.writeFile(path.join(func, ".vc-config.json"), JSON.stringify({
       runtime: "nodejs22.x", handler: "index.mjs", launcherType: "Nodejs", regions: ["iad1"], maxDuration: 10,
     }, null, 2) + "\n");
@@ -43,5 +50,5 @@ if (process.env.VERCEL === "1" && process.argv[1] && import.meta.url === pathToF
   const out = fileURLToPath(new URL("../.vercel/output", import.meta.url));
   await fs.rm(out, { recursive: true, force: true });
   await packageSite(out);
-  console.log("Vercel output: static site and article statistics functions");
+  console.log("Vercel output: static site and statistics functions");
 }

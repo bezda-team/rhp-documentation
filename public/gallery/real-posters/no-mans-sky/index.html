@@ -83,10 +83,18 @@ body { margin: 0; padding: 30px 16px; background: var(--page); color: var(--ink)
     letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: inherit; }
   .recipe-navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .recipe-navigation a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+
+  .recipe-navigation.poster-navigation { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 8px; }
+  .poster-navigation > a { justify-self: start; }
+  .poster-navigation > .poster-actions { justify-self: end; }
+  .poster-views { display: inline-flex; align-items: center; gap: 6px; color: inherit; font: 500 12.5px/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .poster-views svg { width: 20px; height: 20px; flex: none; }
+  .poster-views [data-view-count] { min-width: 3ch; }
+  @media print { .poster-views { display: none; } }
 </style>
 </head>
 <body>
-<nav class="recipe-navigation" aria-label="Gallery navigation"><a href="/gallery/#real-posters">← Gallery</a></nav>
+<nav class="recipe-navigation poster-navigation" aria-label="Gallery navigation"><a href="/gallery/#real-posters">← Gallery</a><span class="poster-views" data-poster-views="no-mans-sky" role="img" aria-label="Loading total views" title="Total views"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span data-view-count aria-hidden="true">...</span></span></nav>
 <main id="chart"></main>
 <p class="below">Reproduce this chart: <a href="data.json">source queries and counts</a> · <a href="reviews-by-year.csv">CSV</a> · <a href="fetch-data.mjs.txt" download="fetch-data.mjs">data script</a>.</p>
 <script type="module">
@@ -452,5 +460,6 @@ else {
   observer.observe(document.getElementById('chart') || document.body, { childList: true, subtree: true });
 }
 </script>
+<script type="module" id="poster-views-script" src="/poster-views.js"></script>
 </body>
 </html>

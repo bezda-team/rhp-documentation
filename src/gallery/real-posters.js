@@ -3,6 +3,7 @@
 export const REAL_POSTERS = [
   {
     slug: "movie-bombs",
+    initialViews: 11,
     title: "2026 movie loss forecasts",
     description: "The biggest comparable trade forecasts, with directors and stars.",
     source: "examples/real/movie-bombs",
@@ -12,6 +13,7 @@ export const REAL_POSTERS = [
   },
   {
     slug: "no-mans-sky",
+    initialViews: 9,
     title: "No Man's Sky",
     description: "The launch year still accounts for 48% of its negative Steam reviews.",
     source: "examples/real/no-mans-sky",
@@ -21,6 +23,7 @@ export const REAL_POSTERS = [
   },
   {
     slug: "acid-rain",
+    initialViews: 61,
     title: "The acid-rain cleanup",
     description: "EPA-covered U.S. power plants cut sulfur dioxide 94% while generating almost as much electricity.",
     source: "examples/real/acid-rain",
@@ -30,6 +33,7 @@ export const REAL_POSTERS = [
   },
   {
     slug: "destiny-players",
+    initialViews: 8,
     title: "Destiny 2",
     description: "Steam player peaks around the farewell, final update, and revival news.",
     source: "examples/real/destiny-players",

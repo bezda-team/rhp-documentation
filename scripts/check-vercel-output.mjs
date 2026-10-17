@@ -19,6 +19,7 @@ const oldUrl = process.env.UPSTASH_REDIS_REST_URL;
 const oldToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 let redis;
 let api;
+let posterApi;
 try {
   await packageSite(out);
   const config = JSON.parse(await fs.readFile(path.join(out, "config.json"), "utf8"));
@@ -50,7 +51,7 @@ try {
     for await (const chunk of request) chunks.push(chunk);
     commands.push(JSON.parse(Buffer.concat(chunks).toString()));
     response.writeHead(200, { "Content-Type": "application/json" });
-    response.end(JSON.stringify({ result: [1, 1, 1] }));
+    response.end(JSON.stringify({ result: commands.at(-1).includes("poster:acid-rain:views") ? 42 : [1, 1, 1] }));
   });
   process.env.UPSTASH_REDIS_REST_URL = await listen(redis);
   process.env.UPSTASH_REDIS_REST_TOKEN = "local-test-only";
@@ -68,9 +69,23 @@ try {
   assert.deepEqual(commands[0].slice(-3), [visitor, "like", "1"]);
   assert.equal((await fetch(base + "/api/article-stats", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{" })).status, 400);
   assert.equal((await fetch(base + "/api/article-stats", { method: "DELETE" })).status, 405);
-  console.log("Passed: static pages, legacy redirects, packaged API, HTTP request body, Redis command, and error responses.");
+  const posterFunc = path.join(out, "functions/api/poster-views.func");
+  const { default: posterHandler } = await import(pathToFileURL(path.join(posterFunc, "index.mjs")).href);
+  posterApi = createServer(posterHandler);
+  const posterBase = await listen(posterApi);
+  const posterResponse = await fetch(posterBase + "/api/poster-views", {
+    method: "POST", headers: { "Content-Type": "application/json", Origin: posterBase, "x-forwarded-proto": "http" },
+    body: JSON.stringify({ poster: "acid-rain" }),
+  });
+  assert.equal(posterResponse.status, 200);
+  assert.deepEqual(await posterResponse.json(), { views: 42 });
+  assert.equal(commands.at(-1)[0], "EVAL");
+  assert(commands.at(-1).includes("poster:acid-rain:views"));
+  assert.equal((await fetch(posterBase + "/api/poster-views?poster=histogram")).status, 400);
+  await fs.access(path.join(out, "static/poster-views.js"));
+  console.log("Passed: static routes, redirects, packaged article and poster APIs, HTTP bodies, Redis commands, and errors.");
 } finally {
-  for (const server of [api, redis]) if (server) await new Promise((resolve) => server.close(resolve));
+  for (const server of [api, posterApi, redis]) if (server) await new Promise((resolve) => server.close(resolve));
   if (oldUrl === undefined) delete process.env.UPSTASH_REDIS_REST_URL; else process.env.UPSTASH_REDIS_REST_URL = oldUrl;
   if (oldToken === undefined) delete process.env.UPSTASH_REDIS_REST_TOKEN; else process.env.UPSTASH_REDIS_REST_TOKEN = oldToken;
   await fs.rm(out, { recursive: true, force: true });

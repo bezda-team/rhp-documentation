@@ -24,7 +24,7 @@ const pages = realPosters().map((poster) => {
     name: name.endsWith(".mjs") ? `${name}.txt` : name,
     body: fs.readFileSync(path.join(source, name)),
   }));
-  let served = withRecipeNavigation(html, { href: "/gallery/#real-posters", label: "Gallery navigation", download });
+  let served = withRecipeNavigation(html, { href: "/gallery/#real-posters", label: "Gallery navigation", download, views: poster.slug });
   for (const file of files.filter((file) => file.source !== file.name)) {
     served = served.replaceAll(`href="${file.source}"`, `href="${file.name}" download="${path.basename(file.source)}"`);
   }

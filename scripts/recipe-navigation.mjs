@@ -8,12 +8,13 @@ import { fileURLToPath } from "node:url";
 // a new address that every browser fetches, where "@2" may be kept in a browser's cache for up to a week
 const RHP = JSON.parse(fs.readFileSync(fileURLToPath(new URL("../vendor/rhp/package.json", import.meta.url)), "utf8")).version;
 
-export function withRecipeNavigation(html, { href = "/gallery/#ai-recipes", label = "Recipe navigation", download = null } = {}) {
+export function withRecipeNavigation(html, { href = "/gallery/#ai-recipes", label = "Recipe navigation", download = null, views = null } = {}) {
   const page = html.replace(/\n?<style id="poster-download-styles">[\s\S]*?<\/style>\n?/g, "\n")
     .replace(/\n?<script type="module" id="poster-download-script">[\s\S]*?<\/script>\n?/g, "\n")
     .replace(/cdn\.jsdelivr\.net\/npm\/@bezda\/rhp@[^/"]+\//g, `cdn.jsdelivr.net/npm/@bezda/rhp@${RHP}/`)
+    .replace(/\n?<script type="module" id="poster-views-script"[^>]*><\/script>\n?/g, "\n")
     .replace(/\n?<style id="recipe-navigation-styles">[\s\S]*?<\/style>\n?/g, "\n")
-    .replace(/\n?<nav class="recipe-navigation"[\s\S]*?<\/nav>\n?/g, "\n");
+    .replace(/\n?<nav class="recipe-navigation(?: [^"]*)?"[\s\S]*?<\/nav>\n?/g, "\n");
   // The poster's width at every window size, so the link stays over its left edge: the max-width of the page's .poster
   // rule (or else of #chart's), and of each .poster rule inside an @media that changes it
   const widths = [];
@@ -53,11 +54,21 @@ export function withRecipeNavigation(html, { href = "/gallery/#ai-recipes", labe
     letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: inherit; }
   .recipe-navigation a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .recipe-navigation a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+${views ? `
+  .recipe-navigation.poster-navigation { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 8px; }
+  .poster-navigation > a { justify-self: start; }
+  .poster-navigation > .poster-actions { justify-self: end; }
+  .poster-views { display: inline-flex; align-items: center; gap: 6px; color: inherit; font: 500 12.5px/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .poster-views svg { width: 20px; height: 20px; flex: none; }
+  .poster-views [data-view-count] { min-width: 3ch; }
+  @media print { .poster-views { display: none; } }` : ""}
 </style>`;
-  const navigation = `<nav class="recipe-navigation" aria-label="${label}"><a href="${href}">← Gallery</a></nav>`;
+  const counter = views ? `<span class="poster-views" data-poster-views="${views}" role="img" aria-label="Loading total views" title="Total views"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span data-view-count aria-hidden="true">...</span></span>` : "";
+  const navigation = `<nav class="recipe-navigation${views ? " poster-navigation" : ""}" aria-label="${label}"><a href="${href}">← Gallery</a>${counter}</nav>`;
+  const viewsScript = views ? '<script type="module" id="poster-views-script" src="/poster-views.js"></script>\n' : "";
   return page.replace("</head>", style + "\n</head>")
     .replace(mount, navigation + "\n" + mount)
-    .replace(/\s*<\/body>/, '\n' + downloadBlock + '\n</body>');
+    .replace(/\s*<\/body>/, '\n' + downloadBlock + '\n' + viewsScript + '</body>');
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
