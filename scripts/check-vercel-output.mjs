@@ -75,7 +75,7 @@ try {
   const posterBase = await listen(posterApi);
   const posterResponse = await fetch(posterBase + "/api/poster-views", {
     method: "POST", headers: { "Content-Type": "application/json", Origin: posterBase, "x-forwarded-proto": "http" },
-    body: JSON.stringify({ poster: "acid-rain" }),
+    body: JSON.stringify({ poster: "acid-rain", visitor }),
   });
   assert.equal(posterResponse.status, 200);
   assert.deepEqual(await posterResponse.json(), { views: 42 });

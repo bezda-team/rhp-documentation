@@ -31,7 +31,7 @@ try {
       });
       await page.goto(new URL(poster.url, base).href);
       await page.getByRole('button', { name: 'Fit poster to screen', exact: true }).waitFor();
-      await page.getByRole('img', { name: '9,999 total views', exact: true }).waitFor();
+      await page.getByRole('img', { name: '9,999 visitors', exact: true }).waitFor();
       await page.evaluate(() => document.fonts.ready);
       const check = async () => {
         const boxes = await page.evaluate(() => {
@@ -60,7 +60,9 @@ try {
         ]);
         assert.equal(await download.failure(), null, 'PNG download succeeds with the counter present');
       }
-      assert.deepEqual(requests, [{ method: 'POST', body: { poster: poster.slug } }], `${poster.slug}: one visit despite toolbar actions`);
+      const visitor = await page.evaluate(() => localStorage.getItem('rhp:poster-visitor'));
+      assert.match(visitor, /^[0-9a-f-]{36}$/);
+      assert.deepEqual(requests, [{ method: 'POST', body: { poster: poster.slug, visitor } }], `${poster.slug}: one visitor request despite toolbar actions`);
       assert.deepEqual(errors, [], `${poster.slug}: no browser errors`);
       if ([1280, 320].includes(width)) await page.screenshot({ path: path.join(screenshots, `${poster.slug}-${width}-${engine}.png`) });
       await page.close();
@@ -72,15 +74,15 @@ try {
   await page.route(/https:\/\/cdn\.jsdelivr\.net\/npm\/@bezda\/rhp@[^/]+\/dist\/standalone.js/, route => route.fulfill({ body: standalone, contentType: 'text/javascript' }));
   await page.route('**/api/poster-views', route => { requests++; return route.fulfill({ status: fail ? 503 : 200, json: fail ? { error: 'Unavailable' } : { views } }); });
   await page.goto(new URL(realPosters()[0].url, base).href);
-  await page.getByRole('img', { name: '1,234,567 total views', exact: true }).waitFor();
+  await page.getByRole('img', { name: '1,234,567 visitors', exact: true }).waitFor();
   assert.equal(await page.locator('[data-view-count]').innerText(), '1.2M');
   views = 1;
   await page.reload();
-  await page.getByRole('img', { name: '1 total view', exact: true }).waitFor();
-  assert.equal(requests, 2, 'returning page view counts again');
+  await page.getByRole('img', { name: '1 visitor', exact: true }).waitFor();
+  assert.equal(requests, 2, 'refresh fetches the current total');
   fail = true;
   await page.reload();
-  await page.getByRole('img', { name: 'View count is temporarily unavailable', exact: true }).waitFor();
+  await page.getByRole('img', { name: 'Visitor count is temporarily unavailable', exact: true }).waitFor();
   assert.equal(await page.locator('[data-view-count]').innerText(), '?');
   assert(await page.getByRole('button', { name: 'Fit poster to screen', exact: true }).isVisible());
   await page.close();

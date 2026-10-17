@@ -63,7 +63,7 @@ ${views ? `
   .poster-views [data-view-count] { min-width: 3ch; }
   @media print { .poster-views { display: none; } }` : ""}
 </style>`;
-  const counter = views ? `<span class="poster-views" data-poster-views="${views}" role="img" aria-label="Loading total views" title="Total views"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span data-view-count aria-hidden="true">...</span></span>` : "";
+  const counter = views ? `<span class="poster-views" data-poster-views="${views}" role="img" aria-label="Loading visitors" title="Visitors, counted once per browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span data-view-count aria-hidden="true">...</span></span>` : "";
   const navigation = `<nav class="recipe-navigation${views ? " poster-navigation" : ""}" aria-label="${label}"><a href="${href}">← Gallery</a>${counter}</nav>`;
   const viewsScript = views ? '<script type="module" id="poster-views-script" src="/poster-views.js"></script>\n' : "";
   return page.replace("</head>", style + "\n</head>")

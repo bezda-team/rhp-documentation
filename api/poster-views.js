@@ -3,11 +3,12 @@ import { REAL_POSTERS } from "../src/gallery/real-posters.js";
 
 const posters = new Map(REAL_POSTERS.map((poster) => [poster.slug, poster.initialViews ?? 0]));
 const increment = `
-local requests = redis.call('INCR', KEYS[2])
-if requests == 1 then redis.call('EXPIRE', KEYS[2], 60) end
+local requests = redis.call('INCR', KEYS[3])
+if requests == 1 then redis.call('EXPIRE', KEYS[3], 60) end
 if requests > 120 then return -1 end
 redis.call('SET', KEYS[1], ARGV[1], 'NX')
-return redis.call('INCR', KEYS[1])
+if redis.call('SADD', KEYS[2], ARGV[2]) == 1 then redis.call('INCR', KEYS[1]) end
+return tonumber(redis.call('GET', KEYS[1]))
 `;
 
 export async function handle(request, env = process.env, fetchRedis = fetch) {
@@ -21,16 +22,22 @@ export async function handle(request, env = process.env, fetchRedis = fetch) {
     return respond({ error: "Method not allowed" }, 405);
   }
   let slug = new URL(request.url).searchParams.get("poster");
+  let visitor;
   if (request.method === "POST") {
     if (!/^application\/json(?:;|$)/i.test(request.headers.get("content-type") ?? "")) return respond({ error: "Expected JSON" }, 415);
     if (Number(request.headers.get("content-length")) > 256) return respond({ error: "Request too large" }, 413);
     try {
       const text = await request.text();
       if (text.length > 256) return respond({ error: "Request too large" }, 413);
-      slug = JSON.parse(text)?.poster;
+      const body = JSON.parse(text);
+      slug = body?.poster;
+      visitor = body?.visitor;
     } catch {
       return respond({ error: "Invalid request" }, 400);
     }
+  }
+  if (visitor !== undefined && (typeof visitor !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(visitor))) {
+    return respond({ error: "Invalid visitor" }, 400);
   }
   if (!posters.has(slug)) return respond({ error: "Unknown poster" }, 400);
   const url = env.UPSTASH_REDIS_REST_URL ?? env.KV_REST_API_URL;
@@ -39,8 +46,9 @@ export async function handle(request, env = process.env, fetchRedis = fetch) {
   const key = `poster:${slug}:views`;
   const ip = request.headers.get("x-vercel-forwarded-for") ?? request.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
   const hash = createHmac("sha256", token).update(ip).digest("hex");
-  const command = request.method === "POST"
-    ? ["EVAL", increment, 2, key, `poster:views:rate:${hash}`, String(posters.get(slug))]
+  // Older cached pages without an ID can read the total but cannot add repeat views.
+  const command = visitor
+    ? ["EVAL", increment, 3, key, `poster:${slug}:visitors`, `poster:views:rate:${hash}`, String(posters.get(slug)), visitor.toLowerCase()]
     : ["GET", key];
   try {
     const response = await fetchRedis(url, {
@@ -56,7 +64,7 @@ export async function handle(request, env = process.env, fetchRedis = fetch) {
       return respond({ error: "Please try again shortly" }, 429);
     }
     const valid = typeof result === "number" || (typeof result === "string" && /^(0|[1-9][0-9]*)$/.test(result))
-      || (result === null && request.method === "GET");
+      || (result === null && !visitor);
     const views = result === null ? posters.get(slug) : Number(result);
     if (error || !valid || !Number.isSafeInteger(views) || views < 0) {
       throw new Error("Invalid count");
