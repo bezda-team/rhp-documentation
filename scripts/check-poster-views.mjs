@@ -51,6 +51,25 @@ try {
       await check();
       await page.getByRole('button', { name: 'Fit poster to screen', exact: true }).click();
       await check();
+      const scrollFrames = await page.evaluate(async () => {
+        const poster = document.querySelector('.poster'), frames = [];
+        const sample = () => { const box = poster.getBoundingClientRect(); frames.push([box.width, box.height]); };
+        const descriptor = Object.getOwnPropertyDescriptor(window, 'innerHeight'), height = innerHeight;
+        sample();
+        scrollTo(0, document.body.scrollHeight);
+        Object.defineProperty(window, 'innerHeight', { configurable: true, value: height + 48 });
+        dispatchEvent(new Event('resize'));
+        for (let i = 0; i < 8; i++) { await new Promise(requestAnimationFrame); sample(); }
+        if (descriptor) Object.defineProperty(window, 'innerHeight', descriptor);
+        else delete window.innerHeight;
+        dispatchEvent(new Event('resize'));
+        scrollTo(0, 0);
+        return frames;
+      });
+      for (const axis of [0, 1]) {
+        const sizes = scrollFrames.map(frame => frame[axis]);
+        assert(Math.max(...sizes)-Math.min(...sizes)<.25, `${poster.slug} ${width}px: scroll-driven browser controls do not resize the fitted poster`);
+      }
       await page.getByRole('button', { name: 'Restore poster size', exact: true }).click();
       await check();
       if (poster.slug === 'acid-rain' && width === 1280) {
