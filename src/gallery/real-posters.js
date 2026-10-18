@@ -39,7 +39,7 @@ export const REAL_POSTERS = [
     source: "examples/real/destiny-players",
     page: "destiny-players.html",
     image: "destiny-players.png",
-    files: ["data.json", "daily-peaks.csv", "analyze.mjs", "raw-steamcharts.json", "archive-2026-06-07.json", "archive-2026-08-06.json", "announcement.json", "assets/SPACE-GROTESK-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
+    files: ["data.json", "daily-peaks.csv", "analyze.mjs", "artwork-credits.json", "raw-steamcharts.json", "archive-2026-06-07.json", "archive-2026-08-06.json", "announcement.json", "assets/SPACE-GROTESK-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
   },
 ];
 
