@@ -51,6 +51,16 @@ export const REAL_POSTERS = [
     image: "teen-tobacco.png",
     files: ["data.json", "estimates.csv", "analyze.mjs", "source-snapshot.json", "artwork-credits.json", "assets/BARLOW-CONDENSED-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
   },
+  {
+    slug: "orbital-traffic",
+    initialViews: 0,
+    title: "Debris above, spacecraft below",
+    description: "Spacecraft make up 95% of catalogued objects below 600 km; debris makes up 71% from 600 to 1,100 km.",
+    source: "examples/real/orbital-traffic",
+    page: "orbital-retro.html",
+    image: "orbital-retro.png",
+    files: ["data.json", "summary.csv", "source-snapshot.json", "cutout-credits.json", "artwork-credits.json", "analyze.py", "post.txt", "assets/satcat-2026-10-18.csv.gz", "assets/MICHROMA-OFL.txt", "assets/ATOMIC-AGE-OFL.txt"],
+  },
 ];
 
 export const realPosters = () => REAL_POSTERS.map((poster) => ({
