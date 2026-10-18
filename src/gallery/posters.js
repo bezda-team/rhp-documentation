@@ -9,7 +9,7 @@ import path from "node:path";
 export const POSTERS = [
   { slug: "life-expectancy", name: "beeswarm", subtitle: "Nested plots" },
   { slug: "daily-steps", name: "calendar-heatmap" },
-  { slug: "subway-lamps", name: "heatmap-rows", subtitle: "Multiple charts with selector slide" },
+  { slug: "subway-lamps", name: "heatmap-rows", subtitle: "Multiple charts with selector carousel" },
   { slug: "subway-route-panel", name: "heatmap-panels", subtitle: "Multiple charts with select dropdown" },
   { slug: "album-sales-vinyl", name: "unit-bars-filter", subtitle: "Search and filter" },
   { slug: "album-sales-plaque", name: "unit-bars-search", subtitle: "Search and highlight" },
