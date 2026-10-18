@@ -7,16 +7,16 @@ import path from "node:path";
 
 // Each page, and the recipe name its card gives, in the skill's style
 export const POSTERS = [
-  { slug: "life-expectancy", name: "beeswarm" },
+  { slug: "life-expectancy", name: "beeswarm", subtitle: "Nested plots" },
   { slug: "daily-steps", name: "calendar-heatmap" },
   { slug: "subway-lamps", name: "heatmap-rows" },
   { slug: "subway-route-panel", name: "heatmap-panels" },
-  { slug: "album-sales-vinyl", name: "unit-bars-filter" },
-  { slug: "album-sales-plaque", name: "unit-bars-search" },
-  { slug: "world-cities-sign", name: "block-bars-top-25" },
-  { slug: "world-cities-ranked", name: "ranked-bars-top-25" },
-  { slug: "power-mix-split", name: "diverging-stack" },
-  { slug: "cleanest-grids", name: "stacked-shares" },
+  { slug: "album-sales-vinyl", name: "unit-bars-filter", subtitle: "Search and filter" },
+  { slug: "album-sales-plaque", name: "unit-bars-search", subtitle: "Search and highlight" },
+  { slug: "world-cities-sign", name: "block-bars-top-25", subtitle: "Multiple reveal toggles" },
+  { slug: "world-cities-ranked", name: "ranked-bars-top-25", subtitle: "Single reveal toggle" },
+  { slug: "power-mix-split", name: "diverging-stack", subtitle: "Two column scroll" },
+  { slug: "cleanest-grids", name: "stacked-shares", subtitle: "Single column scroll" },
 ];
 
 const decode = (text) => text.replace(/&(?:amp|quot|apos|lt|gt|#39);/g, (entity) => ({

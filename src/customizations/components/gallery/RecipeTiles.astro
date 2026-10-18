@@ -56,14 +56,14 @@ const manyTiles = await Promise.all(posters().map(async (recipe, index) => {
 		<ul class="gallery-tiles" data-recipe-tiles>
 			{manyTiles.map((recipe) => (
 				<li class="gallery-tile">
-					<a href={recipe.url} aria-label={`${recipe.name}: ${recipe.title}`}>
+					<a href={recipe.url} aria-label={`${recipe.name}: ${recipe.subtitle ?? recipe.title}`}>
 						<picture class="gallery-shot">
 							<img src={recipe.src} srcset={recipe.srcset} sizes={sizes} width={recipe.image.width} height={recipe.image.height} alt="" loading="lazy" decoding="async" />
 						</picture>
 						<span class="gallery-meta">
 							<span class="gallery-num" aria-hidden="true">{String(recipe.index + 1).padStart(2, "0")}</span>
 							<span class="gallery-title">{recipe.name}</span>
-							<span class="gallery-poster">{recipe.title}</span>
+							<span class="gallery-poster">{recipe.subtitle ?? recipe.title}</span>
 						</span>
 					</a>
 				</li>
