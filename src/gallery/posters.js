@@ -8,7 +8,7 @@ import path from "node:path";
 // Each page, and the recipe name its card gives, in the skill's style
 export const POSTERS = [
   { slug: "life-expectancy", name: "beeswarm", subtitle: "Nested plots" },
-  { slug: "daily-steps", name: "calendar-heatmap" },
+  { slug: "daily-steps", name: "calendar-heatmap", subtitle: "More info panel" },
   { slug: "subway-lamps", name: "heatmap-rows", subtitle: "Multiple charts with selector carousel" },
   { slug: "subway-route-panel", name: "heatmap-panels", subtitle: "Multiple charts with select dropdown" },
   { slug: "album-sales-vinyl", name: "unit-bars-filter", subtitle: "Search and filter" },
