@@ -9,7 +9,7 @@ export const REAL_POSTERS = [
     source: "examples/real/movie-bombs",
     page: "movie-bombs.html",
     image: "movie-bombs.png",
-    files: ["data.json", "forecasts.json", "selection-audit.json", "source-snapshot.json", "artwork-credits.json", "post.txt", "research.txt", "assets/ANTON-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
+    files: ["data.json", "forecasts.json", "selection-audit.json", "source-snapshot.json", "artwork-credits.json", "assets/ANTON-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
   },
   {
     slug: "no-mans-sky",
@@ -29,7 +29,7 @@ export const REAL_POSTERS = [
     source: "examples/real/acid-rain",
     page: "acid-rain-glass-animated.html",
     image: "acid-rain-glass-animated.png",
-    files: ["data.json", "source-snapshot.json", "artwork-credits.json", "image-prompt.txt", "post.txt", "research.txt", "fetch-data.mjs", "assets/BARLOW-CONDENSED-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
+    files: ["data.json", "source-snapshot.json", "artwork-credits.json", "image-prompt.txt", "fetch-data.mjs", "assets/BARLOW-CONDENSED-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
   },
   {
     slug: "destiny-players",
@@ -59,7 +59,7 @@ export const REAL_POSTERS = [
     source: "examples/real/orbital-traffic",
     page: "orbital-retro.html",
     image: "orbital-retro.png",
-    files: ["data.json", "summary.csv", "source-snapshot.json", "cutout-credits.json", "artwork-credits.json", "analyze.py", "post.txt", "assets/satcat-2026-10-18.csv.gz", "assets/MICHROMA-OFL.txt", "assets/ATOMIC-AGE-OFL.txt"],
+    files: ["data.json", "summary.csv", "source-snapshot.json", "cutout-credits.json", "artwork-credits.json", "analyze.py", "assets/satcat-2026-10-18.csv.gz", "assets/MICHROMA-OFL.txt", "assets/ATOMIC-AGE-OFL.txt"],
   },
 ];
 

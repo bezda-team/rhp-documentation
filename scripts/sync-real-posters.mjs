@@ -34,6 +34,11 @@ const pages = realPosters().map((poster) => {
 for (const { poster, html, image, files } of pages) {
   const out = path.join(root, "public", poster.url);
   fs.mkdirSync(out, { recursive: true });
+  for (const name of ["post.txt", "research.txt"]) {
+    if (!files.some((file) => file.name === name)) {
+      fs.rmSync(path.join(out, name), { force: true });
+    }
+  }
   fs.writeFileSync(path.join(out, "index.html"), html);
   for (const { name, body } of files) {
     const target = path.join(out, name);
