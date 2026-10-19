@@ -42,16 +42,6 @@ export const REAL_POSTERS = [
     files: ["data.json", "daily-peaks.csv", "analyze.mjs", "artwork-credits.json", "raw-steamcharts.json", "archive-2026-06-07.json", "archive-2026-08-06.json", "announcement.json", "assets/SPACE-GROTESK-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
   },
   {
-    slug: "teen-tobacco",
-    initialViews: 0,
-    title: "Teen tobacco use",
-    description: "U.S. high-school tobacco use fell 42% from 2022 to 2025, even as nicotine-pouch use rose.",
-    source: "examples/real/teen-tobacco",
-    page: "teen-tobacco.html",
-    image: "teen-tobacco.png",
-    files: ["data.json", "estimates.csv", "analyze.mjs", "source-snapshot.json", "artwork-credits.json", "assets/BARLOW-CONDENSED-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
-  },
-  {
     slug: "orbital-traffic",
     initialViews: 0,
     title: "Debris above, spacecraft below",
@@ -60,6 +50,16 @@ export const REAL_POSTERS = [
     page: "orbital-retro-animated.html",
     image: "orbital-retro-animated.png",
     files: ["data.json", "summary.csv", "source-snapshot.json", "cutout-credits.json", "earth-motion-credits.json", "artwork-credits.json", "analyze.py", "assets/satcat-2026-10-18.csv.gz", "assets/MICHROMA-OFL.txt", "assets/ATOMIC-AGE-OFL.txt"],
+  },
+  {
+    slug: "teen-tobacco",
+    initialViews: 0,
+    title: "Teen tobacco use",
+    description: "U.S. high-school tobacco use fell 42% from 2022 to 2025, even as nicotine-pouch use rose.",
+    source: "examples/real/teen-tobacco",
+    page: "teen-tobacco.html",
+    image: "teen-tobacco.png",
+    files: ["data.json", "estimates.csv", "analyze.mjs", "source-snapshot.json", "artwork-credits.json", "assets/BARLOW-CONDENSED-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
   },
 ];
 
