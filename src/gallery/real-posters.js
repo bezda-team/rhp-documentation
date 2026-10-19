@@ -57,9 +57,9 @@ export const REAL_POSTERS = [
     title: "Debris above, spacecraft below",
     description: "Spacecraft make up 95% of catalogued objects below 600 km; debris makes up 71% from 600 to 1,100 km.",
     source: "examples/real/orbital-traffic",
-    page: "orbital-retro.html",
-    image: "orbital-retro.png",
-    files: ["data.json", "summary.csv", "source-snapshot.json", "cutout-credits.json", "artwork-credits.json", "analyze.py", "assets/satcat-2026-10-18.csv.gz", "assets/MICHROMA-OFL.txt", "assets/ATOMIC-AGE-OFL.txt"],
+    page: "orbital-retro-animated.html",
+    image: "orbital-retro-animated.png",
+    files: ["data.json", "summary.csv", "source-snapshot.json", "cutout-credits.json", "earth-motion-credits.json", "artwork-credits.json", "analyze.py", "assets/satcat-2026-10-18.csv.gz", "assets/MICHROMA-OFL.txt", "assets/ATOMIC-AGE-OFL.txt"],
   },
 ];
 
