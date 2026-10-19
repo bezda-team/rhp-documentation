@@ -19,7 +19,7 @@ The guides and the reference under Optional are written for Solid apps in JSX; t
 - [download.md](https://rhp.vercel.app/ai/rhp/references/download.md): the fit-to-screen and download icons for standalone HTML posters, with a complete PNG export block.
 - [environments.md](https://rhp.vercel.app/ai/rhp/references/environments.md): plain HTML, Solid, Astro, React, Next.js, Vue, Svelte and Angular, each verified, and the html template to JSX rules.
 - [forms.md](https://rhp.vercel.app/ai/rhp/references/forms.md): the subject's own form, which chart for which data and story, and which recipe has the technique.
-- [interaction.md](https://rhp.vercel.app/ai/rhp/references/interaction.md): which interaction for which story, with complete code for each.
+- [interaction.md](https://rhp.vercel.app/ai/rhp/references/interaction.md): choosing interaction behavior and presentation for the reader's task, with complete implementation examples.
 - [looks.md](https://rhp.vercel.app/ai/rhp/references/looks.md): eight looks written out in full (tokens, fonts, texture, type), as examples of how a look is written, not a menu.
 - [performance.md](https://rhp.vercel.app/ai/rhp/references/performance.md): measured optimizations for an expensive chart, preserving its slats, styling, state, and interactions.
 - [pitfalls.md](https://rhp.vercel.app/ai/rhp/references/pitfalls.md): mistakes and their fixes.
