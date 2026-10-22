@@ -40,6 +40,7 @@ The recipes:
 - [stacked-100](https://rhp.vercel.app/ai/rhp/recipes/stacked-100.html)
 - [stacked-bars](https://rhp.vercel.app/ai/rhp/recipes/stacked-bars.html)
 - [strip](https://rhp.vercel.app/ai/rhp/recipes/strip.html)
+- [tape](https://rhp.vercel.app/ai/rhp/recipes/tape.html)
 - [unit-stack](https://rhp.vercel.app/ai/rhp/recipes/unit-stack.html)
 - [violin](https://rhp.vercel.app/ai/rhp/recipes/violin.html)
 - [waffle](https://rhp.vercel.app/ai/rhp/recipes/waffle.html)
@@ -194,6 +195,7 @@ Its numeric sizes mean pixels, updates are immediate and scan the rows, and init
 | `pyramid` | two sides of one population by age |
 | `silhouettes` | things known by their shape (buildings, ships, bottles), each in its own outline to scale |
 | `dial` | how a day, a week or another cycle splits into parts, around a dial |
+| `tape` | how a day, a budget or another whole splits into parts, laid end to end along one ruled tape cut into lengths |
 | `log-line` | a quantity that grows by multiples over years, on a log scale, its falls measured |
 | `unit-stack` | a total made of parts over periods, counted out in units, one part to follow |
 
