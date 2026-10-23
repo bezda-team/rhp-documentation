@@ -4,7 +4,7 @@ import { realPosters } from "../../../gallery/real-posters.js";
 import "../../styles/gallery.css";
 
 const shots = import.meta.glob<{ default: ImageMetadata }>("../../../assets/real-posters/*.png", { eager: true });
-const tiles = await Promise.all(realPosters().map(async (poster, index) => {
+const tiles = await Promise.all(realPosters().filter((poster) => !poster.unlisted).map(async (poster, index) => {
 	const image = shots[`../../../assets/real-posters/${poster.slug}.png`]?.default;
 	if (!image) throw new Error(`Missing real poster thumbnail for ${poster.slug}. Run npm run sync-real-posters.`);
 	const widths = [360, 720, 1080].filter((width) => width <= image.width);

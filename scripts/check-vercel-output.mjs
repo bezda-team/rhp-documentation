@@ -34,11 +34,16 @@ try {
     assert(route, `No route for ${url}`);
     await fs.access(path.join(out, "static", route.dest));
   }
+  const gallery = await fs.readFile(path.join(out, "static/gallery/index.html"), "utf8");
   for (const poster of realPosters()) {
     for (const name of poster.files) {
       const served = name.endsWith(".mjs") ? `${name}.txt` : name;
       await fs.access(path.join(out, "static", poster.url, served));
     }
+    // an unlisted poster is served, but the gallery never links it and search engines are asked not to index it
+    const page = await fs.readFile(path.join(out, "static", poster.url, "index.html"), "utf8");
+    assert.equal(gallery.includes(`href="${poster.url}"`), !poster.unlisted, `${poster.slug}: ${poster.unlisted ? "unlisted, yet in" : "missing from"} the gallery`);
+    assert.equal(page.includes('<meta name="robots" content="noindex">'), !!poster.unlisted, `${poster.slug}: noindex only when unlisted`);
   }
   const func = path.join(out, "functions/api/article-stats.func");
   const options = JSON.parse(await fs.readFile(path.join(func, ".vc-config.json"), "utf8"));

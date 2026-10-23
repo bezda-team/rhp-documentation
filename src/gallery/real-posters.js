@@ -1,5 +1,7 @@
 // Published posters made from sourced data, in gallery order.
 // npm run sync-real-posters copies each page, its data links, and its full-poster thumbnail from the rhp repository.
+// An unlisted poster is served at its URL only: it has no gallery tile or thumbnail, and its page asks search engines
+// not to index it.
 export const REAL_POSTERS = [
   {
     slug: "movie-bombs",
@@ -60,6 +62,16 @@ export const REAL_POSTERS = [
     page: "teen-tobacco.html",
     image: "teen-tobacco.png",
     files: ["data.json", "estimates.csv", "analyze.mjs", "source-snapshot.json", "artwork-credits.json", "assets/BARLOW-CONDENSED-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
+  },
+  {
+    slug: "teen-tobacco-2018",
+    unlisted: true,
+    initialViews: 0,
+    title: "Teen vaping after the 2019 lung-injury outbreak",
+    description: "After the 2019 outbreak, one national survey saw U.S. teen vaping fall 29%; the other saw it level off.",
+    source: "examples/real/teen-tobacco-2018",
+    page: "teen-tobacco-2018.html",
+    files: ["data.json", "estimates.csv", "analyze.mjs", "source-snapshot.json"],
   },
 ];
 

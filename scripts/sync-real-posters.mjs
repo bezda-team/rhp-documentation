@@ -28,7 +28,11 @@ const pages = realPosters().map((poster) => {
   for (const file of files.filter((file) => file.source !== file.name)) {
     served = served.replaceAll(`href="${file.source}"`, `href="${file.name}" download="${path.basename(file.source)}"`);
   }
-  return { poster, html: served, image: fs.readFileSync(path.join(source, poster.image)), files };
+  if (poster.unlisted) {
+    served = served.replace(/<meta charset="[^"]*">/, (charset) => `${charset}\n<meta name="robots" content="noindex">`);
+    if (!served.includes('<meta name="robots" content="noindex">')) throw new Error(`${poster.page} has no charset meta to follow.`);
+  }
+  return { poster, html: served, image: poster.unlisted ? null : fs.readFileSync(path.join(source, poster.image)), files };
 });
 
 for (const { poster, html, image, files } of pages) {
@@ -46,7 +50,11 @@ for (const { poster, html, image, files } of pages) {
     fs.writeFileSync(target, body);
   }
   const thumbnail = path.join(root, "src/assets/real-posters", `${poster.slug}.png`);
-  fs.mkdirSync(path.dirname(thumbnail), { recursive: true });
-  fs.writeFileSync(thumbnail, image);
-  console.log(`${poster.url} from ${poster.source}`);
+  if (image) {
+    fs.mkdirSync(path.dirname(thumbnail), { recursive: true });
+    fs.writeFileSync(thumbnail, image);
+  } else {
+    fs.rmSync(thumbnail, { force: true });
+  }
+  console.log(`${poster.url} from ${poster.source}${poster.unlisted ? " (unlisted)" : ""}`);
 }
