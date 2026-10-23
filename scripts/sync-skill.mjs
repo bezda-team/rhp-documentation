@@ -97,7 +97,18 @@ ${recipes.map((f) => `- [${f.replace(/\.html$/, "")}](${url(`recipes/${f}`)})`).
 The skill's other references, which SKILL.md links to:
 
 ${references.filter((f) => !FULL.includes(f)).map(reference).join("\n")}`;
-const full = [header, part("SKILL.md"), ...FULL.map((f) => part(`references/${f}`))].join("\n\n---\n\n") + "\n";
+// Sections of a reference that llms-full.txt links to instead of holding, to keep it under about 150 kB: the
+// experimental ManyDots collection, which few charts need. Each runs to the next heading of its level or higher.
+const LINKED = { "api.md": ["ManyDots (experimental point collection)"] };
+const slug = (title) => title.toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-");
+const linkOut = (f, text) => (LINKED[f] ?? []).reduce((t, title) => {
+  const start = t.indexOf(`\n### ${title}\n`);
+  if (start < 0) throw new Error(`references/${f} has no section "### ${title}" for llms-full.txt to link to.`);
+  const next = t.slice(start + 1).search(/\n#{2,3} /);
+  const end = next < 0 ? t.length : start + 1 + next;
+  return `${t.slice(0, start)}\n### ${title}\n\nThis section is not in this file: read it at ${url(`references/${f}`)}#${slug(title)}.\n${t.slice(end)}`;
+}, text);
+const full = [header, part("SKILL.md"), ...FULL.map((f) => linkOut(f, part(`references/${f}`)))].join("\n\n---\n\n") + "\n";
 
 // Everything is read and checked: now write, the skill's folder afresh so a file the skill dropped goes too
 const servedRecipes = new Map(recipes.map((file) => [`recipes/${file}`, withRecipeNavigation(read(`recipes/${file}`), { download: read("references/download.md") })]));

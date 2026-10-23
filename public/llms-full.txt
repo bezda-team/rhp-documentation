@@ -304,7 +304,8 @@ A chart with fixed data and no interaction gets `static=${true}` on its Chart: r
 ### 6. Build it, with the recipe's technique
 
 For every standalone HTML poster page, keep the recipe's fit-to-screen and PNG download controls, or copy the complete block from [download.md](https://rhp.vercel.app/ai/rhp/references/download.md) before `</body>`.
-**Sketch:** add the block before `</body>` with `node <this skill's folder>/scripts/add-download.mjs <your page>`: it copies it from the recipes without your reading it.
+**Sketch:** when the skill's files are on disk (an installed skill), add the block before `</body>` with `node <this skill's folder>/scripts/add-download.mjs <your page>`: it copies it from the recipes without your reading it.
+Otherwise (the skill read through the rhp MCP server or from the website), copy it from download.md, as above.
 The icons sit above the poster on the right, outside the saved image; on gallery recipe pages they share the row and color of the gallery link.
 The fit toggle scales the view to up to 95% of the viewport height and restores full size on the next activation.
 Download saves the full poster, including the headline and note, even when the view is fitted or the page scrolls.
@@ -1262,106 +1263,7 @@ render(ChangeChart, document.getElementById("chart"));
 
 ### ManyDots (experimental point collection)
 
-`ManyDots` draws a bulk collection of points directly inside a `Chart` with `scale` and `cross`.
-It is part of the upcoming npm 2.0.3 release.
-It is a collection rather than a block in a slat, so do not wrap it in a `Plot` or supply a slat function.
-Use a repository build that exports `ManyDots`; the version-2 CDN URL in the page skeleton does not guarantee this experimental API is available.
-Both package entry points export it in that build, and Solid users can import `ManyDotsProps<T>` and `ManyDotsValue<T, V>` for its types.
-
-Choose it explicitly for bulk HTML points, or keep `Dot` for individual blocks, rich point content, and Plot behavior at any point count.
-Neither component switches into the other automatically, including at 500 points.
-
-| Prop | Type | Default | What it does |
-|---|---|---|---|
-| `rows` | readonly array of rows | required | one point per row with finite coordinates |
-| `at`, `cross` | number or `(row, index) => number` | required | coordinates on the Chart's value and cross scales |
-| `key` | `(row, index) => identity` | source row index | stable identity for keyed updates; rendered keys must be unique |
-| `size` | number, CSS length, or accessor | `"4px"` | diameter; a number means pixels, unlike Dot's band fraction |
-| `color` | CSS color, theme key, or accessor | `"series-1"` | shared or individual point colors |
-| `shape` | `shape()` outline or accessor | circular points | shared or individual point outlines |
-| `pointClass` | string or accessor | none | space-separated application classes on each point |
-| `pointStyle` | CSS properties object or accessor | none | individual appearance overrides |
-| `class`, `classList`, `style`, `ref`, HTML attributes and events | normal div props | none | apply to the collection host; `style` accepts an object or string |
-
-The appearance accessors above receive `(row, index)`.
-Both domains must have finite, distinct endpoints, and nonfinite point coordinates are skipped.
-Finite coordinates outside a domain keep their outside positions, so choose scales that cover the data.
-Every rendered point retains its original row index in `data-rhp-index`, even when preceding rows are skipped.
-
-**Appearance and DOM.**
-The light-DOM host is `.rhp-manydots`, its point container is `.rhp-manydots-points`, and each point is a `.rhp-manydot` div.
-There is no shadow root, so document queries, Testing Library queries, native events, and page-level event delegation see the points.
-Use `pointClass` with ordinary application CSS for background color, radius, opacity, outlines, filters, transforms, and hover styles.
-Shared defaults use one scoped stylesheet per collection, with a fallback for browsers without `@scope` support.
-Per-point color and shape accessors write inline styles, which take precedence over ordinary class rules.
-Size, color, and shape accessors also override the same properties supplied through `pointStyle`.
-The collection owns coordinates and centering and guards position, dimensions, margins, padding, borders, and min/max dimensions.
-Explicit width and height in `pointStyle` can override a shared size; appearance remains customizable without the slat's general text and font reset.
-
-**Interaction and accessibility.**
-CSS hover and native click, touch, and pointer events work on the plain HTML points.
-Attach handlers to the host and recover the row with `data-rhp-index`; there is no per-point handler prop or built-in drag behavior.
-Implement dragging with pointer events and pointer capture when needed, and use `getBoundingClientRect()` for overlays against the visible point box.
-`ManyDots` does not implement Plot's automatic keyboard navigation, selection, or readout behavior and accepts no point children, `innerHTML`, or `textContent`.
-Provide a Chart `label` and a textual summary, data table, or keyboard-accessible controls when readers need individual values.
-The following complete module example includes a table whose buttons offer the same selection as clicking a point.
-Validate the experimental collection's point count, geometry, appearance, native interactions, and accessible controls in the browser rather than treating a standard-chart checker report as complete bulk-point coverage.
-
-```js
-import { Chart, ManyDots, html, render, createSignal } from "@bezda/rhp/standalone";
-
-const samples = [
-  { id: "a", name: "Sample A", x: 20, y: 35, diameter: 8, color: "#a73157" },
-  { id: "b", name: "Sample B", x: 60, y: 80, diameter: 10, color: "#18749a" },
-  { id: "c", name: "Sample C", x: 85, y: 50, diameter: 6, color: "#6b4da1" },
-];
-
-function Measurements() {
-  const [selected, setSelected] = createSignal(null);
-  const chosen = () => samples.find(row => row.id === selected());
-  const pick = event => {
-    const point = event.target.closest?.(".rhp-manydot");
-    if (point && event.currentTarget.contains(point)) {
-      setSelected(samples[Number(point.dataset.rhpIndex)].id);
-    }
-  };
-  return html`
-    <section>
-      <style>
-        .measurement-point { cursor: pointer; }
-        .measurement-point:hover { outline: 2px solid currentColor; outline-offset: 2px; }
-      </style>
-      <p>Click or tap a point, or choose a sample in the table.</p>
-      <${Chart} scale=${[0, 100]} cross=${[0, 100]} height=${280} label="Illustrative sample measurements">
-        <${ManyDots} rows=${samples} at=${row => row.x} cross=${row => row.y} key=${row => row.id}
-          size=${row => row.diameter} color=${row => row.color} pointClass="measurement-point"
-          pointStyle=${row => ({ opacity: selected() == null || selected() === row.id ? 1 : 0.35 })}
-          onClick=${pick} />
-      <//>
-      <p aria-live="polite">${() => chosen() ? `${chosen().name}: x ${chosen().x}, y ${chosen().y}` : "No sample selected"}</p>
-      <table>
-        <caption>Illustrative sample values</caption>
-        <thead><tr><th scope="col">Sample</th><th scope="col">X</th><th scope="col">Y</th></tr></thead>
-        <tbody>${samples.map(row => html`
-          <tr><th scope="row"><button type="button" onClick=${event => setSelected(row.id)}>${row.name}</button></th>
-            <td>${row.x}</td><td>${row.y}</td></tr>`)}
-        </tbody>
-      </table>
-    </section>`;
-}
-
-render(Measurements, document.getElementById("chart"));
-```
-
-**Updates and server rendering.**
-Stable keys preserve leaf elements through replacement arrays, reordering, and removals.
-One collection computation visits every row when a dependency changes, while unchanged points receive no managed style writes.
-Dragging one point through reactive data therefore still requires a bulk row pass; update and drag performance have not been measured.
-Data updates move points immediately, and JavaScript-driven Chart scale animation updates their resolved coordinates.
-Server rendering emits the complete HTML collection, and hydration reuses its host, container, and points.
-Initial leaves are adopted by row order because server keys are not serialized; keep server and client row order aligned when point DOM identity matters.
-Managed classes, coordinates, and appearance declarations can be rewritten by the collection, while native listeners and metadata outside its managed fields survive ordinary updates.
-See the [prototype guide](https://rhp.vercel.app/examples/manydots/README.md) for centering and custom-size animation details and the [capabilities explanation](https://rhp.vercel.app/examples/manydots/TRADEOFFS.md) for the measured initial-render tradeoffs.
+This section is not in this file: read it at https://rhp.vercel.app/ai/rhp/references/api.md#manydots-experimental-point-collection.
 
 ## 7. Scales and axes
 
