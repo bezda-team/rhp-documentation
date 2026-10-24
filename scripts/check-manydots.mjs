@@ -90,16 +90,20 @@ for (const [name, engine] of Object.entries({ chromium, firefox, webkit })) {
           if (event.target.matches?.(".rhp-manydot")) window.__manydotsClicks.push(event.target.dataset.rhpIndex);
         });
       });
+      // A point whose center is on top. For a tap, also one with no other point within 6px of its center: a tap goes to
+      // a whole pixel and the browser's touch targeting may pick a neighbor, so in a crowd a tap can rightly select
+      // the point next to the one aimed at.
       const chooseVisible = async () => {
         await page.locator(".rhp-manydots").scrollIntoViewIfNeeded();
-        return page.locator(".rhp-manydot").evaluateAll((points) => {
+        return page.locator(".rhp-manydot").evaluateAll((points, alone) => {
+          const crowded = (point, x, y) => [-6, 0, 6].some((dx) => [-6, 0, 6].some((dy) => document.elementsFromPoint(x + dx, y + dy).some((el) => el !== point && el.matches(".rhp-manydot"))));
           for (const point of points) {
             const rect = point.getBoundingClientRect();
             const x = rect.x + rect.width / 2, y = rect.y + rect.height / 2;
-            if (y > 0 && y < innerHeight && document.elementFromPoint(x, y) === point) return { x, y, index: Number(point.dataset.rhpIndex) };
+            if (y > 0 && y < innerHeight && document.elementFromPoint(x, y) === point && !(alone && crowded(point, x, y))) return { x, y, index: Number(point.dataset.rhpIndex) };
           }
-          throw new Error("No exposed point");
-        });
+          throw new Error(alone ? "No point exposed and alone" : "No exposed point");
+        }, mobile);
       };
       const select = async () => {
         const point = await chooseVisible();
