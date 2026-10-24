@@ -40,6 +40,9 @@ Charts then leave that CSS out of their HTML, and the browser uses the page's co
 If a page doesn't link it after all, the first chart says so in the browser's console and brings its own.
 These pages do this.
 
+For charts that go [without the guard](/guides/styling/#without-the-guard), link `@bezda/rhp/rhp-no-css-guard.css` instead, and call `noCssGuard()` next to `linkedCss()`.
+A Chart's `noCssGuard` prop can't take the guard out of a stylesheet the page links, so with `rhp.css` linked, rhp warns and the chart keeps it.
+
 ## Charts with no JavaScript
 
 A chart drawn on the server is complete as HTML and CSS: nothing needs to run for it to show.
