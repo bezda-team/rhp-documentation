@@ -74,6 +74,16 @@ export const REAL_POSTERS = [
     files: ["data.json", "analysis.json", "analyze.mjs", "assets/DM-SERIF-DISPLAY-OFL.txt", "assets/MANROPE-OFL.txt"],
   },
   {
+    slug: "skill-repos-race",
+    initialViews: 0,
+    title: "The skill repo race",
+    description: "GitHub's most-starred skill repos each day since Agent Skills launched; obra/superpowers leads mattpocock/skills by 1,856 stars.",
+    source: "examples/real/skill-repos-race",
+    page: "skill-repos-race.html",
+    image: "skill-repos-race.png",
+    files: ["data.json", "repos.json", "live.json", "captures.json", "first-stars.json", "wayback.mjs", "collect.mjs", "analyze.mjs", "audit.mjs", "assets/MONA-SANS-OFL.txt", "assets/OCTICONS-MIT.txt"],
+  },
+  {
     slug: "teen-tobacco-2018",
     unlisted: true,
     initialViews: 0,
