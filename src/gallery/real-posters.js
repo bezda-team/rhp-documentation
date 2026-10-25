@@ -64,6 +64,16 @@ export const REAL_POSTERS = [
     files: ["data.json", "estimates.csv", "analyze.mjs", "source-snapshot.json", "artwork-credits.json", "assets/BARLOW-CONDENSED-OFL.txt", "assets/IBM-PLEX-SANS-OFL.txt"],
   },
   {
+    slug: "winter-daylight",
+    initialViews: 0,
+    title: "B.C.'s winter daylight trade-off",
+    description: "Later winter sunsets come with later sunrises. Compare six B.C. cities and daylight after work.",
+    source: "examples/real/winter-daylight",
+    page: "winter-daylight.html",
+    image: "winter-daylight.png",
+    files: ["data.json", "analysis.json", "analyze.mjs", "assets/DM-SERIF-DISPLAY-OFL.txt", "assets/MANROPE-OFL.txt"],
+  },
+  {
     slug: "teen-tobacco-2018",
     unlisted: true,
     initialViews: 0,
