@@ -1,7 +1,9 @@
 // Copies rhp 2's package into vendor/rhp: its package.json and its builds (dist: the browser's, the server's, the source
 // for a Solid app's own build, rhp.css, the poster looks and the standalone module). The site depends on it as a package
-// ("@bezda/rhp": "file:vendor/rhp"), so its build resolves rhp by the package's exports, as an app would, until rhp 2
-// is on npm: then install it from there.
+// ("@bezda/rhp": "file:vendor/rhp"), so its build resolves rhp by the package's exports, as an app would. It takes rhp
+// from its repository rather than from npm, so that a branch of the site can document an rhp change before its release;
+// the recipes and posters the site serves load the version in vendor/rhp/package.json from jsDelivr
+// (recipe-navigation.mjs).
 // Build rhp first (npm run build in its repo), then: npm run sync-rhp [path to the rhp repo, ../rhp by default].
 import fs from "node:fs";
 import path from "node:path";
