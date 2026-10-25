@@ -114,6 +114,8 @@ import { noCssGuard } from "@bezda/rhp";
 noCssGuard(); // where your app starts, before the first chart, on the server and in the browser
 ```
 
+The prop and `noCssGuard()` are in rhp 2.1.0 and later.
+
 Use `noCssGuard()` on a page made for its charts, such as a poster or an article.
 Use the Chart prop for one large chart on a page of small ones: that chart draws as fast as with `noCssGuard()`.
 Once one chart says `noCssGuard`, the charts that keep the guard draw 2 to 6% slower, so when every chart on the page can go without it, call `noCssGuard()` instead.

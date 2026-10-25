@@ -48,7 +48,7 @@ rhp writes `--rhp-position` on each slat's root element.
 The slat's CSS can read it on any element in the slat, as the [radial bars](/gallery/radial-bars/) do to give each ring its radius.
 In a Plot inside a slat, it is the inner slat's place.
 
-It isn't passed down to the elements inside a slat, so a `style` prop or your page's CSS on one of them doesn't see it.
+Since rhp 2.1.0, it isn't passed down to the elements inside a slat, so a `style` prop or your page's CSS on one of them doesn't see it.
 That lets the browser reuse the styles it works out for one slat in the next one: a chart of 1,000 bars draws about 40% faster in Chrome and Edge, about 10% faster in Safari, and as fast as before in Firefox.
 To read it there anyway, copy it on the slat's root and read the copy inside (those slats then draw as slowly as before):
 
@@ -58,7 +58,7 @@ To read it there anyway, copy it on the slat's root and read the copy inside (th
 </div>
 ```
 
-`inheritPosition()`, called where your app starts, passes it down in every chart again, as rhp did before 2.1.
+`inheritPosition()`, called where your app starts, passes it down in every chart again, as rhp did before 2.1.0.
 Charts then draw as slowly as before.
 
 ```js

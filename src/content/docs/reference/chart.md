@@ -20,7 +20,7 @@ description: The frame around one or more Plots. It sets the scale, the directio
 | `aspect` | | the whole chart's width over its height, such as `16 / 9`, kept at any width. Its height then comes from its width, so `height` is ignored. See [a fixed shape](#a-fixed-shape). |
 | `animate` | off | `true` for the [JS version](/guides/motion/); or `{ duration, ease, slide }` with timings in ms. Plots inside take it too. |
 | `static` | off | for data that doesn't change: slats are drawn once and use much less memory. A change draws them again, without animation. See [data](/guides/data/#data-that-never-changes). |
-| `noCssGuard` | off | the chart draws faster, without the rules that keep your page's CSS out of it. Use it when your page's CSS leaves the chart's elements alone. See [styling](/guides/styling/#without-the-guard). |
+| `noCssGuard` | off | the chart draws faster, without the rules that keep your page's CSS out of it. Use it when your page's CSS leaves the chart's elements alone. See [styling](/guides/styling/#without-the-guard). In rhp 2.1.0 and later. |
 | `cross` | | a second scale, `[min, max]`, across the slats: for scatter plots and lines. See [a second axis](/guides/scales/#a-second-axis). |
 | `crossTicks` | about 5 | the second axis' lines, like `ticks` |
 | `crossFormat` | the number | a function that turns a second axis tick's value into its text |
