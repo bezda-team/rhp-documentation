@@ -16,7 +16,7 @@ Put classes on the slat's root and its blocks, and style those classes.
 
 That CSS only reaches this chart's slats.
 It can't leak into your page or into other charts, so you can use short class names like `.slat` or `.value` without worrying.
-It works in both directions: your page's CSS can't reach into a chart either.
+It works in both directions: your page's CSS can't reach into a chart either, unless you [turn that off](#without-the-guard) to draw faster.
 
 Anything CSS can do to an element, it can do here, because a block and a slat are ordinary elements.
 A gradient on a bar, a web font on a label, an image behind a cell: all of it behaves the way it does anywhere else on your page.
@@ -94,6 +94,59 @@ Inside a slat's CSS, the theme's colors are variables:
 - `var(--rhp-color)` for the block's own `color`.
 
 The page sets these colors through the theme, described in [colors and themes](/guides/themes/).
+
+## Without the guard
+
+What keeps your page's CSS out of a chart is a set of rules rhp adds for its own elements: the guard.
+It undoes what your page might set on every `div` or `span`, such as margins, padding, borders, fonts and transitions.
+That takes time: without it, a chart draws 18 to 28% faster in Chrome and Edge, about 30% faster in Safari, and up to 16% faster in Firefox.
+
+When your page's CSS leaves a chart's elements alone, the chart can go without it:
+
+```jsx
+<Chart noCssGuard>…</Chart>
+```
+
+Or every chart on the page:
+
+```js
+import { noCssGuard } from "@bezda/rhp";
+noCssGuard(); // where your app starts, before the first chart, on the server and in the browser
+```
+
+Use `noCssGuard()` on a page made for its charts, such as a poster or an article.
+Use the Chart prop for one large chart on a page of small ones: that chart draws as fast as with `noCssGuard()`.
+Once one chart says `noCssGuard`, the charts that keep the guard draw 2 to 6% slower, so when every chart on the page can go without it, call `noCssGuard()` instead.
+
+Without the guard, rhp's own CSS works as before: it places and colors every block and keeps hidden slats hidden.
+But your page's CSS now reaches whatever rhp doesn't set itself, and CSS like this changes a chart:
+
+| Your page's CSS | What it does to a chart without the guard |
+|---|---|
+| margins, padding or borders on every `div` or `span` | moves blocks, labels and grid lines off their places |
+| a width or height on every `div`, or a minimum or maximum one | resizes bars and slats |
+| fonts and text styles on every `span`: `letter-spacing`, `text-transform`, `line-height` | changes labels and axis numbers, and moves them |
+| `::before` and `::after` boxes on every `div`, as a clearfix adds | puts extra boxes in slats and in the chart's grid |
+| a background, a shadow, rounded corners or an outline on every `div` | draws them on rhp's elements |
+| a `transition` on every element | animates the axis numbers and the names beside slats when they change |
+| an `animation` on every element | runs it on every block, label and grid line |
+| a rule for a class that a slat uses too | reaches that element: a page's `.note` rule, written for a note under the chart, colors a slat's Label that has the class `note` |
+
+The 92 example charts on this site and the 20 in the slat gallery were drawn without the guard under 12 popular stylesheets.
+Tailwind (its browser build and its preflight), normalize.css, modern-normalize, sanitize.css, Pico, Water.css, Simple.css and new.css changed none of them.
+Bootstrap 5, Bulma and Milligram changed a few, each only through a class name a slat used too: Bootstrap's `.row` and `.mark`, Bulma's `.box`, `.tag`, `.icon` and `.progress`, and Milligram's `.row`.
+So with a framework like these, give your slats class names it doesn't use.
+
+The browser's own styles reach a chart without the guard too, on a slat whose root isn't a `div`.
+An `<svg>` root cuts off what it draws outside its box, an `<a>` root is blue and underlined, a `<button>` or `<input>` root has the browser's border, background and font, and a `<p>`, `<ul>`, `<h3>` or `<figure>` root has margins that move it off its place.
+A `div`, `li`, `span`, `section`, `label` or `table` root looks the same either way.
+Set what you need in the slat's CSS, such as `margin: 0` or `overflow: visible`, or use a `div`.
+
+To check a page, draw its charts with and without `noCssGuard`.
+If they look the same at rest, when you point at them and when their data changes, your page's CSS leaves them alone.
+
+A page that links rhp's stylesheet itself (see [server rendering](/guides/server/#many-charts-or-islands)) links `@bezda/rhp/rhp-no-css-guard.css` instead and calls `noCssGuard()`.
+A chart inside another chart's slat goes without the guard only when the chart around it does too.
 
 ## Things to know
 

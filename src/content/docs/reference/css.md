@@ -39,3 +39,29 @@ Set them on a block, or on the slat to reach all its blocks.
 | `--rhp-series-1` … `--rhp-series-6` | the theme's series colors |
 | `--rhp-positive`, `--rhp-negative`, `--rhp-low`, `--rhp-high` | the other theme colors |
 | `--rhp-font` | the theme's font |
+| `--rhp-position` | a slat's place in its Plot: 0 for the first, 1 for the next, and so on. See [a slat's place](#a-slats-place). |
+| `--rhp-n` | how many places the slat's Plot has |
+
+## A slat's place
+
+rhp writes `--rhp-position` on each slat's root element.
+The slat's CSS can read it on any element in the slat, as the [radial bars](/gallery/radial-bars/) do to give each ring its radius.
+In a Plot inside a slat, it is the inner slat's place.
+
+It isn't passed down to the elements inside a slat, so a `style` prop or your page's CSS on one of them doesn't see it.
+That lets the browser reuse the styles it works out for one slat in the next one: a chart of 1,000 bars draws about 40% faster in Chrome and Edge, about 10% faster in Safari, and as fast as before in Firefox.
+To read it there anyway, copy it on the slat's root and read the copy inside (those slats then draw as slowly as before):
+
+```jsx
+<div style={{ "--row": "var(--rhp-position)" }}>
+  <Label at={d.v} style={{ opacity: "calc(1 - var(--row) * .1)" }}>{d.v}</Label>
+</div>
+```
+
+`inheritPosition()`, called where your app starts, passes it down in every chart again, as rhp did before 2.1.
+Charts then draw as slowly as before.
+
+```js
+import { inheritPosition } from "@bezda/rhp";
+inheritPosition(); // before the first chart, on the server and in the browser
+```
