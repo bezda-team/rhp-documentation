@@ -98,8 +98,9 @@ The skill's other references, which SKILL.md links to:
 
 ${references.filter((f) => !FULL.includes(f)).map(reference).join("\n")}`;
 // Sections of a reference that llms-full.txt links to instead of holding, to keep it under about 150 kB: the
-// experimental ManyDots collection, which few charts need. Each runs to the next heading of its level or higher.
-const LINKED = { "api.md": ["ManyDots (experimental point collection)"] };
+// experimental ManyDots collection and the race whose rows leave and come in, which few charts need. Each runs to the
+// next heading of its level or higher.
+const LINKED = { "api.md": ["ManyDots (experimental point collection)", "A top-N race whose rows leave and come in"] };
 const slug = (title) => title.toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-");
 const linkOut = (f, text) => (LINKED[f] ?? []).reduce((t, title) => {
   const start = t.indexOf(`\n### ${title}\n`);

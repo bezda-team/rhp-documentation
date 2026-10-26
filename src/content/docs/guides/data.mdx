@@ -32,6 +32,20 @@ Each object becomes one row, and its fields are what the slat reads: `d.city`, `
 You can use `rows` together with lists and functions.
 If a prop and a field have the same name, the slat reads the prop.
 
+## Missing values
+
+`null`, `undefined`, `NaN` and infinite numbers are missing values.
+A block given one draws nothing, so a row with no value is never read as a zero.
+The row's slat stays, with its name and the rest of what it draws, so say "no data" there:
+
+<Demo name="data-missing" height={170} />
+
+- A Line or an Area breaks at a missing point.
+  To join the line across the gap, leave the point out of the list.
+- The [helpers](/reference/helpers/) leave missing values out, and `sortBy` puts them last.
+- A value that comes back is drawn where it is, without moving from where it was.
+- When you read a CSV, turn its empty cells into `null`, not `0`.
+
 ## Adding and removing rows: keys
 
 By default a slat is tied to a place in the list, not to a row: the first slat shows the first row, the second slat the second row.

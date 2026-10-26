@@ -10,7 +10,7 @@ When their input changes, wrap the call in `createMemo` so it runs once per chan
 
 | | |
 |---|---|
-| `sortBy(key, "asc" \| "desc")` | an `order` that sorts rows by a data name or a function of `d`. Ties keep their places. |
+| `sortBy(key, "asc" \| "desc")` | an `order` that sorts rows by a data name or a function of `d`. Ties keep their places, and rows with a missing value go last. |
 | `series(n)` | a color per row from the theme's series, in order: `color={series()}` |
 | `cycle(list)` | repeats a list over the rows without setting their number: `color={cycle(["red", "blue"])}` |
 
@@ -20,9 +20,11 @@ When their input changes, wrap the call in `createMemo` so it runs once per chan
 |---|---|
 | `every(step, { ends })` | ticks at each multiple of `step`, and with `ends: true` at the scale's two ends too. `step` must be above 0. |
 | `nice(lo, hi, count)` | a round scale around `lo`..`hi`: `{ min, max, step, ticks }` |
-| `extent(values)` | `[smallest, largest]` |
+| `extent(values)` | `[smallest, largest]`, leaving out missing values |
 
 ## Shaping data
+
+These leave [missing values](/guides/data/#missing-values) out of totals and summaries; `stackUp`, `shares` and `running` give a missing value `null`, so its piece is not drawn.
 
 | | |
 |---|---|
