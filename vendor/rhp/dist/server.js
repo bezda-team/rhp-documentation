@@ -7,7 +7,7 @@ import { ssrHydrationKey as _$ssrHydrationKey2 } from "solid-js/web";
 import { createComponent as _$createComponent } from "solid-js/web";
 
 // src/rhp.css
-var rhp_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-area path,.rhp-line,.rhp-line path){box-sizing:border-box}.rhp-chart{--rhp-min: 0;--rhp-max: 100;--rhp-inset: 18%;padding-top:var(--rhp-pad-top, 2px);padding-right:var(--rhp-pad-right, 2px);padding-bottom:var(--rhp-pad-bottom, 2px);padding-left:var(--rhp-pad-left, 2px)}.rhp-body{all:initial}.rhp-body{position:relative;display:grid;width:100%;direction:ltr;container-type:inline-size;visibility:inherit;pointer-events:inherit;-webkit-tap-highlight-color:inherit;font:400 12px/1.15 var(--rhp-font);color:var(--rhp-ink);print-color-adjust:exact}.rhp-chart[data-rhp-o=h]:not([data-rhp-aspect])>.rhp-body{height:auto}.rhp-chart[data-rhp-o=v]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-o=h][data-rhp-sized]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height)}.rhp-chart[data-rhp-aspect]{box-sizing:border-box;aspect-ratio:var(--rhp-aspect);min-height:0}.rhp-chart[data-rhp-aspect]>.rhp-body{height:100%}.rhp-body>*{grid-area:1 / 1;min-width:0;min-height:0}.rhp-axis{position:relative;pointer-events:none}.rhp-axis[data-rhp-o=h]{clip-path:inset(-100vh calc(-1 * var(--rhp-axis-ends, 28px)))}.rhp-axis[data-rhp-o=v]{clip-path:inset(calc(-1 * var(--rhp-axis-ends, 28px)) -100vw)}.rhp-gridline{position:absolute;--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}@starting-style{.rhp-gridline{--rhp-p: calc((var(--rhp-at) - var(--rhp-start-min, var(--rhp-min))) / (var(--rhp-start-max, var(--rhp-max)) - var(--rhp-start-min, var(--rhp-min))))}}.rhp-gridline[data-rhp-o=h]{top:0;bottom:0;left:calc(var(--rhp-p) * 100%);border-left:1px solid var(--rhp-grid)}.rhp-gridline[data-rhp-o=v]{left:0;right:0;bottom:calc(var(--rhp-p) * 100%);border-bottom:1px solid var(--rhp-grid)}.rhp-gridline>span{position:absolute;font-size:11px;line-height:1;color:var(--rhp-muted);white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-axis[data-rhp-grid=off]>.rhp-gridline{border-color:transparent}.rhp-gridline[data-rhp-o=h]>span{top:calc(100% + 5px);left:0;translate:-50% 0}.rhp-gridline[data-rhp-o=v]>span{right:calc(100% + 6px);bottom:0;translate:0 50%}.rhp-plot{position:relative;z-index:1}.rhp-plot[data-rhp-o=h],.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){--rhp-toward-end: to right}.rhp-plot[data-rhp-o=v],.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){--rhp-toward-end: to top}.rhp-bar[data-rhp-o=h][data-rhp-back]{--rhp-toward-end: to left}.rhp-bar[data-rhp-o=v][data-rhp-back]{--rhp-toward-end: to bottom}.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 32px))}.rhp-chart[data-rhp-sized]>.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap]){width:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-overlap][data-rhp-o=h]{min-height:var(--rhp-pitch, 32px)}.rhp-plot>*>.rhp-plot,.rhp-plot>.rhp-plot{--rhp-pitch: initial}.rhp-plot>*>.rhp-plot{position:absolute}.rhp-plot[data-rhp-o=h]>*>.rhp-plot{top:calc((100% - var(--rhp-plot-thick, 100%)) / 2);right:0;bottom:calc((100% - var(--rhp-plot-thick, 100%)) / 2);left:0}.rhp-plot[data-rhp-o=v]>*>.rhp-plot{top:0;right:calc((100% - var(--rhp-plot-thick, 100%)) / 2);bottom:0;left:calc((100% - var(--rhp-plot-thick, 100%)) / 2)}.rhp-bar,.rhp-area,.rhp-line{--rhp-lo: clamp(0, (min(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1);--rhp-hi: clamp(0, (max(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)}.rhp-dot,.rhp-tick,.rhp-label,.rhp-place{--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line{position:absolute}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell{clip-path:var(--rhp-clip, none)}.rhp-area[data-rhp-o=h],.rhp-line[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-area[data-rhp-o=v],.rhp-line[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-bar[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){left:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){bottom:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar{background:var(--rhp-color, var(--rhp-series-1))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){border-top-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h][data-rhp-back]{border-top-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){border-top-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v][data-rhp-back]{border-top-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h]{top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:0 -50%}.rhp-bar[data-rhp-o=v]{left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:-50% 0}.rhp-dot{width:var(--rhp-size, 10px);height:var(--rhp-size, 10px);border-radius:50%;background:var(--rhp-color, var(--rhp-series-1))}.rhp-dot[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%);translate:-50% -50%}.rhp-dot[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%);translate:-50% 50%}.rhp-place{width:0;height:0}.rhp-place[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%)}.rhp-place[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%)}.rhp-tick{background:var(--rhp-color, var(--rhp-ink))}.rhp-tick[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));width:var(--rhp-tick-width, 2px);translate:-50% -50%}.rhp-tick[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));height:var(--rhp-tick-width, 2px);translate:-50% 50%}.rhp-label{font-size:var(--rhp-label-size, 12px);line-height:1.15;white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-label[data-rhp-at][data-rhp-o=h]{left:calc(min(var(--rhp-p),1)*100%);top:50%;translate:0 -50%;padding-left:var(--rhp-label-gap, 5px)}.rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% -50%;padding-top:0;padding-right:var(--rhp-label-gap, 5px);padding-bottom:0;padding-left:0}.rhp-label[data-rhp-at][data-rhp-o=v]{bottom:calc(max(var(--rhp-p),0)*100%);left:50%;translate:-50% 0;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-label[data-rhp-at][data-rhp-o=v][data-rhp-side=before]{translate:-50% 100%;padding-top:var(--rhp-label-gap, 3px);padding-right:0;padding-bottom:0;padding-left:0}.rhp-label[data-rhp-edge][data-rhp-o=h]{top:50%;translate:0 -50%;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=h]{right:100%;width:var(--rhp-room-start, 104px);text-align:right;padding-right:var(--rhp-label-gap, 8px)}.rhp-label[data-rhp-edge=end][data-rhp-o=h]{left:100%;width:var(--rhp-room-end, 44px);padding-left:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge][data-rhp-o=v]{left:0;right:0;text-align:center;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=v]{top:100%;padding-top:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge=end][data-rhp-o=v]{bottom:100%;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-cell{top:var(--rhp-cell-gap, 1px);right:var(--rhp-cell-gap, 1px);bottom:var(--rhp-cell-gap, 1px);left:var(--rhp-cell-gap, 1px);background:var(--rhp-color, color-mix(in oklab, var(--rhp-high) calc(clamp(0, (var(--rhp-value) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)*100%) , var(--rhp-low)));border-top-left-radius:var(--rhp-radius, 2px);border-top-right-radius:var(--rhp-radius, 2px);border-bottom-right-radius:var(--rhp-radius, 2px);border-bottom-left-radius:var(--rhp-radius, 2px)}.rhp-area{overflow:visible;fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 35%,transparent);stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:1.5px;filter:none;pointer-events:inherit;stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:miter;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;fill-rule:nonzero;paint-order:normal;shape-rendering:auto}.rhp-area path{fill:inherit;stroke:inherit;stroke-width:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;fill-rule:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit;d:var(--rhp-d, none)}.rhp-area[data-rhp-o=h],.rhp-line[data-rhp-o=h]{top:calc(var(--rhp-inset) / 2);height:calc(100% - var(--rhp-inset))}.rhp-area[data-rhp-o=v],.rhp-line[data-rhp-o=v]{left:calc(var(--rhp-inset) / 2);width:calc(100% - var(--rhp-inset))}.rhp-line{overflow:visible;fill:none;stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:2px;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;paint-order:normal;shape-rendering:auto;filter:none;pointer-events:inherit;--rhp-d-under: none}.rhp-line path{stroke-width:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit}.rhp-line .rhp-stroke{fill:none;stroke:inherit;d:var(--rhp-d, none)}.rhp-line .rhp-under{fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 22%,transparent);stroke:none;d:var(--rhp-d-under, none)}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label[data-rhp-at],.rhp-place,.rhp-area,.rhp-line,.rhp-gridline){transition-property:left,width,bottom,height,background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out)}.rhp-cell{transition-property:background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out);transition-delay:0s;transition-behavior:normal}@media(prefers-reduced-motion:no-preference){.rhp-area:not([data-rhp-animate=js] *) path,.rhp-line:not([data-rhp-animate=js] *) path{transition-property:d;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out);transition-delay:0s;transition-behavior:normal}}}@layer rhp.core{@media(forced-colors:active){.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell,.rhp-area,.rhp-line{forced-color-adjust:none}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell{outline:1px solid CanvasText;outline-offset:-1px}}}@layer rhp.place{.rhp-plot>*{position:absolute;box-sizing:border-box}.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap])>*{left:0;right:0;top:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));bottom:auto;height:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap])>*{top:0;bottom:0;left:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));right:auto;width:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-reorder=slide]:not([data-rhp-overlap])>*{transition-property:top,left;transition-duration:var(--rhp-slide-time, .3s),var(--rhp-slide-time, .3s);transition-timing-function:var(--rhp-slide-ease, ease-in-out),var(--rhp-slide-ease, ease-in-out);transition-delay:0s,0s;transition-behavior:normal,normal}.rhp-chart[data-rhp-turning] .rhp-plot[data-rhp-reorder]>*{transition:none}.rhp-chart[data-rhp-turning],.rhp-chart[data-rhp-turning] *,[data-rhp-animate=js] .rhp-bar,[data-rhp-animate=js] .rhp-dot,[data-rhp-animate=js] .rhp-tick,[data-rhp-animate=js] .rhp-label,[data-rhp-animate=js] .rhp-place,[data-rhp-animate=js] .rhp-area,[data-rhp-animate=js] .rhp-line,[data-rhp-animate=js] .rhp-gridline,[data-rhp-animate=js] .rhp-cell{transition:none}.rhp-plot>[hidden]{display:none}.rhp-plot[data-rhp-overlap]>:not(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){inset:0}@media(prefers-reduced-motion:reduce){.rhp-plot[data-rhp-reorder]:not([data-rhp-overlap])>*{transition:none}.rhp-chart .rhp-bar,.rhp-chart .rhp-dot,.rhp-chart .rhp-tick,.rhp-chart .rhp-label,.rhp-chart .rhp-place,.rhp-chart .rhp-area,.rhp-chart .rhp-line,.rhp-chart .rhp-gridline,.rhp-chart .rhp-cell{transition:none}}}";
+var rhp_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-area path,.rhp-line,.rhp-line path){box-sizing:border-box}.rhp-chart{--rhp-min: 0;--rhp-max: 100;--rhp-inset: 18%;padding-top:var(--rhp-pad-top, 2px);padding-right:var(--rhp-pad-right, 2px);padding-bottom:var(--rhp-pad-bottom, 2px);padding-left:var(--rhp-pad-left, 2px)}.rhp-body{all:initial}.rhp-body{position:relative;display:grid;width:100%;direction:ltr;container-type:inline-size;visibility:inherit;pointer-events:inherit;-webkit-tap-highlight-color:inherit;font:400 12px/1.15 var(--rhp-font);color:var(--rhp-ink);print-color-adjust:exact}.rhp-chart[data-rhp-o=h]:not([data-rhp-aspect])>.rhp-body{height:auto}.rhp-chart[data-rhp-o=v]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height, 240px)}.rhp-chart[data-rhp-o=h][data-rhp-sized]:not([data-rhp-aspect])>.rhp-body{height:var(--rhp-height)}.rhp-chart[data-rhp-aspect]{box-sizing:border-box;aspect-ratio:var(--rhp-aspect);min-height:0}.rhp-chart[data-rhp-aspect]>.rhp-body{height:100%}.rhp-body>*{grid-area:1 / 1;min-width:0;min-height:0}.rhp-axis{position:relative;pointer-events:none}.rhp-axis[data-rhp-o=h]{clip-path:inset(-100vh calc(-1 * var(--rhp-axis-ends, 28px)))}.rhp-axis[data-rhp-o=v]{clip-path:inset(calc(-1 * var(--rhp-axis-ends, 28px)) -100vw)}.rhp-gridline{position:absolute;--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}@starting-style{.rhp-gridline{--rhp-p: calc((var(--rhp-at) - var(--rhp-start-min, var(--rhp-min))) / (var(--rhp-start-max, var(--rhp-max)) - var(--rhp-start-min, var(--rhp-min))))}}.rhp-gridline[data-rhp-o=h]{top:0;bottom:0;left:calc(var(--rhp-p) * 100%);border-left:1px solid var(--rhp-grid)}.rhp-gridline[data-rhp-o=v]{left:0;right:0;bottom:calc(var(--rhp-p) * 100%);border-bottom:1px solid var(--rhp-grid)}.rhp-gridline>span{position:absolute;font-size:11px;line-height:1;color:var(--rhp-muted);white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-axis[data-rhp-grid=off]>.rhp-gridline{border-color:transparent}.rhp-gridline[data-rhp-o=h]>span{top:calc(100% + 5px);left:0;translate:-50% 0}.rhp-gridline[data-rhp-o=v]>span{right:calc(100% + 6px);bottom:0;translate:0 50%}.rhp-plot{position:relative;z-index:1}.rhp-plot[data-rhp-o=h],.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){--rhp-toward-end: to right}.rhp-plot[data-rhp-o=v],.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){--rhp-toward-end: to top}.rhp-bar[data-rhp-o=h][data-rhp-back]{--rhp-toward-end: to left}.rhp-bar[data-rhp-o=v][data-rhp-back]{--rhp-toward-end: to bottom}.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 32px))}.rhp-chart[data-rhp-sized]>.rhp-body>.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap]){height:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap]){width:calc(var(--rhp-n) * var(--rhp-pitch, 100% / var(--rhp-n)))}.rhp-body>.rhp-plot[data-rhp-overlap][data-rhp-o=h]{min-height:var(--rhp-pitch, 32px)}.rhp-plot>*>.rhp-plot,.rhp-plot>.rhp-plot{--rhp-pitch: initial}.rhp-plot>*>.rhp-plot{position:absolute}.rhp-plot[data-rhp-o=h]>*>.rhp-plot{top:calc((100% - var(--rhp-plot-thick, 100%)) / 2);right:0;bottom:calc((100% - var(--rhp-plot-thick, 100%)) / 2);left:0}.rhp-plot[data-rhp-o=v]>*>.rhp-plot{top:0;right:calc((100% - var(--rhp-plot-thick, 100%)) / 2);bottom:0;left:calc((100% - var(--rhp-plot-thick, 100%)) / 2)}.rhp-bar,.rhp-area,.rhp-line{--rhp-lo: clamp(0, (min(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1);--rhp-hi: clamp(0, (max(var(--rhp-from), var(--rhp-to)) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)}.rhp-dot,.rhp-tick,.rhp-label,.rhp-place{--rhp-p: calc((var(--rhp-at) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)))}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line{position:absolute}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell{clip-path:var(--rhp-clip, none)}.rhp-area[data-rhp-o=h],.rhp-line[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-area[data-rhp-o=v],.rhp-line[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100%)}.rhp-bar[data-rhp-o=h]{left:calc(var(--rhp-lo) * 100%);width:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){left:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]{bottom:calc(var(--rhp-lo) * 100%);height:calc((var(--rhp-hi) - var(--rhp-lo)) * 100% - var(--rhp-gap, 0%))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){bottom:calc(var(--rhp-lo) * 100% + var(--rhp-gap, 0%))}.rhp-bar{background:var(--rhp-color, var(--rhp-series-1))}.rhp-bar[data-rhp-o=h]:not([data-rhp-back]){border-top-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h][data-rhp-back]{border-top-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v]:not([data-rhp-back]){border-top-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=v][data-rhp-back]{border-top-left-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-top-right-radius:var(--rhp-start-radius, var(--rhp-radius, 2px));border-bottom-right-radius:var(--rhp-end-radius, var(--rhp-radius, 2px));border-bottom-left-radius:var(--rhp-end-radius, var(--rhp-radius, 2px))}.rhp-bar[data-rhp-o=h]{top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:0 -50%}.rhp-bar[data-rhp-o=v]{left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));translate:-50% 0}.rhp-dot{width:var(--rhp-size, 10px);height:var(--rhp-size, 10px);border-radius:50%;background:var(--rhp-color, var(--rhp-series-1))}.rhp-dot[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%);translate:-50% -50%}.rhp-dot[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%);translate:-50% 50%}.rhp-place{width:0;height:0}.rhp-place[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:calc(var(--rhp-across, .5) * 100%)}.rhp-place[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:calc(var(--rhp-across, .5) * 100%)}.rhp-tick{background:var(--rhp-color, var(--rhp-ink))}.rhp-tick[data-rhp-o=h]{left:calc(var(--rhp-p) * 100%);top:50%;height:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));width:var(--rhp-tick-width, 2px);translate:-50% -50%}.rhp-tick[data-rhp-o=v]{bottom:calc(var(--rhp-p) * 100%);left:50%;width:var(--rhp-thick, calc(100% - 2 * var(--rhp-inset)));height:var(--rhp-tick-width, 2px);translate:-50% 50%}.rhp-label{font-size:var(--rhp-label-size, 12px);line-height:1.15;white-space:nowrap;font-variant-numeric:tabular-nums}.rhp-label[data-rhp-at][data-rhp-o=h]{left:calc(min(var(--rhp-p),1)*100%);top:50%;translate:0 -50%;padding-left:var(--rhp-label-gap, 5px)}.rhp-label[data-rhp-at][data-rhp-o=h][data-rhp-side=before]{translate:-100% -50%;padding-top:0;padding-right:var(--rhp-label-gap, 5px);padding-bottom:0;padding-left:0}.rhp-label[data-rhp-at][data-rhp-o=v]{bottom:calc(max(var(--rhp-p),0)*100%);left:50%;translate:-50% 0;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-label[data-rhp-at][data-rhp-o=v][data-rhp-side=before]{translate:-50% 100%;padding-top:var(--rhp-label-gap, 3px);padding-right:0;padding-bottom:0;padding-left:0}.rhp-label[data-rhp-edge][data-rhp-o=h]{top:50%;translate:0 -50%;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=h]{right:100%;width:var(--rhp-room-start, 104px);text-align:right;padding-right:var(--rhp-label-gap, 8px)}.rhp-label[data-rhp-edge=end][data-rhp-o=h]{left:100%;width:var(--rhp-room-end, 44px);padding-left:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge][data-rhp-o=v]{left:0;right:0;text-align:center;overflow:hidden;text-overflow:ellipsis}.rhp-label[data-rhp-edge=start][data-rhp-o=v]{top:100%;padding-top:var(--rhp-label-gap, 6px)}.rhp-label[data-rhp-edge=end][data-rhp-o=v]{bottom:100%;padding-bottom:var(--rhp-label-gap, 3px)}.rhp-cell{top:var(--rhp-cell-gap, 1px);right:var(--rhp-cell-gap, 1px);bottom:var(--rhp-cell-gap, 1px);left:var(--rhp-cell-gap, 1px);background:var(--rhp-color, color-mix(in oklab, var(--rhp-high) calc(clamp(0, (var(--rhp-value) - var(--rhp-min)) / (var(--rhp-max) - var(--rhp-min)), 1)*100%) , var(--rhp-low)));border-top-left-radius:var(--rhp-radius, 2px);border-top-right-radius:var(--rhp-radius, 2px);border-bottom-right-radius:var(--rhp-radius, 2px);border-bottom-left-radius:var(--rhp-radius, 2px)}.rhp-area{overflow:visible;fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 35%,transparent);stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:1.5px;filter:none;pointer-events:inherit;stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:miter;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;fill-rule:nonzero;paint-order:normal;shape-rendering:auto}.rhp-area path{fill:inherit;stroke:inherit;stroke-width:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;fill-rule:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit;d:var(--rhp-d, none)}.rhp-area[data-rhp-o=h],.rhp-line[data-rhp-o=h]{top:calc(var(--rhp-inset) / 2);height:calc(100% - var(--rhp-inset))}.rhp-area[data-rhp-o=v],.rhp-line[data-rhp-o=v]{left:calc(var(--rhp-inset) / 2);width:calc(100% - var(--rhp-inset))}.rhp-line{overflow:visible;fill:none;stroke:var(--rhp-color, var(--rhp-series-1));stroke-width:2px;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-miterlimit:4;stroke-opacity:1;fill-opacity:1;paint-order:normal;shape-rendering:auto;filter:none;pointer-events:inherit;--rhp-d-under: none}.rhp-line path{stroke-width:inherit;stroke-linejoin:inherit;stroke-linecap:inherit;stroke-dasharray:inherit;stroke-dashoffset:inherit;stroke-miterlimit:inherit;stroke-opacity:inherit;fill-opacity:inherit;paint-order:inherit;shape-rendering:inherit;vector-effect:non-scaling-stroke;filter:none;pointer-events:inherit}.rhp-line .rhp-stroke{fill:none;stroke:inherit;d:var(--rhp-d, none)}.rhp-line .rhp-under{fill:color-mix(in srgb,var(--rhp-color, var(--rhp-series-1)) 22%,transparent);stroke:none;d:var(--rhp-d-under, none)}:is(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label[data-rhp-at],.rhp-place,.rhp-area,.rhp-line,.rhp-gridline){transition-property:left,width,bottom,height,background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out)}.rhp-cell{transition-property:background-color;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out);transition-delay:0s;transition-behavior:normal}@media(prefers-reduced-motion:no-preference){.rhp-area:not([data-rhp-animate=js] *) path,.rhp-line:not([data-rhp-animate=js] *) path{transition-property:d;transition-duration:var(--rhp-length-time, .15s);transition-timing-function:var(--rhp-length-ease, ease-out);transition-delay:0s;transition-behavior:normal}}}@layer rhp.core{@media(forced-colors:active){.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell,.rhp-area,.rhp-line{forced-color-adjust:none}.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell{outline:1px solid CanvasText;outline-offset:-1px}}}@layer rhp.place{[data-rhp-missing]{display:none}.rhp-plot>*{position:absolute;box-sizing:border-box}.rhp-plot[data-rhp-o=h]:not([data-rhp-overlap])>*{left:0;right:0;top:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));bottom:auto;height:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-o=v]:not([data-rhp-overlap])>*{top:0;bottom:0;left:calc(var(--rhp-position) * var(--rhp-pitch, 100% / var(--rhp-n)));right:auto;width:var(--rhp-pitch, calc(100% / var(--rhp-n)));translate:none}.rhp-plot[data-rhp-reorder=slide]:not([data-rhp-overlap])>*{transition-property:top,left;transition-duration:var(--rhp-slide-time, .3s),var(--rhp-slide-time, .3s);transition-timing-function:var(--rhp-slide-ease, ease-in-out),var(--rhp-slide-ease, ease-in-out);transition-delay:0s,0s;transition-behavior:normal,normal}.rhp-chart[data-rhp-turning] .rhp-plot[data-rhp-reorder]>*{transition:none}.rhp-chart[data-rhp-turning],.rhp-chart[data-rhp-turning] *,[data-rhp-animate=js] .rhp-bar,[data-rhp-animate=js] .rhp-dot,[data-rhp-animate=js] .rhp-tick,[data-rhp-animate=js] .rhp-label,[data-rhp-animate=js] .rhp-place,[data-rhp-animate=js] .rhp-area,[data-rhp-animate=js] .rhp-line,[data-rhp-animate=js] .rhp-gridline,[data-rhp-animate=js] .rhp-cell{transition:none}.rhp-plot>[hidden]{display:none}.rhp-plot[data-rhp-overlap]>:not(.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line){inset:0}@media(prefers-reduced-motion:reduce){.rhp-plot[data-rhp-reorder]:not([data-rhp-overlap])>*{transition:none}.rhp-chart .rhp-bar,.rhp-chart .rhp-dot,.rhp-chart .rhp-tick,.rhp-chart .rhp-label,.rhp-chart .rhp-place,.rhp-chart .rhp-area,.rhp-chart .rhp-line,.rhp-chart .rhp-gridline,.rhp-chart .rhp-cell{transition:none}}}";
 
 // src/guard.css
 var guard_default = "@layer rhp.core{:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-area path,.rhp-line,.rhp-line path){display:revert;margin:0;padding:0;border:0 solid transparent;border-radius:0;box-shadow:none;outline:revert;outline-offset:revert;background:none;overflow:visible;float:none;min-width:0;min-height:0;max-width:none;max-height:none;vertical-align:baseline;transition:none;animation:none;text-decoration:none;user-select:auto;touch-action:auto;font:inherit;font-synthesis:inherit;letter-spacing:inherit;word-spacing:inherit;text-transform:inherit;text-indent:inherit;text-align:inherit;text-shadow:inherit;color:inherit;white-space:inherit;text-rendering:inherit;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-text-stroke:inherit;-webkit-tap-highlight-color:inherit;word-break:inherit;overflow-wrap:inherit;hyphens:inherit;line-break:inherit;print-color-adjust:inherit}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>:not(svg,img,canvas,video,iframe,embed,object),.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell){width:auto;height:auto}:where(:root:active-view-transition .rhp-plot>*){view-transition-name:none}:where(.rhp-body,.rhp-axis,.rhp-gridline,.rhp-gridline>span,.rhp-plot,.rhp-plot>*,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-label,.rhp-cell,.rhp-place,.rhp-area,.rhp-line)[hidden]{display:none}:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):before,:where(.rhp-body,.rhp-axis,.rhp-plot,.rhp-plot>*):after{display:none}:is(.rhp-label,.rhp-gridline>span)::selection,:is(.rhp-label,.rhp-gridline>span,.rhp-bar,.rhp-dot,.rhp-tick,.rhp-cell) ::selection{color:HighlightText;background-color:Highlight;text-shadow:none}}";
@@ -400,6 +400,95 @@ function drawing(f) {
   }
 }
 
+// src/data.js
+var missing = (v) => v == null || typeof v == "number" && !Number.isFinite(v), compare = (a, b) => a < b ? -1 : a > b ? 1 : 0, sortBy = (key, direction = "asc") => (rows, current) => {
+  let keys = rows.map((d) => typeof key == "function" ? key(d) : d[key]), sign = direction === "desc" ? -1 : 1, onScreen = rows.map((_, i) => i).sort((a, b) => (current[a] ?? 1 / 0) - (current[b] ?? 1 / 0)), positions = Array(rows.length);
+  return onScreen.sort((a, b) => missing(keys[a]) - missing(keys[b]) || (missing(keys[a]) ? 0 : sign * compare(keys[a], keys[b]))).forEach((row, position2) => positions[row] = position2), positions;
+}, cycle = (list) => (d) => list[d.index % list.length], extent = (values) => {
+  let lo = 1 / 0, hi = -1 / 0;
+  for (let v of values)
+    missing(v) || (v < lo && (lo = v), v > hi && (hi = v));
+  return [lo, hi];
+}, every = (step, { ends = !1 } = {}) => ([min, max]) => {
+  if (!(step > 0)) throw new Error("rhp: every() takes a step above 0");
+  let out = [], first = Math.ceil(min / step - 1e-9);
+  for (let k = 0; k <= 1e4; k++) {
+    let v = (first + k) * step;
+    if (!(v <= max + 1e-9) || k > 0 && v === (first + k - 1) * step) break;
+    out.push(+v.toFixed(10));
+  }
+  return ends && out[0] !== min && out.unshift(min), ends && out.at(-1) !== max && out.push(max), out;
+};
+function nice(lo, hi, count = 5) {
+  (missing(lo) || missing(hi)) && ([lo, hi] = [0, 1]), hi > lo || (hi = lo + 1);
+  let raw = (hi - lo) / Math.max(1, count), magnitude = 10 ** Math.floor(Math.log10(raw)), step = [1, 2, 2.5, 5, 10].map((m) => m * magnitude).find((s) => s >= raw), min = Math.floor(lo / step + 1e-9) * step, max = Math.ceil(hi / step - 1e-9) * step, ticks = [];
+  for (let k = 0; k <= 1e3; k++) {
+    let v = min + k * step;
+    if (!(v <= max + step / 2) || k > 0 && v === min + (k - 1) * step) break;
+    ticks.push(+v.toFixed(10));
+  }
+  return { min, max, step, ticks };
+}
+function stackUp(values) {
+  let up = 0, down = 0, from = [], to = [];
+  for (let v of values)
+    missing(v) ? (from.push(null), to.push(null)) : v >= 0 ? (from.push(up), up += v, to.push(up)) : (from.push(down), down += v, to.push(down));
+  return { from, to };
+}
+var shares = (values, total = 100) => {
+  let sum = values.reduce((s, v) => missing(v) ? s : s + Math.abs(v), 0) || 1;
+  return values.map((v) => missing(v) ? null : v / sum * total);
+};
+function running(changes) {
+  let total = 0, from = [], to = [];
+  for (let change of changes) {
+    if (missing(change)) {
+      from.push(null), to.push(null);
+      continue;
+    }
+    from.push(total), total += change, to.push(total);
+  }
+  return { from, to };
+}
+var quantile = (sorted, p) => {
+  let h = (sorted.length - 1) * p, lo = Math.floor(h);
+  return sorted[lo] + (sorted[Math.min(lo + 1, sorted.length - 1)] - sorted[lo]) * (h - lo);
+};
+function summary(samples) {
+  let sorted = samples.filter((v) => !missing(v)).sort((a, b) => a - b), q1 = quantile(sorted, 0.25), median = quantile(sorted, 0.5), q3 = quantile(sorted, 0.75), iqr = q3 - q1, low = sorted.find((v) => v >= q1 - 1.5 * iqr), high = sorted.findLast((v) => v <= q3 + 1.5 * iqr);
+  return {
+    min: sorted[0],
+    q1,
+    median,
+    q3,
+    max: sorted[sorted.length - 1],
+    low,
+    high,
+    mean: sorted.reduce((a, b) => a + b, 0) / sorted.length,
+    outliers: sorted.filter((v) => v < low || v > high)
+  };
+}
+function bins(samples, { domain = extent(samples), count = 10 } = {}) {
+  let [lo, hi] = domain;
+  (!Number.isFinite(lo) || !Number.isFinite(hi)) && ([lo, hi] = [0, 1]), lo === hi && ([lo, hi] = [lo - 0.5, hi + 0.5]);
+  let width = (hi - lo) / count, x0 = [], x1 = [], tally = Array(count).fill(0);
+  for (let k = 0; k < count; k++)
+    x0.push(lo + k * width), x1.push(lo + (k + 1) * width);
+  for (let v of samples)
+    missing(v) || v < lo || v > hi || tally[Math.min(count - 1, Math.floor((v - lo) / width))]++;
+  return { x0, x1, tally };
+}
+function density(all, { domain = extent(all), points: points2 = 40, bandwidth } = {}) {
+  let samples = all.filter((v) => !missing(v)), n = samples.length, mean = samples.reduce((a, b) => a + b, 0) / n, sd = Math.sqrt(samples.reduce((a, v) => a + (v - mean) ** 2, 0) / Math.max(1, n - 1)) || 1, h = bandwidth ?? 1.06 * sd * n ** -0.2, [lo, hi] = domain, out = [];
+  for (let k = 0; k < points2; k++) {
+    let x = lo + (hi - lo) * k / (points2 - 1), y = 0;
+    for (let v of samples)
+      y += Math.exp(-0.5 * ((x - v) / h) ** 2);
+    out.push([x, y / (n * h * Math.sqrt(2 * Math.PI))]);
+  }
+  return out;
+}
+
 // src/animate.js
 var bezier = (x1, y1, x2, y2) => {
   let cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx, cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by, curveX = (t) => ((ax * t + bx) * t + cx) * t, curveY = (t) => ((ay * t + by) * t + cy) * t;
@@ -432,7 +521,7 @@ function diff(b, a) {
   if (typeof b == "number")
     return typeof a == "number" && Number.isFinite(a) && Number.isFinite(b) ? b - a : void 0;
   if (Array.isArray(b))
-    return Array.isArray(a) && a.length === b.length ? b.map((v, i) => diff(v, a[i])) : void 0;
+    return Array.isArray(a) && a.length === b.length && b.every((v, i) => missing(v) === missing(a[i])) ? b.map((v, i) => diff(v, a[i])) : void 0;
   if (plain(b)) {
     if (!plain(a)) return;
     let out = {};
@@ -467,7 +556,8 @@ function animated(read, settings = () => ({})) {
   let to, moves = [], shown, seenAt = -1;
   return (ahead = 0) => {
     let v = read();
-    if (!movable(v) || reduce.matches) return v;
+    if (!movable(v) || reduce.matches)
+      return to = void 0, moves = [], v;
     if (to === void 0 || !same(to, v)) {
       let target = snapshot(v), d = to === void 0 ? void 0 : diff(target, to);
       if (d === void 0)
@@ -499,7 +589,8 @@ function transitioned(read, settings) {
   };
   return () => {
     let v = read();
-    if (!movable(v) || reduce.matches) return v;
+    if (!movable(v) || reduce.matches)
+      return to = void 0, run = null, v;
     if (to === void 0 || !same(to, v)) {
       let target = snapshot(v), now = performance.now(), running2 = run !== null && now < run.start + run.dur, from = running2 ? at2(run, now) : to, d = from === void 0 ? void 0 : diff(target, from), s = d === void 0 ? void 0 : untrack(settings), reversed = running2 && s !== void 0 && same(run.back, target), factor = reversed ? Math.min(1, Math.abs(run.ease(Math.max(0, (now - run.start) / run.dur)) * run.factor + 1 - run.factor)) : 1, dur = (s?.duration ?? 0) * factor;
       if (!(dur > 0))
@@ -512,90 +603,6 @@ function transitioned(read, settings) {
     }
     return run === null ? to : frameAt >= run.start + run.dur ? (run = null, to) : at2(run, clock());
   };
-}
-
-// src/data.js
-var compare = (a, b) => a < b ? -1 : a > b ? 1 : 0, sortBy = (key, direction = "asc") => (rows, current) => {
-  let keys = rows.map((d) => typeof key == "function" ? key(d) : d[key]), sign = direction === "desc" ? -1 : 1, onScreen = rows.map((_, i) => i).sort((a, b) => (current[a] ?? 1 / 0) - (current[b] ?? 1 / 0)), positions = Array(rows.length);
-  return onScreen.sort((a, b) => sign * compare(keys[a], keys[b])).forEach((row, position2) => positions[row] = position2), positions;
-}, cycle = (list) => (d) => list[d.index % list.length], extent = (values) => {
-  let lo = 1 / 0, hi = -1 / 0;
-  for (let v of values)
-    v < lo && (lo = v), v > hi && (hi = v);
-  return [lo, hi];
-}, every = (step, { ends = !1 } = {}) => ([min, max]) => {
-  if (!(step > 0)) throw new Error("rhp: every() takes a step above 0");
-  let out = [], first = Math.ceil(min / step - 1e-9);
-  for (let k = 0; k <= 1e4; k++) {
-    let v = (first + k) * step;
-    if (!(v <= max + 1e-9) || k > 0 && v === (first + k - 1) * step) break;
-    out.push(+v.toFixed(10));
-  }
-  return ends && out[0] !== min && out.unshift(min), ends && out.at(-1) !== max && out.push(max), out;
-};
-function nice(lo, hi, count = 5) {
-  hi > lo || (hi = lo + 1);
-  let raw = (hi - lo) / Math.max(1, count), magnitude = 10 ** Math.floor(Math.log10(raw)), step = [1, 2, 2.5, 5, 10].map((m) => m * magnitude).find((s) => s >= raw), min = Math.floor(lo / step + 1e-9) * step, max = Math.ceil(hi / step - 1e-9) * step, ticks = [];
-  for (let k = 0; k <= 1e3; k++) {
-    let v = min + k * step;
-    if (!(v <= max + step / 2) || k > 0 && v === min + (k - 1) * step) break;
-    ticks.push(+v.toFixed(10));
-  }
-  return { min, max, step, ticks };
-}
-function stackUp(values) {
-  let up = 0, down = 0, from = [], to = [];
-  for (let v of values)
-    v >= 0 ? (from.push(up), up += v, to.push(up)) : (from.push(down), down += v, to.push(down));
-  return { from, to };
-}
-var shares = (values, total = 100) => {
-  let sum = values.reduce((s, v) => s + Math.abs(v), 0) || 1;
-  return values.map((v) => v / sum * total);
-};
-function running(changes) {
-  let total = 0, from = [], to = [];
-  for (let change of changes)
-    from.push(total), total += change, to.push(total);
-  return { from, to };
-}
-var quantile = (sorted, p) => {
-  let h = (sorted.length - 1) * p, lo = Math.floor(h);
-  return sorted[lo] + (sorted[Math.min(lo + 1, sorted.length - 1)] - sorted[lo]) * (h - lo);
-};
-function summary(samples) {
-  let sorted = samples.slice().sort((a, b) => a - b), q1 = quantile(sorted, 0.25), median = quantile(sorted, 0.5), q3 = quantile(sorted, 0.75), iqr = q3 - q1, low = sorted.find((v) => v >= q1 - 1.5 * iqr), high = sorted.findLast((v) => v <= q3 + 1.5 * iqr);
-  return {
-    min: sorted[0],
-    q1,
-    median,
-    q3,
-    max: sorted[sorted.length - 1],
-    low,
-    high,
-    mean: sorted.reduce((a, b) => a + b, 0) / sorted.length,
-    outliers: sorted.filter((v) => v < low || v > high)
-  };
-}
-function bins(samples, { domain = extent(samples), count = 10 } = {}) {
-  let [lo, hi] = domain;
-  (!Number.isFinite(lo) || !Number.isFinite(hi)) && ([lo, hi] = [0, 1]), lo === hi && ([lo, hi] = [lo - 0.5, hi + 0.5]);
-  let width = (hi - lo) / count, x0 = [], x1 = [], tally = Array(count).fill(0);
-  for (let k = 0; k < count; k++)
-    x0.push(lo + k * width), x1.push(lo + (k + 1) * width);
-  for (let v of samples)
-    v < lo || v > hi || tally[Math.min(count - 1, Math.floor((v - lo) / width))]++;
-  return { x0, x1, tally };
-}
-function density(samples, { domain = extent(samples), points: points2 = 40, bandwidth } = {}) {
-  let n = samples.length, mean = samples.reduce((a, b) => a + b, 0) / n, sd = Math.sqrt(samples.reduce((a, v) => a + (v - mean) ** 2, 0) / Math.max(1, n - 1)) || 1, h = bandwidth ?? 1.06 * sd * n ** -0.2, [lo, hi] = domain, out = [];
-  for (let k = 0; k < points2; k++) {
-    let x = lo + (hi - lo) * k / (points2 - 1), y = 0;
-    for (let v of samples)
-      y += Math.exp(-0.5 * ((x - v) / h) ** 2);
-    out.push([x, y / (n * h * Math.sqrt(2 * Math.PI))]);
-  }
-  return out;
 }
 
 // src/blocks.jsx
@@ -620,6 +627,18 @@ var _tmpl$2 = ["<path", ' vector-effect="non-scaling-stroke"></path>'], _tmpl$3 
     d += "C" + fmt([a[0] + (b[0] - before[0]) / 6, a[1] + (b[1] - before[1]) / 6]) + " " + fmt([b[0] - (after[0] - a[0]) / 6, b[1] - (after[1] - a[1]) / 6]) + " " + fmt(b);
   }
   return d;
+}, present = (q) => q != null && !missing(q[0]) && !missing(q[1]), runs = (pts) => {
+  if (!pts.includes(null)) return pts.length > 1 ? [pts] : [];
+  let out = [[]];
+  for (let q of pts)
+    q ? out[out.length - 1].push(q) : out[out.length - 1].length && out.push([]);
+  return out.filter((run) => run.length > 1);
+}, there = (pts) => {
+  for (let i = 0; i < pts.length; i++) {
+    let q = pts[i];
+    if (q == null || !Number.isFinite(q[0]) || !Number.isFinite(q[1])) return pts.filter(present);
+  }
+  return pts;
 }, noCssD = !1;
 function cssTransition(path) {
   if (!path || path.closest("[data-rhp-animate='js'], [data-rhp-turning]")) return {
@@ -691,60 +710,74 @@ function serverBlock(props, mine, base, vars, attrs, back2) {
     style: css2
   } : {}), () => _$escape(props.children), !0);
 }
-var blockElement = serverBlock;
-function block(base, own, vars, back2) {
+var blockElement = serverBlock, GONE = {
+  "data-rhp-missing": ""
+}, HERE = {
+  "data-rhp-missing": void 0
+};
+function block(base, own, vars, back2, attrs) {
   let mine = /* @__PURE__ */ new Set([...MINE, ...own]);
-  return (props) => blockElement(props, mine, base, (vertical) => vars(props, vertical), null, back2);
+  return (props) => {
+    let gone = !1, placed = (key) => {
+      let v = props[key];
+      return missing(v) && key in props && (gone = !0), v;
+    };
+    return blockElement(props, mine, base, (vertical) => (gone = !1, vars(props, vertical, placed)), attrs ? () => attrs(props, gone) : () => gone ? GONE : HERE, back2);
+  };
 }
-var Bar = block("rhp-bar", ["from", "to", "thick", "color", "shape"], (p, vertical) => ({
-  "--rhp-from": p.from ?? 0,
-  "--rhp-to": p.to ?? 0,
+var Bar = block("rhp-bar", ["from", "to", "thick", "color", "shape"], (p, vertical, placed) => ({
+  "--rhp-from": placed("from") ?? 0,
+  "--rhp-to": placed("to") ?? 0,
   "--rhp-thick": length(p.thick),
   "--rhp-color": tok(p.color),
   "--rhp-clip": p.shape?.clip(vertical, (p.to ?? 0) < (p.from ?? 0))
-}), (v) => v["--rhp-to"] < v["--rhp-from"]), Dot = block("rhp-dot", ["at", "size", "across", "cross", "color", "shape"], (p, vertical) => ({
-  "--rhp-at": p.at,
+}), (v) => v["--rhp-to"] < v["--rhp-from"]), Dot = block("rhp-dot", ["at", "size", "across", "cross", "color", "shape"], (p, vertical, placed) => ({
+  "--rhp-at": placed("at"),
   "--rhp-size": length(p.size),
   "--rhp-across": p.across,
-  "--rhp-cross": p.cross,
+  "--rhp-cross": placed("cross"),
   "--rhp-color": tok(p.color),
   "--rhp-clip": p.shape?.clip(vertical, !1)
-})), Place = block("rhp-place", ["at", "across", "cross"], (p) => ({
-  "--rhp-at": p.at,
+})), Place = block("rhp-place", ["at", "across", "cross"], (p, vertical, placed) => ({
+  "--rhp-at": placed("at"),
   "--rhp-across": p.across,
-  "--rhp-cross": p.cross
-})), Tick = block("rhp-tick", ["at", "thick", "color", "shape"], (p, vertical) => ({
-  "--rhp-at": p.at,
+  "--rhp-cross": placed("cross")
+})), Tick = block("rhp-tick", ["at", "thick", "color", "shape"], (p, vertical, placed) => ({
+  "--rhp-at": placed("at"),
   "--rhp-thick": length(p.thick),
   "--rhp-color": tok(p.color),
   "--rhp-clip": p.shape?.clip(vertical, !1)
-})), Cell = block("rhp-cell", ["value", "color", "shape"], (p, vertical) => ({
-  "--rhp-value": p.value,
+})), Cell = block("rhp-cell", ["value", "color", "shape"], (p, vertical, placed) => ({
+  "--rhp-value": placed("value"),
   "--rhp-color": tok(p.color),
   "--rhp-clip": p.shape?.clip(vertical, !1)
-})), LABEL = /* @__PURE__ */ new Set([...MINE, "at", "side", "edge", "cross", "shape"]), Label = (props) => blockElement(props, LABEL, "rhp-label", (vertical) => ({
-  "--rhp-at": props.at,
-  "--rhp-cross": props.cross,
-  "--rhp-clip": props.shape?.clip(vertical, !1)
-}), () => ({
-  "data-rhp-edge": props.edge,
-  "data-rhp-side": props.side,
-  "data-rhp-at": props.edge == null ? "" : void 0
+})), Label = block("rhp-label", ["at", "side", "edge", "cross", "shape"], (p, vertical, placed) => {
+  let edge = p.edge != null;
+  return {
+    "--rhp-at": edge ? p.at : placed("at"),
+    "--rhp-cross": edge ? p.cross : placed("cross"),
+    "--rhp-clip": p.shape?.clip(vertical, !1)
+  };
+}, null, (p, gone) => ({
+  "data-rhp-edge": p.edge,
+  "data-rhp-side": p.side,
+  "data-rhp-at": p.edge == null ? "" : void 0,
+  "data-rhp-missing": gone ? "" : void 0
 }));
 function Area(props) {
-  let orientation = useOrientation(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "mirror", "color", "smooth"]), span = createMemo(() => {
-    let pts = p.points ?? [];
+  let orientation = useOrientation(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "mirror", "color", "smooth"]), kept = createMemo(() => there(p.points ?? [])), span = createMemo(() => {
+    let pts = kept();
     return pts.length ? [pts[0][0], pts[pts.length - 1][0]] : [0, 0];
   }), points2 = () => {
     let pts = p.points ?? [];
-    if (pts.length < 2) return null;
-    let [x0, x1] = span(), w = x1 - x0 || 1, peak = p.peak ?? extentOf(pts.map((q) => q[1]))[1];
-    return pts.map(([x, y]) => [(x - x0) / w * 1e3, Math.min(1, y / (peak || 1))]);
+    if (kept().length < 2) return null;
+    let [x0, x1] = span(), w = x1 - x0 || 1, peak = p.peak ?? extentOf(kept().map((q) => q[1]))[1], at2 = ([x, y]) => [(x - x0) / w * 1e3, Math.min(1, y / (peak || 1))];
+    return kept() === pts ? pts.map(at2) : pts.map((q) => present(q) ? at2(q) : null);
   }, pathEl, shown = drawn(points2, () => pathEl), path = createMemo(() => {
     let ut = shown();
     if (!ut) return "";
     let vertical = orientation() === "vertical", xy = (u, t) => vertical ? [1e3 - t, 1e3 - u] : [u, t];
-    return p.mirror ? "M" + trace(ut.map(([u, y]) => xy(u, 500 - y * 500)), p.smooth) + "L" + trace(ut.slice().reverse().map(([u, y]) => xy(u, 500 + y * 500)), p.smooth) + "Z" : "M" + fmt(xy(ut[0][0], 1e3)) + "L" + trace(ut.map(([u, y]) => xy(u, 1e3 - y * 1e3)), p.smooth) + "L" + fmt(xy(ut[ut.length - 1][0], 1e3)) + "Z";
+    return runs(ut).map((run) => p.mirror ? "M" + trace(run.map(([u, y]) => xy(u, 500 - y * 500)), p.smooth) + "L" + trace(run.slice().reverse().map(([u, y]) => xy(u, 500 + y * 500)), p.smooth) + "Z" : "M" + fmt(xy(run[0][0], 1e3)) + "L" + trace(run.map(([u, y]) => xy(u, 1e3 - y * 1e3)), p.smooth) + "L" + fmt(xy(run[run.length - 1][0], 1e3)) + "Z").join("");
   }), vars = () => ({
     "--rhp-from": span()[0],
     "--rhp-to": span()[1],
@@ -766,8 +799,8 @@ function Area(props) {
   return node;
 }
 function Line(props) {
-  let orientation = useOrientation(), crossed = useCrossed(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "fill", "base", "color", "smooth"]), box = createMemo(() => {
-    let pts = p.points ?? [];
+  let orientation = useOrientation(), crossed = useCrossed(), [p, rest] = splitProps(props, ["class", "style", "ref", "points", "peak", "fill", "base", "color", "smooth"]), kept = createMemo(() => there(p.points ?? [])), box = createMemo(() => {
+    let pts = kept();
     if (!pts.length) return [0, 0, 0, 1];
     let xs = pts.map((q) => q[0]), ys = pts.map((q) => q[1]);
     p.fill && ys.push(p.base ?? 0);
@@ -775,10 +808,10 @@ function Line(props) {
     return y0 === y1 && (y0 -= 0.5, y1 += 0.5), [...extentOf(xs), y0, y1];
   }), points2 = () => {
     let pts = p.points ?? [];
-    if (pts.length < 2) return null;
-    let [x0, x1, y0, y1] = box(), w = x1 - x0 || 1, peak = p.peak ?? extentOf(pts.map((q) => q[1]))[1], up = crossed() ? (y) => (y - y0) / (y1 - y0) : (y) => Math.min(1, y / (peak || 1));
+    if (kept().length < 2) return null;
+    let [x0, x1, y0, y1] = box(), w = x1 - x0 || 1, peak = p.peak ?? extentOf(kept().map((q) => q[1]))[1], up = crossed() ? (y) => (y - y0) / (y1 - y0) : (y) => Math.min(1, y / (peak || 1)), at2 = ([x, y]) => [(x - x0) / w * 1e3, 1e3 - up(y) * 1e3];
     return {
-      ut: pts.map(([x, y]) => [(x - x0) / w * 1e3, 1e3 - up(y) * 1e3]),
+      ut: kept() === pts ? pts.map(at2) : pts.map((q) => present(q) ? at2(q) : null),
       floor: p.fill && crossed() ? 1e3 - up(p.base ?? 0) * 1e3 : 1e3
     };
   }, pathEl, shown = drawn(points2, () => pathEl), paths = createMemo(() => {
@@ -787,9 +820,9 @@ function Line(props) {
     let {
       ut,
       floor
-    } = pts, vertical = orientation() === "vertical", xy = (u, t) => vertical ? [1e3 - t, 1e3 - u] : [u, t], line = "M" + trace(ut.map(([u, t]) => xy(u, t)), p.smooth);
+    } = pts, vertical = orientation() === "vertical", xy = (u, t) => vertical ? [1e3 - t, 1e3 - u] : [u, t], parts = runs(ut), pieces = parts.map((run) => "M" + trace(run.map(([u, t]) => xy(u, t)), p.smooth)), line = pieces.join("");
     if (!p.fill) return [line, ""];
-    let under = line + "L" + fmt(xy(ut[ut.length - 1][0], floor)) + "L" + fmt(xy(ut[0][0], floor)) + "Z";
+    let under = parts.map((run, i) => pieces[i] + "L" + fmt(xy(run[run.length - 1][0], floor)) + "L" + fmt(xy(run[0][0], floor)) + "Z").join("");
     return [line, under];
   }), vars = () => ({
     "--rhp-from": box()[0],
