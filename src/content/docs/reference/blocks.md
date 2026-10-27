@@ -12,6 +12,9 @@ Every block also takes `class`, `style` (an object), `ref`, `color`, children, e
 
 Bar, Dot, Tick, Label and Cell also take `shape`: an outline from [`shape()`](/reference/helpers/#shapes) to draw instead of their rectangle (a Dot's circle).
 
+A block given a [missing value](/guides/data/#missing-values) (`null`, `undefined`, `NaN` or an infinite number) for its place draws nothing: a Bar's `from` or `to`, the `at` or `cross` of a Dot, Tick, Label or Place, a Cell's `value`.
+A Label at an `edge` is always drawn, and a Line or an Area breaks at a missing point.
+
 ## Bar
 
 ```jsx
