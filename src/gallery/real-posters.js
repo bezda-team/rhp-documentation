@@ -111,7 +111,7 @@ export const REAL_POSTERS = [
     description: "43 of GitHub's 50 biggest open-source projects use AI or are built for it, in their own words.",
     source: "examples/real/ai-allowed",
     page: "ai-allowed-infographic.html",
-    files: ["checked.json", "evidence.json", "selection.json", "verify.mjs", "audit.mjs", "research.txt"],
+    files: ["checked.json", "evidence.json", "selection.json", "verify.mjs", "audit.mjs", "research.txt", "assets/OCTICONS-MIT.txt"],
   },
 ];
 
