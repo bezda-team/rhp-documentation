@@ -6,7 +6,7 @@ import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { createServer } from "node:http";
 import { randomUUID } from "node:crypto";
-import { packageSite } from "./vercel-output.mjs";
+import { packageSite, unusedImages } from "./vercel-output.mjs";
 import { redirects } from "../src/redirects.js";
 import { realPosters } from "../src/gallery/real-posters.js";
 
@@ -34,6 +34,15 @@ try {
     assert(route, `No route for ${url}`);
     await fs.access(path.join(out, "static", route.dest));
   }
+  // every _astro file a page, stylesheet or script names is served, and no image that nothing names
+  const served = new Set(await fs.readdir(path.join(out, "static/_astro")));
+  for (const entry of await fs.readdir(path.join(out, "static"), { recursive: true, withFileTypes: true })) {
+    if (!entry.isFile() || !/\.(html|css|js)$/.test(entry.name)) continue;
+    for (const [, name] of (await fs.readFile(path.join(entry.parentPath ?? entry.path, entry.name), "utf8")).matchAll(/_astro\/([\w.@-]+)/g)) {
+      assert(served.has(name), `/_astro/${name} is named but not served`);
+    }
+  }
+  assert.equal((await unusedImages(path.join(out, "static"))).size, 0, "images that nothing names are served");
   const gallery = await fs.readFile(path.join(out, "static/gallery/index.html"), "utf8");
   for (const poster of realPosters()) {
     for (const name of poster.files) {

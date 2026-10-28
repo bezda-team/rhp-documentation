@@ -9,7 +9,10 @@ export async function packageSite(out) {
   const root = fileURLToPath(new URL("..", import.meta.url));
   const dist = path.join(root, "dist");
   await fs.mkdir(out, { recursive: true });
-  await fs.cp(dist, path.join(out, "static"), { recursive: true });
+  // Astro 3 writes every imported image's original to _astro, though the pages use only the sizes made from it (the
+  // gallery's thumbnails): leave out the images no file mentions, about half of each deployment.
+  const unused = await unusedImages(dist);
+  await fs.cp(dist, path.join(out, "static"), { recursive: true, filter: (source) => !unused.has(source) });
   const escape = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const routes = Object.entries(redirects).map(([from, to]) => ({ src: `^${escape(from)}/?$`, status: 301, headers: { Location: to } }));
   routes.push({ src: "^/_astro/.*$", headers: { "Cache-Control": "public, max-age=31536000, immutable" }, continue: true });
@@ -44,6 +47,14 @@ export async function packageSite(out) {
       runtime: "nodejs22.x", handler: "index.mjs", launcherType: "Nodejs", regions: ["iad1"], maxDuration: 10,
     }, null, 2) + "\n");
   }
+}
+
+// The images in _astro whose names appear in no page, stylesheet, script or other text file of the site.
+export async function unusedImages(dist) {
+  const files = (await fs.readdir(dist, { recursive: true, withFileTypes: true })).filter((entry) => entry.isFile()).map((entry) => path.join(entry.parentPath ?? entry.path, entry.name));
+  const text = (await Promise.all(files.filter((file) => /\.(html|css|js|mjs|json|xml|txt|svg|webmanifest)$/.test(file)).map((file) => fs.readFile(file, "utf8")))).join("\n");
+  const images = files.filter((file) => path.dirname(file) === path.join(dist, "_astro") && /\.(png|jpe?g|webp|avif|gif)$/.test(file));
+  return new Set(images.filter((file) => !text.includes(path.basename(file))));
 }
 
 if (process.env.VERCEL === "1" && process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
