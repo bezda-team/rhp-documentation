@@ -93,6 +93,26 @@ export const REAL_POSTERS = [
     page: "teen-tobacco-2018.html",
     files: ["data.json", "estimates.csv", "analyze.mjs", "source-snapshot.json"],
   },
+  {
+    slug: "ai-allowed-chart",
+    unlisted: true,
+    initialViews: 0,
+    title: "Open source that allows AI",
+    description: "Linux, React and VS Code all allow AI-assisted code: GitHub's 17 most-starred projects that meet r/opensource's other new rules, by what their own repos say about AI.",
+    source: "examples/real/ai-allowed",
+    page: "ai-allowed-chart.html",
+    files: ["checked.json", "evidence.json", "selection.json", "verify.mjs", "audit.mjs", "research.txt"],
+  },
+  {
+    slug: "ai-allowed-infographic",
+    unlisted: true,
+    initialViews: 0,
+    title: "The rule and the repos",
+    description: "43 of GitHub's 50 biggest open-source projects use AI or are built for it, in their own words.",
+    source: "examples/real/ai-allowed",
+    page: "ai-allowed-infographic.html",
+    files: ["checked.json", "evidence.json", "selection.json", "verify.mjs", "audit.mjs", "research.txt"],
+  },
 ];
 
 export const realPosters = () => REAL_POSTERS.map((poster) => ({
