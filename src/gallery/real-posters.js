@@ -84,6 +84,16 @@ export const REAL_POSTERS = [
     files: ["data.json", "repos.json", "live.json", "captures.json", "first-stars.json", "wayback.mjs", "collect.mjs", "analyze.mjs", "audit.mjs", "assets/MONA-SANS-OFL.txt", "assets/OCTICONS-MIT.txt"],
   },
   {
+    slug: "mario-speedrun",
+    initialViews: 0,
+    title: "The Super Mario Bros. speedrun",
+    description: "The ten fastest Any% runs in frames off a perfect run; Niftski's 4:54.332 world record is 4 frames away.",
+    source: "examples/real/mario-speedrun",
+    page: "mario-speedrun.html",
+    image: "mario-speedrun.png",
+    files: ["data.json", "fetch-data.mjs"],
+  },
+  {
     slug: "teen-tobacco-2018",
     unlisted: true,
     initialViews: 0,
