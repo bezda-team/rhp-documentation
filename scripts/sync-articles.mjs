@@ -62,5 +62,9 @@ for (const { article, html, stats } of pages) {
     fs.mkdirSync(path.dirname(api), { recursive: true });
     fs.writeFileSync(api, stats);
   }
+  // Other APIs the page reads, each one self-contained file
+  for (const { source, endpoint } of article.apis ?? []) {
+    fs.copyFileSync(path.join(rhp, source), path.join(root, endpoint + ".js"));
+  }
   console.log(`${article.url} ← ${article.source} (${Math.round(html.length / 1024)} kB)`);
 }

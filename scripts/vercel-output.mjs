@@ -31,7 +31,11 @@ export async function packageSite(out) {
   routes.push({ handle: "filesystem" }, { src: "/.*", dest: "/404.html", status: 404 });
   await fs.writeFile(path.join(out, "config.json"), JSON.stringify({ version: 3, routes }, null, 2) + "\n");
 
-  const endpoints = [...ARTICLES.filter((article) => article.stats).map((article) => article.stats.endpoint), "/api/poster-views"];
+  const endpoints = [
+    ...ARTICLES.filter((article) => article.stats).map((article) => article.stats.endpoint),
+    ...ARTICLES.flatMap((article) => (article.apis ?? []).map((api) => api.endpoint)),
+    "/api/poster-views",
+  ];
   for (const endpoint of endpoints) {
     const func = path.join(out, "functions", endpoint + ".func");
     await fs.mkdir(path.join(func, "api"), { recursive: true });
