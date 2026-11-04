@@ -50,6 +50,13 @@ for (const { article, html, stats } of pages) {
   const out = path.join(root, "public", article.url, "index.html");
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, html);
+  // The files the page loads beside it (an article's portraits), replaced whole so a removed file leaves too
+  if (article.files) {
+    const from = path.join(rhp, article.files);
+    const to = path.join(path.dirname(out), path.basename(from));
+    fs.rmSync(to, { recursive: true, force: true });
+    fs.cpSync(from, to, { recursive: true });
+  }
   if (stats) {
     const api = path.join(root, article.stats.endpoint + ".js");
     fs.mkdirSync(path.dirname(api), { recursive: true });

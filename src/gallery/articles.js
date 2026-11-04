@@ -3,10 +3,16 @@
 import fs from "node:fs";
 import path from "node:path";
 
-// Each article's page in the rhp repo (its own build) and on the site, and its card's picture (npm run
-// article-thumbnails): the first `rows` slats of one of its charts and the next one fading into the paper, with `hide`
-// (the chart's controls) left out
+// Each article's page in the rhp repo (its own build) and on the site, the folder of other files it loads (`files`,
+// copied beside it), and its card's picture (npm run article-thumbnails): the first `rows` slats of one of its charts
+// and the next one fading into the paper, with `hide` (the chart's controls) left out
 export const ARTICLES = [
+  {
+    slug: "election-night", source: "examples/election-night/dist/election-night.html", url: "/gallery/articles/election-night/",
+    files: "examples/election-night/dist/portraits",
+    stats: { source: "examples/election-night/server/article-stats.js", endpoint: "/api/election-night-stats" },
+    thumbnail: { chart: "#senate-races .rhp-chart", slat: "#senate-races .rhp-chart [data-id]", rows: 6, hide: "#senate-races .tools" },
+  },
   {
     slug: "every-word", source: "examples/vocabulary/dist/vocabulary.html", url: "/gallery/articles/every-word/",
     stats: { source: "examples/vocabulary/server/article-stats.js", endpoint: "/api/article-stats" },
