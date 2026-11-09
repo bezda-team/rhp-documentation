@@ -123,6 +123,26 @@ export const REAL_POSTERS = [
     page: "ai-allowed-infographic.html",
     files: ["checked.json", "evidence.json", "selection.json", "verify.mjs", "audit.mjs", "research.txt", "assets/OCTICONS-MIT.txt"],
   },
+  {
+    slug: "msg-headliners",
+    unlisted: true,
+    initialViews: 0,
+    title: "Not an arena level act",
+    description: "11 of Madison Square Garden's last 15 music headliners have fewer Spotify listeners than Macklemore.",
+    source: "examples/real/msg-macklemore",
+    page: "msg-headliners.html",
+    files: ["data.json", "research.txt"],
+  },
+  {
+    slug: "macklemore-rise",
+    unlisted: true,
+    initialViews: 0,
+    title: "Macklemore's new high",
+    description: "Macklemore hit a new high of 37.4 million Spotify listeners and sold out three European arenas.",
+    source: "examples/real/msg-macklemore",
+    page: "macklemore-rise.html",
+    files: ["data.json", "research.txt"],
+  },
 ];
 
 export const realPosters = () => REAL_POSTERS.map((poster) => ({
