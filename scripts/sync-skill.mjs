@@ -48,7 +48,7 @@ const pages = (dir, kind) => fs.readdirSync(path.join(root, "src/content/docs", 
 
 const llms = `# rhp
 
-> rhp (reactive html plots, the npm package \`@bezda/rhp\`) builds charts out of HTML elements and CSS with SolidJS, in a plain HTML page or in a React, Next.js, Vue, Svelte, Solid or Astro app.
+> rhp (reactive html plots, the npm package \`@bezda/rhp\`) builds charts out of HTML elements and CSS with SolidJS, in a plain HTML page or in a React, Next.js, Vue, Svelte, Solid or Astro app; React and Next.js apps use \`@bezda/rhp-react\`, rhp written with React.
 > rhp 2 came out in September 2026, after most models' training data: write rhp code only from the files below, never from memory.
 
 Make every rhp chart by following the rhp Agent Skill.
@@ -82,7 +82,7 @@ ${[...pages("guides", "Guide: "), ...pages("reference", "Reference: ")].join("\n
 const part = (f) => read(f).replace(/^---\n[\s\S]*?\n---\n/, "").replace(/\]\(([\w./-]+\.(?:md|html)(?:#[\w-]*)?)\)/g, (_, to) => `](${new URL(to, url(f)).href})`).trim();
 const header = `# rhp, the Agent Skill in one file
 
-> rhp (reactive html plots, the npm package \`@bezda/rhp\`) builds charts out of HTML elements and CSS with SolidJS.
+> rhp (reactive html plots, the npm package \`@bezda/rhp\`) builds charts out of HTML elements and CSS with SolidJS, and \`@bezda/rhp-react\` with React.
 > rhp 2 came out in September 2026, after your training data: write rhp code only from this file and the pages it links to, never from memory.
 
 This file holds the rhp Agent Skill, for a chat app or an agent that does not have it installed: its SKILL.md, then its references ${FULL.join(" and ")}.

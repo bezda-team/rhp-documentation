@@ -1,0 +1,149 @@
+---
+title: React
+description: "rhp written with React, from @bezda/rhp-react: the same charts, as React components."
+---
+
+`@bezda/rhp-react` is rhp written with React, not a wrapper around the Solid version.
+It has the same Chart, Plot, slats and blocks, as React components, and the same CSS, and it draws the same charts, pixel for pixel.
+Everything in these docs applies; the other pages show Solid code, and this page says what is written differently in React.
+
+## Install
+
+```sh
+npm install @bezda/rhp-react
+```
+
+React 19 or later is its only peer dependency.
+There is no stylesheet to import: rhp adds its CSS when the first chart appears.
+
+## A first chart
+
+```jsx
+import { useState } from "react";
+import { Chart, Plot, Bar, Label, slat } from "@bezda/rhp-react";
+
+const Fruit = slat({ thickness: 32, room: { start: 80, end: 40 } }, (d) => (
+  <div>
+    <Label edge="start">{d.name}</Label>
+    <Bar to={d.sold} />
+    <Label at={d.sold}>{d.sold}</Label>
+  </div>
+));
+
+export default function App() {
+  const [sold, setSold] = useState([12, 18, 7]);
+  return (
+    <>
+      <button onClick={() => setSold(sold.map((v) => v + 3))}>Sell more</button>
+      <Chart scale={[0, 30]}>
+        <Plot name={["Apples", "Bananas", "Cherries"]} sold={sold}>{Fruit}</Plot>
+      </Chart>
+    </>
+  );
+}
+```
+
+As in Solid, each prop of the Plot is a column of data (a data group), and the slat type, `Fruit`, draws one slat for each row.
+`d` holds the row's values: `d.name` and `d.sold`.
+When the data changes, React draws again only the slats whose values changed, and the bars move with CSS transitions.
+
+## What is written differently
+
+| Solid | React |
+|---|---|
+| `import { … } from "@bezda/rhp"` | `import { … } from "@bezda/rhp-react"` |
+| `class="tower"` | `className="tower"` |
+| `key="name"` on a Plot (a row's identity) | `rowKey="name"` (React keeps `key` for itself) |
+| `style="--rhp-radius: 0px"` | `style={{ "--rhp-radius": "0px" }}` |
+| `createSignal`, `createMemo`, `<Show>`, `<For>` | `useState`, a value worked out in the component, `&&` or `? :`, `.map()` |
+| `onFocusIn`, `onFocusOut` | `onFocus`, `onBlur` |
+| `animated(read, settings)` | `useAnimated(value, timing)` |
+| `useOrientation()` gives a signal | `useOrientation()` gives the orientation |
+| reading `d.sold` in a slat follows its changes | `d` holds the row's values, and a slat whose values change is drawn again |
+
+The slat type's settings and CSS, the props of the Chart, the Plot and the blocks, themes, `animate`, `keyboard` and the helpers (`sortBy`, `nice`, `stackUp`…) are the same.
+
+## What React draws again
+
+- **A slat whose row didn't change is kept.** A new list with one new number draws one slat again.
+- **A new scale draws nothing but the axis.** The Chart writes the scale on its own element, and the CSS moves every block.
+- **Sorting moves slats without drawing them.** The Plot writes each slat's place itself; a slat that reads `d.position` or `d.index` is drawn again when its own changes.
+- **A data group can be a function of the row**, worked out per row: `color={(d) => (d.v > 50 ? "positive" : "muted")}`.
+  A slat is drawn again only where the function's result changed.
+- **Plot is memoized**: drawn again with the same props, it does nothing.
+
+Keep slat types at the top level of a module (or in `useCallback`).
+A slat type written inside a component is a new function in every render, so every slat is drawn again.
+
+## Interaction
+
+The state is your app's, and it goes back into the Plot as data.
+For a highlight, a function of the row is cheaper than a list: only the two slats that change are drawn again.
+
+```jsx
+const Sale = slat({ thickness: 28, room: { start: 80, end: 40 } }, (d) => (
+  <div data-row={d.index}>
+    <Label edge="start">{d.name}</Label>
+    <Bar to={d.v} color={d.on ? "series-2" : "series-1"} />
+    {d.on && <Label at={d.v}>{d.v}</Label>}
+  </div>
+));
+
+const rowAt = (e) => e.target.closest("[data-row]")?.dataset.row ?? null;
+
+function Sales({ names, values }) {
+  const [on, setOn] = useState(null);
+  return (
+    <div onPointerMove={(e) => setOn(rowAt(e))} onPointerLeave={() => setOn(null)}>
+      <Chart>
+        <Plot name={names} v={values} on={(d) => String(d.index) === on}>{Sale}</Plot>
+      </Chart>
+    </div>
+  );
+}
+```
+
+- Handlers go on blocks and slat roots like on any element: `onClick`, `onPointerEnter`, `onKeyDown`.
+  With many slats, one handler around the chart, as above, is simpler than one per slat.
+- A slat can use hooks: it is called while React draws its row, so `function Row(d) { const [open, setOpen] = useState(false); … }` keeps its state while its row is there.
+- A slat's root can be a component of your own; on a server, have it pass the props it is given to its root element (`<div {...props}>`).
+- `d.index` and `d.position` are always the row's latest, also when read later in a handler.
+- `keyboard` on a Plot gives its slats one tab stop, with the arrow keys, Home and End in the order shown.
+
+## Motion
+
+Without `animate`, values move with CSS transitions.
+With `animate` on a Chart or a Plot, the numbers themselves move on one clock for the page, and a slat that reads a moving value gets its value for each frame, so a label counts along with its bar (format it: `{Math.round(d.v)}`).
+`useAnimated(value, { duration, ease })` gives a value of your own app the same motion.
+
+## TypeScript
+
+The package has its types.
+`slat<Row>(…)` types `d` in the slat, and a function data group's `d` is the same type with no annotation:
+
+```tsx
+type Tower = { name: string; height: number; on: boolean };
+const Tall = slat<Tower>((d) => <div><Bar to={d.height} color={d.on ? "series-2" : "series-1"} /></div>);
+
+<Plot name={names} height={heights} on={(d) => d.name === picked}>{Tall}</Plot>; // d.nope would be an error
+```
+
+## Next.js and server rendering
+
+Charts draw on a server with `react-dom/server`, and the browser takes them over with nothing drawn twice.
+rhp's CSS goes into the page's head with the first chart, once however many charts the page has.
+
+- The package's module says `"use client"`, so in the App Router its charts are client components that the server still draws.
+- Write a chart in a file that starts with `"use client"`: a slat type is a function, and a server component cannot pass a function to a client component.
+  A server component can still render `<Chart>` and `<Plot>` with a slat type it imports from a `"use client"` file, and pass them its data.
+- The Pages Router needs nothing more: import the chart into the page.
+- A Chart works out its room for names from the Plots it is given as children.
+  A Plot drawn by a component of your own inside the Chart is measured once the page runs in the browser, so on a server give the Chart its Plots directly.
+- [`linkedCss()` and `noCssGuard()`](/guides/server/#many-charts-or-islands) work as in rhp, with `@bezda/rhp-react/rhp.css` and `@bezda/rhp-react/rhp-no-css-guard.css` to link.
+
+## A chart in a box that sizes to its content
+
+A chart takes the width of its box and has none of its own.
+In a box that sizes to its content (a flex item with `margin: auto`, an inline-block, a float, `width: fit-content`) it gets only the width of what is beside it, or none.
+Vite's and Next.js's starter pages center their content in a flex column, so give the box around a chart a width there (`width: 100%`).
+When a chart's plot stays 0px wide, rhp says so in the browser's console.

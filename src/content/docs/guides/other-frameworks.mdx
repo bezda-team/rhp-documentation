@@ -1,6 +1,6 @@
 ---
 title: Other frameworks
-description: Use rhp inside a React, Vue or Svelte app by drawing it into an element.
+description: Use rhp inside a Vue, Svelte or Angular app by drawing it into an element.
 ---
 
 rhp is built on Solid, but a chart is just elements on the page, so it can live inside an app built with anything else.
@@ -10,43 +10,15 @@ The idea is the same everywhere:
 2. Keep the chart's data in a Solid signal, and set it when your app's data changes.
 3. Clean up when the component goes away.
 
-Your app's JSX belongs to your framework, so the slats are written with Solid's `html` template, as in a [plain HTML page](/start/install/#in-a-plain-html-page).
-For React there's a package that does the rest; for other frameworks, `@bezda/rhp/standalone` has rhp, Solid and `html` in one import.
+Your app's templates belong to your framework, so the slats are written with Solid's `html` template, as in a [plain HTML page](/start/install/#in-a-plain-html-page).
+`@bezda/rhp/standalone` has rhp, Solid and `html` in one import.
+React is different: it has [an rhp of its own](/guides/react/).
 
 ## React
 
-`@bezda/rhp-react` turns an rhp chart into a React component:
-
-```sh
-npm install @bezda/rhp-react
-```
-
-```jsx
-import { useState } from "react";
-import { toReact, Chart, Plot, Bar, Label, html } from "@bezda/rhp-react";
-
-const Fruit = (d) => html`
-  <div>
-    <${Label} edge="start">${() => d.fruit}<//>
-    <${Bar} to=${() => d.sold} />
-    <${Label} at=${() => d.sold}>${() => d.sold}<//>
-  </div>`;
-
-const FruitChart = toReact((props) => html`
-  <${Chart} scale=${[0, 30]}>
-    <${Plot} fruit=${() => props.fruit} sold=${() => props.sold}>${Fruit}<//>
-  <//>`);
-
-export function App() {
-  const [sold, setSold] = useState([12, 18, 7]);
-  return <FruitChart fruit={["Apples", "Bananas", "Cherries"]} sold={sold} className="card" />;
-}
-```
-
-- `props` holds the component's props. Read them inside functions, `${() => props.sold}`, so the chart follows them.
-- A change updates only what it touches: a new number in `sold` moves one bar, as in a Solid app.
-- The component renders a `<div>` that the chart draws into; `className` and `style` go on it.
-- Everything else (the blocks, `slat`, the helpers, `html`, `createSignal`) comes from the same package.
+React has an rhp of its own, written with React: `@bezda/rhp-react`.
+Its charts are React components, with React's state, and the server draws them too (Next.js included).
+See [React](/guides/react/).
 
 ## Vue
 

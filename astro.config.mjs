@@ -50,6 +50,7 @@ export default defineConfig({
         { label: 'Interaction', link: '/guides/interaction/' },
         { label: 'Screen readers', link: '/guides/accessibility/' },
         { label: 'Server rendering', link: '/guides/server/' },
+        { label: 'React', link: '/guides/react/' },
         { label: 'Other frameworks', link: '/guides/other-frameworks/' },
       ],
     }, {
